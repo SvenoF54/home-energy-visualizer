@@ -1,0 +1,59 @@
+Third Party Licenses
+
+This project includes third-party libraries and components. These libraries are distributed under various open source licenses, which are listed below.
+
+---------------------------------------------------------
+Bootstrap 5.3.3
+License: MIT License
+Copyright (c) 2011-2024 Twitter, Inc. and contributors
+
+MIT License: https://opensource.org/licenses/MIT
+
+---------------------------------------------------------
+jQuery 3.6.0
+License: MIT License
+Copyright jQuery Foundation and other contributors
+
+MIT License: https://opensource.org/licenses/MIT
+
+---------------------------------------------------------
+DataTables 1.12.1
+License: MIT License
+Copyright (c) 2008-2024 SpryMedia Ltd
+
+MIT License: https://opensource.org/licenses/MIT
+
+---------------------------------------------------------
+jQuery Datetimepicker 2.5.20
+License: MIT License
+Copyright (c) 2014-2024 (author name may vary)
+
+MIT License: https://opensource.org/licenses/MIT
+
+---------------------------------------------------------
+Chart.js 4.4.6
+License: MIT License
+Copyright (c) 2013-2024 Chart.js Contributors
+
+MIT License: https://opensource.org/licenses/MIT
+
+---------------------------------------------------------
+Chart.js Adapter Date FNS (chartjs-adapter-date-fns) 1.0.0
+License: MIT License
+Copyright (c) 2020-2024 Chart.js Contributors
+
+MIT License: https://opensource.org/licenses/MIT
+
+---------------------------------------------------------
+Chart.js Plugin Annotation 3.0.1
+License: MIT License
+Copyright (c) 2019-2024 Chart.js Contributors
+
+MIT License: https://opensource.org/licenses/MIT
+
+---------------------------------------------------------
+
+This file contains the necessary license information for the third-party dependencies used in this project.
+For further details on the licenses and conditions, please refer to the respective library's license page linked above.
+
+If you are using or modifying these libraries, please ensure you comply with the terms and conditions set forth in their respective licenses.

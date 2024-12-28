@@ -1,0 +1,18 @@
+<table class="table-primary">
+<?  $timPeriods = [TimePeriod::Today, TimePeriod::ThisWeek, TimePeriod::ThisMonth, TimePeriod::ThisYear];
+    foreach ($timPeriods as $timePeriod) {
+        $curSavings = $savings->get($timePeriod->value);
+?>
+    <tr>
+        <td style="text-align: left;">
+            <div class="small m-0" style="color: grey;">
+                <?=$timePeriod->label()?> = <?=HtmlHelper::formatEnergyInWattAndCurrency($curSavings->getSavings())?>
+                <? $textEm = "Einspeisung (< 0W): ".HtmlHelper::formatEnergyInWattAndCurrency($curSavings->getFeedIn()) ?>
+                <? $textEm .= "<br>Einkauf (> 0 W): ".HtmlHelper::formatEnergyInWattAndCurrency($curSavings->getConsumption()) ?>
+                <? $textEm .= "<br>Ersparnis: ".HtmlHelper::formatEnergyInWattAndCurrency($curSavings->getSavings()) ?>
+                <i class="bi bi-info-circle text-primary" data-bs-toggle="tooltip" data-bs-html="true" title="<?=$textEm?>"></i><div>
+            </div>
+        </td>
+    </tr>
+<? } ?>
+</table>

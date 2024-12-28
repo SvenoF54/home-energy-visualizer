@@ -1,0 +1,13 @@
+<?
+// Diese Datei enthält lokale Konfigurationseinstellungen
+// Es muss eine Datei mit dem Namen local-config.php und den korrekten Werten erstellt werden.
+
+define('DB_NAME', 'mein-db-name');
+define('DB_USER', 'mein-db-user');
+define('DB_PASSWORD', 'mein-password');
+define('DB_HOST', 'mein-host');
+
+define('URL_PREFIX', 'http://meine.domain/mein-pfad');
+define('API_KEY', '987654321');
+
+?>

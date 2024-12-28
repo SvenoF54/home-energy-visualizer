@@ -1,0 +1,11 @@
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    padding: 20px;
+}
+
+.tooltip-inner {
+    max-width: 350px !important;
+    white-space: normal;
+    line-height: 1.5;
+}

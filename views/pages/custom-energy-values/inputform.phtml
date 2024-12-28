@@ -1,0 +1,90 @@
+<div class="container mt-4">
+    <div class="p-3" style="background-color: #f8f9fa; border-radius: 8px;">
+        <? $textTooltip = "Hier können eigene Stromdaten für den Tag oder Monat bearbeitet werden."; ?>
+        <? $textTooltip .= "<br>Diese werden auf den Übersichtsseiten bis zum Tag angezeigt. Ein feinere Auflösung ist nur mit Echtzeitdaten möglich."; ?>
+        <? $textTooltip .= "<br>Die hier eingegebenen Preisdaten werden bei Änderungen in der Preistabelle überschrieben."; ?>        
+        <h6 class="text-start text-secondary mb-3"><?=$pageTitle?>: Daten bearbeiten
+        <i class="bi bi-info-circle text-primary ms-1" data-bs-toggle="tooltip" data-bs-html="true" title="<?=$textTooltip?>"></i></h6>        
+
+            
+        <form method="post" action="" id="editform">        
+            <input type="hidden" id="performDelete" name="performDelete" value="false">
+            <input type="hidden" id="timestampDelete" name="timestampDelete" value="">
+            <div class="row g-2">
+                <!-- Zeitstempel mit Monats-/Tagesauswahl -->
+                <div class="col-md-2 col-sm-12 align-top">
+                    <label for="timestamp" class="form-label small fw-bold">Zeitstempel<br>&nbsp;</label>
+                    <div id="timestamp-wrapper">
+                        <input type="<?=$dateOrMonth?>" class="form-control form-control-sm" id="timestamp" name="timestamp" required value="<?=isset($timestamp) ? $timestamp : ""?>">
+                    </div>
+                    <div class="d-flex gap-2 mt-1">
+                        <div class="form-check">
+                            <label class="form-check-label small">
+                                <input class="form-check-input" type="radio" name="timestampType" id="monthType" value="month" <?=$dateOrMonth == "month" ? "checked" : ""?>> Monate
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <label class="form-check-label small">
+                                <input class="form-check-input" type="radio" name="timestampType" id="dayType" value="date" <?=$dateOrMonth == "date" ? "checked" : ""?>> Tage
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Einkauf in kWh -->
+                <div class="col-md-2 col-sm-12 align-top">
+                    <label for="consumption" class="form-label small fw-bold">Einkauf<br>(kWh)</label>
+                    <input type="number" class="form-control form-control-sm" id="consumption" name="consumption" step="0.001" min="0" value="<?=isset($consumptionKwh) ? $consumptionKwh : ""?>">
+                </div>
+
+                <!-- Einspeisung in kWh (breiter) -->
+                <div class="col-md-3 col-sm-12 align-top">
+                    <label for="generation" class="form-label small fw-bold">Stromgenerierung<br>(kWh)</label>
+                    <input type="number" class="form-control form-control-sm" id="generatedPower" name="generatedPower" step="0.001" min="0" value="<?=isset($generatedPowerKwh) ? $generatedPowerKwh : ""?>">
+                    <div class="d-flex gap-2 mt-1">
+                        <div class="form-check form-check-inline">
+                            <label class="form-check-label small">
+                            <input class="form-check-input" type="checkbox" id="phase1" name="phases[]" value="1" <?=isset($generatedPowerPhases) && in_array(1, $generatedPowerPhases) ? "checked" : ""?>>
+                            Phase 1
+                        </label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <label class="form-check-label small" for="phase2">
+                            <input class="form-check-input" type="checkbox" id="phase2" name="phases[]" value="2" <?=isset($generatedPowerPhases) && in_array(2, $generatedPowerPhases)? "checked" : ""?>>
+                            Phase 2
+                            </label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <label class="form-check-label small" for="phase3">
+                            <input class="form-check-input" type="checkbox" id="phase3" name="phases[]" value="3" <?=isset($generatedPowerPhases) && in_array(3, $generatedPowerPhases)? "checked" : ""?>>
+                            Phase 3
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Power generation in kWh -->
+                <div class="col-md-2 col-sm-12 align-top">
+                    <label for="feedIn" class="form-label small fw-bold">Einspeisung<br>(kWh)</label>
+                    <input type="number" class="form-control form-control-sm" id="feedIn" name="feedIn" step="0.001" min="0" value="<?=isset($feedInKwh) ? $feedInKwh : ""?>">
+                </div>
+
+                <!-- Purchase price -->
+                <div class="col-md-1 col-sm-12 align-top">
+                    <label for="price" class="form-label small fw-bold">Einkaufspreis<br>(Ct / kWh)</label>
+                    <input type="number" class="form-control form-control-sm" id="outCentPricePerKwh" name="outCentPricePerKwh" step="0.01" min="0" value="<?=isset($outCentPricePerKwh) ? $outCentPricePerKwh : ""?>" required>
+                </div>
+
+                <!-- Selling price -->
+                <div class="col-md-1 col-sm-12 align-top">
+                    <label for="price" class="form-label small fw-bold">Einspeisepreis<br>(Ct / kWh)</label>
+                    <input type="number" class="form-control form-control-sm" id="inCentPricePerKwh" name="inCentPricePerKwh" step="0.01" min="0" value="<?=isset($inCentPricePerKwh) ? $inCentPricePerKwh : ""?>" required>
+                    <div class="d-flex justify-content-end mt-2">
+                        <button type="submit" class="btn btn-sm btn-primary">Speichern</button>
+                    </div>
+                </div>
+
+            </div>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,103 @@
+<table class="table table-sm w-auto">
+    <tbody>
+        <tr class="table-primary">
+            <td><div class="small fw-bold" style="text-align: left; width: 150px;"><?=$tableMainCaptionTimeUnit?></div></td>
+            <td>
+                <div class="small fw-bold" style="text-align: left; width: 130px;">Einkauf
+                    <? $textTooltip = "Der Einkauf ist die Summe aller positiven Stromverbrauchswerte. "; ?>
+                    <i class="bi bi-info-circle text-primary" data-bs-toggle="tooltip" data-bs-html="true" title="<?=$textTooltip?>"></i><div>
+                </div>
+            </td>
+            <td>
+                <div class="small fw-bold" style="text-align: left; width: 130px;">Einspeisung
+                    <? $textTooltip = "Der Einspeisepreis berechnet sich aus der Summe der jeweils gültigen Einspeisepreise. "; ?>
+                    <i class="bi bi-info-circle text-primary" data-bs-toggle="tooltip" data-bs-html="true" title="<?=$textTooltip?>"></i><div>
+                </div>
+            </td>
+            <td>
+                <div class="small fw-bold" style="text-align: left; width: 130px;">Ersparnis
+                    <? $textTooltip = "Die Ersparnis ist die Summe der Stromgenerierung, abzüglich der Einspeisung zum jeweiligen Zeitpunkt. "; ?>
+                    <? $textTooltip .= "Der Preis für die Ersparnis berechnet sich aus der Summe der jeweils gültigen Einkauspreise. "; ?>
+                    <i class="bi bi-info-circle text-primary" data-bs-toggle="tooltip" data-bs-html="true" title="<?=$textTooltip?>"></i><div>
+                </div>
+            </td>
+            <td colspan="5">
+                <div class="small fw-bold" style="display: flex; justify-content: space-between; align-items: center;">
+                    <span style="text-align: left; width: 130px;">fehlende Werte</span>
+                    <? $textTooltip = "Diese Seite zeigt soweit vorhanden die aufaddierten Echtzeitdaten, sowie die manuell eingegebenen Daten an."; ?>
+                    <? $textTooltip .= "<br>Die Preise werden anhand der vorhandenen Preisdaten berechnet."; ?>
+                    <i class="bi bi-info-circle text-primary" data-bs-toggle="tooltip" data-bs-html="true" title="<?=$textTooltip?>"></i>
+                </div>
+            </td>
+
+        </tr>
+        <tr class="table-primary">
+            <td>
+                <div class="small" style="text-align: left;"><?=$tableRow1CaptionTimeUnit?></div>
+            </td>
+            <td>
+                <div class="small" style="text-align: left;"><?=HtmlHelper::formatEnergyInWattAndCurrency($OverviewPageService->getEMOverZeroTotal1())?></div>
+            </td>
+            <td>
+                <div class="small" style="text-align: left;"><?=HtmlHelper::formatEnergyInWattAndCurrency($OverviewPageService->getEMUnderZeroTotal1())?></div>
+            </td>
+            <td>
+                <div class="small" style="text-align: left;"><?=HtmlHelper::formatEnergyInWattAndCurrency($OverviewPageService->getPMSavingsTotal1())?></div>
+            </td>
+            <?php if ($OverviewPageService->getMissingValues1()->isEmAvailable() || $OverviewPageService->getMissingValues2()->isEmAvailable()) { ?>
+            <td style="text-align: left;">
+                <?=HtmlHelper::formatFailureValue("EM", $OverviewPageService->getMissingValues1()->getEmMissingRows(), $OverviewPageService->getMissingValues1()->getCountRows())?>
+            </td>
+            <?php } ?>
+            <?php if ($OverviewPageService->getMissingValues1()->isPm1Available() || $OverviewPageService->getMissingValues2()->isPm1Available()) { ?>
+            <td style="text-align: left;">
+                <?=HtmlHelper::formatFailureValue("PM1", $OverviewPageService->getMissingValues1()->getPm1MissingRows(), $OverviewPageService->getMissingValues1()->getCountRows())?>
+            </td>
+            <?php } ?>
+            <?php if ($OverviewPageService->getMissingValues1()->isPm2Available() || $OverviewPageService->getMissingValues2()->isPm2Available()) { ?>
+            <td style="text-align: left;">
+                <?=HtmlHelper::formatFailureValue("PM2", $OverviewPageService->getMissingValues1()->getPm2MissingRows(), $OverviewPageService->getMissingValues1()->getCountRows())?>
+            </td>
+            <?php } ?>
+            <?php if ($OverviewPageService->getMissingValues1()->isPm3Available() || $OverviewPageService->getMissingValues2()->isPm3Available()) { ?>
+            <td style="text-align: left;">
+                <?=HtmlHelper::formatFailureValue("PM3", $OverviewPageService->getMissingValues1()->getPm3MissingRows(), $OverviewPageService->getMissingValues1()->getCountRows())?>
+            </td>
+            <?php } ?>
+        </tr>
+        <tr class="table-primary">
+            <td>
+                <div class="small" style="text-align: left;"><?=$tableRow2CaptionTimeUnit?></div>
+            </td>
+            <td>
+                <div class="small" style="text-align: left;"><?=HtmlHelper::formatEnergyInWattAndCurrency($OverviewPageService->getEMOverZeroTotal2())?></div>
+            </td>
+            <td>
+                <div class="small" style="text-align: left;"><?=HtmlHelper::formatEnergyInWattAndCurrency($OverviewPageService->getEMUnderZeroTotal2())?></div>
+            </td>
+            <td>
+                <div class="small" style="text-align: left;"><?=HtmlHelper::formatEnergyInWattAndCurrency($OverviewPageService->getPMSavingsTotal2())?></div>
+            </td>
+            <?php if ($OverviewPageService->getMissingValues1()->isEmAvailable() || $OverviewPageService->getMissingValues2()->isEmAvailable()) { ?>
+            <td style="text-align: left;">
+                <?=HtmlHelper::formatFailureValue("EM", $OverviewPageService->getMissingValues2()->getEmMissingRows(), $OverviewPageService->getMissingValues2()->getCountRows())?>
+            </td>
+            <?php } ?>
+            <?php if ($OverviewPageService->getMissingValues1()->isPm1Available() || $OverviewPageService->getMissingValues2()->isPm1Available()) { ?>
+            <td style="text-align: left;">
+                <?=HtmlHelper::formatFailureValue("PM1", $OverviewPageService->getMissingValues2()->getPm1MissingRows(), $OverviewPageService->getMissingValues2()->getCountRows())?>                
+            </td>
+            <?php } ?>
+            <?php if ($OverviewPageService->getMissingValues1()->isPm2Available() || $OverviewPageService->getMissingValues2()->isPm2Available()) { ?>
+            <td style="text-align: left;">
+                <?=HtmlHelper::formatFailureValue("PM2", $OverviewPageService->getMissingValues2()->getPm2MissingRows(), $OverviewPageService->getMissingValues2()->getCountRows())?>
+            </td>
+            <?php } ?>
+            <?php if ($OverviewPageService->getMissingValues1()->isPm3Available() || $OverviewPageService->getMissingValues2()->isPm3Available()) { ?>
+            <td style="text-align: left;">
+                <?=HtmlHelper::formatFailureValue("PM3", $OverviewPageService->getMissingValues2()->getPm3MissingRows(), $OverviewPageService->getMissingValues2()->getCountRows())?>
+            </td>
+            <?php } ?>
+        </tr>
+    </tbody>
+</table>

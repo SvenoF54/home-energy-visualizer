@@ -1,0 +1,52 @@
+<div class="container mt-4">
+    <h6 class="text-start text-secondary mb-3">Eingegebene Werte</h6>
+    <table class="table table-bordered table-hover" id="customEnergyValues">
+        <thead class="thead-light">
+            <tr>
+                <th class="table-active">Datum von</th>
+                <th class="table-active">Datum von</th>
+                <th class="table-active">Einkaufspreis</th>
+                <th class="table-active">Einspeisepreis</th>
+                <th class="table-active">Aktionen</th>
+            </tr>
+            <tr>
+                <th class="table-active"></th>
+                <th class="table-active"></th>
+                <th class="table-active">(Ct / kWh)</th>
+                <th class="table-active">(Ct / kWh)</th>
+                <th class="table-active"></th>
+            </tr>
+        </thead>
+        <tbody>
+        <? foreach($customDataList as $customData) {             
+            $timestampFromHtml = TimeHelper::formatDate($customData->getTimestampFrom());
+            $timestampToHtml = TimeHelper::formatDate($customData->getTimestampTo());
+        ?>
+            <tr 
+                data-price-row-id="<?=$customData->getId()?>"
+                data-timestamp-from-html="<?=$timestampFromHtml?>"
+                data-timestamp-to-html="<?=$timestampToHtml?>"
+                data-timestamp-from="<?=$customData->getTimestampFromDate()?>"
+                data-timestamp-to="<?=$customData->getTimestampToDate()?>"
+                data-out-cent-price-per-watt-hour="<?= $customData->getOutCentPricePerWh() ?>"
+                data-in-cent-price-per-watt-hour="<?= $customData->getInCentPricePerWh() ?>"
+            >
+                <td data-sort="<?=$timestampDataRow?>"><?=$timestampFromHtml?></td>
+                <td data-sort="<?=$timestampDataRow?>"><?=$timestampToHtml?></td>
+                <td class="text-end"><?=StringHelper::formatNumber($customData->getOutCentPricePerWh() * 1000, 8)?></td>
+                <td class="text-end"><?=StringHelper::formatNumber($customData->getInCentPricePerWh() * 1000, 8)?></td>
+                <td>
+                    <? if ($customData->isCustomValue()) { ?>
+                    <button class="btn btn-sm btn-primary edit-btn" title="Bearbeiten">
+                        <i class="bi bi-pencil-square"></i> Bearbeiten
+                    </button>
+                    <button class="btn btn-sm btn-danger delete-btn" title="Löschen">
+                        <i class="bi bi-trash"></i> Löschen
+                    </button>
+                    <? } ?>
+                </td>
+            </tr>
+        <? } ?>
+        </tbody>
+    </table>
+</div>

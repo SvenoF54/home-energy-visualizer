@@ -1,0 +1,34 @@
+Beispiel-JSON:
+{
+	"timestamp": "2023-11-8 17:43:28",
+	"device_type": "EM",
+	"interval_in_seconds": 2,
+	"a_act_power": 3164.2,
+	"b_act_power": 266.3,
+	"c_act_power": 180.5,
+	"total_act_power": 3611.021
+}
+
+------------------------------------------------------------------------------------
+
+$uri = "http://meine.domain/mein-verzeichnis/api/energy-logger.php?apikey=9999999"  # URL anpassen
+
+# Erstelle die JSON-Daten als PowerShell-Objekt
+$body = @{
+    "timestamp" = "2055-12-12 17:00:00"
+    "device_type" = "EM"
+    "interval_in_seconds" = 2
+    "a_act_power" = 3164.2
+    "b_act_power" = 266.3
+    "c_act_power" = 180.5
+    "total_act_power" = 1000
+}
+
+# Konvertiere das PowerShell-Objekt in JSON-Format
+$jsonBody = $body | ConvertTo-Json
+
+# Sende die POST-Anfrage
+$response = Invoke-RestMethod -Uri $uri -Method Post -Body $jsonBody -ContentType "application/json"
+
+# Ausgabe der Antwort
+$response

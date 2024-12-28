@@ -1,0 +1,45 @@
+<?php
+$options = [
+    "Eigene Stromdaten" => "customEnergyValues.php",
+    "Eigene Strompreise" => "customEnergyPrices.php",
+    "Status Energiewerte" => "statusEnergyValues.php",
+    "Über diese App" => "about.php"
+];
+
+$pages = [
+    "Startseite" => "index.php",
+    "Stundenübersicht" => "hoursOverview.php",
+    "Tagesübersicht" => "daysOverview.php",
+    "Monatsübersicht" => "monthsOverview.php",
+    "Jahrsübersicht" => "yearsOverview.php",
+    "Optionen" => $options
+];
+?>
+<div class="row justify-content-center">
+    <div class="col-auto" style="background-color: rgba(13, 110, 253, 0.25);"> 
+        <nav>
+            <div class="nav nav-tabs nav-pills nav-fill" id="nav-tab" role="tablist">
+                <?php foreach ($pages as $title => $link): ?>
+                    <?php if (is_array($link)): // Dropdown for submenu ?>
+                        <div class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" id="dropdown-<?=strtolower($title)?>" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <?=$title?>
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="dropdown-<?=strtolower($title)?>">
+                                <?php foreach ($link as $subTitle => $subLink): ?>
+                                    <a class="dropdown-item <?=basename($_SERVER['PHP_SELF']) == $subLink ? 'active' : ''?>" href="<?=$subLink?>">
+                                        <?=$subTitle?>
+                                    </a>
+                                <?php endforeach; ?>
+                            </div>
+                        </div>
+                    <?php else: // Normal Tabs ?>
+                        <a class="nav-item nav-link <?=basename($_SERVER['PHP_SELF']) == $link ? 'active' : ''?>" href="<?=$link?>" role="tab" aria-controls="nav-home" aria-selected="true">
+                            <?=$title?>
+                        </a>
+                    <?php endif; ?>
+                <?php endforeach; ?>
+            </div>
+        </nav>
+    </div>
+</div>

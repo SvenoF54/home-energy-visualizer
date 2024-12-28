@@ -1,0 +1,101 @@
+<div class="container mt-5">
+    <div class="row justify-content-center">
+      <div class="col-12 col-md-8 col-lg-6">
+        <!-- Header -->
+        <div class="text-center mb-4">
+          <h1 class="display-4">Über das Projekt</h1>
+          <p class="lead text-center">Willkommen zu unserem Open-Source-Projekt! Dieses Projekt dient zur Erfassung und Visualisierung von Energiedaten mit Hilfe von Shelly-Geräten.</p>
+        </div>
+
+        <!-- App Info Section -->
+        <div class="card mb-4 shadow-sm">
+            <div class="card-header bg-primary text-white">
+                <h5 class="card-title">App-Informationen</h5>
+            </div>
+            <div class="card-body">
+                <p><strong>App-Name:</strong> Meine App</p>
+                <p><strong>Entwickler:</strong> Dein Name</p>
+                <p><strong>GitHub Repository:</strong> <a href="https://github.com/deinusername/meine-app" target="_blank" class="btn btn-outline-primary"><i class="bi bi-github"></i> GitHub Link</a></p>
+                <p><strong>Lizenz:</strong> Dieses Projekt ist lizenziert unter der <a href="https://www.gnu.org/licenses/gpl-3.0.html" target="_blank">GNU General Public License v3.0</a>.</p>
+            </div>
+        </div>
+
+
+        <!-- Shelly Info Section -->
+        <div class="card mb-4 shadow-sm">
+            <div class="card-header bg-warning text-dark">
+                <h5 class="card-title fs-4">Verwendete Technologien</h5>
+            </div>
+            <div class="card-body">
+                <p class="fs-6"><strong>Verwendet Shelly-Skripte:</strong> Diese App nutzt Shelly für die Automatisierung und Steuerung von Geräten. Shelly ermöglicht es, benutzerdefinierte Skripte zu erstellen, die das Verhalten der Geräte steuern.</p>
+                <p class="fs-6">Für mehr Informationen besuchen Sie <a href="https://shelly.cloud" target="_blank">Shelly Cloud</a>.</p>
+                
+                <h6 class="fs-5 mt-3">Verwendung von Shelly-Geräten und -Skripten</h6>
+                <p class="fs-6">
+                    Dieses Projekt verwendet Shelly-Geräte, insbesondere die Modelle <strong>Pro3EM</strong>, <strong>Plus1PM</strong> und <strong>Mini1PMG3</strong>, in Kombination mit benutzerdefinierten Skripten, die speziell entwickelt wurden, um <strong>Energiedaten auszulesen und an eine API zu übermitteln</strong>. Diese Skripte ermöglichen es, die erfassten Daten in einer Datenbank zu speichern und in Form von <strong>Diagrammen</strong> und <strong>aufaddierten Tabellen</strong> darzustellen.
+                </p>
+                
+                <h6 class="fs-5 mt-3">Wichtiger Hinweis zur Installation</h6>
+                <p class="fs-6">
+                    Gemäß den gesetzlichen Bestimmungen des jeweiligen Landes dürfen die genannten <strong>Shelly-Geräte</strong> (Pro3EM, Plus1PM, Mini1PMG3) <strong>nur von einem qualifizierten Elektriker</strong> installiert werden. Diese Geräte sind für die Messung und Steuerung von Energieverbrauch und -produktion konzipiert, und die Installation erfordert entsprechendes Fachwissen, um sicherzustellen, dass die Geräte korrekt und sicher betrieben werden.
+                </p>
+                <p class="fs-6">
+                    Bitte beachten Sie, dass die Nutzung dieses Systems und der damit verbundenen Skripte voraussetzt, dass die Installation der Shelly-Geräte fachgerecht durchgeführt wurde. Stellen Sie sicher, dass alle elektrischen Arbeiten von einem <strong>zertifizierten Elektriker</strong> durchgeführt werden, um sowohl die Sicherheit als auch die Einhaltung der gesetzlichen Vorschriften zu gewährleisten. 
+                    Diese Bestimmungen gelten insbesondere in Deutschland, aber auch in anderen Ländern, in denen die Geräte genutzt werden.
+                </p>
+
+                <h6 class="fs-5 mt-3">Optionale Nutzung von Shelly</h6>
+                <p class="fs-6">
+                    Die Nutzung von Shelly-Skripten ist in dieser App optional. Alternativ können Energiewerte auch manuell eingegeben werden, ohne Shelly-Geräte zu verwenden. Das manuelle Eingabesystem ermöglicht eine einfache und direkte Erfassung von Energiedaten, wenn keine Shelly-Geräte zur Verfügung stehen oder wenn eine andere Lösung bevorzugt wird.
+                </p>
+
+                <h6 class="fs-5 mt-3">Funktionsweise der Skripte</h6>
+                <p class="fs-6">
+                    Die benutzerdefinierten Skripte kommunizieren mit den Shelly-Geräten, um die <strong>Energiedaten</strong> in Echtzeit auszulesen. Diese Daten werden an eine API übermittelt, die sie verarbeitet und in einer <strong>Datenbank speichert</strong>. Über diese Datenbank werden die Energiedaten in verschiedenen <strong>Diagrammen</strong> und <strong>tabellarischen Übersichten</strong> visualisiert, um eine einfache Analyse und Auswertung der Energieverbräuche zu ermöglichen.
+                </p>
+
+                <h6 class="fs-5 mt-3">Haftungsausschluss</h6>
+                <p class="fs-6">
+                    Dieses Projekt stellt die Software zur Verfügung, die mit den Shelly-Geräten arbeitet, übernimmt jedoch <strong>keine Haftung</strong> für die Installation, Nutzung oder eventuelle Schäden, die durch unsachgemäße Installation oder Nutzung der Geräte entstehen könnten. Die Verantwortung für die ordnungsgemäße Installation der Geräte liegt beim Benutzer.
+                </p>
+                <p class="fs-6">
+                    <strong>Wichtiger Hinweis</strong>: Die Geräte und Skripte dürfen nur in Übereinstimmung mit den geltenden gesetzlichen Bestimmungen und Sicherheitsvorgaben genutzt werden.
+                </p>
+            </div>
+        </div>
+
+
+        <!-- Credits Section -->
+        <div class="card mb-4 shadow-sm">
+            <div class="card-header bg-secondary text-white">
+                <h5 class="card-title">Credits</h5>
+            </div>
+            <div class="card-body">
+                <p>Diese App nutzt Open-Source-Bibliotheken, darunter:</p>
+                <ul class="list-group">
+                <li class="list-group-item">
+                    <strong><a href="https://getbootstrap.com/" target="_blank" class="text-decoration-none">Bootstrap 5.3.3</a></strong> (MIT Lizenz)
+                </li>
+                <li class="list-group-item">
+                    <strong><a href="https://jquery.com/" target="_blank" class="text-decoration-none">jQuery 3.6.0</a></strong> (MIT Lizenz)
+                </li>
+                <li class="list-group-item">
+                    <strong><a href="https://datatables.net/" target="_blank" class="text-decoration-none">DataTables 1.12.1</a></strong> (MIT Lizenz)
+                </li>
+                <li class="list-group-item">
+                    <strong><a href="https://github.com/xdsoft/js-datepicker" target="_blank" class="text-decoration-none">jQuery Datetimepicker 2.5.20</a></strong> (MIT Lizenz)
+                </li>
+                <li class="list-group-item">
+                    <strong><a href="https://www.chartjs.org/" target="_blank" class="text-decoration-none">Chart.js 4.4.6</a></strong> (MIT Lizenz)
+                </li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="text-center mt-4 mb-3">
+          <p class="text-muted">&copy; 2024 Dein Name. Alle Rechte vorbehalten.</p>
+        </div>
+      </div>
+    </div>
+  </div>

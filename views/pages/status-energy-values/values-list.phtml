@@ -1,0 +1,77 @@
+<div class="container mt-4">
+    <h6 class="text-start text-secondary mb-3">Fehlende Werte in den Übersichtsseiten
+        <?php $textTooltip="Die Übersichtsseiten zeigen aufaddierte Werte der Echtzeitdaten, soweit vorhanden und manuell eingebenene Werte an. Vorhandende Lücken werden hier angezeigt." ?> 
+        <i class="bi bi-info-circle text-primary ms-1" data-bs-toggle="tooltip" data-bs-html="true" title="<?=$textTooltip?>"></i>
+    </h6>
+    <div class="text-start text-muted small">
+        Zeitraum vorhandender Echtzeitdaten: <?=date("d.m.Y H:i:s", strtotime($realtimeEnergyStats->getFirstRowDate()))?> bis <?=date("d.m.Y H:i:s", strtotime($realtimeEnergyStats->getLastRowDate()))?>
+    </div>
+    <table class="table table-sm table-bordered table-hover" id="hourlyEnergy">
+        <thead class="thead-light">
+            <tr>
+                <th class="table-active">Datum von</th>
+                <th class="table-active">Datum bis</th>
+                <th class="table-active">Lücke in Minuten</th>
+                <th class="table-active">Aktionen</th>
+            </tr>
+        </thead>
+        <tbody>
+        <?php foreach ($hourlyEnergyGapsGroupped as $monthYear => $gaps): ?>
+            <!-- Month caption -->
+            <tr 
+                data-gap-month-year="<?= $monthYear ?>"
+                class="table-light">
+                <td colspan="3" class="fw-bold text-start">
+                    <?= TimeHelper::formatMonthLongAndYear($monthYear . "-01") ?>
+                </td>
+                <td class="text-end">
+                    <?php if (strtotime($realtimeEnergyStats->getFirstRowDate()) <= strtotime($gaps[0]->getGapStart())): ?>
+                        <?php $textTooltip="In einigen Fällen kann es helfen die Daten des Monats neu zu berechnen. Andernfalls scheint es keine Echtzeitdaten für diesen Zeitraum zu geben und es gibt keine Möglichkeit diese Lücke zu schließen." ?> 
+                        <i class="bi bi-info-circle text-primary ms-1" data-bs-toggle="tooltip" data-bs-html="true" title="<?=$textTooltip?>"></i>
+                        <button class="btn btn-sm btn-primary recalculate-btn" title="Neu berechnen">
+                            <i class="bi bi-pencil-square"></i> Neu berechnen
+                        </button>
+                    <?php else: ?>
+                        <a href="customEnergyValues.php" class="btn btn-sm btn-primary" title="Manuell eingeben">
+                            <i class="bi bi-pencil-square"></i> Manuell eingeben
+                        </a>
+                    <?php endif; ?>
+                </td>
+            </tr>
+            <!-- Each entry -->
+            <?php foreach ($gaps as $gapSet): ?>
+                <?php 
+                    $gapFromHtml = TimeHelper::formatDate($gapSet->getGapStart());
+                    $gapToHtml = TimeHelper::formatDate($gapSet->getGapEnd());
+                ?>
+                <tr>
+                    <td data-sort="<?= $gapSet->getGapStart() ?>"><?= $gapFromHtml ?></td>
+                    <td data-sort="<?= $gapSet->getGapEnd() ?>"><?= $gapToHtml ?></td>
+                    <td class="text-end"><?= TimeHelper::formatSeconds($gapSet->getGapDurationInSeconds()) ?></td>
+                    <td></td>
+                </tr>
+            <?php endforeach; ?>
+        <?php endforeach; ?>
+        </tbody>
+    </table>
+</div>
+
+<!-- Bootstrap Modal for recalculate popup -->
+<div class="modal fade" id="recalculateModal" tabindex="-1" aria-labelledby="recalculateModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="recalculateModalLabel">Berechnung läuft...</h5>
+            </div>
+            <div class="modal-body text-center">
+                <div class="spinner-border text-primary" role="status" id="status-spinner">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+                <p id="status-msg1">Bitte warten, während die Daten neu berechnet werden.</p>
+                <p id="status-msg2"></p>
+                <!-- Button, der nach Abschluss der Berechnung angezeigt wird -->
+                <button type="button" class="btn btn-sm btn-primary" id="close-modal-btn" style="display:none;" data-bs-dismiss="modal">Schließen und Seite neu laden</button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,79 @@
+<div class="row justify-content-center">
+        <div class="col-auto"> 
+            <?include("views/pages/overview/filter-summary.phtml")?>
+            <table class="table table-sm table-borderless w-auto" style="table-layout: flex;">
+            <form method="post" id="date-range-form" action="">
+                <tbody>
+                    <tr class="table-light">
+                        <td>
+                            <div class="d-flex align-items-center" style="height: 32px;">
+                                <strong class="small m-0">Auswahl 1:</strong>
+                            </div>
+                        </td>
+                        <!-- Day1 -->
+                        <td>
+                            <div class="d-flex align-items-center gap-2">
+                                <label for="day1" class="form-label small m-0"><strong>Tag: </strong><div class="weekday-container"><?=TimeHelper::getWeekday($selectedDay1)?>, </div></label>
+                                <input type="date-local" id="day1" name="day1" 
+                                    value="<?=date("d.m.Y", strtotime($selectedDay1))?>" 
+                                    class="form-control form-control-sm" style="max-width: 100px; height: 32px;">
+                            </div>
+                        </td>
+                        <td>
+                            <div class="d-flex align-items-center gap-1">
+                                <!-- +1/-1 Buttons -->
+                                <a href="#" class="btn btn-sm btn-outline-secondary py-0 px-1" id="subtract-day1">-1 Tag</a>
+                                <a href="#" class="btn btn-sm btn-outline-secondary py-0 px-1" id="add-day1">+1 Tag</a>
+                            </div>
+                        </td>
+                        <!-- Line 1 -->
+                        <td>
+                            <div class="d-flex align-items-center gap-2">
+                                <label for="line1" class="form-label small m-0 line-container"><strong>Linie 1:</strong></label>
+                                <select name="line1" id="line1" class="form-control form-control-sm" style="max-width: 120px; height: 32px;">
+                                    <? foreach($actualConfig->getLinePossibilities() as $val) { ?> 
+                                        <option value="<?=$val?>" <?php echo ($line1 == $val) ? 'selected' : ''; ?>><?=$val?> Watt</option>
+                                    <? } ?>
+                                </select>
+                            </div>
+                        </td>            
+                    </tr>
+                    <tr class="table-light">
+                        <td>
+                            <div class="d-flex align-items-center" style="height: 32px;">
+                                <strong class="small m-0">Auswahl 2:</strong>
+                            </div>
+                        </td>
+                        <!-- Day2 -->
+                        <td>
+                            <div class="d-flex align-items-center gap-2">
+                                <label for="day2" class="form-label small m-0"><strong>Tag: </strong><div class="weekday-container"><?=TimeHelper::getWeekday($selectedDay2)?>, </div></label>
+                                <input type="date-local" id="day2" name="day2" 
+                                    value="<?=date("d.m.Y", strtotime($selectedDay2))?>" 
+                                    class="form-control form-control-sm" style="max-width: 100px; height: 32px;">
+                            </div>
+                        </td>
+                        <td>
+                            <div class="d-flex align-items-center gap-1">
+                                <!-- +1/-1 Buttons -->
+                                <a href="#" class="btn btn-sm btn-outline-secondary py-0 px-1" id="subtract-day2">-1 Tag</a>
+                                <a href="#" class="btn btn-sm btn-outline-secondary py-0 px-1" id="add-day2">+1 Tag</a>
+                            </div>
+                        </td>
+                        <!-- Line 2 -->
+                        <td>
+                            <div class="d-flex align-items-center gap-2">
+                                <label for="line2" class="form-label small m-0 line-container""><strong>Linie 2:</strong></label>
+                                <select name="line2" id="line1" class="form-control form-control-sm" style="max-width: 120px; height: 32px;">
+                                    <? foreach($actualConfig->getLinePossibilities() as $val) { ?> 
+                                        <option value="<?=$val?>" <?php echo ($line2 == $val) ? 'selected' : ''; ?>><?=$val?> Watt</option>
+                                    <? } ?>
+                                </select>
+                            </div>
+                        </td>            
+                    </tr>
+                </tbody>
+                </form>
+            </table>
+        </div>
+    </div>

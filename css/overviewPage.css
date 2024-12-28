@@ -1,0 +1,26 @@
+canvas {
+    width: 75%;
+    height: 45% !important;
+}
+
+h1 {
+    margin-top: 5px
+}
+
+.weekday-container {
+    padding-left: 5px;
+    display: inline-block;
+    width: 78px;
+    text-align: left;
+}
+
+.line-container {
+    padding-left: 10 px;
+    width: 90px;
+}
+
+.btn-outline-secondary {
+    margin-top: 6px;
+    font-size: 0.75rem;
+    padding: 0.2rem 0.5rem;
+}

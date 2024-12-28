@@ -1,0 +1,56 @@
+<div class="container mt-4 d-flex justify-content-center">
+    <div class="p-3" style="background-color: #f8f9fa; border-radius: 8px; max-width: 800px; width: 100%;">
+        <? $textTooltip = "Hier können eigene Preisdaten für einen einzelnen Tag oder Monat bearbeitet werden."; ?>
+        <? $textTooltip .= "<br>Die Preisdaten werden als Basis für die anderen Seite benutzt und bestehende Werte werden überschrieben."; ?>
+        <h6 class="text-start text-secondary mb-3"><?=$pageTitle?>: Daten bearbeiten
+        <i class="bi bi-info-circle text-primary ms-1" data-bs-toggle="tooltip" data-bs-html="true" title="<?=$textTooltip?>"></i></h6>        
+            
+        <form method="post" action="" id="editform">        
+            <input type="hidden" id="performDelete" name="performDelete" value="false">
+            <input type="hidden" id="priceRowId" name="priceRowId" value="<?=isset($idPriceRow) ? $idPriceRow : ""?>">
+            <div class="row g-2">
+                <!-- date from -->
+                <div class="col-md-3 col-sm-12 align-top">
+                    <label for="timestampFrom" class="form-label small fw-bold">Datum von</label>
+                    <div id="timestampFrom-wrapper">
+                        <input type="date" class="form-control form-control-sm" id="timestampFrom" name="timestampFrom" required value="<?=isset($timestampFrom) ? $timestampFrom : ""?>">
+                    </div>
+                </div>
+
+                <!-- date to -->
+                <div class="col-md-3 col-sm-12 align-top">
+                    <label for="timestampTo" class="form-label small fw-bold">Datum bis</label>
+                    <div id="timestampTo-wrapper">
+                        <input type="date" class="form-control form-control-sm" id="timestampTo" name="timestampTo" required value="<?=isset($timestampTo) ? $timestampTo : ""?>">
+                    </div>
+                </div>
+
+                <!-- purchase price -->
+                <div class="col-md-3 col-sm-12 align-top">
+                    <label for="price" class="form-label small fw-bold">Einkaufspreis (Ct / kWh)</label>
+                    <input type="number" class="form-control form-control-sm" id="outCentPricePerKwh" name="outCentPricePerKwh" step="0.01" min="0" value="<?=isset($outCentPricePerKwh) ? $outCentPricePerKwh : ""?>" required>
+                </div>
+
+                <!-- sell price -->
+                <div class="col-md-3 col-sm-12 align-top">
+                    <label for="price" class="form-label small fw-bold">Einspeisepreis (Ct / kWh)</label>
+                    <input type="number" class="form-control form-control-sm" id="inCentPricePerKwh" name="inCentPricePerKwh" step="0.01" min="0" value="<?=isset($inCentPricePerKwh) ? $inCentPricePerKwh : ""?>" required>
+                </div>
+
+                <div class="d-flex justify-content-between align-items-center mt-3">
+                    <div class="alert alert-warning d-flex align-items-center me-3 flex-grow-1" role="alert" style="border-radius: 8px; max-width: 70%;">
+                        <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                        <div>
+                            <strong>Hinweis:</strong> Eine Änderung führt dazu, dass die Preisdaten für vorhandene Energiewerte angepasst werden!
+                        </div>
+                    </div>
+
+                    <!-- Save Button -->
+                    <button type="submit" class="btn btn-primary btn-lg" style="border-radius: 8px; font-size: 16px;">
+                        <i class="bi bi-save me-1"></i> Speichern
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

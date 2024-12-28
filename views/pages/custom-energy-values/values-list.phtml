@@ -1,0 +1,65 @@
+<div class="container mt-4">
+    <h6 class="text-start text-secondary mb-3">Eingegebene Werte</h6>
+    <table class="table table-bordered table-hover" id="customEnergyValues">
+        <thead class="thead-light">
+            <tr>
+                <th class="table-active">Datum</th>
+                <th class="table-active">Einkauf</th>
+                <th class="table-active" colspan="3">Stromgenerierung (kWh)</th>
+                <th class="table-active">Einspeisung</th>                
+                <th class="table-active">Einkaufspreis</th>
+                <th class="table-active">Einspeisepreis</th>
+                <th class="table-active">Aktionen</th>
+            </tr>
+            <tr>
+                <th class="table-active"></th>
+                <th class="table-active">(kWh)</th>
+                <th class="table-active">Phase 1</th>
+                <th class="table-active">Phase 2</th>
+                <th class="table-active">Phase 3</th>
+                <th class="table-active">(kWh)</th>                
+                <th class="table-active">(Ct / kWh)</th>
+                <th class="table-active">(Ct / kWh)</th>
+                <th class="table-active"></th>
+            </tr>
+        </thead>
+        <tbody>
+        <? foreach($customDataList as $customData) {             
+            $timestampType = $customData->getTimestampType();
+            $timestampRaw = $customData->getTimestampFrom();
+            $timestampDataRow = $timestampType == "month" ? substr($timestampRaw, 0, 7) : substr($timestampRaw, 0, 10);
+            $timestampHtml = $timestampType == "month" ? substr(TimeHelper::formatDate($customData->getTimestampFrom()), 3) : TimeHelper::formatDate($customData->getTimestampFrom());
+        ?>
+            <tr 
+                data-timestamp-raw="<?=$timestampRaw?>"
+                data-timestamp="<?=$timestampDataRow?>"
+                data-timestamp-type="<?=$timestampType?>"
+                data-em-total-power="<?= $customData->getEmTotalPower() ?>"
+                data-pm1-total-power="<?= is_numeric($customData->getPm1TotalPower()) ? $customData->getPm1TotalPower() : 0 ?>"
+                data-pm2-total-power="<?= is_numeric($customData->getPm2TotalPower()) ? $customData->getPm2TotalPower() : 0 ?>"
+                data-pm3-total-power="<?= is_numeric($customData->getPm3TotalPower()) ? $customData->getPm3TotalPower() : 0 ?>"
+                data-em-under-zero="<?= $customData->getEmUnderZero() ?>"
+                data-out-cent-price-per-watt-hour="<?= $customData->getOutCentPricePerWh() ?>"
+                data-in-cent-price-per-watt-hour="<?= $customData->getInCentPricePerWh() ?>"
+            >
+                <td data-sort="<?=$timestampDataRow?>"><?=$timestampHtml?></td>
+                <td class="text-end"><?=StringHelper::formatNumber($customData->getEmTotalPower() / 1000, 3)?></td>
+                <td class="text-end"><?=StringHelper::formatNumber($customData->getPm1TotalPower() / 1000, 3)?></td>
+                <td class="text-end"><?=StringHelper::formatNumber($customData->getPm2TotalPower() / 1000, 3)?></td>
+                <td class="text-end"><?=StringHelper::formatNumber($customData->getPm3TotalPower() / 1000, 3)?></td>
+                <td class="text-end"><?=StringHelper::formatNumber($customData->getEmUnderZero() / -1000, 3)?></td>
+                <td class="text-end"><?=StringHelper::formatNumber($customData->getOutCentPricePerWh() * 1000, 5)?></td>
+                <td class="text-end"><?=StringHelper::formatNumber($customData->getInCentPricePerWh() * 1000, 5)?></td>
+                <td>
+                    <button class="btn btn-sm btn-primary edit-btn" title="Bearbeiten">
+                        <i class="bi bi-pencil-square"></i> Bearbeiten
+                    </button>
+                    <button class="btn btn-sm btn-danger delete-btn" title="Löschen">
+                        <i class="bi bi-trash"></i> Löschen
+                    </button>
+                </td>
+            </tr>
+        <? } ?>
+        </tbody>
+    </table>
+</div>
