@@ -24,7 +24,7 @@ class HourlyEnergyDataInsert extends BaseTable {
                     :emMissingRows, :pm1MissingRows, :pm2MissingRows, :pm3MissingRows,
                     :countRows)
                 ON DUPLICATE KEY UPDATE
-                    timestamp_to = VALUES(timestampTo),
+                    timestamp_to = VALUES(timestamp_to),
                     value_for_x_quarter_hours = VALUES(value_for_x_quarter_hours),
                     out_cent_price_per_wh = VALUES(out_cent_price_per_wh),
                     in_cent_price_per_wh = VALUES(in_cent_price_per_wh),

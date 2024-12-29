@@ -1,8 +1,6 @@
 <?php
 
 class RealTimeEnergyDataTable extends BaseTimestampTable {
-    public const SECONDS_PER_ROW = 2;
-
     public function __construct($pdo) {
         parent::__construct($pdo, "real_time_energy_data", "timestamp");
     }
@@ -96,43 +94,42 @@ class RealTimeEnergyDataTable extends BaseTimestampTable {
             return $resultRows;
         } catch (PDOException $e) {
             $this->error = "PDOException: " . $e->getMessage();
-            var_dump($this->error); die;
+            
             return $resultRows;
         }    
         return $resultRows;
     }
 
     public function getEnergyData($startTime, $endTime, $line1, $line2, $outPricePerWh, $inPricePerWh): EnergyDataSet
-    {
-        $factor = self::SECONDS_PER_ROW / 3600;
+    {        
         $sql = "
             SELECT 
                 ROUND(SUM(CASE 
                         WHEN em_total_power >= 0 THEN em_total_power
                         ELSE 0 
-                    END) * :factor, 0) AS sum_em_over_0,
+                    END) * interval_in_seconds / 3600, 0) AS sum_em_over_0,
                 ROUND(SUM(CASE 
                         WHEN em_total_power <= 0 THEN em_total_power
                         ELSE 0 
-                    END) * :factor, 0) AS sum_em_under_0,
+                    END) * interval_in_seconds / 3600, 0) AS sum_em_under_0,
     
                 ROUND(SUM(CASE 
                         WHEN em_total_power >= :line1 THEN em_total_power - :line1
                         ELSE 0 
-                    END) * :factor, 0) AS sum_em_over_x1,
+                    END) * interval_in_seconds / 3600, 0) AS sum_em_over_x1,
                 ROUND(SUM(CASE 
                         WHEN em_total_power <= :line1 THEN em_total_power - :line1
                         ELSE 0 
-                    END) * :factor, 0) AS sum_em_under_x1,
+                    END) * interval_in_seconds / 3600, 0) AS sum_em_under_x1,
     
                 ROUND(SUM(CASE 
                         WHEN em_total_power >= :line2 THEN em_total_power - :line2
                         ELSE 0 
-                    END) * :factor, 0) AS sum_em_over_x2,
+                    END) * interval_in_seconds / 3600, 0) AS sum_em_over_x2,
                 ROUND(SUM(CASE 
                         WHEN em_total_power <= :line2 THEN em_total_power - :line2
                         ELSE 0 
-                    END) * :factor, 0) AS sum_em_under_x2,
+                    END) * interval_in_seconds / 3600, 0) AS sum_em_under_x2,
     
                 ROUND(
                     SUM(
@@ -140,7 +137,7 @@ class RealTimeEnergyDataTable extends BaseTimestampTable {
                         + COALESCE(pm2_total_power, 0) 
                         + COALESCE(pm3_total_power, 0) 
                         + IF(em_total_power < 0, COALESCE(em_total_power, 0), 0)
-                    ) * :factor,
+                    ) * interval_in_seconds / 3600,
                     2
                 ) AS sum_savings,
     
@@ -163,7 +160,6 @@ class RealTimeEnergyDataTable extends BaseTimestampTable {
         try {
             $stmt = $this->pdo->prepare($sql);
     
-            $stmt->bindValue(':factor', $factor, PDO::PARAM_STR);
             $stmt->bindValue(':line1', $line1, PDO::PARAM_STR);
             $stmt->bindValue(':line2', $line2, PDO::PARAM_STR);
             $stmt->bindValue(':startTime', $startTime, PDO::PARAM_STR);

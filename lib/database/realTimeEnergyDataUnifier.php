@@ -28,7 +28,7 @@ class RealTimeEnergyDataUnifier  {
         if ($adjustMinutes !== 15) { // Wenn bereits auf einem 15-Minuten-Schritt, nichts tun
             $startDateTime->modify('+' . $adjustMinutes . ' minutes');
         }
-        // Secons explizit on 0 or 59
+        // Set seconds explizit on 0 or 59
         $startDateTime->setTime((int)$startDateTime->format('H'), (int)$startDateTime->format('i'), 0);
         $endDateTime->setTime((int)$endDateTime->format('H'), (int)$endDateTime->format('i'), 59);
         
@@ -61,18 +61,21 @@ class RealTimeEnergyDataUnifier  {
             $curStart->format('Y-m-d H:i:00'), 
             $curEnd->format('Y-m-d H:i:59'),
             $quarterHourInterval * 900);
-        
         if (sizeof($realTimeData) > 0) {
             $firstRow = $realTimeData[0];            
 
-            $this->hourlyEnergyDataTbl->InsertOrUpdate(
+            $resultOk = $this->hourlyEnergyDataTbl->InsertOrUpdate(
                 $curStart->format('Y-m-d H:i:00'), 
                 $curEnd->format('Y-m-d H:i:59'),
                 $quarterHourInterval, 
                 $outCentPricePerWh,
                 $inCentPricePerWh,
                 $firstRow
-            );            
+            );
+            
+            if (! $resultOk) {
+                print $this->hourlyEnergyDataTbl->getError();
+            }
         }
     }
 }

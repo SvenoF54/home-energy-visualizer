@@ -91,6 +91,7 @@ class OverviewPageService
     private function prepareGeneralData($startTime1, $endTime1, $startTime2, $endTime2)
     {
         $powerData = $this->hourlyEnergyDataTbl->getEnergyData($startTime1, $endTime1);
+        
         $this->emOverZeroTotal1 = $powerData->getEnergy();
         $this->emUnderZeroTotal1 = $powerData->getEnergyUnderZero();
         $this->pmSavingsTotal1 = $powerData->getSavings();

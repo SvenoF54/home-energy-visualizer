@@ -19,7 +19,7 @@
                             <div style="display: flex; align-items: center; gap: 4px;">                    
                                 <label for="selectorYear1" class="form-label small m-0"><strong>Jahr:</strong></label>
                                 <select name="selectorYear1" id="selectorYear1" class="form-control form-control-sm" style="max-width: 120px;">
-                                    <? for($val = $OverviewPageService->getFirstYear(); $val <= $OverviewPageService->getLastYear(); $val++) { ?>
+                                    <? for($val = $overviewPageService->getFirstYear(); $val <= $overviewPageService->getLastYear(); $val++) { ?>
                                         <option value="<?=$val?>" <?php echo ($selectedYear1 == $val) ? 'selected' : ''; ?>><?=$val?></option>
                                     <? } ?>
                                 </select>
@@ -48,7 +48,7 @@
                             <div style="display: flex; align-items: center; gap: 4px;">                    
                                 <label for="selectorYear2" class="form-label small m-0"><strong>Jahr:</strong></label>
                                 <select name="selectorYear2" id="selectorYear2" class="form-control form-control-sm" style="max-width: 120px;">
-                                <? for($val = $OverviewPageService->getFirstYear(); $val <= $OverviewPageService->getLastYear(); $val++) { ?>
+                                <? for($val = $overviewPageService->getFirstYear(); $val <= $overviewPageService->getLastYear(); $val++) { ?>
                                         <option value="<?=$val?>" <?php echo ($selectedYear2 == $val) ? 'selected' : ''; ?>><?=$val?></option>
                                     <? } ?>
                                 </select>

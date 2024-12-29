@@ -22,8 +22,8 @@ $timeLabelUnit = TimeHelper::prepareTimeUnit($startTime1, $endTime1);
 // Prepare DB
 $errorMsg = "";
 $db = new Database();
-$OverviewPageService = new OverviewPageService($db->getPdoConnection());
-$OverviewPageService->prepareHourData($startTime1, $endTime1, $startTime2, $endTime2);
+$overviewPageService = new OverviewPageService($db->getPdoConnection());
+$overviewPageService->prepareHourData($startTime1, $endTime1, $startTime2, $endTime2);
 
 // configure VIEW
 
@@ -32,10 +32,10 @@ $OverviewPageService->prepareHourData($startTime1, $endTime1, $startTime2, $endT
     $jsFooterFiles = ["/js/overview-pages/documentReady.js"];
     $cssFiles = ["/css/overviewPage.css"];
     $jsVars = [
-        "timestampsTooltip" => json_encode($OverviewPageService->getLabelsTooltip()),
-        "timestampsXAxis" => json_encode($OverviewPageService->getLabelsXAxis()),
-        "data1" => json_encode($OverviewPageService->getData1()),
-        "data2" => json_encode($OverviewPageService->getData2()),
+        "timestampsTooltip" => json_encode($overviewPageService->getLabelsTooltip()),
+        "timestampsXAxis" => json_encode($overviewPageService->getLabelsXAxis()),
+        "data1" => json_encode($overviewPageService->getData1()),
+        "data2" => json_encode($overviewPageService->getData2()),
         "line1_selected" => $line1,
         "line2_selected" => $line2,
         "timeLabelUnit" => json_encode($timeLabelUnit)

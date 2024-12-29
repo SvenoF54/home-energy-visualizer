@@ -36,32 +36,32 @@
                 <div class="small" style="text-align: left;"><?=$tableRow1CaptionTimeUnit?></div>
             </td>
             <td>
-                <div class="small" style="text-align: left;"><?=HtmlHelper::formatEnergyInWattAndCurrency($OverviewPageService->getEMOverZeroTotal1())?></div>
+                <div class="small" style="text-align: left;"><?=HtmlHelper::formatEnergyInWattAndCurrency($overviewPageService->getEMOverZeroTotal1())?></div>
             </td>
             <td>
-                <div class="small" style="text-align: left;"><?=HtmlHelper::formatEnergyInWattAndCurrency($OverviewPageService->getEMUnderZeroTotal1())?></div>
+                <div class="small" style="text-align: left;"><?=HtmlHelper::formatEnergyInWattAndCurrency($overviewPageService->getEMUnderZeroTotal1())?></div>
             </td>
             <td>
-                <div class="small" style="text-align: left;"><?=HtmlHelper::formatEnergyInWattAndCurrency($OverviewPageService->getPMSavingsTotal1())?></div>
+                <div class="small" style="text-align: left;"><?=HtmlHelper::formatEnergyInWattAndCurrency($overviewPageService->getPMSavingsTotal1())?></div>
             </td>
-            <?php if ($OverviewPageService->getMissingValues1()->isEmAvailable() || $OverviewPageService->getMissingValues2()->isEmAvailable()) { ?>
+            <?php if ($overviewPageService->getMissingValues1()->isEmAvailable() || $overviewPageService->getMissingValues2()->isEmAvailable()) { ?>
             <td style="text-align: left;">
-                <?=HtmlHelper::formatFailureValue("EM", $OverviewPageService->getMissingValues1()->getEmMissingRows(), $OverviewPageService->getMissingValues1()->getCountRows())?>
-            </td>
-            <?php } ?>
-            <?php if ($OverviewPageService->getMissingValues1()->isPm1Available() || $OverviewPageService->getMissingValues2()->isPm1Available()) { ?>
-            <td style="text-align: left;">
-                <?=HtmlHelper::formatFailureValue("PM1", $OverviewPageService->getMissingValues1()->getPm1MissingRows(), $OverviewPageService->getMissingValues1()->getCountRows())?>
+                <?=HtmlHelper::formatFailureValue("EM", $overviewPageService->getMissingValues1()->getEmMissingRows(), $overviewPageService->getMissingValues1()->getCountRows())?>
             </td>
             <?php } ?>
-            <?php if ($OverviewPageService->getMissingValues1()->isPm2Available() || $OverviewPageService->getMissingValues2()->isPm2Available()) { ?>
+            <?php if ($overviewPageService->getMissingValues1()->isPm1Available() || $overviewPageService->getMissingValues2()->isPm1Available()) { ?>
             <td style="text-align: left;">
-                <?=HtmlHelper::formatFailureValue("PM2", $OverviewPageService->getMissingValues1()->getPm2MissingRows(), $OverviewPageService->getMissingValues1()->getCountRows())?>
+                <?=HtmlHelper::formatFailureValue("PM1", $overviewPageService->getMissingValues1()->getPm1MissingRows(), $overviewPageService->getMissingValues1()->getCountRows())?>
             </td>
             <?php } ?>
-            <?php if ($OverviewPageService->getMissingValues1()->isPm3Available() || $OverviewPageService->getMissingValues2()->isPm3Available()) { ?>
+            <?php if ($overviewPageService->getMissingValues1()->isPm2Available() || $overviewPageService->getMissingValues2()->isPm2Available()) { ?>
             <td style="text-align: left;">
-                <?=HtmlHelper::formatFailureValue("PM3", $OverviewPageService->getMissingValues1()->getPm3MissingRows(), $OverviewPageService->getMissingValues1()->getCountRows())?>
+                <?=HtmlHelper::formatFailureValue("PM2", $overviewPageService->getMissingValues1()->getPm2MissingRows(), $overviewPageService->getMissingValues1()->getCountRows())?>
+            </td>
+            <?php } ?>
+            <?php if ($overviewPageService->getMissingValues1()->isPm3Available() || $overviewPageService->getMissingValues2()->isPm3Available()) { ?>
+            <td style="text-align: left;">
+                <?=HtmlHelper::formatFailureValue("PM3", $overviewPageService->getMissingValues1()->getPm3MissingRows(), $overviewPageService->getMissingValues1()->getCountRows())?>
             </td>
             <?php } ?>
         </tr>
@@ -70,32 +70,32 @@
                 <div class="small" style="text-align: left;"><?=$tableRow2CaptionTimeUnit?></div>
             </td>
             <td>
-                <div class="small" style="text-align: left;"><?=HtmlHelper::formatEnergyInWattAndCurrency($OverviewPageService->getEMOverZeroTotal2())?></div>
+                <div class="small" style="text-align: left;"><?=HtmlHelper::formatEnergyInWattAndCurrency($overviewPageService->getEMOverZeroTotal2())?></div>
             </td>
             <td>
-                <div class="small" style="text-align: left;"><?=HtmlHelper::formatEnergyInWattAndCurrency($OverviewPageService->getEMUnderZeroTotal2())?></div>
+                <div class="small" style="text-align: left;"><?=HtmlHelper::formatEnergyInWattAndCurrency($overviewPageService->getEMUnderZeroTotal2())?></div>
             </td>
             <td>
-                <div class="small" style="text-align: left;"><?=HtmlHelper::formatEnergyInWattAndCurrency($OverviewPageService->getPMSavingsTotal2())?></div>
+                <div class="small" style="text-align: left;"><?=HtmlHelper::formatEnergyInWattAndCurrency($overviewPageService->getPMSavingsTotal2())?></div>
             </td>
-            <?php if ($OverviewPageService->getMissingValues1()->isEmAvailable() || $OverviewPageService->getMissingValues2()->isEmAvailable()) { ?>
+            <?php if ($overviewPageService->getMissingValues1()->isEmAvailable() || $overviewPageService->getMissingValues2()->isEmAvailable()) { ?>
             <td style="text-align: left;">
-                <?=HtmlHelper::formatFailureValue("EM", $OverviewPageService->getMissingValues2()->getEmMissingRows(), $OverviewPageService->getMissingValues2()->getCountRows())?>
-            </td>
-            <?php } ?>
-            <?php if ($OverviewPageService->getMissingValues1()->isPm1Available() || $OverviewPageService->getMissingValues2()->isPm1Available()) { ?>
-            <td style="text-align: left;">
-                <?=HtmlHelper::formatFailureValue("PM1", $OverviewPageService->getMissingValues2()->getPm1MissingRows(), $OverviewPageService->getMissingValues2()->getCountRows())?>                
+                <?=HtmlHelper::formatFailureValue("EM", $overviewPageService->getMissingValues2()->getEmMissingRows(), $overviewPageService->getMissingValues2()->getCountRows())?>
             </td>
             <?php } ?>
-            <?php if ($OverviewPageService->getMissingValues1()->isPm2Available() || $OverviewPageService->getMissingValues2()->isPm2Available()) { ?>
+            <?php if ($overviewPageService->getMissingValues1()->isPm1Available() || $overviewPageService->getMissingValues2()->isPm1Available()) { ?>
             <td style="text-align: left;">
-                <?=HtmlHelper::formatFailureValue("PM2", $OverviewPageService->getMissingValues2()->getPm2MissingRows(), $OverviewPageService->getMissingValues2()->getCountRows())?>
+                <?=HtmlHelper::formatFailureValue("PM1", $overviewPageService->getMissingValues2()->getPm1MissingRows(), $overviewPageService->getMissingValues2()->getCountRows())?>                
             </td>
             <?php } ?>
-            <?php if ($OverviewPageService->getMissingValues1()->isPm3Available() || $OverviewPageService->getMissingValues2()->isPm3Available()) { ?>
+            <?php if ($overviewPageService->getMissingValues1()->isPm2Available() || $overviewPageService->getMissingValues2()->isPm2Available()) { ?>
             <td style="text-align: left;">
-                <?=HtmlHelper::formatFailureValue("PM3", $OverviewPageService->getMissingValues2()->getPm3MissingRows(), $OverviewPageService->getMissingValues2()->getCountRows())?>
+                <?=HtmlHelper::formatFailureValue("PM2", $overviewPageService->getMissingValues2()->getPm2MissingRows(), $overviewPageService->getMissingValues2()->getCountRows())?>
+            </td>
+            <?php } ?>
+            <?php if ($overviewPageService->getMissingValues1()->isPm3Available() || $overviewPageService->getMissingValues2()->isPm3Available()) { ?>
+            <td style="text-align: left;">
+                <?=HtmlHelper::formatFailureValue("PM3", $overviewPageService->getMissingValues2()->getPm3MissingRows(), $overviewPageService->getMissingValues2()->getCountRows())?>
             </td>
             <?php } ?>
         </tr>

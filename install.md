@@ -1,5 +1,5 @@
 # Projektname
-Energie-Visualisierung für zu Hause, Beschreibung siehe hier [readme.md](./readme.md).
+Energie-Visualisierung für zu Hause, Beschreibung siehe hier [readme.md](./README.md).
 
 ## Installationsschritte
 
