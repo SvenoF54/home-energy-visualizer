@@ -1,5 +1,5 @@
 # Projektname
-Energie-Visualisierung für zu Hause, Beschreibung siehe hier [readme.md](readme.md).
+Energie-Visualisierung für zu Hause, Beschreibung siehe hier [readme.md](./readme.md).
 
 ## Installationsschritte
 
@@ -43,10 +43,12 @@ Für die Benutzung des Programms werden gewisse technische Kenntnisse, wie das e
 
 Falls man keine Echtzeitdaten verwendet, kann man die Navigation so anpassen um die Ansichten hierfür zu entfernen.
 
-[Navigation](views\partials\navigation.phtml)
+**Navigation**
+- Datei: views\partials\navigation.phtml
 - Für die Variable $pages die Seite entfernen: Startseite, Stunden, sowie die Tagesansicht
 
-[Startseite](index.php)
+**Startseite**
+- Datei: index.php
 - Hier z.B. die monthsOverview.php eintragen
 
 
