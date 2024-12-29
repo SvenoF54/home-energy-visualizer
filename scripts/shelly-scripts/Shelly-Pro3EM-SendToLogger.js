@@ -2,7 +2,7 @@
 let loggingUrl = "http://meine.domain/mein-verzeichnis/api/energy-logger.php?apikey=9999999"; // URL zum PHP-Skript
 
 let AppName = "EM3";
-let devicePhase = ""; // Phase 1, 2, 3 or empty
+let devicePhase = ""; // Phase 1, 2, 3 or empty. Only necessary for generatet energy
 let printLogMsg = true;
 let intervalInSeconds = 2;
 let invertSign = false;

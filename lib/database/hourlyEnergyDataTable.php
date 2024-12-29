@@ -292,7 +292,7 @@ class HourlyEnergyDataTable extends BaseTimestampTable {
     
     private function createCustomEnergySet($row)
     {
-        $customData = new CustomEnergyValueSet($row["timestamp_from"], $row["timestamp_from"], $row["out_cent_price_per_wh"], $row["in_cent_price_per_wh"]);
+        $customData = new CustomEnergyValueSet($row["timestamp_from"], $row["timestamp_to"], $row["out_cent_price_per_wh"], $row["in_cent_price_per_wh"]);
         $customData->setEmTotalPower($row["em_total_power"]);
         $customData->setEmOverZero($row["em_total_over_zero"]);
         $customData->setEmUnderZero($row["em_total_under_zero"]);
