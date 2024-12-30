@@ -14,9 +14,9 @@ $timeLabelUnit = "year";
 // prepare DB
 $errorMsg = "";
 
-$db = new Database();
+$db = Database::getInstance();
 $overviewPageService = new OverviewPageService($db->getPdoConnection());
-$overviewPageService->prepareYearData($overviewPageService->getFirstYear(), $overviewPageService->getLastYear());
+$overviewPageService->calculateYearData($overviewPageService->getFirstYear(), $overviewPageService->getLastYear());
 $yearList = [];
 for($year = $overviewPageService->getFirstYear(); $year <= $overviewPageService->getLastYear(); $year++) {
     $yearList[] = $year;
@@ -45,7 +45,7 @@ for($year = $overviewPageService->getFirstYear(); $year <= $overviewPageService-
     $tableRow1CaptionTimeUnit = "(Summe über alles)";
 
     $partialTop = "views/pages/overview/filter-for-years-overview.phtml";
-    $partialBottom = "views/partials/canvas.phtml";
+    $partialBottom = "views/partials/chart-and-table-canvas.phtml";
 
     include("views/partials/layout.phtml");
 

@@ -17,7 +17,7 @@ $line2 = StringHelper::formGetInt("line2", $actualConfig->getLine1Default());
 $timeLabelUnit = TimeHelper::prepareTimeUnit($startTime, $endTime);
 
 // prepare DB
-$db = new Database();
+$db = Database::getInstance();
 $realTimeEnergyDataTbl = new RealTimeEnergyDataTable($db->getPdoConnection());
 $hourlyEnergyDataTbl = new HourlyEnergyDataTable($db->getPdoConnection());
 $energyPriceTbl = new EnergyPriceTable($db->getPdoConnection());
@@ -71,7 +71,7 @@ $jsVars = [
 ];
 
 $partialTop = "views/pages/realtime/filter.phtml";
-$partialBottom = "views/partials/canvas.phtml";
+$partialBottom = "views/partials/chart-and-table-canvas.phtml";
 
 
 include("views/partials/layout.phtml");

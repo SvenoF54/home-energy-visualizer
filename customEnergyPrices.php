@@ -4,7 +4,7 @@ include_once("lib/appLibLoader.php");
 
 
 // Prepare DB
-$db = new Database();
+$db = Database::getInstance();
 $energyPriceTbl = new EnergyPriceTable($db->getPdoConnection());
 $hourlyEnergyDataTbl = new HourlyEnergyDataTable($db->getPdoConnection());
 if (isset($_POST) && sizeof($_POST)) {    

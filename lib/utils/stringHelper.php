@@ -80,14 +80,14 @@ class StringHelper {
 
     }
 
-    public static function formatEnergyInWatt($val, $suffix="") {
+    public static function formatEnergyInWattHour($val) {
         
         if (abs($val) > 1000000) {
-            return number_format($val / 1000000, 2, ',', '.')." mW".$suffix;            
+            return number_format($val / 1000000, 2, ',', '.')." mWh";            
         } elseif (abs($val) > 1000) {
-            return number_format($val / 1000, 2, ',', '.')." kW".$suffix;            
+            return number_format($val / 1000, 2, ',', '.')." kWh";            
         } else {
-            return ($val > 0 | $val < 0 ? $val : 0)." W".$suffix;
+            return ($val > 0 | $val < 0 ? $val : 0)." Wh";
         }        
     }
     

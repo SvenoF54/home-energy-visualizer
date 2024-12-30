@@ -21,9 +21,9 @@ $timeLabelUnit = TimeHelper::prepareTimeUnit($startTime1, $endTime1);
 
 // Prepare DB
 $errorMsg = "";
-$db = new Database();
+$db = Database::getInstance();
 $overviewPageService = new OverviewPageService($db->getPdoConnection());
-$overviewPageService->prepareHourData($startTime1, $endTime1, $startTime2, $endTime2);
+$overviewPageService->calculateHourData($startTime1, $endTime1, $startTime2, $endTime2);
 
 // configure VIEW
 
@@ -47,7 +47,7 @@ $overviewPageService->prepareHourData($startTime1, $endTime1, $startTime2, $endT
     $tableRow2CaptionTimeUnit = TimeHelper::formatDate($selectedDay2);
 
     $partialTop = "views/pages/overview/filter-for-hours-overview.phtml";
-    $partialBottom = "views/partials/canvas.phtml";
+    $partialBottom = "views/partials/chart-and-table-canvas.phtml";
 
 
     include("views/partials/layout.phtml");

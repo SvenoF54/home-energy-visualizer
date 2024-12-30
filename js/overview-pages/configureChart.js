@@ -9,8 +9,6 @@ const scales = {
     },
     y: {
         beginAtZero: true,
-        //suggestedMin: -1000,
-        //suggestedMax: 5000,
         stacked: true,
         position: 'left',
         title: {
@@ -84,6 +82,7 @@ const options = {
     maintainAspectRatio: false,
     plugins: {
         tooltip: {
+            // Extends the tooltip with more information
             mode: 'x',
             callbacks: {
                 title: function(tooltipItems) {
@@ -96,7 +95,7 @@ const options = {
                     if (label) {
                         label += ': ';
                     }
-                    label += timestampsTooltip[index][customDataSourceNo - 1]
+                    label += timestampsTooltip[index][customDataSourceNo - 1];
 
                     return label;
                 },
@@ -104,7 +103,7 @@ const options = {
                     const energy = tooltipItem.parsed.y;
                     const customDataSourceNo = tooltipItem.dataset.customDataSourceNo;
                     const priceFieldName = tooltipItem.dataset.priceFieldName;
-                    const dataArray = customDataSourceNo == 1 ? data1 : data2;
+                    const dataArray = customDataSourceNo === 1 ? data1 : data2;
                     const dataPoint = dataArray[tooltipItem.dataIndex];
 
                     let label = formatCurrent(energy, "h");
@@ -119,6 +118,7 @@ const options = {
             },
         },
         annotation: {
+            // Shows the 2 lines
             annotations: {
                 line1: {
                     type: 'line',
@@ -148,18 +148,52 @@ const options = {
                     type: 'line',
                     yMin: 0,
                     yMax: 0,
-                    borderColor: 'marroon',
+                    borderColor: 'maroon',
                     borderWidth: 1,
                 }
             }
         },
-
         legend: {
             display: true
         },
     },
     scales
 };
+
+// Plugins, here the button for the table view
+const plugins = [{
+    id: 'customButtonPlugin',
+    afterDraw(chart, args, options) {
+        const { ctx, chartArea } = chart;
+        const buttonX = chartArea.right - 100;
+        const buttonY = chartArea.top - 30;
+
+        // Draw button
+        ctx.fillStyle = 'blue';
+        ctx.fillRect(buttonX, buttonY, 100, 25);
+
+        // Draw Text
+        ctx.fillStyle = 'white';
+        ctx.font = '12px Arial';
+        ctx.fillText('Tabellenansicht', buttonX + 10, buttonY + 12);
+
+        // Add Event-Listener
+        if (!chart.customButtonListener) {
+            chart.customButtonListener = true;
+            chart.canvas.addEventListener('click', function(event) {
+                const canvasPosition = Chart.helpers.getRelativePosition(event, chart);
+                const x = canvasPosition.x;
+                const y = canvasPosition.y;
+
+                // If click is for button
+                if (x > buttonX && x < buttonX + 100 && y > buttonY && y < buttonY + 30) {
+                    $('#chart-container').css('display', 'none');
+                    $('#table-container').css('display', 'block');
+                }
+            });
+        }
+    },
+}];
 
 // configure diagram
 const config = {
@@ -173,6 +207,7 @@ const config = {
                 borderColor: 'rgb(190,110,110)',
                 borderWidth: 1,
                 stack: 'Stack EM1',
+                maxBarThickness: 30,
                 customDataSourceNo: 1,
                 priceFieldName: 'emOZPrice'
             },
@@ -182,6 +217,7 @@ const config = {
                 borderColor: 'rgb(127, 127, 181)',
                 backgroundColor: 'rgb(127, 127, 181)',
                 stack: 'Stack EM1',
+                maxBarThickness: 30,
                 customDataSourceNo: 1,
                 priceFieldName: 'emUZPrice'
             },
@@ -192,6 +228,7 @@ const config = {
                 borderColor: 'rgb(150,90,110)',
                 borderWidth: 1,
                 stack: 'Stack EM2',
+
                 customDataSourceNo: 2,
                 priceFieldName: 'emOZPrice',
                 hidden: (data2.length == 0)
@@ -202,6 +239,7 @@ const config = {
                 borderColor: 'rgb(97, 97, 161)',
                 backgroundColor: 'rgb(97, 97, 161)',
                 stack: 'Stack EM2',
+                maxBarThickness: 30,
                 customDataSourceNo: 2,
                 priceFieldName: 'emUZPrice',
                 hidden: (data2.length == 0)
@@ -212,6 +250,7 @@ const config = {
                 borderColor: 'rgb(127, 181, 181)',
                 backgroundColor: 'rgb(127, 181, 181)',
                 stack: 'Stack PV1',
+                maxBarThickness: 30,
                 priceFieldName: 'pmSvgPrice',
                 customDataSourceNo: 1
             },
@@ -221,11 +260,13 @@ const config = {
                 borderColor: 'rgb(97, 141, 141)',
                 backgroundColor: 'rgb(97, 141, 141)',
                 stack: 'Stack PV2',
+                maxBarThickness: 30,
                 customDataSourceNo: 2,
                 priceFieldName: 'pmSvgPrice',
                 hidden: (data2.length == 0)
             },
         ]
     },
-    options
+    options,
+    plugins
 };

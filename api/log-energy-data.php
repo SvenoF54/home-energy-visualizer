@@ -28,7 +28,7 @@ function writeDataToTable($data) {
     $c_act_power = (float) $data['c_act_power'] ?? null;
     $total_act_power = (float) $data['total_act_power'] ?? null;
 
-    $db = new Database();
+    $db = Database::getInstance();
     $table = new RealTimeEnergyDataInsert($db->getPdoConnection());
     if (! $table->logData($timestamp, $device_type, $interval_in_seconds, $total_act_power)) {
         ApiHelper::dieWithResponseCode(500, "Error during saveing data: " . $table->getError());

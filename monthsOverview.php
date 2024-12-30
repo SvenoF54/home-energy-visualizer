@@ -17,9 +17,9 @@ $timeLabelUnit = "month";
 // konfigurieren
 $errorMsg = "";
 
-$db = new Database();
+$db = Database::getInstance();
 $overviewPageService = new OverviewPageService($db->getPdoConnection());
-$overviewPageService->prepareMonthData($selectedYear1, $selectedYear2);
+$overviewPageService->calculateMonthData($selectedYear1, $selectedYear2);
 $yearList = [];
 for($year = $overviewPageService->getFirstYear(); $year <= $overviewPageService->getLastYear(); $year++) {
     $yearList[] = $year;
@@ -47,7 +47,7 @@ for($year = $overviewPageService->getFirstYear(); $year <= $overviewPageService-
     $tableRow2CaptionTimeUnit = $selectedYear2;
 
     $partialTop = "views/pages/overview/filter-for-months-overview.phtml";
-    $partialBottom = "views/partials/canvas.phtml";
+    $partialBottom = "views/partials/chart-and-table-canvas.phtml";
 
     include("views/partials/layout.phtml");
 

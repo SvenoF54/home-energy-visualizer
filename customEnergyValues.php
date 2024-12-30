@@ -7,7 +7,7 @@ $actualConfig = Config::getInstance()->customEnergyValuesPage();
 $dateOrMonth = $actualConfig->getDefaultMonthOrYear();
 
 // Prepare DB
-$db = new Database();
+$db = Database::getInstance();
 $hourlyEnergyDataTbl = new HourlyEnergyDataTable($db->getPdoConnection());
 if (isset($_POST) && sizeof($_POST)) {    
     if (StringHelper::formGetBool("performDelete") == true) {

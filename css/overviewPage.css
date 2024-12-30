@@ -24,3 +24,79 @@ h1 {
     font-size: 0.75rem;
     padding: 0.2rem 0.5rem;
 }
+
+#energyTable .cell-energy {
+    min-width: 80px !important;
+}
+
+#energyTable .cell-price {
+    min-width: 60px !important;
+}
+
+#table-container {
+    max-width: 90%;
+    /* Maximale Breite auf 90% der Container-Breite setzen */
+    margin: 0 auto;
+    /* Zentriert den Container horizontal */
+    padding-left: 15px;
+    padding-right: 15px;
+    overflow-x: auto;
+}
+
+#energyTable {
+    font-size: 0.85rem;
+    /* Schriftgröße der Tabelle reduzieren */
+    width: 100% !important;
+    /* Sicherstellen, dass die Tabelle die komplette Breite einnimmt */
+    table-layout: fixed !important;
+    /* Verhindert, dass DataTable automatisch die Breite ändert */
+}
+
+#energyTable th,
+#energyTable td {
+    padding: 0.5rem;
+}
+
+#energyTable th.table-active {
+    width: auto !important;
+    /* Verhindert, dass die Breite automatisch angepasst wird */
+}
+
+#energyTable td.text-end {
+    text-align: right;
+}
+
+#table-container .d-flex {
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 15px;
+}
+
+#table-container h6 {
+    margin-bottom: 0;
+    font-size: 1rem;
+}
+
+#switchToBarView {
+    margin-left: 10px;
+}
+
+
+/* DataTable-Spezifische Anpassungen */
+
+.dataTables_wrapper {
+    width: 100%;
+    /* Stellt sicher, dass der DataTable Wrapper nicht außerhalb der Container-Breite geht */
+    overflow-x: auto;
+    /* Ermöglicht horizontales Scrollen bei Bedarf */
+}
+
+.dataTables_wrapper .dataTables_length,
+.dataTables_wrapper .dataTables_filter {
+    margin: 0;
+    padding: 0.5rem;
+}
+
+.dataTables_wrapper .dataTables_paginate {
+    margin-top: 10px;
+}

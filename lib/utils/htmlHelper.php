@@ -17,9 +17,9 @@ class HtmlHelper {
     public static function formatEnergyInWattAndCurrency(EnergyAndPriceTuple $energyData, $strong = false)
     {
         if ($strong) {
-            return "<strong>".StringHelper::formatEnergyInWatt($energyData->getEnergyInWatt(), "h")."</strong>&nbsp;(".StringHelper::formatCurrency($energyData->getEnergyPriceInCent()).")";
+            return "<strong>".StringHelper::formatEnergyInWattHour($energyData->getEnergyInWatt())."</strong>&nbsp;(".StringHelper::formatCurrency($energyData->getEnergyPriceInCent()).")";
         }
-        return StringHelper::formatEnergyInWatt($energyData->getEnergyInWatt(), "h")."&nbsp;(".StringHelper::formatCurrency($energyData->getEnergyPriceInCent()).")";
+        return StringHelper::formatEnergyInWattHour($energyData->getEnergyInWatt())."&nbsp;(".StringHelper::formatCurrency($energyData->getEnergyPriceInCent()).")";
 
     }
     

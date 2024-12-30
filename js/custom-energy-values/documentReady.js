@@ -67,6 +67,7 @@ $(document).ready(function() {
     });
 
     // Sort + Filter table
+    let dataTable = new DataTable('#energyTable');
     $('#customEnergyValues').DataTable({
         "paging": true,
         "searching": true,

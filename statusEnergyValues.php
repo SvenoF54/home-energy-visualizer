@@ -3,7 +3,7 @@ include_once("config/config.php");
 include_once("lib/appLibLoader.php");
 
 // Prepare DB
-$db = new Database();
+$db = Database::getInstance();
 $hourlyEnergyDataTbl = new HourlyEnergyDataTable($db->getPdoConnection());
 $hourlyEnergyGaps = $hourlyEnergyDataTbl->getGaps();
 $hourlyEnergyGapsGroupped = TableGapSet::groupByMonth($hourlyEnergyGaps);

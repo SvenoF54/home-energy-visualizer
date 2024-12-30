@@ -1,0 +1,80 @@
+    <div class="container-fluid px-0">
+        <div id="chart-container">
+            <canvas id="energyChart"></canvas>
+        </div>        
+        <div class="container mt-3" id="table-container" style="display:none">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h6 class="text-start text-secondary">Energie Werte</h6>
+                <button class="btn btn-primary btn-sm" id="switchToBarView">Balkenansicht</button>
+            </div>
+            <table class="table table-bordered table-hover" id="energyTable">
+                <thead class="thead-light">
+                    <tr>
+                        <th class="table-active">Zeitpunkt</th>
+                        <th class="table-active" colspan=2>Einkauf</th>
+                        <th class="table-active" colspan=2>Einspeisung</th>                
+                        <th class="table-active" colspan=2>Ersparnis</th>
+                    <? if ($overviewPageService->hasData2()) { ?>
+                        <th class="table-active">Zeitpunkt</th>
+                        <th class="table-active" colspan=2>Einkauf</th>
+                        <th class="table-active" colspan=2>Einspeisung</th>                
+                        <th class="table-active" colspan=2>Ersparnis</th>
+                    <? } ?>
+                    </tr>
+                    <tr>
+                        <th class="table-active"></th>
+                        <th class="table-active cell-energy">Energie</th>
+                        <th class="table-active cell-price">Preis</th>
+                        <th class="table-active cell-energy">Energie</th>
+                        <th class="table-active cell-price">Preis</th>
+                        <th class="table-active cell-energy">Energie</th>
+                        <th class="table-active cell-price">Preis</th>
+                    <? if ($overviewPageService->hasData2()) { ?>
+                        <th class="table-active"></th>
+                        <th class="table-active cell-energy">Energie</th>
+                        <th class="table-active cell-price">Preis</th>
+                        <th class="table-active cell-energy">Energie</th>
+                        <th class="table-active cell-price">Preis</th>
+                        <th class="table-active cell-energy">Energie</th>
+                        <th class="table-active cell-price">Preis</th>
+                    <? } ?>
+                    </tr>
+                </thead>
+                <tbody>                    
+                <? for($nt = 0; $nt < sizeof($overviewPageService->getLabelsXAxis()); $nt++) {             
+                    $captions = $overviewPageService->getLabelsXAxis()[$nt];
+                    $data1 = $overviewPageService->getData1()[$nt];
+                    $data2 = isset($overviewPageService->getData2()[$nt]) ? $overviewPageService->getData2()[$nt] : null;
+                ?>
+                    <tr>
+                        <td data-sort="<?=$data1["raw-datetime"]?>"><?=$captions[0]?></td>
+                        <td class="text-end"><?=StringHelper::formatEnergyInWattHour($data1["emOZ"])?></td>
+                        <td class="text-end"><?=StringHelper::formatCurrency($data1["emOZPrice"])?></td>
+                        <td class="text-end"><?=StringHelper::formatEnergyInWattHour($data1["emUZ"])?></td>
+                        <td class="text-end"><?=StringHelper::formatCurrency($data1["emUZPrice"])?></td>
+                        <td class="text-end"><?=StringHelper::formatEnergyInWattHour($data1["pmSvg"])?></td>
+                        <td class="text-end"><?=StringHelper::formatCurrency($data1["pmSvgPrice"])?></td>
+
+                    <? if (isset($data2)) { ?>
+                        <td data-sort="<?=$data2["raw-datetime"]?>"><?=isset($captions[1]) ? $captions[1] : $captions[0]?></td>
+                        <td class="text-end"><?=StringHelper::formatEnergyInWattHour($data2["emOZ"])?></td>
+                        <td class="text-end"><?=StringHelper::formatCurrency($data2["emOZPrice"])?></td>
+                        <td class="text-end"><?=StringHelper::formatEnergyInWattHour($data2["emUZ"])?></td>
+                        <td class="text-end"><?=StringHelper::formatCurrency($data2["emUZPrice"])?></td>
+                        <td class="text-end"><?=StringHelper::formatEnergyInWattHour($data2["pmSvg"])?></td>
+                        <td class="text-end"><?=StringHelper::formatCurrency($data2["pmSvgPrice"], 3)?></td>
+                    <? } else if ($overviewPageService->hasData2()) { ?>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    <? } ?>
+                    </tr>
+                <? } ?>
+                </tbody>
+            </table>
+        </div>
+    </div>

@@ -30,7 +30,7 @@ class OverviewPageService
         $this->pmSavingsTotal2 = new EnergyAndPriceTuple();
     }
 
-    public function prepareYearData($firstYear, $lastYear)
+    public function calculateYearData($firstYear, $lastYear)
     {
         $startTime1 = date("Y-1-1", strtotime("$firstYear-1-1"))." 00:00:00";
         $endTime1 = date("Y-12-31", strtotime("$lastYear-12-31"))." 23:59:59";
@@ -41,11 +41,11 @@ class OverviewPageService
         $this->data2 = [];
         for($year = $this->getFirstYear(); $year <= $this->getLastYear(); $year++) {            
             $this->labelsTooltip[] = [$year, $year]; // Doppeltes Array für Tooltips
-            $this->labelsXAxis[] = $year;
+            $this->labelsXAxis[] = [$year];
         }        
     }
 
-    public function prepareMonthData($year1, $year2)
+    public function calculateMonthData($year1, $year2)
     {
         $startTime1 = date("Y-1-1", strtotime("$year1-1-1"))." 00:00:00";
         $endTime1 = date("Y-12-31", strtotime("$year1-12-31"))."  23:59:59";
@@ -64,7 +64,7 @@ class OverviewPageService
         }        
     }
 
-    public function prepareDayData($startTime1, $endTime1, $startTime2, $endTime2)
+    public function calculateDayData($startTime1, $endTime1, $startTime2, $endTime2)
     {
         $avg = 86400;  // Sekunden pro Tag
         $this->prepareGeneralData($startTime1, $endTime1, $startTime2, $endTime2);
@@ -80,7 +80,7 @@ class OverviewPageService
         
     }
 
-    public function prepareHourData($startTime1, $endTime1, $startTime2, $endTime2)
+    public function calculateHourData($startTime1, $endTime1, $startTime2, $endTime2)
     {
         $avg = 3600;  // 1 Stunde
         $this->prepareGeneralData($startTime1, $endTime1, $startTime2, $endTime2);
@@ -122,6 +122,7 @@ class OverviewPageService
             $strEnd = date('Y-m-d H:i:s', $time + $avg -1);  # -1 Sekunde für :59 Sekunden
             $powerData = $this->hourlyEnergyDataTbl->getEnergyData($strStart, $strEnd, $avg);
             $dataRow = [
+                "raw-datetime" => $time,
                 "x-datetime" => date('d.m.Y H:i', $time),
                 "emOZ" => $powerData->getEnergyOverZero()->getEnergyInWatt(),
                 "emOZPrice" => $powerData->getEnergyOverZero()->getEnergyPriceInCent(),
@@ -144,8 +145,10 @@ class OverviewPageService
             $strEnd = date('Y-m-d H:i:s', strtotime("$year-$month-".TimeHelper::getDaysInMonth($month, $year)." 23:59:59"));            
             $powerData = $this->hourlyEnergyDataTbl->getEnergyData($strStart, $strEnd);
 
+            $rawTime = strtotime("$year-$month-1"." 00:00:00");
             $dataRow = [
-                "x-datetime" => date('d.m.Y H:i', strtotime("$year-$month-1"." 00:00:00")),
+                "raw-datetime" => $rawTime,
+                "x-datetime" => date('d.m.Y H:i', $rawTime),
                 "emOZ" => $powerData->getEnergyOverZero()->getEnergyInWatt(),
                 "emOZPrice" => $powerData->getEnergyOverZero()->getEnergyPriceInCent(),
                 "emUZ" => $powerData->getEnergyUnderZero()->getEnergyInWatt(),
@@ -167,8 +170,10 @@ class OverviewPageService
             $strEnd = date('Y-m-d H:i:s', strtotime("$year-12-31"." 23:59:59"));            
             $powerData = $this->hourlyEnergyDataTbl->getEnergyData($strStart, $strEnd);
 
+            $rawTime = strtotime("$year-1-1"." 00:00:00");
             $dataRow = [
-                "x-datetime" => date('Y-m-d H:i:s', strtotime("$year-1-1"." 00:00:00")),
+                "raw-datetime" => $rawTime,
+                "x-datetime" => date('Y-m-d H:i:s', $rawTime),
                 "emOZ" => $powerData->getEnergyOverZero()->getEnergyInWatt(),
                 "emOZPrice" => $powerData->getEnergyOverZero()->getEnergyPriceInCent(),
                 "emUZ" => $powerData->getEnergyUnderZero()->getEnergyInWatt(),
@@ -205,6 +210,10 @@ class OverviewPageService
     public function getData2() : array
     {
         return $this->data2;
+    }
+
+    public function hasData2() {
+        return sizeof($this->data2) > 0;
     }
 
     public function getLabelsTooltip() : array

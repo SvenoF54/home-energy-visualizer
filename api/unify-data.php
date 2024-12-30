@@ -36,7 +36,7 @@ function unifyRealTimeData($monthYear)
         $endTime = new DateTime();    
     }
 
-    $db = new Database();
+    $db = Database::getInstance();
     $realTimeEnergyDataTbl = new RealTimeEnergyDataTable($db->getPdoConnection());
     $hourlyEnergyDataTbl = new HourlyEnergyDataInsert($db->getPdoConnection());
     $energyPriceTbl = new EnergyPriceTable($db->getPdoConnection());

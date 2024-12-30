@@ -27,9 +27,9 @@ $timeLabelUnit = TimeHelper::prepareTimeUnit($startTime1, $endTime1);
 // Prepare DB
 $errorMsg = "";
 
-$db = new Database();
+$db = Database::getInstance();
 $overviewPageService = new OverviewPageService($db->getPdoConnection());
-$overviewPageService->prepareDayData($startTime1, $endTime1, $startTime2, $endTime2);
+$overviewPageService->calculateDayData($startTime1, $endTime1, $startTime2, $endTime2);
 
 // configure VIEW
 
@@ -53,7 +53,7 @@ $overviewPageService->prepareDayData($startTime1, $endTime1, $startTime2, $endTi
     $tableRow2CaptionTimeUnit = MONTH_LIST[$selectedMonth2]." ".$selectedYear2;
 
     $partialTop = "views/pages/overview/filter-for-days-overview.phtml";
-    $partialBottom = "views/partials/canvas.phtml";
+    $partialBottom = "views/partials/chart-and-table-canvas.phtml";
 
     include("views/partials/layout.phtml");
 

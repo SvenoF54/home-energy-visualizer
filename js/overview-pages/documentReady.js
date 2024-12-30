@@ -6,4 +6,33 @@ $(document).ready(function() {
         ctx,
         config
     );
+
+    $('#switchToBarView').on('click', function(e) {
+        console.log("btn");
+        $('#chart-container').css('display', 'block');
+        $('#table-container').css('display', 'none');
+    });
+
+    // Sort + Filter table    
+    $('#energyTable').DataTable({
+        "paging": true,
+        "searching": false,
+        "ordering": true,
+        "autoWidth": false,
+        "scrollX": false,
+        "order": [
+            [0, 'asc']
+        ],
+        "pageLength": 10,
+        "columnDefs": [{
+            "targets": 0,
+            "orderDataType": "dom-text",
+            "type": "string",
+        }, ]
+    });
+
+    setTimeout(function() {
+        // Datatable needs to be rezised for correct view problems
+        table.columns.adjust();
+    }, 200);
 });
