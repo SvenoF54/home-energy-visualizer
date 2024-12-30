@@ -52,7 +52,7 @@ $overviewPageService->prepareDayData($startTime1, $endTime1, $startTime2, $endTi
     $tableRow1CaptionTimeUnit = MONTH_LIST[$selectedMonth1]." ".$selectedYear1;
     $tableRow2CaptionTimeUnit = MONTH_LIST[$selectedMonth2]." ".$selectedYear2;
 
-    $partialTop = "views/pages/overview/filter-monthslist.phtml";
+    $partialTop = "views/pages/overview/filter-for-days-overview.phtml";
     $partialBottom = "views/partials/canvas.phtml";
 
     include("views/partials/layout.phtml");

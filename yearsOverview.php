@@ -40,7 +40,11 @@ for($year = $overviewPageService->getFirstYear(); $year <= $overviewPageService-
         "timeLabelUnit" => json_encode($timeLabelUnit)
     ];
 
-    //$partialTop = "views/pages/overview/filter-yearslist.phtml";
+    // Filter settings
+    $tableMainCaptionTimeUnit = "Erfasste Jahre";
+    $tableRow1CaptionTimeUnit = "(Summe über alles)";
+
+    $partialTop = "views/pages/overview/filter-for-years-overview.phtml";
     $partialBottom = "views/partials/canvas.phtml";
 
     include("views/partials/layout.phtml");

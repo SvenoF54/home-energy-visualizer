@@ -102,7 +102,7 @@ class ConfigOverviewPages
 class ConfigDetailOverviewPages extends ConfigOverviewPages
 {
     private $lastHoursPossibilities = [0.5, 1, 2, 4, 6, 8, 12, 24, 24*7, 24*14, 24*28];
-    private $averagePossibilitiesInSec = [2, 10, 30, 60, 120, 300, 600, 900, 1800, 3600];
+    private $averagePossibilitiesInSec = [2, 5, 10, 30, 60, 120, 300, 600, 900, 1800, 3600];
     private $refreshIntervalInSec = 10;
     
     public function getLastHoursPossibilities()

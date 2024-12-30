@@ -46,7 +46,7 @@ for($year = $overviewPageService->getFirstYear(); $year <= $overviewPageService-
     $tableRow1CaptionTimeUnit = $selectedYear1;
     $tableRow2CaptionTimeUnit = $selectedYear2;
 
-    $partialTop = "views/pages/overview/filter-yearslist.phtml";
+    $partialTop = "views/pages/overview/filter-for-months-overview.phtml";
     $partialBottom = "views/partials/canvas.phtml";
 
     include("views/partials/layout.phtml");

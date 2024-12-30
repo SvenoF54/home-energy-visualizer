@@ -46,7 +46,7 @@ $overviewPageService->prepareHourData($startTime1, $endTime1, $startTime2, $endT
     $tableRow1CaptionTimeUnit = TimeHelper::formatDate($selectedDay1);
     $tableRow2CaptionTimeUnit = TimeHelper::formatDate($selectedDay2);
 
-    $partialTop = "views/pages/overview/filter-daysselector.phtml";
+    $partialTop = "views/pages/overview/filter-for-hours-overview.phtml";
     $partialBottom = "views/partials/canvas.phtml";
 
 

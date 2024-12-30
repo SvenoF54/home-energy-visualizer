@@ -7,28 +7,35 @@ class OverviewPageService
     private $data2 = [];
     private $labelsTooltip = [];
     private $labelsXAxis = [];
-    private $missingValues1 = [];
-    private $missingValues2 = [];
-    private $emOverZeroTotal1 = 0;
-    private $emUnderZeroTotal1 = 0;
-    private $pmSavingsTotal1 = 0;
-    private $emOverZeroTotal2 = 0;
-    private $emUnderZeroTotal2 = 0;
-    private $pmSavingsTotal2 = 0;
+    private $missingValues1;
+    private $missingValues2;
+    private $emOverZeroTotal1;
+    private $emUnderZeroTotal1;
+    private $pmSavingsTotal1;
+    private $emOverZeroTotal2;
+    private $emUnderZeroTotal2;
+    private $pmSavingsTotal2;
 
     public function __construct($pdoConnection)
     {
         $this->hourlyEnergyDataTbl = new HourlyEnergyDataTable($pdoConnection);
+        $this->missingValues1 = new MissingRowSet();
+        $this->missingValues2 = new MissingRowSet();
+
+        $this->emOverZeroTotal1 = new EnergyAndPriceTuple();
+        $this->emUnderZeroTotal1 = new EnergyAndPriceTuple();
+        $this->pmSavingsTotal1 = new EnergyAndPriceTuple();
+        $this->emOverZeroTotal2 = new EnergyAndPriceTuple();
+        $this->emUnderZeroTotal2 = new EnergyAndPriceTuple();
+        $this->pmSavingsTotal2 = new EnergyAndPriceTuple();
     }
 
     public function prepareYearData($firstYear, $lastYear)
     {
         $startTime1 = date("Y-1-1", strtotime("$firstYear-1-1"))." 00:00:00";
-        $endTime1 = date("Y-12-31", strtotime("$firstYear-12-31"))." 23:59:59";
-        $startTime2 = date("Y-1-1", strtotime("$lastYear-1-1"))." 00:00:00";
-        $endTime2 = date("Y-12-31", strtotime("$lastYear-12-31"))." 23:59:59";
+        $endTime1 = date("Y-12-31", strtotime("$lastYear-12-31"))." 23:59:59";
 
-        $this->prepareGeneralData($startTime1, $endTime1, $startTime2, $endTime2);
+        $this->prepareGeneralData($startTime1, $endTime1);
 
         $this->data1 = $this->prepareDataRangeForEachYears($firstYear, $lastYear);
         $this->data2 = [];
@@ -88,7 +95,7 @@ class OverviewPageService
         }        
     }
 
-    private function prepareGeneralData($startTime1, $endTime1, $startTime2, $endTime2)
+    private function prepareGeneralData($startTime1, $endTime1, $startTime2 = null, $endTime2 = null)
     {
         $powerData = $this->hourlyEnergyDataTbl->getEnergyData($startTime1, $endTime1);
         
@@ -97,6 +104,9 @@ class OverviewPageService
         $this->pmSavingsTotal1 = $powerData->getSavings();
         $this->missingValues1 = $powerData->getMissingRows();
 
+        if ($startTime2 == null) {
+            return;
+        }
         $powerData = $this->hourlyEnergyDataTbl->getEnergyData($startTime2, $endTime2);
         $this->emOverZeroTotal2 = $powerData->getEnergy();
         $this->emUnderZeroTotal2 = $powerData->getEnergyUnderZero();
@@ -187,62 +197,62 @@ class OverviewPageService
         return date("Y", strtotime($this->getTableStatistics()->getLastRowDate()));
     }
 
-    public function getData1()
+    public function getData1() : array
     {
         return $this->data1;
     }
 
-    public function getData2()
+    public function getData2() : array
     {
         return $this->data2;
     }
 
-    public function getLabelsTooltip()
+    public function getLabelsTooltip() : array
     {
         return $this->labelsTooltip;
     }
 
-    public function getLabelsXAxis()
+    public function getLabelsXAxis() : array
     {
         return $this->labelsXAxis;
     }
 
-    public function getMissingValues1()
+    public function getMissingValues1() : MissingRowSet
     {
         return $this->missingValues1;
     }
 
-    public function getMissingValues2()
+    public function getMissingValues2() : MissingRowSet
     {
         return $this->missingValues2;
     }
 
-    public function getEMOverZeroTotal1()
+    public function getEMOverZeroTotal1() : EnergyAndPriceTuple
     {
         return $this->emOverZeroTotal1;
     }
 
-    public function getEMUnderZeroTotal1()
+    public function getEMUnderZeroTotal1() : EnergyAndPriceTuple
     {
         return $this->emUnderZeroTotal1;
     }
 
-    public function getPMSavingsTotal1()
+    public function getPMSavingsTotal1() : EnergyAndPriceTuple
     {
         return $this->pmSavingsTotal1;
     }
 
-    public function getEMOverZeroTotal2()
+    public function getEMOverZeroTotal2() : EnergyAndPriceTuple
     {
         return $this->emOverZeroTotal2;
     }
 
-    public function getEMUnderZeroTotal2()
+    public function getEMUnderZeroTotal2() : EnergyAndPriceTuple
     {
         return $this->emUnderZeroTotal2;
     }
 
-    public function getPMSavingsTotal2()
+    public function getPMSavingsTotal2() : EnergyAndPriceTuple
     {
         return $this->pmSavingsTotal2;
     }
