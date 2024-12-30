@@ -5,6 +5,10 @@
     </h6>
     <div class="text-start text-muted small">
         Zeitraum vorhandender Echtzeitdaten: <?=date("d.m.Y H:i:s", strtotime($realtimeEnergyStats->getFirstRowDate()))?> bis <?=date("d.m.Y H:i:s", strtotime($realtimeEnergyStats->getLastRowDate()))?>
+        &nbsp;
+        <button class="btn btn-sm btn-primary recalculate-btn" title="Letzten Tag neu berechnen">
+            <i class="bi bi-pencil-square"></i> Letzten Tag neu berechnen
+        </button>
     </div>
     <table class="table table-sm table-bordered table-hover" id="hourlyEnergy">
         <thead class="thead-light">

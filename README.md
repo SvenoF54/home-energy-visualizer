@@ -7,13 +7,18 @@ Zur Bildergallerie [gallery.md](gallery.md)
 
 ## Beschreibung
 
-Mit der Energie-Visualisierung ist es möglich Echtzeitdaten oder manuell eingebenene Energiewerte (Verbrauchs- sowie selbst erzeugte Energie) visuell darzustellen. Hierfür gibt es mehrere Ansichten: Echtzeitdaten, Stunden-, Tages-, Monats- und Jahresübersichten. Die Preisberechnung erfolgt mit den für den jeweiligen Zeitabschnitt eingegebenen Preisdaten. So ist es möglich historische Energiedaten mit zu dieser Zeit gültigen Preis abzulesen.
+Mit der Energie-Visualisierung können sowohl Echtzeitdaten als auch manuell eingegebene Energiewerte (Verbrauchs- und selbst erzeugte Energie) visuell dargestellt werden. Dafür stehen verschiedene Ansichten zur Verfügung: Echtzeitdaten, Stunden-, Tages-, Monats- und Jahresübersichten.
+
+Die Preisberechnung erfolgt anhand der für den jeweiligen Zeitabschnitt eingegebenen Preisdaten. Dadurch ist es möglich, historische Energiedaten unter Berücksichtigung der damals gültigen Preise abzulesen.
+
+
 
 ### Zielsetzung
 
-Das Projekt richtet sich an technisch erfahrene Benutzer, die ihren Echtzeit-Energieverbrauch und / oder ihre Echtzeit-Stromerzeugung via PV-Strom / Balkonkraftwerk oder andere Energieerzeuger im Detail untersuchen möchten. Es ist für eine PC-Nutzung optimiert, eine Nutzung auf einem Smartphone ist auch möglich, aber nicht optimal.
+Das Projekt richtet sich an technisch erfahrene Benutzer, die ihren privaten Echtzeit-Energieverbrauch und/oder ihre private Echtzeit-Stromerzeugung durch PV-Anlagen, Balkonkraftwerke oder andere Energieerzeuger im Detail analysieren möchten. Es ist für die Nutzung am PC optimiert, kann jedoch auch auf einem Smartphone verwendet werden – wobei die Darstellung dort weniger optimal ist.
 
-So ist es z.B. möglich Stromspitzen in Echtzeit zu erkennen und mit Hilfe von 2 Berechnungslinien zu erkennen, wieviel Strom ober, unterhalb oder zwischen den Energiewerten verbraucht wird. 
+Beispielsweise können Stromspitzen in Echtzeit erkannt und mithilfe von zwei Berechnungslinien analysiert werden. Dies ermöglicht es, den Energieverbrauch oberhalb, unterhalb oder zwischen den definierten Linien zu ermitteln.
+
 
 **Beispiel 1:** Wieviel Strom verbrauche ich über 800 Watt, um zu erkennen ob ein Balkonkraftwerk für meine Zwecke ausreichend ist, oder eine größer Anlage besser wäre.
 
@@ -29,45 +34,39 @@ Die Installationshinweise sind hier zu finden [install.md](install.md).
 
 Als Energiedaten werden folgende bezeichnet:
 
-#### gemessene bzw. manuell eingebenene Daten
-- Verbrauchsdaten: Hiermit sind die selbst verbrauchten Daten gemeint. Diese können am eigenen Stromzähler oder aber über einen Energiesensor, wie z.B. die Shelly 3 EM-Sensoren mit Skriptunterstützung in Echtzeit erfasst werden. 
-- Erzeugungsdaten: Dies beschreibt selbst erzeugte Energie, wie z.B. aus PV-Anlagen / Balkonkraftwerken.
+#### Gemessene bzw. manuell eingegebene Daten
+- **Verbrauchsdaten**: Hiermit sind die selbst verbrauchten Energiedaten gemeint. Diese können entweder am eigenen Stromzähler oder über einen Energiesensor, wie z. B. die Shelly 3 EM-Sensoren mit Skriptunterstützung, in Echtzeit erfasst werden.
+- **Erzeugungsdaten**: Dies beschreibt selbst erzeugte Energie, wie z. B. aus PV-Anlagen oder Balkonkraftwerken.
 
 #### Datenspeicherung
+In der Datenbank ist pro Zeitabschnitt ein Wert für Verbrauchsdaten vorgesehen, also ein Wert für alle drei Phasen. Für die Erzeugungsdaten ist je Phase ein Wert vorgesehen, sodass alle drei Phasen getrennt gemessen und erfasst werden können.
 
-In der Datenbank ist pro Zeitabschnitt 1 Wert für Verbrauchsdaten vorgesehen, also 1 Wert für alle 3 Phasen. Für die Erzeugungsdaten ist je Phase 1 Wert vorgesehen, d.h. es können alle 3 Phasen getrennt gemessen und erfasst werden.
-
-#### berechnete Daten
-- Die Berechnung erfolgt in der Genauigkeit, wie die Daten zur Verfügung stehen. D.h. bei Echtzeitdaten im 2 Sekundentakt, werden jeweils die 2 Sekunden des Verbrauchs mit den gleichen 2 Sekunden der Erzeugung verglichen. Der Preis wird ebenfalls mit dem zu dieser Zeit gültigen Preis berechnet.
-- Energieersparnis: Ist die gesparte Energie, also der im positiven Bereich liegende Anteil der Verbrauchsdaten abzüglich der erzeugten Daten.
-- Netzeinspeisung: Ist die überschüssige erzeugte Energie, welche nicht selbst verbraucht wird.
+#### Berechnete Daten
+- **Genauigkeit**: Die Berechnung erfolgt entsprechend der Genauigkeit der verfügbaren Daten. Bei Echtzeitdaten im 2-Sekunden-Takt werden die Verbrauchs- und Erzeugungsdaten für jeweils zwei Sekunden miteinander verglichen, und der Preis wird mit dem zu diesem Zeitpunkt gültigen Wert berechnet.
+- **Energieersparnis**: Beschreibt die gesparte Energie, also den positiven Anteil der Verbrauchsdaten abzüglich der erzeugten Daten.
+- **Netzeinspeisung**: Definiert die überschüssige erzeugte Energie, die nicht selbst verbraucht wird.
 
 ### Echtzeitdaten
+Die Echtzeitdaten und Stundenübersicht sind nur in Verbindung mit Echtzeitdaten sinnvoll nutzbar. Gleiches gilt für die Tagesansicht, da man in der Regel nur Monatsdaten manuell eingibt.  
+Für die Echtzeitdaten gibt es eine API, die diese entgegennimmt und in die Datenbank speichert. Dieses Projekt enthält Skripte für die Shelly-Energiemesssensoren. Bitte unbedingt die Sicherheitshinweise beachten, falls Sensoren genutzt werden, die in die Elektroinstallation eingebaut werden.
 
-Die Echtzeitdaten und Stundenübersicht ist nur in Verbindung der Echtzeitdaten sinnvoll nutzbar. Gleiches gilt auch für die Tagesansicht, weil man wohl eher nur Monatsdaten manuell eingibt.
-Für die Echtzeitdaten gibt es eine API, welche diese entgegennimmt und in die Datenbank speichert. In diesem Projekt liegen Skripte für die Shelly Energiemesssensoren bei. Bitte ungebdingt die Sicherheitshinweise unten beachten, falls Sensoren benutzt werden, welche in die Elektroinstallation eingebaut werden.
+Bei mir laufen die Shelly-Skripte im 2-Sekunden-Takt stabil. Bei einer Sekunde kommt es zu Fehlern und Datenverlusten. Es sind Taktungen von 2-6 Sekunden möglich, noch höhere Taktungen werden wahrscheinlich zu ungenau sein.
 
-Bei mir laufen die Shelly-Skripte im 2 Sekundentakt stabil, bei 1 Sekunden kommt es zu Fehlern und Datenverlusten. Theoretisch sollte auch ein höherer Takt (z.B. 5 Sekunden) möglich sein, ich habe es aber noch nicht ausprobiert.
-
-Generell kommt es aber immer wieder zu kleinen Datenlücken, weil z.B. die WLAN-Verbindung zu den Shellys nicht stabil ist. Aus diesem Grund wird die Anzahl fehlenden Werte teilweise mit angezeigt.
+Generell können kleine Datenlücken auftreten, beispielsweise durch eine instabile WLAN-Verbindung zu den Shellys. Aus diesem Grund wird die Anzahl fehlender Werte teilweise mit angezeigt.
 
 ### Aufsummierte Daten und Übersichtsseiten
-
-Die Übersichtsseiten (Stunden, Tag, Monat und Jahr) arbeiten intern mit aufsummierten Echtzeitdaten, um eine schnelle Darstellung zu ermöglichen. Diese werden über einen Cronjob aus den Echtzeitdaten berechnet. Hier fließen dann auch die manuell eingegebenen Daten ein.
+Die Übersichtsseiten (Stunden-, Tages-, Monats- und Jahresansichten) arbeiten intern mit aufsummierten Echtzeitdaten, um eine schnelle Darstellung zu ermöglichen. Diese werden über einen Cronjob aus den Echtzeitdaten berechnet. Auch manuell eingegebene Daten fließen hier ein.
 
 ### Preisdaten
+Es können manuell Tagespreise für verschiedene Zeitabschnitte eingegeben werden, die bei der Darstellung und Preisberechnung berücksichtigt werden.  
+Die Architektur erlaubt theoretisch Preisdaten im Viertelstundentakt, was eine Anbindung an einen dynamischen Stromtarif ermöglicht. Aktuell gibt es keinen Konnektor dafür. Falls jemand diesen entwickeln möchte, kann er sich gerne bei mir melden.
 
-Es können manuell Tagespreise für verschiedene Zeitabschnitte eingegeben werden. Diese werden dann bei der Darstellung und Preisberechnung berücksichtigt.
-Die Architektur erlaubt es theoretisch Preisdaten im Viertelstundentakt zu verwenden, was eine Anbindung an einen dynamischen Stromtarif ermöglicht. Aktuell gibt es keinen Konnektor hierfür, falls jemand diesen entwickeln möchte, kann er sich gerne bei mir melden.
-
-### Manuel eingegebene Daten
-
-Es ist möglich Energiewerte für einen Tag oder einen Monat manuell einzugeben. Diese Daten werden dann auf den Übersichtsseite angezeigt. Die manuelle Eingabe von Tagesdaten ist gedacht um bei inbetriebnahme des Programms innerhalb eines Monats diesen noch manuell nachzupflegen.
-Preisdaten werden ebenfalls manuell für mehrere Zeiträume eingegeben.
+### Manuell eingegebene Daten
+Es ist möglich, Energiewerte für einen Tag oder einen Monat manuell einzugeben. Diese Daten werden auf den Übersichtsseiten angezeigt. Die manuelle Eingabe von Tagesdaten ist für den Fall gedacht, dass bei der Inbetriebnahme des Programms Daten für einen Monat nachgepflegt werden müssen.  
+Preisdaten können ebenfalls manuell für mehrere Zeiträume eingegeben werden.
 
 ### Status fehlender Werte
-
-Hier wird ein entsprechender Status angezeigt, um einen Überglick über die Datenabdeckung zu bekommen und ggfls. manuell Daten nachzupflegen. Falls es bei der Berechung von den Echtzeitdaten zu einem Fehler bei der Ausführung des Cronjobs gekommen ist, hat man hier die Möglichkeit den Monat manuell nachberechnen zu lassen. Wurde allerdings keine Echtzeitdaten erfasst, bleibt die Lücke bestehen.
+Hier wird ein Status angezeigt, der einen Überblick über die Datenabdeckung gibt und die Möglichkeit bietet, fehlende Daten manuell nachzupflegen. Falls bei der Berechnung der Echtzeitdaten ein Fehler beim Cronjob aufgetreten ist, kann der Monat manuell nachberechnet werden. Fehlen allerdings die Echtzeitdaten vollständig, bleibt die Lücke bestehen.
 
 ## Lizenz
 

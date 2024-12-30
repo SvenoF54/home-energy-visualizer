@@ -1,11 +1,11 @@
 // Konfiguration
-let loggingUrl = "http://meine.domain/mein-verzeichnis/api/energy-logger.php?apikey=9999999"; // URL zum PHP-Skript
+let loggingUrl = "http://meine.domain/mein-verzeichnis/api/log-energy-data.php?apikey=9999999"; // URL zum PHP-Skript
 
-let AppName = "PM-Battery";
-let devicePhase = 3; // Phase 1, 2, 3 or empty
-let printLogMsg = false;
-let intervalInSeconds = 2;
-let invertSign = false;
+let AppName = "PM-Battery"; // Wird in den Shelly-Logs angezeigt
+let devicePhase = 1; // Phase 1, 2 oder 3. Nur notwendig für Messung der Energieerzeugung, z.B. Shelly-PM Geräte
+let intervalInSeconds = 2; // Gültige Werte sind: 2, 3, 4, 5, 6
+let invertSign = false; // Je nachdem wie der Shelly verschaltet ist, muss das Vorzeichen umgedreht werden. Es müssen positive Werte geschickt werden!
+let printLogMsg = false; // Für Debug-Zwecke default = false
 
 // https://shelly-api-docs.shelly.cloud/gen2/Scripts/ShellyScriptLanguageFeatures
 function timerCallback() {
@@ -29,7 +29,7 @@ function sendDataToDBLogger(data) {
         return;
     }
     log("Bereite Daten zum Senden vor.");
-    let time = getTimestamp(true);
+    let time = getTimestamp();
 
     // Erstelle zu sendendes JSON
     let dataToSend = {
@@ -44,6 +44,7 @@ function sendDataToDBLogger(data) {
 
     // Sende berechnete Daten an DB-Logger
     log("Sende bisherige Daten an DB-Logger-Server.");
+    log(JSON.stringify(dataToSend));
 
     Shelly.call(
         "HTTP.POST", {
@@ -76,7 +77,7 @@ function getShellyStatusData(devicePhase, callbackFkt) {
             }
 
             if (result["em:0"] != undefined) {
-                log("Daten erfolgreich gelesen für EM3");
+                log("Daten erfolgreich gelesen für EM3, Total-Act-Power: " + result["em:0"].total_act_power);
                 let resultData = {
                     device_type: "EM",
                     a_act_power: prepareValue(result["em:0"].a_act_power, invertSign, false, false),
@@ -85,6 +86,7 @@ function getShellyStatusData(devicePhase, callbackFkt) {
                     total_act_power: prepareValue(result["em:0"].total_act_power, invertSign, false, false)
                 };
             } else if (result["switch:0"] != undefined) {
+                log("Daten erfolgreich gelesen für PM, Switch-Power: " + result["switch:0"].apower);
                 let resultData = {
                     device_type: "PM" + devicePhase,
                     a_act_power: prepareValue(result["switch:0"].apower, invertSign, (devicePhase != "1"), true),
@@ -109,22 +111,24 @@ function prepareValue(val, invertValSign, setToZero, ignoreMismeasurement) {
     return (invertValSign ? val * -1 : val);
 }
 
-function getTimestamp(onlyEvenSeconds) {
+function getTimestamp() {
     let now = new Date();
     let miliseconds = now.getTime();
     let seconds = now.getSeconds();
-    // Prüfe, ob die Sekunden ungerade sind
-    if (onlyEvenSeconds && (seconds % 2 !== 0)) {
-        // Eine Sekunde hinzufügen, um zur nächsten geraden Sekunde zu gelangen
-        miliseconds += 1000;
-        now = new Date(miliseconds);
+
+    // Prüfe, ob die Sekunden innerhalb des gewünschten Intervalls liegen
+    if (seconds % intervalInSeconds !== 0) {
+        // Zeit bis zur nächsten gültigen Sekunde berechnen
+        let adjustment = intervalInSeconds - (seconds % intervalInSeconds);
+        milliseconds += adjustment * 1000; // Korrigiere die Zeit in Millisekunden
+        now = new Date(milliseconds);
     }
 
     let date = now.getFullYear() + '-' + ('0' + (now.getMonth() + 1)).slice(-2) + '-' + ('0' + now.getDate()).slice(-2);
     let time = ('0' + now.getHours()).slice(-2) + ":" + ('0' + now.getMinutes()).slice(-2) + ":" + ('0' + now.getSeconds()).slice(-2);
     let dateTime = date + ' ' + time;
 
-    return dateTime; // Ausgabe: 2024-11-07 19:11:56	
+    return dateTime; // Ausgabe: 2024-12-07 19:11:56	
 }
 
 function log(msg) {
