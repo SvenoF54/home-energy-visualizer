@@ -32,28 +32,33 @@ class Config
         $this->overviewPages["details"] = new ConfigDetailOverviewPages(
             [100, 150, 175, 200, 250, 300, 400, 500, 600, 700, 800, 900, 1000, 1100, 1200, 1300, 1400, 1500, 2000, 3000, 4000, 5000],
             200, 
-            800
+            800,
+            true            
         );
 
         $this->overviewPages["hours"] = new ConfigOverviewPages(
             [-1000, -750, -500, -250, 0, 250, 500, 750, 1000, 1250, 1500, 1750, 2000, 2500, 3000, 3500, 4000, 4500, 5000, 5500, 6000, 6500, 7000, 8000, 9000, 10000, 11000, 12000, 13000, 14000, 15000, 16000, 17000, 18000, 19000, 20000]
             , -250, 
-            2000        
+            2000,
+            true        
         );
         $this->overviewPages["days"] = new ConfigOverviewPages(
             [-1000, -750, -500, -250, 0, 250, 500, 750, 1000, 1250, 1500, 1750, 2000, 2500, 3000, 3500, 4000, 4500, 5000, 5500, 6000, 6500, 7000, 8000, 9000, 10000, 11000, 12000, 13000, 14000, 15000, 16000, 17000, 18000, 19000, 20000]
             , -250, 
-            10000        
+            10000,
+            true
         );
         $this->overviewPages["months"] = new ConfigOverviewPages(
             [-4000, -3000, -2000, -1000, 0, 5000, 10000, 20000, 30000, 40000, 50000, 60000, 70000, 80000, 90000, 100000]
             , -2000, 
-            20000        
+            20000,
+            true
         );
         $this->overviewPages["years"] = new ConfigOverviewPages(
             [-1000, -750, -500, -250, 0, 250, 500, 750, 1000, 1250, 1500, 1750, 2000, 2500, 3000, 3500, 4000, 4500, 5000, 5500, 6000, 6500, 7000, 8000, 9000, 10000, 11000, 12000, 13000, 14000, 15000, 16000, 17000, 18000, 19000, 20000]
             , -250, 
-            10000        
+            10000,
+            false
         );
     }    
 
@@ -74,12 +79,14 @@ class ConfigOverviewPages
     private $linePosibilities = [-1000, -750, -500, -250, 0, 250, 500, 750, 1000, 1250, 1500, 1750, 2000, 2500, 3000, 3500, 4000, 4500, 5000, 5500, 6000, 6500, 7000, 8000, 9000, 10000, 11000, 12000, 13000, 14000, 15000, 16000, 17000, 18000, 19000, 20000];
     private $line1Default = -250;
     private $line2Default = 10000;
+    private $showDiagramOnFirstPageView = true;
 
-    public function __construct($linePosibilities, $line1Default, $line2Default)
+    public function __construct($linePosibilities, $line1Default, $line2Default, $showDiagramOnFirstPageView)
     {
         $this->linePosibilities = $linePosibilities;
         $this->line1Default = $line1Default;
         $this->line2Default = $line2Default;
+        $this->showDiagramOnFirstPageView = $showDiagramOnFirstPageView;
     }
 
     public function getLinePossibilities()
@@ -95,6 +102,11 @@ class ConfigOverviewPages
     public function getLine2Default()
     {
         return $this->line2Default;
+    }
+
+    public function getShowDiagramOnFirstPageView()
+    {
+        return $this->showDiagramOnFirstPageView;
     }
     
 }

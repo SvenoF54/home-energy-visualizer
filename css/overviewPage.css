@@ -45,11 +45,8 @@ h1 {
 
 #energyTable {
     font-size: 0.85rem;
-    /* Schriftgröße der Tabelle reduzieren */
     width: 100% !important;
-    /* Sicherstellen, dass die Tabelle die komplette Breite einnimmt */
     table-layout: fixed !important;
-    /* Verhindert, dass DataTable automatisch die Breite ändert */
 }
 
 #energyTable th,
@@ -59,7 +56,6 @@ h1 {
 
 #energyTable th.table-active {
     width: auto !important;
-    /* Verhindert, dass die Breite automatisch angepasst wird */
 }
 
 #energyTable td.text-end {
@@ -81,22 +77,58 @@ h1 {
     margin-left: 10px;
 }
 
+#energyTable .timestamp {
+    background-color: var(--datetime-color);
+    color: white;
+}
 
-/* DataTable-Spezifische Anpassungen */
+#energyTable .purchase {
+    background-color: var(--em-over-zero-color);
+    ;
+    color: white;
+}
 
-.dataTables_wrapper {
+#energyTable .feed-in {
+    background-color: var(--feed-in-color);
+    ;
+    color: white;
+}
+
+#energyTable .savings {
+    background-color: var(--savings-color);
+    color: white;
+}
+
+#energyTable .generation-pm1 {
+    background-color: var(--pm1-color);
+    color: black;
+}
+
+#energyTable .generation-pm2 {
+    background-color: var(--pm2-color);
+    color: black;
+}
+
+#energyTable .generation-pm3 {
+    background-color: var(--pm3-color);
+    color: black;
+}
+
+
+/* Optional: Table styling for better aesthetics */
+
+table.display {
+    border-collapse: collapse;
     width: 100%;
-    /* Stellt sicher, dass der DataTable Wrapper nicht außerhalb der Container-Breite geht */
-    overflow-x: auto;
-    /* Ermöglicht horizontales Scrollen bei Bedarf */
 }
 
-.dataTables_wrapper .dataTables_length,
-.dataTables_wrapper .dataTables_filter {
-    margin: 0;
-    padding: 0.5rem;
+th,
+td {
+    border: 1px solid #ddd;
+    text-align: center;
+    padding: 8px;
 }
 
-.dataTables_wrapper .dataTables_paginate {
-    margin-top: 10px;
+th {
+    font-weight: bold;
 }

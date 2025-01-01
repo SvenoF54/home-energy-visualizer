@@ -49,8 +49,8 @@ $overviewPageService->calculateDayData($startTime1, $endTime1, $startTime2, $end
 
     // Filter settings
     $tableMainCaptionTimeUnit = "Monat";
-    $tableRow1CaptionTimeUnit = MONTH_LIST[$selectedMonth1]." ".$selectedYear1;
-    $tableRow2CaptionTimeUnit = MONTH_LIST[$selectedMonth2]." ".$selectedYear2;
+    $tableRow1CaptionTimeUnit = MONTH_LIST[(int)$selectedMonth1]." ".$selectedYear1;
+    $tableRow2CaptionTimeUnit = MONTH_LIST[(int)$selectedMonth2]." ".$selectedYear2;
 
     $partialTop = "views/pages/overview/filter-for-days-overview.phtml";
     $partialBottom = "views/partials/chart-and-table-canvas.phtml";

@@ -2,4 +2,3 @@
 /config/local-config.users.*
 /.htaccess
 /.htpasswd
-.htpasswd

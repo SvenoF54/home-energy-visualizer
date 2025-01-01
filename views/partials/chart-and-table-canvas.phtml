@@ -1,8 +1,8 @@
     <div class="container-fluid px-0">
-        <div id="chart-container">
+        <div id="chart-container" style="display:<?= $actualConfig->getShowDiagramOnFirstPageView() ? "block" : "none"?>">
             <canvas id="energyChart"></canvas>
         </div>        
-        <div class="container mt-3" id="table-container" style="display:none">
+        <div class="container mt-3" id="table-container" style="display:<?= $actualConfig->getShowDiagramOnFirstPageView() ? "none" : "block"?>">
             <div class="d-flex justify-content-between align-items-center mb-3">
                 <h6 class="text-start text-secondary">Energie Werte</h6>
                 <button class="btn btn-primary btn-sm" id="switchToBarView">Balkenansicht</button>
@@ -10,34 +10,26 @@
             <table class="table table-bordered table-hover" id="energyTable">
                 <thead class="thead-light">
                     <tr>
-                        <th class="table-active">Zeitpunkt</th>
-                        <th class="table-active" colspan=2>Einkauf</th>
-                        <th class="table-active" colspan=2>Einspeisung</th>                
-                        <th class="table-active" colspan=2>Ersparnis</th>
-                    <? if ($overviewPageService->hasData2()) { ?>
-                        <th class="table-active">Zeitpunkt</th>
-                        <th class="table-active" colspan=2>Einkauf</th>
-                        <th class="table-active" colspan=2>Einspeisung</th>                
-                        <th class="table-active" colspan=2>Ersparnis</th>
-                    <? } ?>
+                        <th class="table-active timestamp">Zeitpunkt</th>
+                        <th class="table-active purchase" colspan=2>Einkauf</th>
+                        <th class="table-active feed-in" colspan=2>Einspeisung</th>                
+                        <th class="table-active savings" colspan=2>Ersparnis</th>
+                        <th class="table-active generation-pm1" colspan=6>Generierung</th>
                     </tr>
                     <tr>
-                        <th class="table-active"></th>
-                        <th class="table-active cell-energy">Energie</th>
-                        <th class="table-active cell-price">Preis</th>
-                        <th class="table-active cell-energy">Energie</th>
-                        <th class="table-active cell-price">Preis</th>
-                        <th class="table-active cell-energy">Energie</th>
-                        <th class="table-active cell-price">Preis</th>
-                    <? if ($overviewPageService->hasData2()) { ?>
-                        <th class="table-active"></th>
-                        <th class="table-active cell-energy">Energie</th>
-                        <th class="table-active cell-price">Preis</th>
-                        <th class="table-active cell-energy">Energie</th>
-                        <th class="table-active cell-price">Preis</th>
-                        <th class="table-active cell-energy">Energie</th>
-                        <th class="table-active cell-price">Preis</th>
-                    <? } ?>
+                        <th class="table-active timestamp"></th>
+                        <th class="table-active cell-energy purchase">Energie</th>
+                        <th class="table-active cell-price purchase">Preis</th>
+                        <th class="table-active cell-energy feed-in">Energie</th>
+                        <th class="table-active cell-price feed-in">Preis</th>
+                        <th class="table-active cell-energy savings">Energie</th>
+                        <th class="table-active cell-price savings">Preis</th>
+                        <th class="table-active cell-energy generation-pm1">Energie PM1</th>
+                        <th class="table-active cell-price generation-pm1">Preis</th>
+                        <th class="table-active cell-energy generation-pm2">Energie PM2</th>
+                        <th class="table-active cell-price generation-pm2">Preis</th>
+                        <th class="table-active cell-energy generation-pm3">Energie PM3</th>
+                        <th class="table-active cell-price generation-pm3">Preis</th>
                     </tr>
                 </thead>
                 <tbody>                    
@@ -47,31 +39,20 @@
                     $data2 = isset($overviewPageService->getData2()[$nt]) ? $overviewPageService->getData2()[$nt] : null;
                 ?>
                     <tr>
-                        <td data-sort="<?=$data1["raw-datetime"]?>"><?=$captions[0]?></td>
-                        <td class="text-end"><?=StringHelper::formatEnergyInWattHour($data1["emOZ"])?></td>
-                        <td class="text-end"><?=StringHelper::formatCurrency($data1["emOZPrice"])?></td>
-                        <td class="text-end"><?=StringHelper::formatEnergyInWattHour($data1["emUZ"])?></td>
-                        <td class="text-end"><?=StringHelper::formatCurrency($data1["emUZPrice"])?></td>
-                        <td class="text-end"><?=StringHelper::formatEnergyInWattHour($data1["pmSvg"])?></td>
-                        <td class="text-end"><?=StringHelper::formatCurrency($data1["pmSvgPrice"])?></td>
+                        <td class="timestamp" data-sort="<?=$data1["raw-datetime"]?>"><?=$captions[0]?></td>
+                        <td class="text-end purchase" data-sort="<?=$data1["emOZ"]?>"><?=StringHelper::formatEnergyInWattHour($data1["emOZ"])?></td>
+                        <td class="text-end purchase" data-sort="<?=$data1["emOZPrice"]?>"><?=StringHelper::formatCurrency($data1["emOZPrice"])?></td>
+                        <td class="text-end feed-in" data-sort="<?=$data1["emUZ"]?>"><?=StringHelper::formatEnergyInWattHour($data1["emUZ"])?></td>
+                        <td class="text-end feed-in" data-sort="<?=$data1["emUZPrice"]?>"><?=StringHelper::formatCurrency($data1["emUZPrice"])?></td>
+                        <td class="text-end savings" data-sort="<?=$data1["pmSvg"]?>"><?=StringHelper::formatEnergyInWattHour($data1["pmSvg"])?></td>
+                        <td class="text-end savings" data-sort="<?=$data1["pmSvgPrice"]?>"><?=StringHelper::formatCurrency($data1["pmSvgPrice"])?></td>
 
-                    <? if (isset($data2)) { ?>
-                        <td data-sort="<?=$data2["raw-datetime"]?>"><?=isset($captions[1]) ? $captions[1] : $captions[0]?></td>
-                        <td class="text-end"><?=StringHelper::formatEnergyInWattHour($data2["emOZ"])?></td>
-                        <td class="text-end"><?=StringHelper::formatCurrency($data2["emOZPrice"])?></td>
-                        <td class="text-end"><?=StringHelper::formatEnergyInWattHour($data2["emUZ"])?></td>
-                        <td class="text-end"><?=StringHelper::formatCurrency($data2["emUZPrice"])?></td>
-                        <td class="text-end"><?=StringHelper::formatEnergyInWattHour($data2["pmSvg"])?></td>
-                        <td class="text-end"><?=StringHelper::formatCurrency($data2["pmSvgPrice"], 3)?></td>
-                    <? } else if ($overviewPageService->hasData2()) { ?>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    <? } ?>
+                        <td class="text-end generation-pm1" data-sort="<?=$data1["pm1"]?>"><?=StringHelper::formatEnergyInWattHour($data1["pm1"])?></td>
+                        <td class="text-end generation-pm1" data-sort="<?=$data1["pm1Price"]?>"><?=StringHelper::formatCurrency($data1["pm1Price"])?></td>
+                        <td class="text-end generation-pm2" data-sort="<?=$data1["pm2"]?>"><?=StringHelper::formatEnergyInWattHour($data1["pm2"])?></td>
+                        <td class="text-end generation-pm2" data-sort="<?=$data1["pm2Price"]?>"><?=StringHelper::formatCurrency($data1["pm2Price"])?></td>
+                        <td class="text-end generation-pm3" data-sort="<?=$data1["pm3"]?>"><?=StringHelper::formatEnergyInWattHour($data1["pm3"])?></td>
+                        <td class="text-end generation-pm3" data-sort="<?=$data1["pm3Price"]?>"><?=StringHelper::formatCurrency($data1["pm3Price"], 3)?></td>
                     </tr>
                 <? } ?>
                 </tbody>

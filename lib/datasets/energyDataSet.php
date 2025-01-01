@@ -10,6 +10,9 @@ class EnergyDataSet {
     private EnergyAndPriceTuple $energyOverX1;
     private EnergyAndPriceTuple $energyUnderX2;
     private EnergyAndPriceTuple $energyOverX2;
+    private EnergyAndPriceTuple $generationPm1;
+    private EnergyAndPriceTuple $generationPm2;
+    private EnergyAndPriceTuple $generationPm3;
     private EnergyAndPriceTuple $savings;
     private MissingRowSet $missingRows;  
     private $countOriginRows;
@@ -69,6 +72,18 @@ class EnergyDataSet {
         return new EnergyAndPriceTuple($betweenX1AndX2, $this->getEnergyOverZero()->getEnergyPriceInCent());
     }
 
+    public function getGenerationPm1() : EnergyAndPriceTuple{
+        return $this->generationPm1;
+    }
+
+    public function getGenerationPm2() : EnergyAndPriceTuple{
+        return $this->generationPm2;
+    }
+
+    public function getGenerationPm3() : EnergyAndPriceTuple{
+        return $this->generationPm3;
+    }
+
     public function getSavings() : EnergyAndPriceTuple{
         return $this->savings;
     }
@@ -98,6 +113,18 @@ class EnergyDataSet {
 
     public function setEnergyUnderZero($energy, $energyPriceInCent) {
         $this->energyUnderZero = new EnergyAndPriceTuple($energy, $energyPriceInCent);
+    }
+
+    public function setGenerationPm1($energy, $energyPriceInCent) {
+        $this->generationPm1 = new EnergyAndPriceTuple($energy, $energyPriceInCent);
+    }
+
+    public function setGenerationPm2($energy, $energyPriceInCent) {
+        $this->generationPm2 = new EnergyAndPriceTuple($energy, $energyPriceInCent);
+    }
+
+    public function setGenerationPm3($energy, $energyPriceInCent) {
+        $this->generationPm3 = new EnergyAndPriceTuple($energy, $energyPriceInCent);
     }
 
     public function setEnergyUnderX1($energy, $energyPriceInCent) {

@@ -128,6 +128,12 @@ class OverviewPageService
                 "emOZPrice" => $powerData->getEnergyOverZero()->getEnergyPriceInCent(),
                 "emUZ" => $powerData->getEnergyUnderZero()->getEnergyInWatt(),
                 "emUZPrice" => $powerData->getEnergyUnderZero()->getEnergyPriceInCent(),
+                "pm1" => $powerData->getGenerationPm1()->getEnergyInWatt(),
+                "pm1Price" => $powerData->getGenerationPm1()->getEnergyPriceInCent(),
+                "pm2" => $powerData->getGenerationPm2()->getEnergyInWatt(),
+                "pm2Price" => $powerData->getGenerationPm2()->getEnergyPriceInCent(),
+                "pm3" => $powerData->getGenerationPm3()->getEnergyInWatt(),
+                "pm3Price" => $powerData->getGenerationPm3()->getEnergyPriceInCent(),
                 "pmSvg" => $powerData->getSavings()->getEnergyInWatt(),
                 "pmSvgPrice" => $powerData->getSavings()->getEnergyPriceInCent()
             ];
@@ -153,6 +159,12 @@ class OverviewPageService
                 "emOZPrice" => $powerData->getEnergyOverZero()->getEnergyPriceInCent(),
                 "emUZ" => $powerData->getEnergyUnderZero()->getEnergyInWatt(),
                 "emUZPrice" => $powerData->getEnergyUnderZero()->getEnergyPriceInCent(),
+                "pm1" => $powerData->getGenerationPm1()->getEnergyInWatt(),
+                "pm1Price" => $powerData->getGenerationPm1()->getEnergyPriceInCent(),
+                "pm2" => $powerData->getGenerationPm2()->getEnergyInWatt(),
+                "pm2Price" => $powerData->getGenerationPm2()->getEnergyPriceInCent(),
+                "pm3" => $powerData->getGenerationPm3()->getEnergyInWatt(),
+                "pm3Price" => $powerData->getGenerationPm3()->getEnergyPriceInCent(),
                 "pmSvg" => $powerData->getSavings()->getEnergyInWatt(),
                 "pmSvgPrice" => $powerData->getSavings()->getEnergyPriceInCent()
             ];
@@ -178,6 +190,12 @@ class OverviewPageService
                 "emOZPrice" => $powerData->getEnergyOverZero()->getEnergyPriceInCent(),
                 "emUZ" => $powerData->getEnergyUnderZero()->getEnergyInWatt(),
                 "emUZPrice" => $powerData->getEnergyUnderZero()->getEnergyPriceInCent(),
+                "pm1" => $powerData->getGenerationPm1()->getEnergyInWatt(),
+                "pm1Price" => $powerData->getGenerationPm1()->getEnergyPriceInCent(),
+                "pm2" => $powerData->getGenerationPm2()->getEnergyInWatt(),
+                "pm2Price" => $powerData->getGenerationPm2()->getEnergyPriceInCent(),
+                "pm3" => $powerData->getGenerationPm3()->getEnergyInWatt(),
+                "pm3Price" => $powerData->getGenerationPm3()->getEnergyPriceInCent(),
                 "pmSvg" => $powerData->getSavings()->getEnergyInWatt(),
                 "pmSvgPrice" => $powerData->getSavings()->getEnergyPriceInCent()
             ];
@@ -210,6 +228,10 @@ class OverviewPageService
     public function getData2() : array
     {
         return $this->data2;
+    }
+
+    public function hasData1() {
+        return sizeof($this->data1) > 0;
     }
 
     public function hasData2() {

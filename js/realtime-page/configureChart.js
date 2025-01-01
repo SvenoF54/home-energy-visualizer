@@ -1,3 +1,15 @@
+const emColor = getComputedStyle(document.documentElement).getPropertyValue('--em-color').trim();
+const pm1Color = getComputedStyle(document.documentElement).getPropertyValue('--pm1-color').trim();
+const pm2Color = getComputedStyle(document.documentElement).getPropertyValue('--pm2-color').trim();
+const pm3Color = getComputedStyle(document.documentElement).getPropertyValue('--pm3-color').trim();
+const pmTotalColor = getComputedStyle(document.documentElement).getPropertyValue('--pm-total-color').trim();
+
+const line1Color = getComputedStyle(document.documentElement).getPropertyValue('--line1-color').trim();
+const line2Color = getComputedStyle(document.documentElement).getPropertyValue('--line2-color').trim();
+const lineZeroColor = getComputedStyle(document.documentElement).getPropertyValue('--line-zero-color').trim();
+
+
+
 const scales = {
     x: {
         type: 'time',
@@ -69,7 +81,7 @@ const options = {
                     type: 'line',
                     yMin: line1_selected,
                     yMax: line1_selected,
-                    borderColor: 'rgb(90, 90, 50)',
+                    borderColor: line1Color,
                     borderWidth: 2,
                     borderDash: [5, 5],
                     label: {
@@ -81,7 +93,7 @@ const options = {
                     type: 'line',
                     yMin: line2_selected,
                     yMax: line2_selected,
-                    borderColor: 'rgb(90, 90, 180)',
+                    borderColor: line2Color,
                     borderWidth: 2,
                     borderDash: [5, 5],
                     label: {
@@ -93,7 +105,7 @@ const options = {
                     type: 'line',
                     yMin: 0,
                     yMax: 0,
-                    borderColor: 'marroon',
+                    borderColor: lineZeroColor,
                     borderWidth: 1,
                 }
             }
@@ -114,34 +126,34 @@ const config = {
         datasets: [{
                 label: 'EM',
                 data: emPowerRows,
-                borderColor: 'rgb(190,110,110)',
+                borderColor: emColor,
                 fill: false,
             },
             {
                 label: '-P1',
                 data: pm1PowerRows,
-                borderColor: 'rgba(144, 238, 144, 1)',
+                borderColor: pm1Color,
                 fill: false,
                 hidden: true
             },
             {
                 label: '-P2',
                 data: pm2PowerRows,
-                borderColor: 'rgba(152, 251, 152, 1)',
+                borderColor: pm2Color,
                 fill: false,
                 hidden: true
             },
             {
                 label: '-P3',
                 data: pm3PowerRows,
-                borderColor: 'rgba(119, 221, 119, 1)',
+                borderColor: pm3Color,
                 fill: false,
                 hidden: true
             },
             {
                 label: '-PTotal',
                 data: pmTotalPowerRows,
-                borderColor: 'rgb(127, 181, 181)',
+                borderColor: pmTotalColor,
                 fill: false
             },
         ]

@@ -1,3 +1,23 @@
+const emColor = getComputedStyle(document.documentElement).getPropertyValue('--em-color').trim();
+const emOverZeroColor = getComputedStyle(document.documentElement).getPropertyValue('--em-over-zero-color').trim();
+const emOverZeroColor2 = getComputedStyle(document.documentElement).getPropertyValue('--em-over-zero-color2').trim();
+
+const savingsColor = getComputedStyle(document.documentElement).getPropertyValue('--savings-color').trim();
+const savingsColor2 = getComputedStyle(document.documentElement).getPropertyValue('--savings-color2').trim();
+
+const feedInColor = getComputedStyle(document.documentElement).getPropertyValue('--feed-in-color').trim();
+const feedInColor2 = getComputedStyle(document.documentElement).getPropertyValue('--feed-in-color2').trim();
+
+const pm1Color = getComputedStyle(document.documentElement).getPropertyValue('--pm1-color').trim();
+const pm2Color = getComputedStyle(document.documentElement).getPropertyValue('--pm2-color').trim();
+const pm3Color = getComputedStyle(document.documentElement).getPropertyValue('--pm3-color').trim();
+const pmTotalColor = getComputedStyle(document.documentElement).getPropertyValue('--pm-total-color').trim();
+
+const line1Color = getComputedStyle(document.documentElement).getPropertyValue('--line1-color').trim();
+const line2Color = getComputedStyle(document.documentElement).getPropertyValue('--line2-color').trim();
+const lineZeroColor = getComputedStyle(document.documentElement).getPropertyValue('--line-zero-color').trim();
+
+
 const scales = {
     x: {
         type: 'category',
@@ -124,7 +144,7 @@ const options = {
                     type: 'line',
                     yMin: line1_selected,
                     yMax: line1_selected,
-                    borderColor: 'rgb(90, 90, 50)',
+                    borderColor: line1Color,
                     borderWidth: 2,
                     borderDash: [5, 5],
                     label: {
@@ -136,7 +156,7 @@ const options = {
                     type: 'line',
                     yMin: line2_selected,
                     yMax: line2_selected,
-                    borderColor: 'rgb(90, 90, 180)',
+                    borderColor: line2Color,
                     borderWidth: 2,
                     borderDash: [5, 5],
                     label: {
@@ -148,7 +168,7 @@ const options = {
                     type: 'line',
                     yMin: 0,
                     yMax: 0,
-                    borderColor: 'maroon',
+                    borderColor: lineZeroColor,
                     borderWidth: 1,
                 }
             }
@@ -203,8 +223,8 @@ const config = {
         datasets: [{
                 label: '(1) Stromeinkauf',
                 data: data1.map(item => item.emOZ),
-                backgroundColor: 'rgb(190,110,110)',
-                borderColor: 'rgb(190,110,110)',
+                backgroundColor: emOverZeroColor,
+                borderColor: emOverZeroColor,
                 borderWidth: 1,
                 stack: 'Stack EM1',
                 maxBarThickness: 30,
@@ -214,8 +234,8 @@ const config = {
             {
                 label: '(1) Netzeinspeisung',
                 data: data1.map(item => item.emUZ),
-                borderColor: 'rgb(127, 127, 181)',
-                backgroundColor: 'rgb(127, 127, 181)',
+                borderColor: feedInColor,
+                backgroundColor: feedInColor,
                 stack: 'Stack EM1',
                 maxBarThickness: 30,
                 customDataSourceNo: 1,
@@ -224,8 +244,8 @@ const config = {
             {
                 label: '(2) Stromeinkauf',
                 data: data2.map(item => item.emOZ),
-                backgroundColor: 'rgb(150,90,110)',
-                borderColor: 'rgb(150,90,110)',
+                backgroundColor: emOverZeroColor2,
+                borderColor: emOverZeroColor2,
                 borderWidth: 1,
                 stack: 'Stack EM2',
 
@@ -236,8 +256,8 @@ const config = {
             {
                 label: '(2) Netzeinspeisung',
                 data: data2.map(item => item.emUZ),
-                borderColor: 'rgb(97, 97, 161)',
-                backgroundColor: 'rgb(97, 97, 161)',
+                borderColor: feedInColor2,
+                backgroundColor: feedInColor2,
                 stack: 'Stack EM2',
                 maxBarThickness: 30,
                 customDataSourceNo: 2,
@@ -247,8 +267,8 @@ const config = {
             {
                 label: '(1) Energie Ersparnis',
                 data: data1.map(item => item.pmSvg),
-                borderColor: 'rgb(127, 181, 181)',
-                backgroundColor: 'rgb(127, 181, 181)',
+                borderColor: savingsColor,
+                backgroundColor: savingsColor,
                 stack: 'Stack PV1',
                 maxBarThickness: 30,
                 priceFieldName: 'pmSvgPrice',
@@ -257,8 +277,8 @@ const config = {
             {
                 label: '(2) Energie Ersparnis',
                 data: data2.map(item => item.pmSvg),
-                borderColor: 'rgb(97, 141, 141)',
-                backgroundColor: 'rgb(97, 141, 141)',
+                borderColor: savingsColor2,
+                backgroundColor: savingsColor2,
                 stack: 'Stack PV2',
                 maxBarThickness: 30,
                 customDataSourceNo: 2,

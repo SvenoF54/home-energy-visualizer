@@ -9,3 +9,21 @@ body {
     white-space: normal;
     line-height: 1.5;
 }
+
+:root {
+    --datetime-color: rgb(151, 147, 147);
+    --em-color: rgb(190, 110, 110);
+    --em-over-zero-color: rgb(190, 110, 110);
+    --em-over-zero-color2: rgb(150, 90, 110);
+    --savings-color: rgb(127, 181, 181);
+    --savings-color2: rgb(97, 141, 141);
+    --feed-in-color: rgb(127, 127, 181);
+    --feed-in-color2: rgb(97, 97, 161);
+    --pm1-color: rgba(184, 225, 184, 0.747);
+    --pm2-color: rgb(174, 204, 174);
+    --pm3-color: rgb(162, 185, 162);
+    --pm-total-color: rgb(127, 181, 181);
+    --line1-color: rgb(90, 90, 50);
+    --line2-color: rgb(90, 90, 180);
+    --line-zero-color: marroon;
+}

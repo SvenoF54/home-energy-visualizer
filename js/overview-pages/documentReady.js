@@ -18,21 +18,23 @@ $(document).ready(function() {
         "paging": true,
         "searching": false,
         "ordering": true,
+        "orderMulti": false,
         "autoWidth": false,
         "scrollX": false,
-        "order": [
-            [0, 'asc']
-        ],
+        "orderCellsTop": false,
         "pageLength": 10,
         "columnDefs": [{
-            "targets": 0,
+            "targets": '_all',
             "orderDataType": "dom-text",
-            "type": "string",
+            "type": "num",
+            "render": function(data, type, row, meta) {
+                return $(row).find('td').eq(meta.col).data('sort') || data;
+            }
         }, ]
     });
 
     setTimeout(function() {
         // Datatable needs to be rezised for correct view problems
-        table.columns.adjust();
+        $('#energyTable').DataTable().columns.adjust();
     }, 200);
 });
