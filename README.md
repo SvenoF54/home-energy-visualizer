@@ -46,9 +46,9 @@ In der Datenbank ist pro Zeitabschnitt ein Wert für Verbrauchsdaten vorgesehen,
 - **Energieersparnis**: Beschreibt die gesparte Energie, also den positiven Anteil der Verbrauchsdaten abzüglich der erzeugten Daten.
 - **Netzeinspeisung**: Definiert die überschüssige erzeugte Energie, die nicht selbst verbraucht wird.
 
-### Echtzeitdaten
+### Echtzeitdaten und Daten-Logger
 Die Echtzeitdaten und Stundenübersicht sind nur in Verbindung mit Echtzeitdaten sinnvoll nutzbar. Gleiches gilt für die Tagesansicht, da man in der Regel nur Monatsdaten manuell eingibt.  
-Für die Echtzeitdaten gibt es eine API, die diese entgegennimmt und in die Datenbank speichert. Dieses Projekt enthält Skripte für die Shelly-Energiemesssensoren. Bitte unbedingt die Sicherheitshinweise beachten, falls Sensoren genutzt werden, die in die Elektroinstallation eingebaut werden.
+Für das Datenlogging der Echtzeitdaten gibt es eine API, die diese entgegennimmt und in die Datenbank speichert. Dieses Projekt enthält Skripte für die Shelly-Energiemesssensoren. Bitte unbedingt die Sicherheitshinweise beachten, falls Sensoren genutzt werden, die in die Elektroinstallation eingebaut werden.
 
 Bei mir laufen die Shelly-Skripte im 2-Sekunden-Takt stabil. Bei einer Sekunde kommt es zu Fehlern und Datenverlusten. Es sind Taktungen von 2-6 Sekunden möglich, noch höhere Taktungen werden wahrscheinlich zu ungenau sein.
 

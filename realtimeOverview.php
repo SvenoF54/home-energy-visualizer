@@ -71,7 +71,7 @@ $jsVars = [
 ];
 
 $partialTop = "views/pages/realtime/filter.phtml";
-$partialBottom = "views/partials/chart-and-table-canvas.phtml";
+$partialBottom = "views/partials/chart-canvas.phtml";
 
 
 include("views/partials/layout.phtml");

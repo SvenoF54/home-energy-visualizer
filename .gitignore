@@ -1,2 +1,5 @@
 /config/local-config.php
-/config/local-config.wolfgang.php
+/config/local-config.users.*
+/.htaccess
+/.htpasswd
+.htpasswd

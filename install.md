@@ -96,3 +96,30 @@ Im oberen Abschnitt sind folgende Parameter anzupassen:
 - targetScriptId
 
 Das Skript ist hier zu finden [scripts\shelly-scripts\Shelly-AutoRestart.js](scripts\shelly-scripts\Shelly-AutoRestart.js)
+
+## Passwortschutz (optional)
+
+Um einen Passwortschutz einzurichten, ist es wichtig, das `api`-Verzeichnis **nicht** zu schützen, da die API-Aufrufe sonst nicht funktionieren. Für den API-Schutz ist der API-Key vorgesehen. 
+
+Im `api`-Ordner liegt bereits eine `.htaccess`-Datei, die den Schutz aufhebt mit der Anweisung:
+
+```apache
+Require all granted
+```
+
+### Einrichtung des Passwortschutzes
+
+Um einen Schutz einzurichten, muss im Hauptverzeichnis des Projekts eine Standard .htaccess- und .htpasswd-Datei abgelegt werden.
+
+Vorgehen:
+
+1. Verwenden Sie einen Online-Generator für .htpasswd, indem Sie nach 'htpasswd Generator' suchen.
+2. Hinweis: Der vollständige Pfad zur .htpasswd-Datei muss in der .htaccess-Datei hinterlegt werden. Andernfalls kann ein Internal Server Error auftreten.
+
+Beispiel .htaccess-Datei:
+
+```AuthType Basic
+AuthName "Bitte Anmelden"
+AuthUserFile /www/htdocs/[pfad]/[zum]/[projekt]/.htpasswd
+Require valid-user
+```
