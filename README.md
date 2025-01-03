@@ -1,5 +1,4 @@
-# Projektname
-Energie-Visualisierung für zu Hause
+# Energie-Visualisierung für zu Hause
 
 ![Echtzeit-Ansicht](./images/gallery/realtime-overview.png "Echtzeit-Ansicht")
 
