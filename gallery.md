@@ -8,11 +8,18 @@ Energie-Visualisierung für zu Hause – Beschreibung siehe hier [readme.md](./R
 Zeigt die in Echtzeit (z. B. alle 2 Sekunden) erfassten Energiewerte. Ermöglicht die Analyse der Werte durch zwei einstellbare Watt-Linien.
 
 
-# Stundenübersicht
+# Stundenübersicht - Diagram
 
 ![Stundenübersicht](./images/gallery/hours-overview.png "Stundenübersicht")
 
 Zeigt den Verbrauch in einer Stundenübersicht. Aus Performancegründen werden aufsummierte Werte aus den Echtzeitdaten verwendet. Es können zwei Zeitabschnitte dargestellt werden.
+
+# Stundenübersicht - Datentabelle
+
+![Stundenübersicht](./images/gallery/hours-overview-datatable.png "Stundenübersicht")
+
+Zeigt die Stundendaten in einer Tabelle an. Alle Übersichtsseiten bieten die Tabellenansicht, hier nur exemplarsich die Stundenansicht.
+
 
 # Tagesübersicht
 
