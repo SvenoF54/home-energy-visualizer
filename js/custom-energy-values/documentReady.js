@@ -1,13 +1,13 @@
 $(document).ready(function() {
     $("#editform").on("submit", function(event) {
-        const generatedPowerInput = $("#generatedPower").val();
+        const producedPowerInput = $("#producedPower").val();
         const phase1Checked = $("#phase1").is(":checked");
         const phase2Checked = $("#phase2").is(":checked");
         const phase3Checked = $("#phase3").is(":checked");
 
-        if (generatedPowerInput > 0 && !(phase1Checked || phase2Checked || phase3Checked)) {
+        if (producedPowerInput > 0 && !(phase1Checked || phase2Checked || phase3Checked)) {
             event.preventDefault();
-            alert("Bitte wählen Sie mindestens eine Phase aus, wenn eine Stromgenerierung eingegeben wurde.");
+            alert("Bitte wählen Sie mindestens eine Phase aus, wenn eine Stromproduktion eingegeben wurde.");
         }
     });
 
@@ -39,7 +39,7 @@ $(document).ready(function() {
         $('#consumption').val(formatNumber(row.data('em-total-power') / 1000, 5).replace(",", "."));
         $('#feedIn').val(formatNumber(row.data('em-under-zero') / -1000, 5).replace(",", "."));
         let genSum = parseFloat(row.data('pm1-total-power')) + parseFloat(row.data('pm2-total-power')) + parseFloat(row.data('pm3-total-power'));
-        $('#generatedPower').val(formatNumber(genSum / 1000, 5).replace(",", "."));
+        $('#producedPower').val(formatNumber(genSum / 1000, 5).replace(",", "."));
         $('#outCentPricePerKwh').val(formatNumber(row.data('out-cent-price-per-watt-hour') * 1000, 5).replace(",", "."));
         $('#inCentPricePerKwh').val(formatNumber(row.data('in-cent-price-per-watt-hour') * 1000, 5).replace(",", "."));
 
@@ -80,6 +80,14 @@ $(document).ready(function() {
             "targets": 0,
             "orderDataType": "dom-text", // Sort for "data-sort"-Attribute
             "type": "string" // Sort as Strings 
-        }]
+        }],
+        language: {
+            lengthMenu: "Zeige _MENU_ Einträge pro Seite",
+            zeroRecords: "Keine Einträge gefunden",
+            info: "Zeige _START_ bis _END_ von _TOTAL_ Einträgen",
+            infoEmpty: "Keine Einträge verfügbar",
+            infoFiltered: "(gefiltert von _MAX_ gesamten Einträgen)",
+            search: "Suchen:",
+        }
     });
 });

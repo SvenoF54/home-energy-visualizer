@@ -34,15 +34,15 @@ if (isset($_POST) && sizeof($_POST)) {
         $inCentPricePerKwh = StringHelper::formGetFloat('inCentPricePerKwh');
         $consumptionKwh = StringHelper::formGetFloat('consumption', 0);
         $feedInKwh = StringHelper::formGetFloat('feedIn', 0);
-        $generatedPowerKwh = StringHelper::formGetFloat('generatedPower', 0);
-        $generatedPowerPhases = StringHelper::formGetStringArray('phases', array(1, 2, 3));
+        $producedPowerKwh = StringHelper::formGetFloat('producedPower', 0);
+        $producedPowerPhases = StringHelper::formGetStringArray('phases', array(1, 2, 3));
 
-        if (($timestamp == null) || ($outCentPricePerKwh == null) || ($inCentPricePerKwh == null) || ($consumptionKwh == 0 && $feedInKwh == 0 && $generatedPowerKwh == 0)) {
+        if (($timestamp == null) || ($outCentPricePerKwh == null) || ($inCentPricePerKwh == null) || ($consumptionKwh == 0 && $feedInKwh == 0 && $producedPowerKwh == 0)) {
             $errorMsg = "Bitte den Monat, den Preis und mindestens einen Energiewert angeben.";
         } else {
             $customValSet = new CustomEnergyValueSet($timestampFrom, $timestampTo, $outCentPricePerKwh / 1000, $inCentPricePerKwh / 1000);
             $customValSet->setEmPower($consumptionKwh * 1000, -$feedInKwh * 1000);
-            $customValSet->setPmPower($generatedPowerKwh * 1000, in_array(1, $generatedPowerPhases), in_array(2, $generatedPowerPhases), in_array(3, $generatedPowerPhases));
+            $customValSet->setPmPower($producedPowerKwh * 1000, in_array(1, $producedPowerPhases), in_array(2, $producedPowerPhases), in_array(3, $producedPowerPhases));
             
             $succes = $hourlyEnergyDataTbl->saveCustomData($customValSet);
             if ($succes) {
@@ -51,7 +51,7 @@ if (isset($_POST) && sizeof($_POST)) {
                 $successMsg = "Die Daten wurden gespeichert.";
                 $consumptionKwh = "";
                 $feedInKwh = "";
-                $generatedPowerKwh = "";
+                $producedPowerKwh = "";
             }
         }
     }

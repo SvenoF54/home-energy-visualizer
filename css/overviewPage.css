@@ -30,7 +30,7 @@ h1 {
 }
 
 #energyTable .cell-price {
-    min-width: 60px !important;
+    min-width: 50px !important;
 }
 
 #table-container {
@@ -49,9 +49,26 @@ h1 {
     table-layout: fixed !important;
 }
 
-#energyTable th,
 #energyTable td {
     padding: 0.5rem;
+}
+
+#energyTable th {
+    padding: 0.5rem;
+    padding-right: 2rem;
+    /* Platz für Sortierpfeile */
+    position: relative;
+    /* Damit die Pfeile korrekt positioniert werden können */
+}
+
+#energyTable thead {
+    filter: brightness(80%);
+    border-bottom: 3px solid white;
+}
+
+#energyTable tfoot {
+    filter: brightness(80%);
+    border-top: 3px solid white;
 }
 
 #energyTable th.table-active {
@@ -99,36 +116,21 @@ h1 {
     color: white;
 }
 
-#energyTable .generation-pm1 {
+#energyTable .production-pm1 {
     background-color: var(--pm1-color);
     color: black;
 }
 
-#energyTable .generation-pm2 {
+#energyTable .production-pm2 {
     background-color: var(--pm2-color);
     color: black;
 }
 
-#energyTable .generation-pm3 {
+#energyTable .production-pm3 {
     background-color: var(--pm3-color);
     color: black;
 }
 
-
-/* Optional: Table styling for better aesthetics */
-
-table.display {
-    border-collapse: collapse;
-    width: 100%;
-}
-
-th,
-td {
-    border: 1px solid #ddd;
-    text-align: center;
-    padding: 8px;
-}
-
-th {
-    font-weight: bold;
+#energyTable .darken-30 {
+    filter: brightness(80%);
 }

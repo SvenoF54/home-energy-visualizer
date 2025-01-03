@@ -1,6 +1,7 @@
 <?php
 
 class EnergyDataSet {
+    private $timestampForView;
     private $timestampFrom;
     private $timestampTo;
     private EnergyAndPriceTuple $energy;
@@ -10,9 +11,9 @@ class EnergyDataSet {
     private EnergyAndPriceTuple $energyOverX1;
     private EnergyAndPriceTuple $energyUnderX2;
     private EnergyAndPriceTuple $energyOverX2;
-    private EnergyAndPriceTuple $generationPm1;
-    private EnergyAndPriceTuple $generationPm2;
-    private EnergyAndPriceTuple $generationPm3;
+    private EnergyAndPriceTuple $productionPm1;
+    private EnergyAndPriceTuple $productionPm2;
+    private EnergyAndPriceTuple $productionPm3;
     private EnergyAndPriceTuple $savings;
     private MissingRowSet $missingRows;  
     private $countOriginRows;
@@ -25,10 +26,37 @@ class EnergyDataSet {
         $this->energy = new EnergyAndPriceTuple();
         $this->energyUnderZero = new EnergyAndPriceTuple();
         $this->savings = new EnergyAndPriceTuple();
-        $this->missingRows = new MissingRowSet();  
+        $this->missingRows = new MissingRowSet();          
+    }
+
+    public function convertToJsChartArray() : array
+    {
+        $dataRow = [
+            "raw-datetime" => $this->timestampFrom,
+            "x-datetime" => $this->timestampForView,
+            "emOZ" => $this->getEnergyOverZero()->getEnergyInWatt(),
+            "emOZPrice" => $this->getEnergyOverZero()->getEnergyPriceInCent(),
+            "emUZ" => $this->getEnergyUnderZero()->getEnergyInWatt(),
+            "emUZPrice" => $this->getEnergyUnderZero()->getEnergyPriceInCent(),
+            "pm1" => $this->getProductionPm1()->getEnergyInWatt(),
+            "pm1Price" => $this->getProductionPm1()->getEnergyPriceInCent(),
+            "pm2" => $this->getProductionPm2()->getEnergyInWatt(),
+            "pm2Price" => $this->getProductionPm2()->getEnergyPriceInCent(),
+            "pm3" => $this->getProductionPm3()->getEnergyInWatt(),
+            "pm3Price" => $this->getProductionPm3()->getEnergyPriceInCent(),
+            "pmSvg" => $this->getSavings()->getEnergyInWatt(),
+            "pmSvgPrice" => $this->getSavings()->getEnergyPriceInCent()
+        ];
+
+        return $dataRow;
     }
 
     // Getter methods
+    public function getTimestampForView()
+    {
+        return $this->timestampForView;
+    }
+
     public function getTimestampFrom()
     {
         return $this->timestampFrom;
@@ -72,16 +100,16 @@ class EnergyDataSet {
         return new EnergyAndPriceTuple($betweenX1AndX2, $this->getEnergyOverZero()->getEnergyPriceInCent());
     }
 
-    public function getGenerationPm1() : EnergyAndPriceTuple{
-        return $this->generationPm1;
+    public function getProductionPm1() : EnergyAndPriceTuple{
+        return $this->productionPm1;
     }
 
-    public function getGenerationPm2() : EnergyAndPriceTuple{
-        return $this->generationPm2;
+    public function getProductionPm2() : EnergyAndPriceTuple{
+        return $this->productionPm2;
     }
 
-    public function getGenerationPm3() : EnergyAndPriceTuple{
-        return $this->generationPm3;
+    public function getProductionPm3() : EnergyAndPriceTuple{
+        return $this->productionPm3;
     }
 
     public function getSavings() : EnergyAndPriceTuple{
@@ -97,6 +125,11 @@ class EnergyDataSet {
     }
 
     // Setter methods
+    public function setTimestampForView($timestampForView)
+    {
+        $this->timestampForView = $timestampForView;
+    }
+
     public function setTimestamps($timestampFrom, $timestampTo)
     {
         $this->timestampFrom = $timestampFrom;
@@ -115,16 +148,16 @@ class EnergyDataSet {
         $this->energyUnderZero = new EnergyAndPriceTuple($energy, $energyPriceInCent);
     }
 
-    public function setGenerationPm1($energy, $energyPriceInCent) {
-        $this->generationPm1 = new EnergyAndPriceTuple($energy, $energyPriceInCent);
+    public function setProductionPm1($energy, $energyPriceInCent) {
+        $this->productionPm1 = new EnergyAndPriceTuple($energy, $energyPriceInCent);
     }
 
-    public function setGenerationPm2($energy, $energyPriceInCent) {
-        $this->generationPm2 = new EnergyAndPriceTuple($energy, $energyPriceInCent);
+    public function setProductionPm2($energy, $energyPriceInCent) {
+        $this->productionPm2 = new EnergyAndPriceTuple($energy, $energyPriceInCent);
     }
 
-    public function setGenerationPm3($energy, $energyPriceInCent) {
-        $this->generationPm3 = new EnergyAndPriceTuple($energy, $energyPriceInCent);
+    public function setProductionPm3($energy, $energyPriceInCent) {
+        $this->productionPm3 = new EnergyAndPriceTuple($energy, $energyPriceInCent);
     }
 
     public function setEnergyUnderX1($energy, $energyPriceInCent) {

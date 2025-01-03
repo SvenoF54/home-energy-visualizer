@@ -33,8 +33,8 @@ for($year = $overviewPageService->getFirstYear(); $year <= $overviewPageService-
     $jsVars = [        
         "timestampsTooltip" => json_encode($overviewPageService->getLabelsTooltip()),
         "timestampsXAxis" => json_encode($overviewPageService->getLabelsXAxis()),
-        "data1" => json_encode($overviewPageService->getData1()),
-        "data2" => json_encode($overviewPageService->getData2()),
+        "data1" => json_encode($overviewPageService->getData1()->convertToJsChartArray()),
+        "data2" => json_encode([]),
         "line1_selected" => $line1,
         "line2_selected" => $line2,
         "timeLabelUnit" => json_encode($timeLabelUnit)

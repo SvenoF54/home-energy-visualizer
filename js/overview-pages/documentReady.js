@@ -30,7 +30,15 @@ $(document).ready(function() {
             "render": function(data, type, row, meta) {
                 return $(row).find('td').eq(meta.col).data('sort') || data;
             }
-        }, ]
+        }],
+        language: {
+            lengthMenu: "Zeige _MENU_ Einträge pro Seite",
+            zeroRecords: "Keine Einträge gefunden",
+            info: "Zeige _START_ bis _END_ von _TOTAL_ Einträgen",
+            infoEmpty: "Keine Einträge verfügbar",
+            infoFiltered: "(gefiltert von _MAX_ gesamten Einträgen)",
+            search: "Suchen:",
+        }
     });
 
     setTimeout(function() {

@@ -3,8 +3,8 @@
 class OverviewPageService
 {
     private $hourlyEnergyDataTbl;
-    private $data1 = [];
-    private $data2 = [];
+    private $data1 = null;
+    private $data2 = null;
     private $labelsTooltip = [];
     private $labelsXAxis = [];
     private $missingValues1;
@@ -56,9 +56,9 @@ class OverviewPageService
 
         $this->data1 = $this->prepareDataRangeForEachMonth($year1);        
         $this->data2 = $this->prepareDataRangeForEachMonth($year2);
-        for($nt = 0; $nt < sizeof($this->data1); $nt++) {
-            $dtData1 = $this->data1[$nt]["x-datetime"];
-            $dtData2 = $nt < sizeof($this->data2) ? $this->data2[$nt]["x-datetime"] : "";
+        for($nt = 0; $nt < $this->data1->sizeof(); $nt++) {
+            $dtData1 = $this->data1->getTimestampForView($nt);
+            $dtData2 = $this->data2->getTimestampForView($nt);
             $this->labelsTooltip[] = [date("m.Y", strtotime($dtData1)), date("m.Y", strtotime($dtData2))];
             $this->labelsXAxis[] = [date("m.Y", strtotime($dtData1)), date("m.Y", strtotime($dtData2))];
         }        
@@ -71,9 +71,9 @@ class OverviewPageService
 
         $this->data1 = $this->prepareDataRange($startTime1, $endTime1, $avg);
         $this->data2 = $this->prepareDataRange($startTime2, $endTime2, $avg);        
-        for($nt = 0; $nt < sizeof($this->data1); $nt++) {
-            $dtData1 = $this->data1[$nt]["x-datetime"];
-            $dtData2 = $nt < sizeof($this->data2) ? $this->data2[$nt]["x-datetime"] : "";
+        for($nt = 0; $nt < $this->data1->sizeof(); $nt++) {
+            $dtData1 = $this->data1->getTimestampForView($nt);
+            $dtData2 = $this->data2->getTimestampForView($nt);
             $this->labelsTooltip[] = [date("d.m.Y", strtotime($dtData1)), date("d.m.Y", strtotime($dtData2))];
             $this->labelsXAxis[] = [date("d.m.Y", strtotime($dtData1)), date("d.m.Y", strtotime($dtData2))];
         }
@@ -87,9 +87,9 @@ class OverviewPageService
 
         $this->data1 = $this->prepareDataRange($startTime1, $endTime1, $avg);
         $this->data2 = $this->prepareDataRange($startTime2, $endTime2, $avg);        
-        for($nt = 0; $nt < sizeof($this->data1); $nt++) {
-            $dtData1 = $this->data1[$nt]["x-datetime"];
-            $dtData2 = $nt < sizeof($this->data2) ? $this->data2[$nt]["x-datetime"] : "";
+        for($nt = 0; $nt < $this->data1->sizeof(); $nt++) {
+            $dtData1 = $this->data1->getTimestampForView($nt);
+            $dtData2 = $this->data2->getTimestampForView($nt);
             $this->labelsTooltip[] = [$dtData1, $dtData2];
             $this->labelsXAxis[] = [date("H:i", strtotime($dtData1))];
         }        
@@ -116,93 +116,41 @@ class OverviewPageService
 
     private function prepareDataRange($startTime, $endTime, $avg)
     {
-        $data = [];
+        $energyDataSetList = new EnergyDataSetList();
         for ($time = strtotime($startTime); $time <= strtotime($endTime); $time += $avg) {
             $strStart = date('Y-m-d H:i:s', $time);
             $strEnd = date('Y-m-d H:i:s', $time + $avg -1);  # -1 Sekunde für :59 Sekunden
             $powerData = $this->hourlyEnergyDataTbl->getEnergyData($strStart, $strEnd, $avg);
-            $dataRow = [
-                "raw-datetime" => $time,
-                "x-datetime" => date('d.m.Y H:i', $time),
-                "emOZ" => $powerData->getEnergyOverZero()->getEnergyInWatt(),
-                "emOZPrice" => $powerData->getEnergyOverZero()->getEnergyPriceInCent(),
-                "emUZ" => $powerData->getEnergyUnderZero()->getEnergyInWatt(),
-                "emUZPrice" => $powerData->getEnergyUnderZero()->getEnergyPriceInCent(),
-                "pm1" => $powerData->getGenerationPm1()->getEnergyInWatt(),
-                "pm1Price" => $powerData->getGenerationPm1()->getEnergyPriceInCent(),
-                "pm2" => $powerData->getGenerationPm2()->getEnergyInWatt(),
-                "pm2Price" => $powerData->getGenerationPm2()->getEnergyPriceInCent(),
-                "pm3" => $powerData->getGenerationPm3()->getEnergyInWatt(),
-                "pm3Price" => $powerData->getGenerationPm3()->getEnergyPriceInCent(),
-                "pmSvg" => $powerData->getSavings()->getEnergyInWatt(),
-                "pmSvgPrice" => $powerData->getSavings()->getEnergyPriceInCent()
-            ];
-
-            $data[] = $dataRow;
+            $powerData->setTimestampForView(date('d.m.Y H:i', $time));
+            $energyDataSetList->addItem($powerData);
         }
-        return $data;
+        return $energyDataSetList;
     }
 
     private function prepareDataRangeForEachMonth($year)
     {
-        $data = [];
+        $energyDataSetList = new EnergyDataSetList();
         for ($month = 1; $month <= 12; $month++) {            
             $strStart = date('Y-m-d H:i:s', strtotime("$year-$month-1"." 00:00:00"));
             $strEnd = date('Y-m-d H:i:s', strtotime("$year-$month-".TimeHelper::getDaysInMonth($month, $year)." 23:59:59"));            
             $powerData = $this->hourlyEnergyDataTbl->getEnergyData($strStart, $strEnd);
-
-            $rawTime = strtotime("$year-$month-1"." 00:00:00");
-            $dataRow = [
-                "raw-datetime" => $rawTime,
-                "x-datetime" => date('d.m.Y H:i', $rawTime),
-                "emOZ" => $powerData->getEnergyOverZero()->getEnergyInWatt(),
-                "emOZPrice" => $powerData->getEnergyOverZero()->getEnergyPriceInCent(),
-                "emUZ" => $powerData->getEnergyUnderZero()->getEnergyInWatt(),
-                "emUZPrice" => $powerData->getEnergyUnderZero()->getEnergyPriceInCent(),
-                "pm1" => $powerData->getGenerationPm1()->getEnergyInWatt(),
-                "pm1Price" => $powerData->getGenerationPm1()->getEnergyPriceInCent(),
-                "pm2" => $powerData->getGenerationPm2()->getEnergyInWatt(),
-                "pm2Price" => $powerData->getGenerationPm2()->getEnergyPriceInCent(),
-                "pm3" => $powerData->getGenerationPm3()->getEnergyInWatt(),
-                "pm3Price" => $powerData->getGenerationPm3()->getEnergyPriceInCent(),
-                "pmSvg" => $powerData->getSavings()->getEnergyInWatt(),
-                "pmSvgPrice" => $powerData->getSavings()->getEnergyPriceInCent()
-            ];
-
-            $data[] = $dataRow;
+            $powerData->setTimestampForView(date('d.m.Y H:i', strtotime("$year-$month-1"." 00:00:00")));
+            $energyDataSetList->addItem($powerData);
         }
-        return $data;
+        return $energyDataSetList;
     }
 
     private function prepareDataRangeForEachYears($firstYear, $lastYear)
     {
-        $data = [];        
+        $energyDataSetList = new EnergyDataSetList();
         for ($year = $firstYear; $year <= $lastYear; $year++) {            
             $strStart = date('Y-m-d H:i:s', strtotime("$year-1-1"." 00:00:00"));
             $strEnd = date('Y-m-d H:i:s', strtotime("$year-12-31"." 23:59:59"));            
             $powerData = $this->hourlyEnergyDataTbl->getEnergyData($strStart, $strEnd);
-
-            $rawTime = strtotime("$year-1-1"." 00:00:00");
-            $dataRow = [
-                "raw-datetime" => $rawTime,
-                "x-datetime" => date('Y-m-d H:i:s', $rawTime),
-                "emOZ" => $powerData->getEnergyOverZero()->getEnergyInWatt(),
-                "emOZPrice" => $powerData->getEnergyOverZero()->getEnergyPriceInCent(),
-                "emUZ" => $powerData->getEnergyUnderZero()->getEnergyInWatt(),
-                "emUZPrice" => $powerData->getEnergyUnderZero()->getEnergyPriceInCent(),
-                "pm1" => $powerData->getGenerationPm1()->getEnergyInWatt(),
-                "pm1Price" => $powerData->getGenerationPm1()->getEnergyPriceInCent(),
-                "pm2" => $powerData->getGenerationPm2()->getEnergyInWatt(),
-                "pm2Price" => $powerData->getGenerationPm2()->getEnergyPriceInCent(),
-                "pm3" => $powerData->getGenerationPm3()->getEnergyInWatt(),
-                "pm3Price" => $powerData->getGenerationPm3()->getEnergyPriceInCent(),
-                "pmSvg" => $powerData->getSavings()->getEnergyInWatt(),
-                "pmSvgPrice" => $powerData->getSavings()->getEnergyPriceInCent()
-            ];
-
-            $data[] = $dataRow;
+            $powerData->setTimestampForView(date('Y-m-d H:i:s', strtotime("$year-1-1"." 00:00:00")));
+            $energyDataSetList->addItem($powerData);
         }
-        return $data;
+        return $energyDataSetList;
     }
 
     public function getTableStatistics(): TableStatisticSet
@@ -220,12 +168,12 @@ class OverviewPageService
         return date("Y", strtotime($this->getTableStatistics()->getLastRowDate()));
     }
 
-    public function getData1() : array
+    public function getData1() : EnergyDataSetList
     {
         return $this->data1;
     }
 
-    public function getData2() : array
+    public function getData2() : EnergyDataSetList
     {
         return $this->data2;
     }

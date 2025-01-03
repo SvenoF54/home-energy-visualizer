@@ -9,6 +9,12 @@ class EnergyAndPriceTuple {
         $this->energyPriceInCent = $energyPriceInCent;
     }
 
+    public function add(EnergyAndPriceTuple $energyAndPriceTuple)
+    {
+        $this->energyInWatt += $energyAndPriceTuple->getEnergyInWatt();
+        $this->energyPriceInCent += $energyAndPriceTuple->getEnergyPriceInCent();
+    }
+
     public function getEnergyInWatt() {
         return $this->energyInWatt;
     }
@@ -17,7 +23,11 @@ class EnergyAndPriceTuple {
         return $this->energyPriceInCent;
     }
 
-    public function getHourlyEnergyPriceFormatted() {
-        return sprintf('%.2f', $this->energyPriceInCent);
+    public function getEnergyInWattFormated() {
+        return StringHelper::formatEnergyInWattHour($this->energyInWatt);
+    }
+
+    public function getEnergyPriceFormatted() {
+        return StringHelper::formatCurrency($this->energyPriceInCent);
     }
 }

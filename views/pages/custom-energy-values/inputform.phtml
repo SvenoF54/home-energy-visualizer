@@ -39,31 +39,31 @@
 
                 <!-- Einspeisung in kWh (breiter) -->
                 <div class="col-md-3 col-sm-12 align-top">
-                    <label for="generation" class="form-label small fw-bold">Stromgenerierung<br>(kWh)</label>
-                    <input type="number" class="form-control form-control-sm" id="generatedPower" name="generatedPower" step="0.001" min="0" value="<?=isset($generatedPowerKwh) ? $generatedPowerKwh : ""?>">
+                    <label for="producedPower" class="form-label small fw-bold">Stromproduktion<br>(kWh)</label>
+                    <input type="number" class="form-control form-control-sm" id="producedPower" name="producedPower" step="0.001" min="0" value="<?=isset($producedPowerKwh) ? $producedPowerKwh : ""?>">
                     <div class="d-flex gap-2 mt-1">
                         <div class="form-check form-check-inline">
                             <label class="form-check-label small">
-                            <input class="form-check-input" type="checkbox" id="phase1" name="phases[]" value="1" <?=isset($generatedPowerPhases) && in_array(1, $generatedPowerPhases) ? "checked" : ""?>>
+                            <input class="form-check-input" type="checkbox" id="phase1" name="phases[]" value="1" <?=isset($producedPowerPhases) && in_array(1, $producedPowerPhases) ? "checked" : ""?>>
                             Phase 1
                         </label>
                         </div>
                         <div class="form-check form-check-inline">
                             <label class="form-check-label small" for="phase2">
-                            <input class="form-check-input" type="checkbox" id="phase2" name="phases[]" value="2" <?=isset($generatedPowerPhases) && in_array(2, $generatedPowerPhases)? "checked" : ""?>>
+                            <input class="form-check-input" type="checkbox" id="phase2" name="phases[]" value="2" <?=isset($producedPowerPhases) && in_array(2, $producedPowerPhases)? "checked" : ""?>>
                             Phase 2
                             </label>
                         </div>
                         <div class="form-check form-check-inline">
                             <label class="form-check-label small" for="phase3">
-                            <input class="form-check-input" type="checkbox" id="phase3" name="phases[]" value="3" <?=isset($generatedPowerPhases) && in_array(3, $generatedPowerPhases)? "checked" : ""?>>
+                            <input class="form-check-input" type="checkbox" id="phase3" name="phases[]" value="3" <?=isset($producedPowerPhases) && in_array(3, $producedPowerPhases)? "checked" : ""?>>
                             Phase 3
                             </label>
                         </div>
                     </div>
                 </div>
 
-                <!-- Power generation in kWh -->
+                <!-- Power production in kWh -->
                 <div class="col-md-2 col-sm-12 align-top">
                     <label for="feedIn" class="form-label small fw-bold">Einspeisung<br>(kWh)</label>
                     <input type="number" class="form-control form-control-sm" id="feedIn" name="feedIn" step="0.001" min="0" value="<?=isset($feedInKwh) ? $feedInKwh : ""?>">

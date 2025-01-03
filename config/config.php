@@ -29,7 +29,7 @@ class Config
     {
         $this->configCustomEnergyValuesPage = new ConfigCustomEnergyValuesPage();
         $this->configCustomPricesPage = new ConfigCustomPricesPage();
-        $this->overviewPages["details"] = new ConfigDetailOverviewPages(
+        $this->overviewPages["realtime"] = new ConfigRealtimeOverviewPages(
             [100, 150, 175, 200, 250, 300, 400, 500, 600, 700, 800, 900, 1000, 1100, 1200, 1300, 1400, 1500, 2000, 3000, 4000, 5000],
             200, 
             800,
@@ -64,7 +64,7 @@ class Config
 
     public function getOutCentPricePerWh() { return $this->outCentPricePerWh;}
     public function getInCentPricePerWh() { return $this->inCentPricePerWh;}
-    public function detailsOverview() : ConfigDetailOverviewPages { return $this->overviewPages["details"];}
+    public function realtimeOverview() : ConfigRealtimeOverviewPages { return $this->overviewPages["realtime"];}
     public function hoursOverview() : ConfigOverviewPages{ return $this->overviewPages["hours"];}
     public function daysOverview() : ConfigOverviewPages{ return $this->overviewPages["days"];}
     public function monthsOverview() : ConfigOverviewPages { return $this->overviewPages["months"];}
@@ -111,7 +111,7 @@ class ConfigOverviewPages
     
 }
 
-class ConfigDetailOverviewPages extends ConfigOverviewPages
+class ConfigRealtimeOverviewPages extends ConfigOverviewPages
 {
     private $lastHoursPossibilities = [0.5, 1, 2, 4, 6, 8, 12, 24, 24*7, 24*14, 24*28];
     private $averagePossibilitiesInSec = [2, 5, 10, 30, 60, 120, 300, 600, 900, 1800, 3600];

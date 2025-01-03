@@ -114,9 +114,9 @@ class HourlyEnergyDataTable extends BaseTimestampTable {
             $result->setEnergy(round($row["sum_power"], 0), round($row["sum_price"], 2));
             $result->setEnergyOverZero(round($row["sum_power_over_zero"], 0), round($row["sum_price_over_zero"], 2));
             $result->setEnergyUnderZero(round($row["sum_power_under_zero"], 0), round($row["sum_price_under_zero"], 2));
-            $result->setGenerationPm1(round($row["sum_pm1_total_power"], 0), round($row["sum_price_pm1"], 2));
-            $result->setGenerationPm2(round($row["sum_pm2_total_power"], 0), round($row["sum_price_pm2"], 2));
-            $result->setGenerationPm3(round($row["sum_pm3_total_power"], 0), round($row["sum_price_pm3"], 2));
+            $result->setProductionPm1(round($row["sum_pm1_total_power"], 0), round($row["sum_price_pm1"], 2));
+            $result->setProductionPm2(round($row["sum_pm2_total_power"], 0), round($row["sum_price_pm2"], 2));
+            $result->setProductionPm3(round($row["sum_pm3_total_power"], 0), round($row["sum_price_pm3"], 2));
             $result->setSavings(round($row["sum_savings"], 0), round($row["sum_price_savings"], 2));
     
             $result->setMissingRows(

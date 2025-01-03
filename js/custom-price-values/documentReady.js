@@ -44,6 +44,14 @@ $(document).ready(function() {
             "targets": 0,
             "orderDataType": "dom-text", // Sort for "data-sort"-Attribute
             "type": "string" // Sort as Strings 
-        }]
+        }],
+        language: {
+            lengthMenu: "Zeige _MENU_ Einträge pro Seite",
+            zeroRecords: "Keine Einträge gefunden",
+            info: "Zeige _START_ bis _END_ von _TOTAL_ Einträgen",
+            infoEmpty: "Keine Einträge verfügbar",
+            infoFiltered: "(gefiltert von _MAX_ gesamten Einträgen)",
+            search: "Suchen:",
+        }
     });
 });
