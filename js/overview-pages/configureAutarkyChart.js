@@ -1,3 +1,8 @@
+const autarkyColor = getComputedStyle(document.documentElement).getPropertyValue('--autarky-color').trim();
+const autarkyColor2 = getComputedStyle(document.documentElement).getPropertyValue('--autarky-color2').trim();
+const emOverZeroPctColor = getComputedStyle(document.documentElement).getPropertyValue('--em-over-zero-color').trim();
+const emOverZeroPctColor2 = getComputedStyle(document.documentElement).getPropertyValue('--em-over-zero-color2').trim();
+
 const scalesAutarky = {
     x: {
         type: 'category',
@@ -9,11 +14,12 @@ const scalesAutarky = {
     },
     y: {
         beginAtZero: true,
-        stacked: true,
         position: 'left',
+        min: 0,
+        max: 100,
         title: {
             display: true,
-            text: '%'
+            text: ''
         },
         ticks: {
             callback: function(value, index, values) {
@@ -35,6 +41,30 @@ const optionsAutarky = {
     responsive: true,
     maintainAspectRatio: false,
     plugins: {
+        tooltip: {
+            // Extends the tooltip with more information
+            mode: 'x',
+            callbacks: {
+                label: function(tooltipItem) {
+                    const percent = tooltipItem.parsed.y;
+                    let label = formatNumber(percent, 2) + "%";
+
+                    return label;
+                }
+            },
+        },
+        annotation: {
+            annotations: {
+                lineY50Pct: {
+                    type: 'line',
+                    yMin: 50,
+                    yMax: 50,
+                    borderColor: lineZeroColor,
+                    borderWidth: 1,
+                    borderDash: [5, 5],
+                }
+            }
+        },
         legend: {
             display: true
         },
@@ -103,29 +133,25 @@ const pluginsAutarky = [{
 
 // configure diagram
 const configAutarky = {
-    type: 'bar',
+    type: 'line',
     data: {
         labels: timestampsXAxis,
         datasets: [{
-                label: '(1) Prozent Eigenverbrauch',
+                label: '(1) Anteil selbst prozierter Strom',
                 data: autarky1.map(item => item.autInPct),
-                backgroundColor: emOverZeroColor,
-                borderColor: emOverZeroColor,
                 borderWidth: 1,
+                borderColor: autarkyColor,
+                backgroundColor: autarkyColor,
                 maxBarThickness: 30,
                 customDataSourceNo: 1,
-                priceFieldName: 'emOZPrice'
             },
             {
-                label: '(2) Prozent Eigenverbrauch',
-                //data: data2.map(item => item.emOZ),
-                backgroundColor: emOverZeroColor2,
-                borderColor: emOverZeroColor2,
+                label: '(2) Anteil selbst prozierter Strom',
+                data: autarky2.map(item => item.autInPct),
                 borderWidth: 1,
-                stack: 'Stack EM2',
-
+                borderColor: autarkyColor2,
+                backgroundColor: autarkyColor2,
                 customDataSourceNo: 2,
-                priceFieldName: 'emOZPrice',
                 hidden: (data2.length == 0)
             },
         ]

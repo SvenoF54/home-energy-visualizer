@@ -58,7 +58,7 @@ $(document).ready(function() {
     });
 
     setTimeout(function() {
-        // Datatable needs to be rezised for correct view problems
-        $('#energyTable').DataTable().columns.adjust();
+        const dataTable = $('#energyTable').DataTable();
+        dataTable.columns.adjust();
     }, 200);
 });

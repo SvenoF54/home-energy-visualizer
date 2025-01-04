@@ -55,13 +55,17 @@ class EnergyDataSet {
     {
         $totalConsumption = $this->getEnergyOverZero()->getEnergyInWatt() + $this->getSavings()->getEnergyInWatt();
         $percentAutarky = 0;
+        $percentEmOverZero = 0;
         if ($totalConsumption > 0) {
             $percentAutarky = (1-($this->getEnergyOverZero()->getEnergyInWatt() / $totalConsumption)) * 100;
+            $percentEmOverZero = 100 - $percentAutarky;
         }
+        
         $dataRow = [
             "raw-dt" => $this->timestampFrom,
             "x-dt" => $this->timestampForView,
             "autInPct" => $percentAutarky,
+            "emOZInPct" => $percentEmOverZero,
             "totCons" => $totalConsumption,
             "savings" => $this->getSavings()->getEnergyInWatt(),
         ];

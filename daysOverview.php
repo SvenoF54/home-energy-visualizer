@@ -44,6 +44,7 @@ $overviewPageService->calculateDayData($startTime1, $endTime1, $startTime2, $end
         "data1" => json_encode($overviewPageService->getData1()->convertToJsChartArray()),
         "data2" => json_encode($overviewPageService->getData2()->convertToJsChartArray()),
         "autarky1" => json_encode($overviewPageService->getData1()->calculateAutarkyForJsChartArray()),
+        "autarky2" => json_encode($overviewPageService->getData2()->calculateAutarkyForJsChartArray()),
         "line1_selected" => $line1,
         "line2_selected" => $line2,
         "timeLabelUnit" => json_encode($timeLabelUnit)

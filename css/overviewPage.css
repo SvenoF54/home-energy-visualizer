@@ -1,7 +1,7 @@
 #autarky-chart-container,
 #energy-chart-container {
     width: 95vw !important;
-    height: 70vh !important;
+    height: 67vh !important;
     min-height: 300px;
     display: none;
 }
@@ -42,11 +42,19 @@ h1 {
 }
 
 #table-container {
-    max-width: 90%;
-    margin: 0 auto;
-    padding-left: 15px;
-    padding-right: 15px;
+    overflow-y: auto;
     overflow-x: auto;
+    height: 65vh !important;
+    min-height: 300px;
+    max-height: none;
+    margin: 0 auto;
+    padding: 0;
+}
+
+#energyTable {
+    font-size: 0.75rem !important;
+    width: 100% !important;
+    table-layout: fixed !important;
 }
 
 #energyTable .cell-energy {
@@ -57,18 +65,12 @@ h1 {
     min-width: 50px !important;
 }
 
-#energyTable {
-    font-size: 0.85rem;
-    width: 100% !important;
-    table-layout: fixed !important;
-}
-
 #energyTable td {
-    padding: 0.5rem;
+    padding: 0.3rem;
 }
 
 #energyTable th {
-    padding: 0.5rem;
+    padding: 0.3rem;
     padding-right: 2rem;
     position: relative;
 }
