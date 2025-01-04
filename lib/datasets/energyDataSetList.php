@@ -39,6 +39,16 @@ class EnergyDataSetList
         return $result;
     }
 
+    public function calculateAutarkyForJsChartArray() : array
+    {
+        $result = [];
+        foreach ($this->items as $item) {
+            $result[] = $item->calculateAutarkyForJsChartArray();
+        }
+
+        return $result;
+    }
+
     public function getEnergyOverZeroSum() : EnergyAndPriceTuple
     {
         $result = new EnergyAndPriceTuple(0, 0);        

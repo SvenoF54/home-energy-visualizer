@@ -10,7 +10,7 @@ const lineZeroColor = getComputedStyle(document.documentElement).getPropertyValu
 
 
 
-const scales = {
+const scalesEnergy = {
     x: {
         type: 'time',
         time: {
@@ -46,7 +46,7 @@ const scales = {
 }
 
 
-const options = {
+const optionsEnergy = {
     responsive: true,
     maintainAspectRatio: false,
     layout: {
@@ -115,11 +115,11 @@ const options = {
             display: true
         },
     },
-    scales
+    scales: scalesEnergy
 };
 
 // Configure diagram
-const config = {
+const configEnergy = {
     type: 'line',
     data: {
         labels: timestamps, // timestamp on X-Axis
@@ -158,5 +158,5 @@ const config = {
             },
         ]
     },
-    options
+    options: optionsEnergy
 };

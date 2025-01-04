@@ -34,7 +34,8 @@ $overviewPageService->calculateDayData($startTime1, $endTime1, $startTime2, $end
 // configure VIEW
 
     $pageTitle = "Tagesübersicht";
-    $jsHeaderFiles = ["/js/utils.js", "js/overview-pages/configureChart.js", "js/overview-pages/formFunctions-monthsSelection.js"];
+    $jsHeaderFiles = ["/js/utils.js", "js/overview-pages/configureEnergyChart.js", "js/overview-pages/configureAutarkyChart.js", 
+                      "js/overview-pages/formFunctionsForDayOverview.js"];
     $jsFooterFiles = ["/js/overview-pages/documentReady.js"];
     $cssFiles = ["/css/overviewPage.css"];
     $jsVars = [   
@@ -42,6 +43,7 @@ $overviewPageService->calculateDayData($startTime1, $endTime1, $startTime2, $end
         "timestampsXAxis" => json_encode($overviewPageService->getLabelsXAxis()),
         "data1" => json_encode($overviewPageService->getData1()->convertToJsChartArray()),
         "data2" => json_encode($overviewPageService->getData2()->convertToJsChartArray()),
+        "autarky1" => json_encode($overviewPageService->getData1()->calculateAutarkyForJsChartArray()),
         "line1_selected" => $line1,
         "line2_selected" => $line2,
         "timeLabelUnit" => json_encode($timeLabelUnit)

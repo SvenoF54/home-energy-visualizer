@@ -1,6 +1,14 @@
+#autarky-chart-container,
+#energy-chart-container {
+    width: 95vw !important;
+    height: 70vh !important;
+    min-height: 300px;
+    display: none;
+}
+
 canvas {
-    width: 75%;
-    height: 45% !important;
+    width: 100% !important;
+    height: 100% !important;
 }
 
 h1 {
@@ -25,22 +33,28 @@ h1 {
     padding: 0.2rem 0.5rem;
 }
 
+#switchToEnergyBarView {
+    margin-left: 0;
+}
+
+#switchToAutarkyBarView {
+    margin-left: 10px;
+}
+
+#table-container {
+    max-width: 90%;
+    margin: 0 auto;
+    padding-left: 15px;
+    padding-right: 15px;
+    overflow-x: auto;
+}
+
 #energyTable .cell-energy {
     min-width: 80px !important;
 }
 
 #energyTable .cell-price {
     min-width: 50px !important;
-}
-
-#table-container {
-    max-width: 90%;
-    /* Maximale Breite auf 90% der Container-Breite setzen */
-    margin: 0 auto;
-    /* Zentriert den Container horizontal */
-    padding-left: 15px;
-    padding-right: 15px;
-    overflow-x: auto;
 }
 
 #energyTable {
@@ -56,9 +70,7 @@ h1 {
 #energyTable th {
     padding: 0.5rem;
     padding-right: 2rem;
-    /* Platz für Sortierpfeile */
     position: relative;
-    /* Damit die Pfeile korrekt positioniert werden können */
 }
 
 #energyTable thead {
@@ -88,10 +100,6 @@ h1 {
 #table-container h6 {
     margin-bottom: 0;
     font-size: 1rem;
-}
-
-#switchToBarView {
-    margin-left: 10px;
 }
 
 #energyTable .timestamp {
@@ -129,8 +137,4 @@ h1 {
 #energyTable .production-pm3 {
     background-color: var(--pm3-color);
     color: black;
-}
-
-#energyTable .darken-30 {
-    filter: brightness(80%);
 }

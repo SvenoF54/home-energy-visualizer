@@ -1,17 +1,33 @@
+let energyChart, autarkyChart;
+
 $(document).ready(function() {
 
-    // initialize Chart
-    ctx = document.getElementById('energyChart').getContext('2d');
-    const myChart = new Chart(
-        ctx,
-        config
+    // initialize Charts
+    ctxEnergy = document.getElementById('energyChart').getContext('2d');
+    energyChart = new Chart(
+        ctxEnergy,
+        configEnergy
     );
 
-    $('#switchToBarView').on('click', function(e) {
-        console.log("btn");
-        $('#chart-container').css('display', 'block');
-        $('#table-container').css('display', 'none');
+    ctxAutarky = document.getElementById('autarkyChart').getContext('2d');
+    autarkyChart = new Chart(
+        ctxAutarky,
+        configAutarky
+    );
+
+    $('#switchToEnergyBarView').on('click', function(e) {
+        $('#autarky-chart-container').hide();
+        $('#table-container').hide();
+        $('#energy-chart-container').show();
     });
+
+    $('#switchToAutarkyBarView').on('click', function(e) {
+        $('#energy-chart-container').hide();
+        $('#table-container').hide();
+        $('#autarky-chart-container').show();
+    });
+
+    //-------------------------------------------------------
 
     // Sort + Filter table    
     $('#energyTable').DataTable({

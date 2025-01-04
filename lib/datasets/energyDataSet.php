@@ -32,8 +32,8 @@ class EnergyDataSet {
     public function convertToJsChartArray() : array
     {
         $dataRow = [
-            "raw-datetime" => $this->timestampFrom,
-            "x-datetime" => $this->timestampForView,
+            "raw-dt" => $this->timestampFrom,
+            "x-dt" => $this->timestampForView,
             "emOZ" => $this->getEnergyOverZero()->getEnergyInWatt(),
             "emOZPrice" => $this->getEnergyOverZero()->getEnergyPriceInCent(),
             "emUZ" => $this->getEnergyUnderZero()->getEnergyInWatt(),
@@ -46,6 +46,24 @@ class EnergyDataSet {
             "pm3Price" => $this->getProductionPm3()->getEnergyPriceInCent(),
             "pmSvg" => $this->getSavings()->getEnergyInWatt(),
             "pmSvgPrice" => $this->getSavings()->getEnergyPriceInCent()
+        ];
+
+        return $dataRow;
+    }
+
+    public function calculateAutarkyForJsChartArray() : array
+    {
+        $totalConsumption = $this->getEnergyOverZero()->getEnergyInWatt() + $this->getSavings()->getEnergyInWatt();
+        $percentAutarky = 0;
+        if ($totalConsumption > 0) {
+            $percentAutarky = (1-($this->getEnergyOverZero()->getEnergyInWatt() / $totalConsumption)) * 100;
+        }
+        $dataRow = [
+            "raw-dt" => $this->timestampFrom,
+            "x-dt" => $this->timestampForView,
+            "autInPct" => $percentAutarky,
+            "totCons" => $totalConsumption,
+            "savings" => $this->getSavings()->getEnergyInWatt(),
         ];
 
         return $dataRow;
