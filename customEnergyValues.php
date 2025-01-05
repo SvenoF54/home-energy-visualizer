@@ -45,7 +45,7 @@ if (isset($_POST) && sizeof($_POST)) {
             $customValSet->setPmPower($producedPowerKwh * 1000, in_array(1, $producedPowerPhases), in_array(2, $producedPowerPhases), in_array(3, $producedPowerPhases));
             
             $succes = $hourlyEnergyDataTbl->saveCustomData($customValSet);
-            if ($succes) {
+            if (! $succes) {
                 $errorMsg = $hourlyEnergyDataTbl->getError();
             } else {
                 $successMsg = "Die Daten wurden gespeichert.";
