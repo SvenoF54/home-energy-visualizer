@@ -37,7 +37,7 @@ const scalesEnergy = {
         },
         ticks: {
             callback: function(value, index, values) {
-                return value + ' W'; // add Watt after numbers
+                return formatCurrent(Number(value)) + 'h';
             }
         }
     }
@@ -225,14 +225,16 @@ const pluginsEnergy = [{
                 if (x > button1X && x < button1X + 100 && y > button1Y && y < button1Y + 25) {
                     $('#energy-chart-container').hide();
                     $('#autarky-chart-container').hide();
-                    $('#table-container').show();
+                    $('#energy-table-container').show();
+                    $('#chartOrTableOnFirstPageView').val('EnergyTable');
                 }
 
                 // Button 2: autarky-view
                 if (x > button2X && x < button2X + 100 && y > button2Y && y < button2Y + 25) {
                     $('#energy-chart-container').hide();
+                    $('#energy-table-container').hide();
                     $('#autarky-chart-container').show();
-                    $('#table-container').hide();
+                    $('#chartOrTableOnFirstPageView').val('AutarkyChart');
                 }
             });
         }

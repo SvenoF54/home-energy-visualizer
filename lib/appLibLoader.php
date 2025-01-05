@@ -23,6 +23,6 @@ include_once("database/energyPriceTable.php");
 include_once("utils/stringHelper.php");
 include_once("utils/htmlHelper.php");
 include_once("utils/timeHelper.php");
-include_once("utils/timePeriod.php");
+include_once("utils/timePeriodEnum.php");
 
 include_once("services/overviewPageService.php");

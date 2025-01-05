@@ -39,7 +39,7 @@ const scalesEnergy = {
         },
         ticks: {
             callback: function(value, index, values) {
-                return value + ' W'; // Watt hinter den Zahlen
+                return formatNumber(Number(value)) + ' W';
             }
         }
     }

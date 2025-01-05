@@ -29,7 +29,7 @@ class StringHelper {
     public static function formGetBool($keyname, $default = null) {
         if (! isset($_REQUEST[$keyname])) return $default;
         $val = filter_var($_REQUEST[$keyname], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-        return $val == "true";
+        return $val == "true" || $val == 1;
     }
 
     public static function formGetInt($keyname, $default = 0) {
@@ -82,12 +82,17 @@ class StringHelper {
 
     public static function formatEnergyInWattHour($val) {
         
-        if (abs($val) > 1000000) {
-            return number_format($val / 1000000, 2, ',', '.')." mWh";            
-        } elseif (abs($val) > 1000) {
-            return number_format($val / 1000, 2, ',', '.')." kWh";            
+        return self::formatEnergyInWatt($val)."h";
+    }
+
+    public static function formatEnergyInWatt($val) {
+        
+        if (abs($val) >= 1000000) {
+            return number_format($val / 1000000, 2, ',', '.')." mW";            
+        } elseif (abs($val) >= 1000) {
+            return number_format($val / 1000, 2, ',', '.')." kW";            
         } else {
-            return ($val > 0 | $val < 0 ? $val : 0)." Wh";
+            return ($val > 0 | $val < 0 ? $val : 0)." W";
         }        
     }
     

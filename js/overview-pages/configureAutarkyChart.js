@@ -60,8 +60,8 @@ const optionsAutarky = {
                     yMin: 50,
                     yMax: 50,
                     borderColor: lineZeroColor,
-                    borderWidth: 1,
-                    borderDash: [5, 5],
+                    borderWidth: 0.5,
+                    borderDash: [10, 10],
                 }
             }
         },
@@ -117,14 +117,16 @@ const pluginsAutarky = [{
                 if (x > button1X && x < button1X + 100 && y > button1Y && y < button1Y + 25) {
                     $('#energy-chart-container').hide();
                     $('#autarky-chart-container').hide();
-                    $('#table-container').show();
+                    $('#energy-table-container').show();
+                    $('#chartOrTableOnFirstPageView').val('EnergyTable');
                 }
 
                 // Button 2: energy-chart-view
                 if (x > button2X && x < button2X + 100 && y > button2Y && y < button2Y + 25) {
-                    $('#energy-chart-container').show();
                     $('#autarky-chart-container').hide();
-                    $('#table-container').hide();
+                    $('#energy-table-container').hide();
+                    $('#energy-chart-container').show();
+                    $('#chartOrTableOnFirstPageView').val('EnergyChart');
                 }
             });
         }
@@ -137,22 +139,24 @@ const configAutarky = {
     data: {
         labels: timestampsXAxis,
         datasets: [{
-                label: '(1) Anteil selbst prozierter Strom',
+                label: '(1) Anteil selbst produzierter Strom',
                 data: autarky1.map(item => item.autInPct),
-                borderWidth: 1,
+                borderWidth: 3,
                 borderColor: autarkyColor,
                 backgroundColor: autarkyColor,
+                fill: true,
                 maxBarThickness: 30,
                 customDataSourceNo: 1,
             },
             {
-                label: '(2) Anteil selbst prozierter Strom',
+                label: '(2) Anteil selbst produzierter Strom',
                 data: autarky2.map(item => item.autInPct),
-                borderWidth: 1,
+                borderWidth: 3,
                 borderColor: autarkyColor2,
                 backgroundColor: autarkyColor2,
+                fill: true,
                 customDataSourceNo: 2,
-                hidden: (data2.length == 0)
+                hidden: true
             },
         ]
     },

@@ -1,3 +1,10 @@
+h1 {
+    margin-top: 5px
+}
+
+
+/* Chart-Container */
+
 #autarky-chart-container,
 #energy-chart-container {
     width: 95vw !important;
@@ -9,10 +16,6 @@
 canvas {
     width: 100% !important;
     height: 100% !important;
-}
-
-h1 {
-    margin-top: 5px
 }
 
 .weekday-container {
@@ -41,7 +44,10 @@ h1 {
     margin-left: 10px;
 }
 
-#table-container {
+
+/* Energy-table-container */
+
+#energy-table-container {
     overflow-y: auto;
     overflow-x: auto;
     height: 65vh !important;
@@ -66,11 +72,11 @@ h1 {
 }
 
 #energyTable td {
-    padding: 0.3rem;
+    padding: 0.2rem;
 }
 
 #energyTable th {
-    padding: 0.3rem;
+    padding: 0.2rem;
     padding-right: 2rem;
     position: relative;
 }
@@ -93,13 +99,13 @@ h1 {
     text-align: right;
 }
 
-#table-container .d-flex {
+#energy-table-container .d-flex {
     align-items: center;
     justify-content: space-between;
     margin-bottom: 15px;
 }
 
-#table-container h6 {
+#energy-table-container h6 {
     margin-bottom: 0;
     font-size: 1rem;
 }
@@ -124,6 +130,21 @@ h1 {
 #energyTable .savings {
     background-color: var(--savings-color);
     color: white;
+}
+
+#energyTable .autarky {
+    background-color: var(--savings-color);
+    color: white;
+}
+
+#energyTable .production-caption {
+    background-color: var(--pm1-color);
+    color: black;
+}
+
+#energyTable .production-pmtotal {
+    background-color: var(--pm1-color);
+    color: black;
 }
 
 #energyTable .production-pm1 {

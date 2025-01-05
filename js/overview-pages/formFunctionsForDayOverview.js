@@ -19,4 +19,26 @@ $(document).ready(function() {
         $('#date-range-form').submit();
     });
 
+    $('#selectorYear1').change(function() {
+        // set hidden values
+        $('#year1').val($('#selectorYear1').val());
+
+        $('#date-range-form').submit();
+    });
+
+    $('#selectorYear2').change(function() {
+        // set hidden values
+        $('#year2').val($('#selectorYear2').val());
+
+        $('#date-range-form').submit();
+    });
+
+    $('#line1').change(function() {
+        $('#date-range-form').submit();
+    });
+
+    $('#line2').change(function() {
+        $('#date-range-form').submit();
+    });
+
 });

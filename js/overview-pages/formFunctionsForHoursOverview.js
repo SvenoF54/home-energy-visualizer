@@ -1,4 +1,12 @@
 $(document).ready(function() {
+    $('#line1').change(function() {
+        $('#date-range-form').submit();
+    });
+
+    $('#line2').change(function() {
+        $('#date-range-form').submit();
+    });
+
     $('#day1').datetimepicker({
         format: 'd.m.Y',
         timepicker: false, // no time, only date

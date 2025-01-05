@@ -17,20 +17,22 @@ $(document).ready(function() {
 
     $('#switchToEnergyBarView').on('click', function(e) {
         $('#autarky-chart-container').hide();
-        $('#table-container').hide();
+        $('#energy-table-container').hide();
         $('#energy-chart-container').show();
+        $('#chartOrTableOnFirstPageView').val('EnergyChart');
     });
 
     $('#switchToAutarkyBarView').on('click', function(e) {
         $('#energy-chart-container').hide();
-        $('#table-container').hide();
+        $('#energy-table-container').hide();
         $('#autarky-chart-container').show();
+        $('#chartOrTableOnFirstPageView').val('AutarkyChart');
     });
 
     //-------------------------------------------------------
 
-    // Sort + Filter table    
-    $('#energyTable').DataTable({
+    // add datatable (Sort + Filter table)
+    var energyDataTable = $('#energyTable').DataTable({
         "paging": true,
         "searching": false,
         "ordering": true,
@@ -58,7 +60,31 @@ $(document).ready(function() {
     });
 
     setTimeout(function() {
-        const dataTable = $('#energyTable').DataTable();
-        dataTable.columns.adjust();
+        energyDataTable.columns.adjust();
     }, 200);
+
+    function toggleColumnVisibility(className, show) {
+        energyDataTable.columns().every(function() {
+            var column = this;
+            if ($(column.header()).hasClass(className)) {
+                column.visible(show);
+            }
+        });
+    }
+
+    $('#toggleProductionColumns').on('change', function() {
+        toggleColumnVisibility('production-pm1', !this.checked);
+        toggleColumnVisibility('production-pm2', !this.checked);
+        toggleColumnVisibility('production-pm3', !this.checked);
+        toggleColumnVisibility('production-pmtotal', this.checked);
+        if ($('#tableEnergyShowProductionTotal').length) {
+            $('#tableEnergyShowProductionTotal').val(this.checked ? "true" : "false");
+        }
+    });
+
+    toggleColumnVisibility('production-pm1', !$('#toggleProductionColumns').prop('checked'));
+    toggleColumnVisibility('production-pm2', !$('#toggleProductionColumns').prop('checked'));
+    toggleColumnVisibility('production-pm3', !$('#toggleProductionColumns').prop('checked'));
+    toggleColumnVisibility('production-pmtotal', $('#toggleProductionColumns').prop('checked'));
+
 });

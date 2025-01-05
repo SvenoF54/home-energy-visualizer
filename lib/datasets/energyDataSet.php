@@ -52,21 +52,11 @@ class EnergyDataSet {
     }
 
     public function calculateAutarkyForJsChartArray() : array
-    {
-        $totalConsumption = $this->getEnergyOverZero()->getEnergyInWatt() + $this->getSavings()->getEnergyInWatt();
-        $percentAutarky = 0;
-        $percentEmOverZero = 0;
-        if ($totalConsumption > 0) {
-            $percentAutarky = (1-($this->getEnergyOverZero()->getEnergyInWatt() / $totalConsumption)) * 100;
-            $percentEmOverZero = 100 - $percentAutarky;
-        }
-        
+    {        
         $dataRow = [
             "raw-dt" => $this->timestampFrom,
             "x-dt" => $this->timestampForView,
-            "autInPct" => $percentAutarky,
-            "emOZInPct" => $percentEmOverZero,
-            "totCons" => $totalConsumption,
+            "autInPct" => $this->getAutarkyInPercent(),
             "savings" => $this->getSavings()->getEnergyInWatt(),
         ];
 
@@ -122,6 +112,15 @@ class EnergyDataSet {
         return new EnergyAndPriceTuple($betweenX1AndX2, $this->getEnergyOverZero()->getEnergyPriceInCent());
     }
 
+    public function getProductionPmTotal() : EnergyAndPriceTuple{
+        $result = new EnergyAndPriceTuple();
+        $result->add($this->productionPm1);
+        $result->add($this->productionPm2);
+        $result->add($this->productionPm3);
+
+        return $result;
+    }
+
     public function getProductionPm1() : EnergyAndPriceTuple{
         return $this->productionPm1;
     }
@@ -136,6 +135,16 @@ class EnergyDataSet {
 
     public function getSavings() : EnergyAndPriceTuple{
         return $this->savings;
+    }
+
+    public function getAutarkyInPercent() {
+        $totalConsumption = $this->getEnergyOverZero()->getEnergyInWatt() + $this->getSavings()->getEnergyInWatt();
+        $percentAutarky = 0;
+        if ($totalConsumption > 0) {
+            $percentAutarky = (1-($this->getEnergyOverZero()->getEnergyInWatt() / $totalConsumption)) * 100;
+        }
+
+        return $percentAutarky;
     }
 
     public function getMissingRows() : MissingRowSet{

@@ -140,7 +140,7 @@ class HourlyEnergyDataTable extends BaseTimestampTable {
     public function getSavingsData() : SavingsStatisticDictionary
     {
         $savings = new SavingsStatisticDictionary();
-        $timPeriods = [TimePeriod::Today, TimePeriod::ThisWeek, TimePeriod::ThisMonth, TimePeriod::ThisYear];
+        $timPeriods = [TimePeriodEnum::Today, TimePeriodEnum::ThisWeek, TimePeriodEnum::ThisMonth, TimePeriodEnum::ThisYear];
         foreach($timPeriods as $timePeriod) {
             $powerData = $this->getEnergyData($timePeriod->getStartDate(), $timePeriod->getEndDate());
             $statsSet = new SavingsStatisticSet($powerData->getSavings(), $powerData->getEnergyUnderZero(), $powerData->getEnergyOverZero());

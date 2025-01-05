@@ -1,6 +1,6 @@
 <?php
 
-enum TimePeriod: string
+enum TimePeriodEnum: string
 {
     case Today = 'today';
     case ThisWeek = 'this_week';

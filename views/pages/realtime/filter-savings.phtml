@@ -1,5 +1,5 @@
 <table class="table-primary">
-<?  $timPeriods = [TimePeriod::Today, TimePeriod::ThisWeek, TimePeriod::ThisMonth, TimePeriod::ThisYear];
+<?  $timPeriods = [TimePeriodEnum::Today, TimePeriodEnum::ThisWeek, TimePeriodEnum::ThisMonth, TimePeriodEnum::ThisYear];
     foreach ($timPeriods as $timePeriod) {
         $curSavings = $savings->get($timePeriod->value);
 ?>

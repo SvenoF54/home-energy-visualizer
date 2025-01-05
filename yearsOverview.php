@@ -8,6 +8,8 @@ $actualConfig = Config::getInstance()->yearsOverview();
 // Form values
 $line1 = StringHelper::formGetInt("line1", $actualConfig->getLine1Default());
 $line2 = StringHelper::formGetInt("line2", $actualConfig->getLine2Default());
+$chartOrTableOnFirstPageView = StringHelper::formGetString("chartOrTableOnFirstPageView", $actualConfig->getChartOrTableOnFirstPageView()->value);
+$tableEnergyShowProductionTotal = StringHelper::formGetBool("tableEnergyShowProductionTotal", $actualConfig->getShowProductionInTotal());
 
 $timeLabelUnit = "year";
 
@@ -33,9 +35,9 @@ for($year = $overviewPageService->getFirstYear(); $year <= $overviewPageService-
     $jsVars = [        
         "timestampsTooltip" => json_encode($overviewPageService->getLabelsTooltip()),
         "timestampsXAxis" => json_encode($overviewPageService->getLabelsXAxis()),
-        "data1" => json_encode($overviewPageService->getData1()->convertToJsChartArray()),
+        "data1" => json_encode($overviewPageService->getData1List()->convertToJsChartArray()),
         "data2" => json_encode([]),
-        "autarky1" => json_encode($overviewPageService->getData1()->calculateAutarkyForJsChartArray()),
+        "autarky1" => json_encode($overviewPageService->getData1List()->calculateAutarkyForJsChartArray()),
         "autarky2" => json_encode([]),
         "line1_selected" => $line1,
         "line2_selected" => $line2,
@@ -44,7 +46,8 @@ for($year = $overviewPageService->getFirstYear(); $year <= $overviewPageService-
 
     // Filter settings
     $tableMainCaptionTimeUnit = "Erfasste Jahre";
-    $tableRow1CaptionTimeUnit = "(Summe über alles)";
+    $tableRow1CaptionTimeUnit = "(".$overviewPageService->getFirstYear()." bis ".$overviewPageService->getLastYear().")";
+    $energyTableCaption = "Energiewerte für ".$overviewPageService->getFirstYear()." bis ".$overviewPageService->getLastYear();
 
     $partialTop = "views/pages/overview/filter-for-years-overview.phtml";
     $partialBottom = "views/partials/chart-and-table-canvas.phtml";

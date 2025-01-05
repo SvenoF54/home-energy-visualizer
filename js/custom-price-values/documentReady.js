@@ -23,7 +23,7 @@ $(document).ready(function() {
         const priceRowId = row.data('price-row-id');
         const timestampFrom = row.data('timestamp-from-html');
         const timestampTo = row.data('timestamp-to-html');
-        console.log(priceRowId);
+
         if (confirm(`Möchten Sie den Eintrag für den Zeitraum ${timestampFrom} von ${timestampTo} wirklich löschen?`)) {
             $('#performDelete').val(true);
             $('#priceRowId').val(priceRowId);
