@@ -39,6 +39,16 @@ class EnergyDataSetList
         return $result;
     }
 
+    public function calculateAutarkyForJsChartArray() : array
+    {
+        $result = [];
+        foreach ($this->items as $item) {
+            $result[] = $item->calculateAutarkyForJsChartArray();
+        }
+
+        return $result;
+    }
+
     public function getEnergyOverZeroSum() : EnergyAndPriceTuple
     {
         $result = new EnergyAndPriceTuple(0, 0);        
@@ -64,6 +74,29 @@ class EnergyDataSetList
         $result = new EnergyAndPriceTuple(0, 0);        
         foreach ($this->items as $item) {
             $result->add($item->getSavings());
+        }
+
+        return $result;
+    }
+
+    public function getAutarkyInPercent()
+    {
+        $totalConsumption = $this->getEnergyOverZeroSum()->getEnergyInWatt() + $this->getSavingsSum()->getEnergyInWatt();
+        $percentAutarky = 0;
+        if ($totalConsumption > 0) {
+            $percentAutarky = (1-($this->getEnergyOverZeroSum()->getEnergyInWatt() / $totalConsumption)) * 100;
+        }
+
+        return $percentAutarky;
+    }
+
+    public function getProductionPmTotalSum() : EnergyAndPriceTuple
+    {
+        $result = new EnergyAndPriceTuple(0, 0);        
+        foreach ($this->items as $item) {
+            $result->add($item->getProductionPm1());
+            $result->add($item->getProductionPm2());
+            $result->add($item->getProductionPm3());
         }
 
         return $result;

@@ -1,10 +1,21 @@
-canvas {
-    width: 75%;
-    height: 45% !important;
-}
-
 h1 {
     margin-top: 5px
+}
+
+
+/* Chart-Container */
+
+#autarky-chart-container,
+#energy-chart-container {
+    width: 95vw !important;
+    height: 67vh !important;
+    min-height: 300px;
+    display: none;
+}
+
+canvas {
+    width: 100% !important;
+    height: 100% !important;
 }
 
 .weekday-container {
@@ -25,6 +36,33 @@ h1 {
     padding: 0.2rem 0.5rem;
 }
 
+#switchToEnergyBarView {
+    margin-left: 0;
+}
+
+#switchToAutarkyBarView {
+    margin-left: 10px;
+}
+
+
+/* Energy-table-container */
+
+#energy-table-container {
+    overflow-y: auto;
+    overflow-x: auto;
+    height: 65vh !important;
+    min-height: 300px;
+    max-height: none;
+    margin: 0 auto;
+    padding: 0;
+}
+
+#energyTable {
+    font-size: 0.75rem !important;
+    width: 100% !important;
+    table-layout: fixed !important;
+}
+
 #energyTable .cell-energy {
     min-width: 80px !important;
 }
@@ -33,32 +71,14 @@ h1 {
     min-width: 50px !important;
 }
 
-#table-container {
-    max-width: 90%;
-    /* Maximale Breite auf 90% der Container-Breite setzen */
-    margin: 0 auto;
-    /* Zentriert den Container horizontal */
-    padding-left: 15px;
-    padding-right: 15px;
-    overflow-x: auto;
-}
-
-#energyTable {
-    font-size: 0.85rem;
-    width: 100% !important;
-    table-layout: fixed !important;
-}
-
 #energyTable td {
-    padding: 0.5rem;
+    padding: 0.2rem;
 }
 
 #energyTable th {
-    padding: 0.5rem;
+    padding: 0.2rem;
     padding-right: 2rem;
-    /* Platz für Sortierpfeile */
     position: relative;
-    /* Damit die Pfeile korrekt positioniert werden können */
 }
 
 #energyTable thead {
@@ -79,19 +99,15 @@ h1 {
     text-align: right;
 }
 
-#table-container .d-flex {
+#energy-table-container .d-flex {
     align-items: center;
     justify-content: space-between;
     margin-bottom: 15px;
 }
 
-#table-container h6 {
+#energy-table-container h6 {
     margin-bottom: 0;
     font-size: 1rem;
-}
-
-#switchToBarView {
-    margin-left: 10px;
 }
 
 #energyTable .timestamp {
@@ -116,6 +132,21 @@ h1 {
     color: white;
 }
 
+#energyTable .autarky {
+    background-color: var(--savings-color);
+    color: white;
+}
+
+#energyTable .production-caption {
+    background-color: var(--pm1-color);
+    color: black;
+}
+
+#energyTable .production-pmtotal {
+    background-color: var(--pm1-color);
+    color: black;
+}
+
 #energyTable .production-pm1 {
     background-color: var(--pm1-color);
     color: black;
@@ -129,8 +160,4 @@ h1 {
 #energyTable .production-pm3 {
     background-color: var(--pm3-color);
     color: black;
-}
-
-#energyTable .darken-30 {
-    filter: brightness(80%);
 }

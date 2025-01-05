@@ -18,8 +18,13 @@ Zeigt den Verbrauch in einer Stundenübersicht. Aus Performancegründen werden a
 
 ![Stundenübersicht](./images/gallery/hours-overview-datatable.png "Stundenübersicht")
 
-Zeigt die Stundendaten in einer Tabelle an. Alle Übersichtsseiten bieten die Tabellenansicht, hier nur exemplarsich die Stundenansicht.
+Zeigt die Stundendaten in einer Tabelle an. Alle Übersichtsseiten bieten die Tabellenansicht, hier nur exemplarsich die für Stundenansicht.
 
+# Stundenübersicht - Autarkie (Selbstversorgung)
+
+![Autarkieübersicht](./images/gallery/hours-overview-autarky.png "Autarkieübersicht")
+
+Zeigt die Autarkie (Selbstverssorgungsrate) in Prozent für die erste Auswahl als Chart dar. Alle Übersichtsseiten bieten die Autarkieansicht, hier nur exemplarsich für die Stundenansicht.
 
 # Tagesübersicht
 

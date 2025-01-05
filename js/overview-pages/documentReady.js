@@ -1,20 +1,38 @@
+let energyChart, autarkyChart;
+
 $(document).ready(function() {
 
-    // initialize Chart
-    ctx = document.getElementById('energyChart').getContext('2d');
-    const myChart = new Chart(
-        ctx,
-        config
+    // initialize Charts
+    ctxEnergy = document.getElementById('energyChart').getContext('2d');
+    energyChart = new Chart(
+        ctxEnergy,
+        configEnergy
     );
 
-    $('#switchToBarView').on('click', function(e) {
-        console.log("btn");
-        $('#chart-container').css('display', 'block');
-        $('#table-container').css('display', 'none');
+    ctxAutarky = document.getElementById('autarkyChart').getContext('2d');
+    autarkyChart = new Chart(
+        ctxAutarky,
+        configAutarky
+    );
+
+    $('#switchToEnergyBarView').on('click', function(e) {
+        $('#autarky-chart-container').hide();
+        $('#energy-table-container').hide();
+        $('#energy-chart-container').show();
+        $('#chartOrTableOnFirstPageView').val('EnergyChart');
     });
 
-    // Sort + Filter table    
-    $('#energyTable').DataTable({
+    $('#switchToAutarkyBarView').on('click', function(e) {
+        $('#energy-chart-container').hide();
+        $('#energy-table-container').hide();
+        $('#autarky-chart-container').show();
+        $('#chartOrTableOnFirstPageView').val('AutarkyChart');
+    });
+
+    //-------------------------------------------------------
+
+    // add datatable (Sort + Filter table)
+    var energyDataTable = $('#energyTable').DataTable({
         "paging": true,
         "searching": false,
         "ordering": true,
@@ -42,7 +60,31 @@ $(document).ready(function() {
     });
 
     setTimeout(function() {
-        // Datatable needs to be rezised for correct view problems
-        $('#energyTable').DataTable().columns.adjust();
+        energyDataTable.columns.adjust();
     }, 200);
+
+    function toggleColumnVisibility(className, show) {
+        energyDataTable.columns().every(function() {
+            var column = this;
+            if ($(column.header()).hasClass(className)) {
+                column.visible(show);
+            }
+        });
+    }
+
+    $('#toggleProductionColumns').on('change', function() {
+        toggleColumnVisibility('production-pm1', !this.checked);
+        toggleColumnVisibility('production-pm2', !this.checked);
+        toggleColumnVisibility('production-pm3', !this.checked);
+        toggleColumnVisibility('production-pmtotal', this.checked);
+        if ($('#tableEnergyShowProductionTotal').length) {
+            $('#tableEnergyShowProductionTotal').val(this.checked ? "true" : "false");
+        }
+    });
+
+    toggleColumnVisibility('production-pm1', !$('#toggleProductionColumns').prop('checked'));
+    toggleColumnVisibility('production-pm2', !$('#toggleProductionColumns').prop('checked'));
+    toggleColumnVisibility('production-pm3', !$('#toggleProductionColumns').prop('checked'));
+    toggleColumnVisibility('production-pmtotal', $('#toggleProductionColumns').prop('checked'));
+
 });

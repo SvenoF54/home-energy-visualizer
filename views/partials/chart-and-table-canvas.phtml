@@ -1,78 +1,26 @@
-    <div class="container-fluid px-0">
-        <div id="chart-container" style="display:<?= $actualConfig->getShowDiagramOnFirstPageView() ? "block" : "none"?>">
-            <canvas id="energyChart"></canvas>
-        </div>        
-        <div class="container mt-3" id="table-container" style="display:<?= $actualConfig->getShowDiagramOnFirstPageView() ? "none" : "block"?>">
-            <div class="d-flex justify-content-between align-items-center mb-3">
-                <h6 class="text-start text-secondary">Energie Werte</h6>
-                <button class="btn btn-primary btn-sm" id="switchToBarView">Balkenansicht</button>
+<div class="container-fluid px-0">
+    <!-- Energy Chart Container -->
+    <div id="energy-chart-container" 
+         style="<?=HtmlHelper::getDisplayStyle(ChartOrTableOnFirstPageViewEnum::isEnergyChart($chartOrTableOnFirstPageView))?>">
+        <canvas id="energyChart"></canvas>
+    </div>
+
+    <!-- Autarky Chart Container -->
+    <div id="autarky-chart-container" 
+         style="<?=HtmlHelper::getDisplayStyle(ChartOrTableOnFirstPageViewEnum::isAutarkyChart($chartOrTableOnFirstPageView))?>">
+        <canvas id="autarkyChart"></canvas>
+    </div>
+
+    <!-- Table Container -->
+    <div id="energy-table-container" class="container mt-3" 
+        style="<?=HtmlHelper::getDisplayStyle(ChartOrTableOnFirstPageViewEnum::isEnergyTable($chartOrTableOnFirstPageView))?>">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h6 class="text-start text-secondary"><?=$energyTableCaption?></h6>
+            <div class="d-flex justify-content-end">
+                <button class="btn btn-primary btn-sm" id="switchToEnergyBarView">Energieansicht</button>
+                <button class="btn btn-primary btn-sm ms-2" id="switchToAutarkyBarView">Autarkieansicht</button>
             </div>
-            <table class="table table-bordered table-hover" id="energyTable">
-                <thead class="thead-light">
-                    <tr>
-                        <th class="table-active timestamp">Zeitpunkt</th>
-                        <th class="table-active purchase" colspan=2>Einkauf</th>
-                        <th class="table-active feed-in" colspan=2>Einspeisung</th>                
-                        <th class="table-active savings" colspan=2>Ersparnis</th>
-                        <th class="table-active production-pm1" colspan=6>Produktion</th>
-                    </tr>
-                    <tr>
-                        <th class="table-active timestamp"></th>
-                        <th class="table-active cell-energy purchase">Energie</th>
-                        <th class="table-active cell-price purchase">Preis</th>
-                        <th class="table-active cell-energy feed-in">Energie</th>
-                        <th class="table-active cell-price feed-in">Preis</th>
-                        <th class="table-active cell-energy savings">Energie</th>
-                        <th class="table-active cell-price savings">Preis</th>
-                        <th class="table-active cell-energy production-pm1">Energie&nbsp;PM1</th>
-                        <th class="table-active cell-price production-pm1">Preis</th>
-                        <th class="table-active cell-energy production-pm2">Energie&nbsp;PM2</th>
-                        <th class="table-active cell-price production-pm2">Preis</th>
-                        <th class="table-active cell-energy production-pm3">Energie&nbsp;PM3</th>
-                        <th class="table-active cell-price production-pm3">Preis</th>
-                    </tr>
-                </thead>
-                <tbody>                    
-                <? for($nt = 0; $nt < sizeof($overviewPageService->getLabelsXAxis()); $nt++) {             
-                    $captions = $overviewPageService->getLabelsXAxis()[$nt];
-                    $data1 = $overviewPageService->getData1()->getItem($nt);                    
-                ?>
-                    <tr>
-                        <td class="timestamp" data-sort="<?=$data1->getTimestampFrom()?>"><?=$captions[0]?></td>
-                        <td class="text-end purchase" data-sort="<?=$data1->getEnergyOverZero()->getEnergyInWatt()?>"><?=$data1->getEnergyOverZero()->getEnergyInWattFormated()?></td>
-                        <td class="text-end purchase" data-sort="<?=$data1->getEnergyOverZero()->getEnergyPriceInCent()?>"><?=$data1->getEnergyOverZero()->getEnergyPriceFormatted()?></td>
-                        <td class="text-end feed-in" data-sort="<?=$data1->getEnergyUnderZero()->getEnergyInWatt()?>"><?=$data1->getEnergyUnderZero()->getEnergyInWattFormated()?></td>
-                        <td class="text-end feed-in" data-sort="<?=$data1->getEnergyUnderZero()->getEnergyPriceInCent()?>"><?=$data1->getEnergyUnderZero()->getEnergyPriceFormatted()?></td>
-                        <td class="text-end savings" data-sort="<?=$data1->getSavings()->getEnergyInWatt()?>"><?=$data1->getSavings()->getEnergyInWattFormated()?></td>
-                        <td class="text-end savings" data-sort="<?=$data1->getSavings()->getEnergyPriceInCent()?>"><?=$data1->getSavings()->getEnergyPriceFormatted()?></td>
-
-                        <td class="text-end production-pm1" data-sort="<?=$data1->getProductionPm1()->getEnergyInWatt()?>"><?=$data1->getProductionPm1()->getEnergyInWattFormated()?></td>
-                        <td class="text-end production-pm1" data-sort="<?=$data1->getProductionPm1()->getEnergyPriceInCent()?>"><?=$data1->getProductionPm1()->getEnergyPriceFormatted()?></td>
-                        <td class="text-end production-pm2" data-sort="<?=$data1->getProductionPm2()->getEnergyInWatt()?>"><?=$data1->getProductionPm2()->getEnergyInWattFormated()?></td>
-                        <td class="text-end production-pm2" data-sort="<?=$data1->getProductionPm2()->getEnergyPriceInCent()?>"><?=$data1->getProductionPm2()->getEnergyPriceFormatted()?></td>
-                        <td class="text-end production-pm3" data-sort="<?=$data1->getProductionPm3()->getEnergyInWatt()?>"><?=$data1->getProductionPm3()->getEnergyInWattFormated()?></td>
-                        <td class="text-end production-pm3" data-sort="<?=$data1->getProductionPm3()->getEnergyPriceInCent()?>"><?=$data1->getProductionPm3()->getEnergyPriceFormatted()?></td>
-                    </tr>
-                <? } ?>
-                </tbody>
-                <tfoot>
-                    <tr>
-                        <td class="timestamp">Summe</td>
-                        <td class="text-end purchase"><?=$overviewPageService->getData1()->getEnergyOverZeroSum()->getEnergyInWattFormated()?></td>
-                        <td class="text-end purchase"><?=$overviewPageService->getData1()->getEnergyOverZeroSum()->getEnergyPriceFormatted()?></td>
-                        <td class="text-end feed-in"><?=$overviewPageService->getData1()->getEnergyUnderZeroSum()->getEnergyInWattFormated()?></td>
-                        <td class="text-end feed-in"><?=$overviewPageService->getData1()->getEnergyUnderZeroSum()->getEnergyPriceFormatted()?></td>
-                        <td class="text-end savings"><?=$overviewPageService->getData1()->getSavingsSum()->getEnergyInWattFormated()?></td>
-                        <td class="text-end savings"><?=$overviewPageService->getData1()->getSavingsSum()->getEnergyPriceFormatted()?></td>
-
-                        <td class="text-end production-pm1"><?=$overviewPageService->getData1()->getProductionPm1Sum()->getEnergyInWattFormated()?></td>
-                        <td class="text-end production-pm1"><?=$overviewPageService->getData1()->getProductionPm1Sum()->getEnergyPriceFormatted()?></td>
-                        <td class="text-end production-pm1"><?=$overviewPageService->getData1()->getProductionPm2Sum()->getEnergyInWattFormated()?></td>
-                        <td class="text-end production-pm1"><?=$overviewPageService->getData1()->getProductionPm2Sum()->getEnergyPriceFormatted()?></td>
-                        <td class="text-end production-pm1"><?=$overviewPageService->getData1()->getProductionPm3Sum()->getEnergyInWattFormated()?></td>
-                        <td class="text-end production-pm1"><?=$overviewPageService->getData1()->getProductionPm3Sum()->getEnergyPriceFormatted()?></td>
-                    </tr>
-                </tfoot>
-            </table>
+        </div>
+            <? include_once("energy-table.phtml");?>
         </div>
     </div>

@@ -1,9 +1,9 @@
 $(document).ready(function() {
 
     // Configure chart
-    const myChart = new Chart(
+    const myEnergyChart = new Chart(
         $('#energyChart')[0].getContext('2d'),
-        config
+        configEnergy
     );
 
     $('#reloadCheckbox').on('change', checkAndReload);

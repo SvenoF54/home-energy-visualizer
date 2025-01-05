@@ -31,17 +31,17 @@ class HourlyEnergyDataTable extends BaseTimestampTable {
                 SUM(IF(value_for_x_quarter_hours < 4, pm1_total_power / 4 * value_for_x_quarter_hours, pm1_total_power)) AS sum_pm1_total_power,
                 SUM(
                     IF(value_for_x_quarter_hours < 4, pm1_total_power / 4 * value_for_x_quarter_hours, pm1_total_power)
-                    * in_cent_price_per_wh) AS sum_price_pm1,                                                
+                    * out_cent_price_per_wh) AS sum_price_pm1,                                                
 
                 SUM(IF(value_for_x_quarter_hours < 4, pm2_total_power / 4 * value_for_x_quarter_hours, pm2_total_power)) AS sum_pm2_total_power,
                 SUM(
                     IF(value_for_x_quarter_hours < 4, pm2_total_power / 4 * value_for_x_quarter_hours, pm2_total_power)
-                    * in_cent_price_per_wh) AS sum_price_pm2,                                                
+                    * out_cent_price_per_wh) AS sum_price_pm2,                                                
 
                 SUM(IF(value_for_x_quarter_hours < 4, pm3_total_power / 4 * value_for_x_quarter_hours, pm3_total_power)) AS sum_pm3_total_power,
                 SUM(
                     IF(value_for_x_quarter_hours < 4, pm1_total_power / 4 * value_for_x_quarter_hours, pm3_total_power)
-                    * in_cent_price_per_wh) AS sum_price_pm3,                                                
+                    * out_cent_price_per_wh) AS sum_price_pm3,                                                
                     
                 SUM(
                     (
@@ -140,7 +140,7 @@ class HourlyEnergyDataTable extends BaseTimestampTable {
     public function getSavingsData() : SavingsStatisticDictionary
     {
         $savings = new SavingsStatisticDictionary();
-        $timPeriods = [TimePeriod::Today, TimePeriod::ThisWeek, TimePeriod::ThisMonth, TimePeriod::ThisYear];
+        $timPeriods = [TimePeriodEnum::Today, TimePeriodEnum::ThisWeek, TimePeriodEnum::ThisMonth, TimePeriodEnum::ThisYear];
         foreach($timPeriods as $timePeriod) {
             $powerData = $this->getEnergyData($timePeriod->getStartDate(), $timePeriod->getEndDate());
             $statsSet = new SavingsStatisticSet($powerData->getSavings(), $powerData->getEnergyUnderZero(), $powerData->getEnergyOverZero());
@@ -191,7 +191,7 @@ class HourlyEnergyDataTable extends BaseTimestampTable {
                     :pm1MissingRows, :pm2MissingRows, :pm3MissingRows,
                     :countRows, :customValue)
             ON DUPLICATE KEY UPDATE
-                timestamp_to = VALUES(timestampTo),
+                timestamp_to = VALUES(timestamp_to),
                 value_for_x_quarter_hours = VALUES(value_for_x_quarter_hours),
                 out_cent_price_per_wh = VALUES(out_cent_price_per_wh),
                 in_cent_price_per_wh = VALUES(in_cent_price_per_wh),
@@ -247,13 +247,13 @@ class HourlyEnergyDataTable extends BaseTimestampTable {
     
     public function getCustomRow($timestamp)
     {
-        $sql = "SELECT * FROM $this->tableName WHERE timestamp_from = :timestamp AND custom_value = 1 ORDER BY timestamp DESC";        
+        $sql = "SELECT * FROM $this->tableName WHERE timestamp_from = :timestamp AND custom_value = 1";                
         try {
             $stmt = $this->pdo->prepare($sql);
             $stmt->bindParam(':timestamp', $timestamp, PDO::PARAM_STR);
             
             $stmt->execute();
-            if ($stmt->rowCount() == 0) {
+            if ($stmt->rowCount() == 0) {                
                 return null;
             }
             

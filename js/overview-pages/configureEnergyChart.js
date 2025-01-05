@@ -18,7 +18,7 @@ const line2Color = getComputedStyle(document.documentElement).getPropertyValue('
 const lineZeroColor = getComputedStyle(document.documentElement).getPropertyValue('--line-zero-color').trim();
 
 
-const scales = {
+const scalesEnergy = {
     x: {
         type: 'category',
         stacked: true,
@@ -37,14 +37,14 @@ const scales = {
         },
         ticks: {
             callback: function(value, index, values) {
-                return value + ' W'; // add Watt after numbers
+                return formatCurrent(Number(value)) + 'h';
             }
         }
     }
 }
 
 
-const options = {
+const optionsEnergy = {
     layout: {
         padding: {
             left: 20,
@@ -177,46 +177,72 @@ const options = {
             display: true
         },
     },
-    scales
+    scales: scalesEnergy
 };
 
 // Plugins, here the button for the table view
-const plugins = [{
+const pluginsEnergy = [{
     id: 'customButtonPlugin',
-    afterDraw(chart, args, options) {
+    afterDraw(chart) {
         const { ctx, chartArea } = chart;
-        const buttonX = chartArea.right - 100;
-        const buttonY = chartArea.top - 30;
 
-        // Draw button
+        if (!chartArea) return;
+
+        // Button 1: table-view
+        const button1X = chartArea.right - 220;
+        const button1Y = chartArea.top - 30;
+
         ctx.fillStyle = 'blue';
-        ctx.fillRect(buttonX, buttonY, 100, 25);
+        ctx.fillRect(button1X, button1Y, 100, 25);
 
-        // Draw Text
         ctx.fillStyle = 'white';
         ctx.font = '12px Arial';
-        ctx.fillText('Tabellenansicht', buttonX + 10, buttonY + 12);
+        ctx.textBaseline = 'middle';
+        ctx.fillText('Tabellenansicht', button1X + 10, button1Y + 12);
 
-        // Add Event-Listener
+        // Button 2: autarky-view
+        const button2X = chartArea.right - 110;
+        const button2Y = chartArea.top - 30;
+
+        ctx.fillStyle = 'blue';
+        ctx.fillRect(button2X, button2Y, 100, 25);
+
+        ctx.fillStyle = 'white';
+        ctx.font = '12px Arial';
+        ctx.textBaseline = 'middle';
+        ctx.fillText('Autarkieansicht', button2X + 10, button2Y + 12);
+
+        // Add event listeners if not already added
         if (!chart.customButtonListener) {
             chart.customButtonListener = true;
-            chart.canvas.addEventListener('click', function(event) {
-                const canvasPosition = Chart.helpers.getRelativePosition(event, chart);
-                const x = canvasPosition.x;
-                const y = canvasPosition.y;
 
-                // If click is for button
-                if (x > buttonX && x < buttonX + 100 && y > buttonY && y < buttonY + 30) {
-                    $('#chart-container').css('display', 'none');
-                    $('#table-container').css('display', 'block');
+            chart.canvas.addEventListener('click', function(event) {
+                const rect = chart.canvas.getBoundingClientRect();
+                const x = event.clientX - rect.left;
+                const y = event.clientY - rect.top;
+
+                // Button 1: table-view
+                if (x > button1X && x < button1X + 100 && y > button1Y && y < button1Y + 25) {
+                    $('#energy-chart-container').hide();
+                    $('#autarky-chart-container').hide();
+                    $('#energy-table-container').show();
+                    $('#chartOrTableOnFirstPageView').val('EnergyTable');
+                }
+
+                // Button 2: autarky-view
+                if (x > button2X && x < button2X + 100 && y > button2Y && y < button2Y + 25) {
+                    $('#energy-chart-container').hide();
+                    $('#energy-table-container').hide();
+                    $('#autarky-chart-container').show();
+                    $('#chartOrTableOnFirstPageView').val('AutarkyChart');
                 }
             });
         }
-    },
+    }
 }];
 
 // configure diagram
-const config = {
+const configEnergy = {
     type: 'bar',
     data: {
         labels: timestampsXAxis,
@@ -287,6 +313,6 @@ const config = {
             },
         ]
     },
-    options,
-    plugins
+    options: optionsEnergy,
+    plugins: pluginsEnergy
 };

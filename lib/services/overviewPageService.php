@@ -168,12 +168,12 @@ class OverviewPageService
         return date("Y", strtotime($this->getTableStatistics()->getLastRowDate()));
     }
 
-    public function getData1() : EnergyDataSetList
+    public function getData1List() : EnergyDataSetList
     {
         return $this->data1;
     }
 
-    public function getData2() : EnergyDataSetList
+    public function getData2List() : EnergyDataSetList
     {
         return $this->data2;
     }

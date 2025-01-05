@@ -30,4 +30,9 @@ class HtmlHelper {
             . ' (' . HtmlHelper::showAsPercent($nullRows, $rowCount) . ')</div>';
 
     }
+
+    public static function getDisplayStyle($visible)
+    {
+        return 'display:'.($visible  ? "block" : "none");
+    }
 }

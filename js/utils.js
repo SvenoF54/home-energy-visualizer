@@ -14,14 +14,14 @@ function formatCurrent(val, suffix = "") {
     val = Number(val);
     let formattedValue;
 
-    if (Math.abs(val) > 1000000) {
+    if (Math.abs(val) >= 1000000) {
         // For mW
         formattedValue = (val / 1000000).toFixed(3).replace('.', ',');
         if ((val / 1000000) % 1 === 0) {
             formattedValue = (val / 1000000).toFixed(0).replace('.', ',');
         }
         return formattedValue + " mW" + suffix;
-    } else if (Math.abs(val) > 1000) {
+    } else if (Math.abs(val) >= 1000) {
         // For kW
         formattedValue = (val / 1000).toFixed(2).replace('.', ',');
         if ((val / 1000) % 1 === 0) {
@@ -111,10 +111,15 @@ function formatNumber(val, digits = 0) {
     }
 
     // Format the number with fixed decimals
-    let formattedValue = val.toFixed(digits).replace('.', ',');
+    let formattedValue = parseFloat(val)
+        .toFixed(digits) // round to given decimal digits
+        .replace('.', ',');
 
-    // Remove trailing zeros and trailing comma
-    formattedValue = formattedValue.replace(/,?0+$/, '');
+    formattedValue = formattedValue.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+
+    if (digits > 0) {
+        formattedValue = formattedValue.replace(/,?0+$/, '');
+    }
 
     return formattedValue;
 }
