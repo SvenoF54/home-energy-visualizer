@@ -109,7 +109,9 @@ class EnergyDataSet {
 
     public function getEnergyBetweenX1AndX2() : EnergyAndPriceTuple {
         $betweenX1AndX2 =  $this->getEnergyOverZero()->getEnergyInWatt() - $this->getEnergyUnderX1()->getEnergyInWatt() - $this->getEnergyOverX2()->getEnergyInWatt(); 
-        return new EnergyAndPriceTuple($betweenX1AndX2, $this->getEnergyOverZero()->getEnergyPriceInCent());
+        $betweenX1AndX2Price = $this->getEnergyOverZero()->getEnergyPriceInCent() - $this->getEnergyUnderX1()->getEnergyPriceInCent() - $this->getEnergyOverX2()->getEnergyPriceInCent(); 
+        
+        return new EnergyAndPriceTuple($betweenX1AndX2, $betweenX1AndX2Price);
     }
 
     public function getProductionPmTotal() : EnergyAndPriceTuple{

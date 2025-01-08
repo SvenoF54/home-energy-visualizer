@@ -115,7 +115,7 @@
                             <? $textLine1 = "Einkauf < $line1 W: ".HtmlHelper::formatEnergyInWattAndCurrency($energyData->getEnergyUnderX1()) ?>
                             <? $textLine1 .= "<br> Einkauf > $line1 W: ".HtmlHelper::formatEnergyInWattAndCurrency($energyData->getEnergyOverX1()) ?>
                             <? $textLine1 .= "<br> Einkauf $line1 bis $line2 W: ".HtmlHelper::formatEnergyInWattAndCurrency($energyData->getEnergyBetweenX1AndX2()) ?>
-                            <? $textLine1 .= "<br class='small'>(Werte über bzw. unter $line1 W.)";?>
+                            <? $textLine1 .= "<br class='small'>(Nur der Anteil über bzw. unter $line1 W.)";?>
                             <i class="bi bi-info-circle text-primary" data-bs-toggle="tooltip" data-bs-html="true" title="<?=$textLine1?>"></i><div>
                         </td>
                         <td>
@@ -123,7 +123,7 @@
                             <? $textLine2 = "Einkauf < $line2 W: ".HtmlHelper::formatEnergyInWattAndCurrency($energyData->getEnergyUnderX2()) ?>
                             <? $textLine2 .= "<br>Einkauf > $line2 W: ".HtmlHelper::formatEnergyInWattAndCurrency($energyData->getEnergyOverX2()) ?>
                             <? $textLine2 .= "<br> Einkauf $line1 bis $line2 W: ".HtmlHelper::formatEnergyInWattAndCurrency($energyData->getEnergyBetweenX1AndX2()) ?>
-                            <? $textLine2 .= "<br class='small'>(Werte über bzw. unter $line2 W.)";?>
+                            <? $textLine2 .= "<br class='small'>(Nur der Anteil über bzw. unter $line2 W.)";?>
                             <i class="bi bi-info-circle text-primary" data-bs-toggle="tooltip" data-bs-html="true" title="<?=$textLine2?>"></i><div>
                         </td>
                         <td> 
