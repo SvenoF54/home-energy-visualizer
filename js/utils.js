@@ -115,7 +115,7 @@ function formatNumber(val, digits = 0) {
         .toFixed(digits) // round to given decimal digits
         .replace('.', ',');
 
-    formattedValue = formattedValue.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+    formattedValue = formattedValue.replace(new RegExp(`\\B(?=(\\d{${digits}})+(?!\\d))`, 'g'), '.');
 
     if (digits > 0) {
         formattedValue = formattedValue.replace(/,?0+$/, '');
