@@ -118,7 +118,7 @@ class RealTimeEnergyDataTable extends BaseTimestampTable {
                         ELSE 0 
                     END) * interval_in_seconds / 3600, 0) AS sum_em_over_x1,
                 ROUND(SUM(CASE 
-                        WHEN em_total_power <= :line1 THEN em_total_power - :line1
+                        WHEN em_total_power <= :line1 THEN :line1 - em_total_power
                         ELSE 0 
                     END) * interval_in_seconds / 3600, 0) AS sum_em_under_x1,
     
@@ -127,7 +127,7 @@ class RealTimeEnergyDataTable extends BaseTimestampTable {
                         ELSE 0 
                     END) * interval_in_seconds / 3600, 0) AS sum_em_over_x2,
                 ROUND(SUM(CASE 
-                        WHEN em_total_power <= :line2 THEN em_total_power - :line2
+                        WHEN em_total_power <= :line2 THEN :line2 - em_total_power
                         ELSE 0 
                     END) * interval_in_seconds / 3600, 0) AS sum_em_under_x2,
     
@@ -171,9 +171,9 @@ class RealTimeEnergyDataTable extends BaseTimestampTable {
             if ($row) {    
                 $energyDataSet->setEnergyOverZero(round($row["sum_em_over_0"], 0), $row["sum_em_over_0"] * $outPricePerWh);
                 $energyDataSet->setEnergyUnderZero(round($row["sum_em_under_0"], 0), $row["sum_em_under_0"] * $inPricePerWh);
-                $energyDataSet->setEnergyUnderX1(round($row["sum_em_under_x1"], 0), $row["sum_em_under_x1"] * $inPricePerWh);
+                $energyDataSet->setEnergyUnderX1(round($row["sum_em_under_x1"], 0), $row["sum_em_under_x1"] * $outPricePerWh);
                 $energyDataSet->setEnergyOverX1(round($row["sum_em_over_x1"], 0), $row["sum_em_over_x1"] * $outPricePerWh);
-                $energyDataSet->setEnergyUnderX2(round($row["sum_em_under_x2"], 0), $row["sum_em_under_x2"] * $inPricePerWh);
+                $energyDataSet->setEnergyUnderX2(round($row["sum_em_under_x2"], 0), $row["sum_em_under_x2"] * $outPricePerWh);
                 $energyDataSet->setEnergyOverX2(round($row["sum_em_over_x2"], 0), $row["sum_em_over_x2"] * $outPricePerWh);
                 $energyDataSet->setSavings(round($row["sum_savings"], 0), $row["sum_savings"] * $outPricePerWh);
                 $energyDataSet->setMissingRows($row["em_missing_rows"], $row["pm1_missing_rows"], $row["pm2_missing_rows"], $row["pm3_missing_rows"], $row["count_rows"]);
