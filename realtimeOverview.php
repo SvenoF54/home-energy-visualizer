@@ -1,9 +1,8 @@
 <?php
-include_once("config/config.php");
 include_once("lib/appLibLoader.php");
 
 // Defaults
-$actualConfig = Config::getInstance()->realtimeOverview();
+$actualConfig = Configuration::getInstance()->realtimeOverview();
 
 // Form values
 $avg = StringHelper::formGetInt('average', 2);
@@ -23,8 +22,8 @@ $energyPriceTbl = new EnergyPriceTable($db->getPdoConnection());
 $priceRow = $energyPriceTbl->getPriceForDateTime($startTime);
 $overviewDataRows = $realTimeEnergyDataTbl->getOverviewData($startTime, $endTime, $avg);
 
-$outPricePerWh = $priceRow != null ? $priceRow->getOutCentPricePerWh() : Config::getInstance()->getOutCentPricePerWh();
-$inPricePerWh = $priceRow != null ? $priceRow->getInCentPricePerWh() : Config::getInstance()->getInCentPricePerWh();
+$outPricePerWh = $priceRow != null ? $priceRow->getOutCentPricePerWh() : Configuration::getInstance()->getOutCentPricePerWh();
+$inPricePerWh = $priceRow != null ? $priceRow->getInCentPricePerWh() : Configuration::getInstance()->getInCentPricePerWh();
 
 $energyData = $realTimeEnergyDataTbl->getEnergyData($startTime, $endTime, $line1, $line2, $outPricePerWh, $inPricePerWh);
 $savings = $hourlyEnergyDataTbl->getSavingsData();

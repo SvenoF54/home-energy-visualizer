@@ -1,5 +1,7 @@
 <?php
 
+include_once(__DIR__ ."/../config/config.php");
+
 include_once("database/database.php");
 include_once("database/baseTable.php");
 include_once("database/baseTimestampTable.php");

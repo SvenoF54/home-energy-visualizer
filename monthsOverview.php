@@ -1,9 +1,8 @@
 <?php
-include_once("config/config.php");
 include_once("lib/appLibLoader.php");
 
 // Defaults
-$actualConfig = Config::getInstance()->monthsOverview();
+$actualConfig = Configuration::getInstance()->monthsOverview();
 
 // Form values
 $line1 = StringHelper::formGetInt("line1", $actualConfig->getLine1Default());
@@ -43,7 +42,8 @@ for($year = $overviewPageService->getFirstYear(); $year <= $overviewPageService-
         "autarky2" => json_encode($overviewPageService->getData2List()->calculateAutarkyForJsChartArray()),
         "line1_selected" => $line1,
         "line2_selected" => $line2,
-        "timeLabelUnit" => json_encode($timeLabelUnit)
+        "timeLabelUnit" => json_encode($timeLabelUnit),
+        "config" => $actualConfig->toJson()
     ];
 
     // Filter settings

@@ -156,7 +156,7 @@ const configAutarky = {
                 backgroundColor: autarkyColor2,
                 fill: true,
                 customDataSourceNo: 2,
-                hidden: true
+                hidden: !(config.showSelection2OnAutarkyChart && data2.length > 0),
             },
         ]
     },

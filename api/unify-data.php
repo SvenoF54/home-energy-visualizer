@@ -41,7 +41,7 @@ function unifyRealTimeData($monthYear)
     $hourlyEnergyDataTbl = new HourlyEnergyDataInsert($db->getPdoConnection());
     $energyPriceTbl = new EnergyPriceTable($db->getPdoConnection());
 
-    $unifier = new RealTimeEnergyDataUnifier($hourlyEnergyDataTbl, $realTimeEnergyDataTbl, $energyPriceTbl, Config::getInstance()->getOutCentPricePerWh(), Config::getInstance()->getInCentPricePerWh());
+    $unifier = new RealTimeEnergyDataUnifier($hourlyEnergyDataTbl, $realTimeEnergyDataTbl, $energyPriceTbl, Configuration::getInstance()->getOutCentPricePerWh(), Configuration::getInstance()->getInCentPricePerWh());
     $count = $unifier->unifyDataForTimeRange($startTime, $endTime);
 
     ApiHelper::dieWithResponseCode(200, "Data saved successfully. $count Rows changed or added for timerange ".$startTime->format('d.m.Y H:i:s')." to ".$endTime->format('d.m.Y H:i:s').".");

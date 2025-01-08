@@ -1,9 +1,8 @@
 <?php
-include_once("config/config.php");
 include_once("lib/appLibLoader.php");
 
 // Defaults
-$actualConfig = Config::getInstance()->customEnergyValuesPage();
+$actualConfig = Configuration::getInstance()->customEnergyValuesPage();
 $dateOrMonth = $actualConfig->getDefaultMonthOrYear();
 
 // Prepare DB

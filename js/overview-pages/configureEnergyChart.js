@@ -274,10 +274,9 @@ const configEnergy = {
                 borderColor: emOverZeroColor2,
                 borderWidth: 1,
                 stack: 'Stack EM2',
-
                 customDataSourceNo: 2,
                 priceFieldName: 'emOZPrice',
-                hidden: (data2.length == 0)
+                hidden: !(config.showSelection2OnEnergyChart && data2.length > 0),
             },
             {
                 label: '(2) Netzeinspeisung',
@@ -288,7 +287,7 @@ const configEnergy = {
                 maxBarThickness: 30,
                 customDataSourceNo: 2,
                 priceFieldName: 'emUZPrice',
-                hidden: (data2.length == 0)
+                hidden: !(config.showSelection2OnEnergyChart && data2.length > 0),
             },
             {
                 label: '(1) Energie Ersparnis',
@@ -309,7 +308,7 @@ const configEnergy = {
                 maxBarThickness: 30,
                 customDataSourceNo: 2,
                 priceFieldName: 'pmSvgPrice',
-                hidden: (data2.length == 0)
+                hidden: !(config.showSelection2OnEnergyChart && data2.length > 0),
             },
         ]
     },
