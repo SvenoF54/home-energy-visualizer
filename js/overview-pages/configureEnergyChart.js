@@ -241,76 +241,84 @@ const pluginsEnergy = [{
     }
 }];
 
+const emOverZeroData1 = {
+    label: '(1) Stromeinkauf',
+    data: data1.map(item => item.emOZ),
+    backgroundColor: emOverZeroColor,
+    borderColor: emOverZeroColor,
+    borderWidth: 1,
+    stack: 'Stack EM1',
+    maxBarThickness: 30,
+    customDataSourceNo: 1,
+    priceFieldName: 'emOZPrice'
+};
+const feedInData1 = {
+    label: '(1) Netzeinspeisung',
+    data: data1.map(item => item.emUZ),
+    borderColor: feedInColor,
+    backgroundColor: feedInColor,
+    stack: 'Stack EM1',
+    maxBarThickness: 30,
+    customDataSourceNo: 1,
+    priceFieldName: 'emUZPrice'
+};
+const savingsData1 = {
+    label: '(1) Energie Ersparnis',
+    data: data1.map(item => item.pmSvg),
+    borderColor: savingsColor,
+    backgroundColor: savingsColor,
+    stack: 'Stack PV1',
+    maxBarThickness: 30,
+    priceFieldName: 'pmSvgPrice',
+    customDataSourceNo: 1
+};
+const emOverZeroData2 = {
+    label: '(2) Stromeinkauf',
+    data: data2.map(item => item.emOZ),
+    backgroundColor: emOverZeroColor2,
+    borderColor: emOverZeroColor2,
+    borderWidth: 1,
+    stack: 'Stack EM2',
+    customDataSourceNo: 2,
+    priceFieldName: 'emOZPrice',
+    hidden: !(config.showSelection2OnEnergyChart && data2.length > 0),
+}
+const feedInData2 = {
+    label: '(2) Netzeinspeisung',
+    data: data2.map(item => item.emUZ),
+    borderColor: feedInColor2,
+    backgroundColor: feedInColor2,
+    stack: 'Stack EM2',
+    maxBarThickness: 30,
+    customDataSourceNo: 2,
+    priceFieldName: 'emUZPrice',
+    hidden: !(config.showSelection2OnEnergyChart && data2.length > 0),
+}
+const savingsData2 = {
+    label: '(2) Energie Ersparnis',
+    data: data2.map(item => item.pmSvg),
+    borderColor: savingsColor2,
+    backgroundColor: savingsColor2,
+    stack: 'Stack PV2',
+    maxBarThickness: 30,
+    customDataSourceNo: 2,
+    priceFieldName: 'pmSvgPrice',
+    hidden: !(config.showSelection2OnEnergyChart && data2.length > 0),
+}
+const energyDataset = [];
+energyDataset.push(emOverZeroData1);
+energyDataset.push(feedInData1);
+if (data2.length > 0) energyDataset.push(emOverZeroData2);
+if (data2.length > 0) energyDataset.push(feedInData2);
+energyDataset.push(savingsData1);
+if (data2.length > 0) energyDataset.push(savingsData2);
+
 // configure diagram
 const configEnergy = {
     type: 'bar',
     data: {
         labels: timestampsXAxis,
-        datasets: [{
-                label: '(1) Stromeinkauf',
-                data: data1.map(item => item.emOZ),
-                backgroundColor: emOverZeroColor,
-                borderColor: emOverZeroColor,
-                borderWidth: 1,
-                stack: 'Stack EM1',
-                maxBarThickness: 30,
-                customDataSourceNo: 1,
-                priceFieldName: 'emOZPrice'
-            },
-            {
-                label: '(1) Netzeinspeisung',
-                data: data1.map(item => item.emUZ),
-                borderColor: feedInColor,
-                backgroundColor: feedInColor,
-                stack: 'Stack EM1',
-                maxBarThickness: 30,
-                customDataSourceNo: 1,
-                priceFieldName: 'emUZPrice'
-            },
-            {
-                label: '(2) Stromeinkauf',
-                data: data2.map(item => item.emOZ),
-                backgroundColor: emOverZeroColor2,
-                borderColor: emOverZeroColor2,
-                borderWidth: 1,
-                stack: 'Stack EM2',
-                customDataSourceNo: 2,
-                priceFieldName: 'emOZPrice',
-                hidden: !(config.showSelection2OnEnergyChart && data2.length > 0),
-            },
-            {
-                label: '(2) Netzeinspeisung',
-                data: data2.map(item => item.emUZ),
-                borderColor: feedInColor2,
-                backgroundColor: feedInColor2,
-                stack: 'Stack EM2',
-                maxBarThickness: 30,
-                customDataSourceNo: 2,
-                priceFieldName: 'emUZPrice',
-                hidden: !(config.showSelection2OnEnergyChart && data2.length > 0),
-            },
-            {
-                label: '(1) Energie Ersparnis',
-                data: data1.map(item => item.pmSvg),
-                borderColor: savingsColor,
-                backgroundColor: savingsColor,
-                stack: 'Stack PV1',
-                maxBarThickness: 30,
-                priceFieldName: 'pmSvgPrice',
-                customDataSourceNo: 1
-            },
-            {
-                label: '(2) Energie Ersparnis',
-                data: data2.map(item => item.pmSvg),
-                borderColor: savingsColor2,
-                backgroundColor: savingsColor2,
-                stack: 'Stack PV2',
-                maxBarThickness: 30,
-                customDataSourceNo: 2,
-                priceFieldName: 'pmSvgPrice',
-                hidden: !(config.showSelection2OnEnergyChart && data2.length > 0),
-            },
-        ]
+        datasets: energyDataset
     },
     options: optionsEnergy,
     plugins: pluginsEnergy
