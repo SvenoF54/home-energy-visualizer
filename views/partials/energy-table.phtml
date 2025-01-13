@@ -9,7 +9,7 @@
             <th class="table-active production-caption" colspan="8">
                 Produktion
                 <label for="toggleProductionColumns" class="mb-0 me-2">
-                <input type="checkbox" id="toggleProductionColumns" name="toggleProductionColumns" <?=$tableEnergyShowProductionTotal ? "checked" : "" ?>>
+                <input type="checkbox" id="toggleProductionColumns" name="toggleProductionColumns" <?=$actualConfig->configEnergy1()->getTableShowProductionInTotal() ? "checked" : "" ?>>
                 (Summe / Phasen einzeln)</label>
             </th>
         </tr>

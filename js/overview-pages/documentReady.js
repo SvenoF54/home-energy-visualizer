@@ -40,7 +40,7 @@ $(document).ready(function() {
         "autoWidth": false,
         "scrollX": false,
         "orderCellsTop": false,
-        "pageLength": config.pageLengthEnergyTable,
+        "pageLength": config.energy1.tablePageLength,
         "columnDefs": [{
             "targets": '_all',
             "orderDataType": "dom-text",

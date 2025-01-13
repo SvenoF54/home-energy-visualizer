@@ -6,18 +6,17 @@ class ConfigOverviewPages
     private $line1Default = -250;
     private $line2Default = 10000;
     private $chartOrTableOnFirstPageView = ChartOrTableOnFirstPageViewEnum::EnergyChart;
-    private $showProductionInTotal = false;
-    private $showSelection2OnEnergyChart = false;
-    private $showSelection2OnAutarkyChart = false;
-    private $pageLengthEnergyTable = 10;
+    private $configEnergy1;
+    private $configEnergy2;
 
-    public function __construct($linePosibilities, $line1Default, $line2Default, $chartOrTableOnFirstPageView, $showProductionInTotal = false)
+    public function __construct($linePosibilities, $line1Default, $line2Default, $chartOrTableOnFirstPageView)
     {
         $this->linePosibilities = $linePosibilities;
         $this->line1Default = $line1Default;
         $this->line2Default = $line2Default;
         $this->chartOrTableOnFirstPageView = $chartOrTableOnFirstPageView;
-        $this->showProductionInTotal = $showProductionInTotal;
+        $this->configEnergy1 = new ConfigEnergyViewSettings(1, true);
+        $this->configEnergy2 = new ConfigEnergyViewSettings(2, false);
     }
 
     public function toJson()
@@ -26,12 +25,21 @@ class ConfigOverviewPages
             //'linePosibilities' => $this->linePosibilities,
             'line1Default' => $this->line1Default,
             'line2Default' => $this->line2Default,
-            'chartOrTableOnFirstPageView' => $this->chartOrTableOnFirstPageView,
-            'showProductionInTotal' => $this->showProductionInTotal,
-            'showSelection2OnEnergyChart' => $this->showSelection2OnEnergyChart,
-            'showSelection2OnAutarkyChart' => $this->showSelection2OnAutarkyChart,
-            'pageLengthEnergyTable' => $this->pageLengthEnergyTable,
+            'chartOrTableOnFirstPageView' => $this->chartOrTableOnFirstPageView->value,
+            'energy1' => $this->configEnergy1->toArray(),
+            'energy2' => $this->configEnergy2->toArray(),            
         ]);
+    }
+
+    public function setFormValues()
+    {
+        $this->line1Default = StringHelper::formGetInt("line1", $this->line1Default);
+        $this->line2Default = StringHelper::formGetInt("line2", $this->line2Default);
+        $tmpChartOrTable = StringHelper::formGetString("chartOrTableOnFirstPageView", $this->getChartOrTableOnFirstPageView()->value);
+        $this->chartOrTableOnFirstPageView = ChartOrTableOnFirstPageViewEnum::tryFrom($tmpChartOrTable);                
+
+        $this->configEnergy1->setFormValues();
+        $this->configEnergy2->setFormValues();
     }
 
     public function getLinePossibilities()
@@ -74,44 +82,12 @@ class ConfigOverviewPages
         $this->chartOrTableOnFirstPageView = $chartOrTableOnFirstPageView;
     }
     
-    public function getShowProductionInTotal()
-    {
-        return $this->showProductionInTotal;
-    }
-    
-    public function setShowProductionInTotal($showProductionInTotal)
-    {
-        $this->showProductionInTotal = $showProductionInTotal;
-    }
-    
-    public function getShowSelection2InEnergyChart()
-    {
-        return $this->showSelection2OnEnergyChart;
-    }
-    
-    public function setShowSelection2InEnergyChart($showSelection2OnEnergyChart)
-    {
-        $this->showSelection2OnEnergyChart = $showSelection2OnEnergyChart;
-    }    
-
-    public function getShowSelection2OnAutarkyChart()
-    {
-        return $this->showSelection2OnAutarkyChart;
-    }
-    
-    public function setShowSelection2OnAutarkyChart($showSelection2OnAutarkyChart)
-    {
-        $this->showSelection2OnAutarkyChart = $showSelection2OnAutarkyChart;
-    }    
-
-    public function getPageLengthEnergyTable()
-    {
-        return $this->pageLengthEnergyTable;
+    public function configEnergy1() : ConfigEnergyViewSettings{
+        return $this->configEnergy1;
     }
 
-    public function setPageLengthEnergyTable($pageLengthEnergyTable)
-    {
-        $this->pageLengthEnergyTable = $pageLengthEnergyTable;
+    public function configEnergy2() : ConfigEnergyViewSettings {
+        return $this->configEnergy2;
     }
 
 }
@@ -152,5 +128,106 @@ class ConfigRealtimeOverviewPages extends ConfigOverviewPages
         $this->refreshIntervalInSec = $refreshIntervalInSec;
     }
     
+}
 
+class ConfigEnergyViewSettings {
+    private $chartNumber;
+    private $chartShowEnergyOverZero = false;
+    private $chartShowEnergyOverZeroPlusSavings = false;
+    private $chartShowFeedIn = false;
+    private $chartShowSavings = false;    
+    private $chartShowAutarky = false;
+    private $tableShowProductionInTotal = true;
+    private $tablePageLength = 10;
+
+    public function __construct($chartNumber, $showMetrics)
+    {
+        $this->chartNumber = $chartNumber;
+        $this->chartShowEnergyOverZero = $showMetrics;
+        $this->chartShowEnergyOverZeroPlusSavings = $showMetrics;
+        $this->chartShowFeedIn = $showMetrics;
+        $this->chartShowSavings = $showMetrics;
+        $this->chartShowAutarky = $showMetrics;
+    }
+
+    public function setFormValues()
+    {
+        $this->chartShowEnergyOverZero = StringHelper::formGetBool("energy".$this->chartNumber."_chartShowEnergyOverZero", $this->chartShowEnergyOverZero);
+        $this->chartShowEnergyOverZeroPlusSavings = StringHelper::formGetBool("energy".$this->chartNumber."_chartShowEnergyOverZeroPlusSavings", $this->chartShowEnergyOverZeroPlusSavings);
+        $this->chartShowFeedIn = StringHelper::formGetBool("energy".$this->chartNumber."_chartShowFeedIn", $this->chartShowFeedIn);
+        $this->chartShowSavings = StringHelper::formGetBool("energy".$this->chartNumber."_chartShowSavings", $this->chartShowSavings);
+        $this->chartShowAutarky = StringHelper::formGetBool("energy".$this->chartNumber."_chartShowAutarky", $this->chartShowAutarky);
+        $this->tableShowProductionInTotal = StringHelper::formGetBool("energy".$this->chartNumber."_tableShowProductionInTotal", $this->tableShowProductionInTotal);
+        $this->tablePageLength = StringHelper::formGetInt("energy".$this->chartNumber."_tablePageLength", $this->tablePageLength);
+        
+    }
+
+    public function getChartShowEnergyOverZero() {
+        return $this->chartShowEnergyOverZero;
+    }
+
+    public function setChartShowEnergyOverZero($chartShowEnergyOverZero) {
+        $this->chartShowEnergyOverZero = $chartShowEnergyOverZero;
+    }
+
+    public function getChartShowEnergyOverZeroPlusSavings() {
+        return $this->chartShowEnergyOverZeroPlusSavings;
+    }
+
+    public function setChartShowEnergyOverZeroPlusSavings($chartShowEnergyOverZeroPlusSavings) {
+        $this->chartShowEnergyOverZeroPlusSavings = $chartShowEnergyOverZeroPlusSavings;
+    }
+
+    public function getChartShowFeedIn() {
+        return $this->chartShowFeedIn;
+    }
+
+    public function setChartShowFeedIn($chartShowFeedIn) {
+        $this->chartShowFeedIn = $chartShowFeedIn;
+    }
+
+    public function getChartShowSavings() {
+        return $this->chartShowSavings;
+    }
+
+    public function setChartShowSavings($chartShowSavings) {
+        $this->chartShowSavings = $chartShowSavings;
+    }
+
+    public function getChartShowAutarky() {
+        return $this->chartShowAutarky;
+    }
+
+    public function setChartShowAutarky($chartShowAutarky) {
+        $this->chartShowAutarky = $chartShowAutarky;
+    }
+    
+    public function getTableShowProductionInTotal() {
+        return $this->tableShowProductionInTotal;
+    }
+
+    public function setTableShowProductionInTotal($tableShowProductionInTotal) {
+        $this->tableShowProductionInTotal = $tableShowProductionInTotal;
+    }
+
+    public function getTablePageLength() {
+        return $this->tablePageLength;
+    }
+
+    public function setTablePageLength($tablePageLength) {
+        $this->tablePageLength = $tablePageLength;
+    }    
+    
+
+    public function toArray() {
+        return [
+            'chartShowEnergyOverZero' => $this->chartShowEnergyOverZero,
+            'chartShowEnergyOverZeroPlusSavings' => $this->chartShowEnergyOverZeroPlusSavings,
+            'chartShowFeedIn' => $this->chartShowFeedIn,
+            'chartShowSavings' => $this->chartShowSavings,
+            'chartShowAutarky' => $this->chartShowAutarky,
+            'tableShowProductionInTotal' => $this->tableShowProductionInTotal,
+            'tablePageLength' => $this->tablePageLength,
+        ];
+    }
 }

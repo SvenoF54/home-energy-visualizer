@@ -1,5 +1,6 @@
 const emColor = getComputedStyle(document.documentElement).getPropertyValue('--em-color').trim();
 const emOverZeroColor = getComputedStyle(document.documentElement).getPropertyValue('--em-over-zero-color').trim();
+const consumptionCompleteColor = getComputedStyle(document.documentElement).getPropertyValue('--consumption-complete-color').trim();
 const emOverZeroColor2 = getComputedStyle(document.documentElement).getPropertyValue('--em-over-zero-color2').trim();
 
 const savingsColor = getComputedStyle(document.documentElement).getPropertyValue('--savings-color').trim();
@@ -122,7 +123,7 @@ const optionsEnergy = {
                 label: function(tooltipItem) {
                     const energy = tooltipItem.parsed.y;
                     const customDataSourceNo = tooltipItem.dataset.customDataSourceNo;
-                    const priceFieldName = tooltipItem.dataset.priceFieldName;
+                    const priceFieldName = tooltipItem.dataset.customPriceFieldName;
                     const dataArray = customDataSourceNo === 1 ? data1 : data2;
                     const dataPoint = dataArray[tooltipItem.dataIndex];
 
@@ -174,7 +175,20 @@ const optionsEnergy = {
             }
         },
         legend: {
-            display: true
+            display: true,
+            onClick: function(event, legendItem) {
+                const clickedDatasetIndex = legendItem.datasetIndex;
+                const clickedLabel = legendItem.text;
+                const dataset = energyChart.data.datasets[clickedDatasetIndex];
+
+                // Update chart
+                dataset.hidden = !dataset.hidden;
+                energyChart.update();
+
+                // Set hidden form field to recover chart settings on next page call
+                const customFormFieldName = dataset.customFormFieldName;
+                $('#' + customFormFieldName).val(!dataset.hidden);
+            },
         },
     },
     scales: scalesEnergy
@@ -250,7 +264,9 @@ const emOverZeroData1 = {
     stack: 'Stack EM1',
     maxBarThickness: 30,
     customDataSourceNo: 1,
-    priceFieldName: 'emOZPrice'
+    customFormFieldName: 'energy1_chartShowEnergyOverZero',
+    customPriceFieldName: 'emOZPrice',
+    hidden: !config.energy1.chartShowEnergyOverZero
 };
 const feedInData1 = {
     label: '(1) Netzeinspeisung',
@@ -260,7 +276,9 @@ const feedInData1 = {
     stack: 'Stack EM1',
     maxBarThickness: 30,
     customDataSourceNo: 1,
-    priceFieldName: 'emUZPrice'
+    customFormFieldName: 'energy1_chartShowFeedIn',
+    customPriceFieldName: 'emUZPrice',
+    hidden: !config.energy1.chartShowFeedIn
 };
 const savingsData1 = {
     label: '(1) Energie Ersparnis',
@@ -269,8 +287,23 @@ const savingsData1 = {
     backgroundColor: savingsColor,
     stack: 'Stack PV1',
     maxBarThickness: 30,
-    priceFieldName: 'pmSvgPrice',
-    customDataSourceNo: 1
+    customDataSourceNo: 1,
+    customFormFieldName: 'energy1_chartShowSavings',
+    customPriceFieldName: 'pmSvgPrice',
+    hidden: !config.energy1.chartShowSavings
+};
+const energyOverZeroPlusSavings1 = {
+    label: '(1) Ersparnis addiert',
+    data: data1.map(item => item.pmSvg),
+    fill: false,
+    backgroundColor: consumptionCompleteColor,
+    tension: 0.1,
+    borderWidth: 0,
+    maxBarThickness: 30,
+    customDataSourceNo: 1,
+    customFormFieldName: 'energy1_chartShowEnergyOverZeroPlusSavings',
+    stack: 'Stack EM1',
+    hidden: !config.energy1.chartShowEnergyOverZeroPlusSavings,
 };
 const emOverZeroData2 = {
     label: '(2) Stromeinkauf',
@@ -280,8 +313,9 @@ const emOverZeroData2 = {
     borderWidth: 1,
     stack: 'Stack EM2',
     customDataSourceNo: 2,
-    priceFieldName: 'emOZPrice',
-    hidden: !(config.showSelection2OnEnergyChart && data2.length > 0),
+    customFormFieldName: 'energy2_chartShowEnergyOverZero',
+    customPriceFieldName: 'emOZPrice',
+    hidden: !config.energy2.chartShowEnergyOverZero,
 }
 const feedInData2 = {
     label: '(2) Netzeinspeisung',
@@ -291,8 +325,9 @@ const feedInData2 = {
     stack: 'Stack EM2',
     maxBarThickness: 30,
     customDataSourceNo: 2,
-    priceFieldName: 'emUZPrice',
-    hidden: !(config.showSelection2OnEnergyChart && data2.length > 0),
+    customFormFieldName: 'energy2_chartShowFeedIn',
+    customPriceFieldName: 'emUZPrice',
+    hidden: !config.energy2.chartShowFeedIn,
 }
 const savingsData2 = {
     label: '(2) Energie Ersparnis',
@@ -302,11 +337,14 @@ const savingsData2 = {
     stack: 'Stack PV2',
     maxBarThickness: 30,
     customDataSourceNo: 2,
-    priceFieldName: 'pmSvgPrice',
-    hidden: !(config.showSelection2OnEnergyChart && data2.length > 0),
+    customFormFieldName: 'energy2_chartShowSavings',
+    customPriceFieldName: 'pmSvgPrice',
+    hidden: !config.energy2.chartShowSavings,
 }
+
 const energyDataset = [];
 energyDataset.push(emOverZeroData1);
+energyDataset.push(energyOverZeroPlusSavings1);
 energyDataset.push(feedInData1);
 if (data2.length > 0) energyDataset.push(emOverZeroData2);
 if (data2.length > 0) energyDataset.push(feedInData2);

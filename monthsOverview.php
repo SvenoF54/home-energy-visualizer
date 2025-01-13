@@ -3,12 +3,12 @@ include_once("lib/appLibLoader.php");
 
 // Defaults
 $actualConfig = Configuration::getInstance()->monthsOverview();
+$actualConfig->setFormValues();
 
 // Form values
 $line1 = StringHelper::formGetInt("line1", $actualConfig->getLine1Default());
 $line2 = StringHelper::formGetInt("line2", $actualConfig->getLine2Default());
 $chartOrTableOnFirstPageView = StringHelper::formGetString("chartOrTableOnFirstPageView", $actualConfig->getChartOrTableOnFirstPageView()->value);
-$tableEnergyShowProductionTotal = StringHelper::formGetBool("tableEnergyShowProductionTotal", $actualConfig->getShowProductionInTotal());
 
 $selectedYear1 = StringHelper::formGetInt("year1", date("Y"));
 $selectedYear2 = StringHelper::formGetInt("year2", date("Y")-1);

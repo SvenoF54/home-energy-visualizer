@@ -10,4 +10,25 @@ define('DB_HOST', 'mein-host');
 define('URL_PREFIX', 'http://meine.domain/mein-pfad');
 define('API_KEY', '987654321');
 
+$config = Configuration::getInstance();
+
+// Zeige Werte der Gesamtverbrauch auf der EnergyChart-Übersichtsseite
+//$config->hoursOverview()->setShowConsumptionCompleteOnEnergyChart(false);  
+//$config->daysOverview()->setShowConsumptionCompleteOnEnergyChart(false);
+//$config->monthsOverview()->setShowConsumptionCompleteOnEnergyChart(false);
+
+
+$config->hoursOverview()->setShowSelection2InEnergyChart(false);  
+$config->daysOverview()->setShowSelection2InEnergyChart(false);
+$config->monthsOverview()->setShowSelection2InEnergyChart(false);
+
+// Zeige Werte der 2. Selection auf der AutarkyChart-Übersichtsseite
+//$config->hoursOverview()->setShowSelection2OnAutarkyChart(false);  
+//$config->daysOverview()->setShowSelection2OnAutarkyChart(false);
+//$config->monthsOverview()->setShowSelection2OnAutarkyChart(false);
+
+// Anzahl Zeilen auf der Energy-Tabellenübersicht
+//$config->hoursOverview()->setPageLengthEnergyTable(10);  
+//$config->daysOverview()->setPageLengthEnergyTable(10);
+//$config->monthsOverview()->setPageLengthEnergyTable(25);
 ?>

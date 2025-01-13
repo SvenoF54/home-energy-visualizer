@@ -3,12 +3,12 @@ include_once("lib/appLibLoader.php");
 
 // Defaults
 $actualConfig = Configuration::getInstance()->hoursOverview();
+$actualConfig->setFormValues();
 
 // Form values
 $line1 = StringHelper::formGetInt("line1", $actualConfig->getLine1Default());
 $line2 = StringHelper::formGetInt("line2", $actualConfig->getLine2Default());
 $chartOrTableOnFirstPageView = StringHelper::formGetString("chartOrTableOnFirstPageView", $actualConfig->getChartOrTableOnFirstPageView()->value);
-$tableEnergyShowProductionTotal = StringHelper::formGetBool("tableEnergyShowProductionTotal", $actualConfig->getShowProductionInTotal());
 
 $selectedDay1 = StringHelper::formGetDate("day1", strtotime(date("d.m.Y")));
 $selectedDay2 = StringHelper::formGetDate("day2", strtotime(date("d.m.Y", strtotime('-1 day')))); 

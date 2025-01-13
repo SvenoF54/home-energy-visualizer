@@ -15,6 +15,7 @@ body {
     --datetime-color: rgb(151, 147, 147);
     --em-color: rgb(190, 110, 110);
     --em-over-zero-color: rgb(190, 110, 110);
+    --consumption-complete-color: rgba(190, 110, 110, 0.2);
     --em-over-zero-color2: rgb(150, 90, 110);
     --savings-color: rgb(127, 181, 181);
     --savings-color2: rgb(97, 141, 141);
