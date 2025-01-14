@@ -5,11 +5,6 @@ include_once("lib/appLibLoader.php");
 $actualConfig = Configuration::getInstance()->hoursOverview();
 $actualConfig->setFormValues();
 
-// Form values
-$line1 = StringHelper::formGetInt("line1", $actualConfig->getLine1Default());
-$line2 = StringHelper::formGetInt("line2", $actualConfig->getLine2Default());
-$chartOrTableOnFirstPageView = StringHelper::formGetString("chartOrTableOnFirstPageView", $actualConfig->getChartOrTableOnFirstPageView()->value);
-
 $selectedDay1 = StringHelper::formGetDate("day1", strtotime(date("d.m.Y")));
 $selectedDay2 = StringHelper::formGetDate("day2", strtotime(date("d.m.Y", strtotime('-1 day')))); 
 
@@ -40,8 +35,6 @@ $overviewPageService->calculateHourData($startTime1, $endTime1, $startTime2, $en
         "data2" => json_encode($overviewPageService->getData2List()->convertToJsChartArray()),
         "autarky1" => json_encode($overviewPageService->getData1List()->calculateAutarkyForJsChartArray()),
         "autarky2" => json_encode($overviewPageService->getData2List()->calculateAutarkyForJsChartArray()),
-        "line1_selected" => $line1,
-        "line2_selected" => $line2,
         "timeLabelUnit" => json_encode($timeLabelUnit),
         "config" => $actualConfig->toJson()
     ];

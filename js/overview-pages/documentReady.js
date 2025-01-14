@@ -19,14 +19,14 @@ $(document).ready(function() {
         $('#autarky-chart-container').hide();
         $('#energy-table-container').hide();
         $('#energy-chart-container').show();
-        $('#chartOrTableOnFirstPageView').val('EnergyChart');
+        $('#chartOrTableView').val('EnergyChart');
     });
 
     $('#switchToAutarkyBarView').on('click', function(e) {
         $('#energy-chart-container').hide();
         $('#energy-table-container').hide();
         $('#autarky-chart-container').show();
-        $('#chartOrTableOnFirstPageView').val('AutarkyChart');
+        $('#chartOrTableView').val('AutarkyChart');
     });
 
     //-------------------------------------------------------

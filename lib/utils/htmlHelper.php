@@ -31,7 +31,7 @@ class HtmlHelper {
 
     }
 
-    public static function getDisplayStyle($visible)
+    public static function getDisplayStyleVisibleOrNot($visible)
     {
         return 'display:'.($visible  ? "block" : "none");
     }

@@ -5,24 +5,7 @@
             <form method="post" id="date-range-form" action="">
                 <input type="hidden" name="year1" id="year1" value="<?=$selectedYear1?>">
                 <input type="hidden" name="year2" id="year2" value="<?=$selectedYear2?>">
-                <input type="hidden" name="chartOrTableOnFirstPageView" id="chartOrTableOnFirstPageView" value="<?=$chartOrTableOnFirstPageView?>">
-                <input type="hidden" name="tableEnergyShowProductionTotal" id="tableEnergyShowProductionTotal" value="<?=$tableEnergyShowProductionTotal?>">
-
-                <input type="hidden" id="energy1_chartShowEnergyOverZero" name="energy1_chartShowEnergyOverZero" value="<?=$actualConfig->configEnergy1()->getChartShowEnergyOverZero()?>">
-                <input type="hidden" id="energy1_chartShowEnergyOverZeroPlusSavings" name="energy1_chartShowEnergyOverZeroPlusSavings" value="<?=$actualConfig->configEnergy1()->getChartShowEnergyOverZeroPlusSavings()?>">
-                <input type="hidden" id="energy1_chartShowFeedIn" name="energy1_chartShowFeedIn" value="<?=$actualConfig->configEnergy1()->getChartShowFeedIn()?>">
-                <input type="hidden" id="energy1_chartShowSavings" name="energy1_chartShowSavings" value="<?=$actualConfig->configEnergy1()->getChartShowSavings()?>">
-                <input type="hidden" id="energy1_chartShowAutarky" name="energy1_chartShowAutarky" value="<?=$actualConfig->configEnergy1()->getChartShowAutarky()?>">
-                <input type="hidden" id="energy1_tableShowProductionInTotal" name="energy1_tableShowProductionInTotal" value="<?=$actualConfig->configEnergy1()->getTableShowProductionInTotal()?>">
-                <input type="hidden" id="energy1_tablePageLength" name="energy1_tablePageLength" value="<?=$actualConfig->configEnergy1()->getTablePageLength()?>">
-
-                <input type="hidden" id="energy2_chartShowEnergyOverZero" name="energy2_chartShowEnergyOverZero" value="<?=$actualConfig->configEnergy2()->getChartShowEnergyOverZero()?>">
-                <input type="hidden" id="energy2_chartShowEnergyOverZeroPlusSavings" name="energy2_chartShowEnergyOverZeroPlusSavings" value="<?=$actualConfig->configEnergy2()->getChartShowEnergyOverZeroPlusSavings()?>">
-                <input type="hidden" id="energy2_chartShowFeedIn" name="energy2_chartShowFeedIn" value="<?=$actualConfig->configEnergy2()->getChartShowFeedIn()?>">
-                <input type="hidden" id="energy2_chartShowSavings" name="energy2_chartShowSavings" value="<?=$actualConfig->configEnergy2()->getChartShowSavings()?>">
-                <input type="hidden" id="energy2_chartShowAutarky" name="energy2_chartShowAutarky" value="<?=$actualConfig->configEnergy2()->getChartShowAutarky()?>">
-                <input type="hidden" id="energy2_tableShowProductionInTotal" name="energy2_tableShowProductionInTotal" value="<?=$actualConfig->configEnergy2()->getTableShowProductionInTotal()?>">
-                <input type="hidden" id="energy2_tablePageLength" name="energy2_tablePageLength" value="<?=$actualConfig->configEnergy2()->getTablePageLength()?>">
+                <?php include_once("filter-hidden-config-values.phtml"); ?>
                 <tbody>
                     <tr class="table-light">
                         <td><strong class="small m-0">Auswahl 1:</strong></td>
@@ -36,7 +19,7 @@
                                 <label for="line1" class="form-label small m-0" style="width: 80px"><strong>Linie 1:</strong></label>
                                 <select name="line1" id="line1" class="form-control form-control-sm" style="max-width: 120px;">
                                     <? foreach($actualConfig->getLinePossibilities() as $val) { ?>
-                                        <option value="<?=$val?>" <?php echo ($line1 == $val) ? 'selected' : ''; ?>><?=StringHelper::formatEnergyInWattHour($val)?></option>
+                                        <option value="<?=$val?>" <?php echo ($actualConfig->getLine1() == $val) ? 'selected' : ''; ?>><?=StringHelper::formatEnergyInWattHour($val)?></option>
                                     <? } ?>
                                 </select>
                             </div>
@@ -54,7 +37,7 @@
                                 <label for="line2" class="form-label small m-0" style="width: 80px"><strong>Linie 2:</strong></label>
                                 <select name="line2" id="line2" class="form-control form-control-sm" style="max-width: 120px;">
                                     <? foreach($actualConfig->getLinePossibilities() as $val) { ?>
-                                        <option value="<?=$val?>" <?php echo ($line2 == $val) ? 'selected' : ''; ?>><?=StringHelper::formatEnergyInWattHour($val)?></option>
+                                        <option value="<?=$val?>" <?php echo ($actualConfig->getLine2() == $val) ? 'selected' : ''; ?>><?=StringHelper::formatEnergyInWattHour($val)?></option>
                                     <? } ?>
                                 </select>
                             </div>

@@ -3,8 +3,7 @@
             <?include("views/pages/overview/filter-summary.phtml")?>
             <table class="table table-sm table-borderless w-auto" style="table-layout: flex;">
             <form method="post" id="date-range-form" action="">
-                <input type="hidden" name="chartOrTableOnFirstPageView" id="chartOrTableOnFirstPageView" value="<?=$chartOrTableOnFirstPageView?>">
-                <input type="hidden" name="tableEnergyShowProductionTotal" id="tableEnergyShowProductionTotal" value="<?=$tableEnergyShowProductionTotal?>">
+                <?php include_once("filter-hidden-config-values.phtml"); ?>
                 <tbody>
                     <tr class="table-light">
                         <td>
@@ -34,7 +33,7 @@
                                 <label for="line1" class="form-label small m-0 line-container"><strong>Linie 1:</strong></label>
                                 <select name="line1" id="line1" class="form-control form-control-sm" style="max-width: 120px; height: 32px;">
                                     <? foreach($actualConfig->getLinePossibilities() as $val) { ?> 
-                                        <option value="<?=$val?>" <?php echo ($line1 == $val) ? 'selected' : ''; ?>><?=StringHelper::formatEnergyInWattHour($val)?></option>
+                                        <option value="<?=$val?>" <?php echo ($actualConfig->getLine1() == $val) ? 'selected' : ''; ?>><?=StringHelper::formatEnergyInWattHour($val)?></option>
                                     <? } ?>
                                 </select>
                             </div>
@@ -68,7 +67,7 @@
                                 <label for="line2" class="form-label small m-0 line-container""><strong>Linie 2:</strong></label>
                                 <select name="line2" id="line2" class="form-control form-control-sm" style="max-width: 120px; height: 32px;">
                                     <? foreach($actualConfig->getLinePossibilities() as $val) { ?> 
-                                        <option value="<?=$val?>" <?php echo ($line2 == $val) ? 'selected' : ''; ?>><?=StringHelper::formatEnergyInWattHour($val)?></option>
+                                        <option value="<?=$val?>" <?php echo ($actualConfig->getLine2() == $val) ? 'selected' : ''; ?>><?=StringHelper::formatEnergyInWattHour($val)?></option>
                                     <? } ?>
                                 </select>
                             </div>

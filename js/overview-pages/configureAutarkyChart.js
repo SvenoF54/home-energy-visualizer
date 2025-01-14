@@ -131,7 +131,7 @@ const pluginsAutarky = [{
                     $('#energy-chart-container').hide();
                     $('#autarky-chart-container').hide();
                     $('#energy-table-container').show();
-                    $('#chartOrTableOnFirstPageView').val('EnergyTable');
+                    $('#chartOrTableView').val('EnergyTable');
                 }
 
                 // Button 2: energy-chart-view
@@ -139,7 +139,7 @@ const pluginsAutarky = [{
                     $('#autarky-chart-container').hide();
                     $('#energy-table-container').hide();
                     $('#energy-chart-container').show();
-                    $('#chartOrTableOnFirstPageView').val('EnergyChart');
+                    $('#chartOrTableView').val('EnergyChart');
                 }
             });
         }

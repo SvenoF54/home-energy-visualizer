@@ -5,11 +5,6 @@ include_once("lib/appLibLoader.php");
 $actualConfig = Configuration::getInstance()->yearsOverview();
 $actualConfig->setFormValues();
 
-// Form values
-$line1 = StringHelper::formGetInt("line1", $actualConfig->getLine1Default());
-$line2 = StringHelper::formGetInt("line2", $actualConfig->getLine2Default());
-$chartOrTableOnFirstPageView = StringHelper::formGetString("chartOrTableOnFirstPageView", $actualConfig->getChartOrTableOnFirstPageView()->value);
-
 $timeLabelUnit = "year";
 
 // prepare DB
@@ -38,8 +33,6 @@ for($year = $overviewPageService->getFirstYear(); $year <= $overviewPageService-
         "data2" => json_encode([]),
         "autarky1" => json_encode($overviewPageService->getData1List()->calculateAutarkyForJsChartArray()),
         "autarky2" => json_encode([]),
-        "line1_selected" => $line1,
-        "line2_selected" => $line2,
         "timeLabelUnit" => json_encode($timeLabelUnit),
         "config" => $actualConfig->toJson()
     ];

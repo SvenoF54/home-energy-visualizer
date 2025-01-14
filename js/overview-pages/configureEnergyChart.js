@@ -143,25 +143,25 @@ const optionsEnergy = {
             annotations: {
                 line1: {
                     type: 'line',
-                    yMin: line1_selected,
-                    yMax: line1_selected,
+                    yMin: config.line1,
+                    yMax: config.line1,
                     borderColor: line1Color,
                     borderWidth: 2,
                     borderDash: [5, 5],
                     label: {
-                        content: line1_selected + ' W',
+                        content: config.line1 + ' W',
                         display: false
                     }
                 },
                 line2: {
                     type: 'line',
-                    yMin: line2_selected,
-                    yMax: line2_selected,
+                    yMin: config.line2,
+                    yMax: config.line2,
                     borderColor: line2Color,
                     borderWidth: 2,
                     borderDash: [5, 5],
                     label: {
-                        content: line2_selected + ' W',
+                        content: config.line2 + ' W',
                         display: false
                     }
                 },
@@ -240,7 +240,7 @@ const pluginsEnergy = [{
                     $('#energy-chart-container').hide();
                     $('#autarky-chart-container').hide();
                     $('#energy-table-container').show();
-                    $('#chartOrTableOnFirstPageView').val('EnergyTable');
+                    $('#chartOrTableView').val('EnergyTable');
                 }
 
                 // Button 2: autarky-view
@@ -248,7 +248,7 @@ const pluginsEnergy = [{
                     $('#energy-chart-container').hide();
                     $('#energy-table-container').hide();
                     $('#autarky-chart-container').show();
-                    $('#chartOrTableOnFirstPageView').val('AutarkyChart');
+                    $('#chartOrTableView').val('AutarkyChart');
                 }
             });
         }

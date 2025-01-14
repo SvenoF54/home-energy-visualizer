@@ -10,8 +10,8 @@ $hours = StringHelper::formGetFloat('hours', 1);
 $startTime = ($hours != 0) ? date('Y-m-d H:i:00', time() - (3600 * $hours)) : StringHelper::formGetDateTime("from-date", 00);
 $endTime = ($hours != 0) ? date('Y-m-d H:i:59', time() - 2) : StringHelper::formGetDateTime("to-date", 59);
 
-$line1 = StringHelper::formGetInt("line1", $actualConfig->getLine1Default());
-$line2 = StringHelper::formGetInt("line2", $actualConfig->getLine2Default());
+$line1 = StringHelper::formGetInt("line1", $actualConfig->getLine1());
+$line2 = StringHelper::formGetInt("line2", $actualConfig->getLine2());
 $timeLabelUnit = TimeHelper::prepareTimeUnit($startTime, $endTime);
 
 // prepare DB

@@ -3,18 +3,18 @@
 class ConfigOverviewPages
 {
     private $linePosibilities = [-1000, -750, -500, -250, 0, 250, 500, 750, 1000, 1250, 1500, 1750, 2000, 2500, 3000, 3500, 4000, 4500, 5000, 5500, 6000, 6500, 7000, 8000, 9000, 10000, 11000, 12000, 13000, 14000, 15000, 16000, 17000, 18000, 19000, 20000];
-    private $line1Default = -250;
-    private $line2Default = 10000;
-    private $chartOrTableOnFirstPageView = ChartOrTableOnFirstPageViewEnum::EnergyChart;
+    private $line1 = -250;
+    private $line2 = 10000;
+    private $chartOrTableView = ChartOrTableViewEnum::EnergyChart;
     private $configEnergy1;
     private $configEnergy2;
 
-    public function __construct($linePosibilities, $line1Default, $line2Default, $chartOrTableOnFirstPageView)
+    public function __construct($linePosibilities, $line1, $line2, $chartOrTableView)
     {
         $this->linePosibilities = $linePosibilities;
-        $this->line1Default = $line1Default;
-        $this->line2Default = $line2Default;
-        $this->chartOrTableOnFirstPageView = $chartOrTableOnFirstPageView;
+        $this->line1 = $line1;
+        $this->line2 = $line2;
+        $this->chartOrTableView = $chartOrTableView;
         $this->configEnergy1 = new ConfigEnergyViewSettings(1, true);
         $this->configEnergy2 = new ConfigEnergyViewSettings(2, false);
     }
@@ -23,9 +23,9 @@ class ConfigOverviewPages
     {
         return json_encode([
             //'linePosibilities' => $this->linePosibilities,
-            'line1Default' => $this->line1Default,
-            'line2Default' => $this->line2Default,
-            'chartOrTableOnFirstPageView' => $this->chartOrTableOnFirstPageView->value,
+            'line1' => $this->line1,
+            'line2' => $this->line2,
+            'chartOrTableView' => $this->chartOrTableView->value,
             'energy1' => $this->configEnergy1->toArray(),
             'energy2' => $this->configEnergy2->toArray(),            
         ]);
@@ -33,10 +33,10 @@ class ConfigOverviewPages
 
     public function setFormValues()
     {
-        $this->line1Default = StringHelper::formGetInt("line1", $this->line1Default);
-        $this->line2Default = StringHelper::formGetInt("line2", $this->line2Default);
-        $tmpChartOrTable = StringHelper::formGetString("chartOrTableOnFirstPageView", $this->getChartOrTableOnFirstPageView()->value);
-        $this->chartOrTableOnFirstPageView = ChartOrTableOnFirstPageViewEnum::tryFrom($tmpChartOrTable);                
+        $this->line1 = StringHelper::formGetInt("line1", $this->line1);
+        $this->line2 = StringHelper::formGetInt("line2", $this->line2);
+        $tmpChartOrTable = StringHelper::formGetString("chartOrTableView", $this->getChartOrTableView()->value);
+        $this->chartOrTableView = ChartOrTableViewEnum::tryFrom($tmpChartOrTable);                
 
         $this->configEnergy1->setFormValues();
         $this->configEnergy2->setFormValues();
@@ -52,34 +52,51 @@ class ConfigOverviewPages
         $this->linePosibilities = $linePosibilities;
     }
     
-    public function getLine1Default()
+    public function getLine1()
     {
-        return $this->line1Default;
+        return $this->line1;
     }
     
-    public function setLine1Default($line1Default)
+    public function setLine1($line1)
     {
-        $this->line1Default = $line1Default;
+        $this->line1 = $line1;
     }
     
-    public function getLine2Default()
+    public function getLine2()
     {
-        return $this->line2Default;
+        return $this->line2;
     }
     
-    public function setLine2Default($line2Default)
+    public function setLine2($line2)
     {
-        $this->line2Default = $line2Default;
+        $this->line2 = $line2;
     }
     
-    public function getChartOrTableOnFirstPageView()
+    public function getChartOrTableView()
     {
-        return $this->chartOrTableOnFirstPageView;
+        return $this->chartOrTableView;
+    }
+
+    public function getChartOrTableViewAsString()
+    {
+        return $this->chartOrTableView->value;
+    }
+
+    public function showEnergyChartView() {
+        return ChartOrTableViewEnum::isEnergyChart($this->chartOrTableView);
     }
     
-    public function setChartOrTableOnFirstPageView($chartOrTableOnFirstPageView)
+    public function showAutarkyChartView() {
+        return ChartOrTableViewEnum::isAutarkyChart($this->chartOrTableView);
+    }
+
+    public function showEnergyTableView() {
+        return ChartOrTableViewEnum::isEnergyTable($this->chartOrTableView);
+    }
+
+    public function setChartOrTableView($chartOrTableView)
     {
-        $this->chartOrTableOnFirstPageView = $chartOrTableOnFirstPageView;
+        $this->chartOrTableView = $chartOrTableView;
     }
     
     public function configEnergy1() : ConfigEnergyViewSettings{
