@@ -29,6 +29,7 @@ $(document).ready(function() {
         $('#chartOrTableView').val('AutarkyChart');
     });
 
+
     //-------------------------------------------------------
 
     // add datatable (Sort + Filter table)

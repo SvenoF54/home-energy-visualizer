@@ -15,8 +15,38 @@ class MissingRowSet {
         $this->countRows = $countRows;        
     }
 
+    public function getWorstMissingRowCount() {
+        $availableValues = [];
+    
+        if ($this->isEmAvailable()) {
+            $availableValues[] = $this->getEmMissingRows();
+        }
+    
+        if ($this->isPm1Available()) {
+            $availableValues[] = $this->getPm1MissingRows();
+        }
+    
+        if ($this->isPm2Available()) {
+            $availableValues[] = $this->getPm2MissingRows();
+        }
+    
+        if ($this->isPm3Available()) {
+            $availableValues[] = $this->getPm3MissingRows();
+        }
+    
+        return !empty($availableValues) ? max($availableValues) : 0;
+    }
+    
+    public function getWorstMissingRowCountPercent() {
+        return $this->calcualtePercent($this->getWorstMissingRowCount());
+    }
+
     public function getEmMissingRows() {
         return $this->emMissingRows;
+    }
+
+    public function getEmMissingRowsPercent() {
+        return $this->calcualtePercent($this->emMissingRows);
     }
 
     public function isEmAvailable() {
@@ -25,6 +55,10 @@ class MissingRowSet {
 
     public function getPm1MissingRows() {
         return $this->pm1MissingRows;
+    }
+
+    public function getPm1MissingRowsPercent() {
+        return $this->calcualtePercent($this->pm1MissingRows);
     }
 
     public function isPm1Available() {
@@ -39,6 +73,10 @@ class MissingRowSet {
         return $this->pm2MissingRows < $this->countRows;
     }
 
+    public function getPm2MissingRowsPercent() {
+        return $this->calcualtePercent($this->pm2MissingRows);
+    }
+
     public function getPm3MissingRows() {
         return $this->pm3MissingRows;
     }
@@ -47,7 +85,17 @@ class MissingRowSet {
         return $this->pm3MissingRows < $this->countRows;
     }
 
+    public function getPm3MissingRowsPercent() {
+        return $this->calcualtePercent($this->pm3MissingRows);
+    }
+
     public function getCountRows() {
         return $this->countRows;
+    }
+
+    private function calcualtePercent($missingRows)
+    {
+        if ($this->countRows == 0) return 100;
+        return number_format($missingRows / $this->countRows * 100, 2);
     }
 }
