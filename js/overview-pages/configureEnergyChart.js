@@ -127,12 +127,8 @@ const optionsEnergy = {
                     const dataArray = customDataSourceNo === 1 ? data1 : data2;
                     const dataPoint = dataArray[tooltipItem.dataIndex];
 
-                    let label = formatCurrent(energy, "h");
-                    if (priceFieldName && dataPoint[priceFieldName] !== undefined) {
-                        label += ' (' + formatPrice(dataPoint[priceFieldName]) + ')';
-                    } else {
-                        label += ' (-)';
-                    }
+                    let price = (priceFieldName && dataPoint[priceFieldName] !== undefined) ? dataPoint[priceFieldName] : 0;
+                    let label = formatCurrent(energy, "h") + ' (' + formatPrice(price) + ')';
 
                     return label;
                 }
@@ -302,6 +298,7 @@ const energyOverZeroPlusSavings1 = {
     maxBarThickness: 30,
     customDataSourceNo: 1,
     customFormFieldName: 'energy1_chartShowEnergyOverZeroPlusSavings',
+    customPriceFieldName: 'pmSvgPrice',
     stack: 'Stack EM1',
     hidden: !config.energy1.chartShowEnergyOverZeroPlusSavings,
 };

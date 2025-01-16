@@ -39,7 +39,7 @@ function formatCurrent(val, suffix = "") {
 }
 
 function formatPrice(priceInCent) {
-    return (priceInCent / 100).toFixed(2) + "€";
+    return priceInCent == 0 ? "-" : (priceInCent / 100).toFixed(2) + "€";
 }
 
 function formatDateTime(dateTime) {
