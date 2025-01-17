@@ -3,12 +3,8 @@ include_once("lib/appLibLoader.php");
 
 // Defaults
 $actualConfig = Configuration::getInstance()->daysOverview();
+$actualConfig->setFormValues();
 
-// Form values
-$line1 = StringHelper::formGetInt("line1", $actualConfig->getLine1Default());
-$line2 = StringHelper::formGetInt("line2", $actualConfig->getLine2Default());
-$chartOrTableOnFirstPageView = StringHelper::formGetString("chartOrTableOnFirstPageView", $actualConfig->getChartOrTableOnFirstPageView()->value);
-$tableEnergyShowProductionTotal = StringHelper::formGetBool("tableEnergyShowProductionTotal", $actualConfig->getShowProductionInTotal());
 
 $selectedMonth1 = StringHelper::formGetInt("month1", date("m"));
 $selectedYear1 = StringHelper::formGetInt("year1", date("Y"));
@@ -46,8 +42,6 @@ $overviewPageService->calculateDayData($startTime1, $endTime1, $startTime2, $end
         "data2" => json_encode($overviewPageService->getData2List()->convertToJsChartArray()),
         "autarky1" => json_encode($overviewPageService->getData1List()->calculateAutarkyForJsChartArray()),
         "autarky2" => json_encode($overviewPageService->getData2List()->calculateAutarkyForJsChartArray()),
-        "line1_selected" => $line1,
-        "line2_selected" => $line2,
         "timeLabelUnit" => json_encode($timeLabelUnit),
         "config" => $actualConfig->toJson()
     ];

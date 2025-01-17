@@ -11,8 +11,8 @@
                         <th class="table-primary" style="text-align: left;">
                             <div class="small fw-bold" style="display: flex; justify-content: space-between; align-items: center;">
                                 <span class="small" style="text-align: left; width: 130px;">Ertrag</span>
-                                <? $textTooltip = "Diese Seite zeigt die vorhanden Echtzeitdaten an."; ?>
-                                <? $textTooltip .= "<br>Die Preise werden basierend auf den Preisdaten und dem Startzeitstempel berechnet."; ?>
+                                <?php $textTooltip = "Diese Seite zeigt die vorhanden Echtzeitdaten an."; ?>
+                                <?php $textTooltip .= "<br>Die Preise werden basierend auf den Preisdaten und dem Startzeitstempel berechnet."; ?>
                                 <i class="bi bi-info-circle text-primary" data-bs-toggle="tooltip" data-bs-html="true" title="<?=$textTooltip?>"></i>
                             </div>
                         </th>
@@ -67,11 +67,11 @@
                         </td>
                         <!-- Missing values -->
                         <td rowspan="4" style="min-width: 150px;" class="table-primary">
-                            <? include_once("views/pages/realtime/filter-missing-values.phtml"); ?>
+                            <?php include_once("views/pages/realtime/filter-missing-values.phtml"); ?>
                         </td>
                         <!-- Savings -->
                         <td rowspan="4" style="min-width: 180px;" class="table-primary">
-                            <?include_once("views/pages/realtime/filter-savings.phtml"); ?>
+                            <?php include_once("views/pages/realtime/filter-savings.phtml"); ?>
                         </td>
                     </tr>
                     <tr class="table-light">
@@ -80,9 +80,9 @@
                             <div style="display: flex; align-items: center; gap: 4px;">
                                 <label for="line1" class="form-label small m-0"><strong>Linie 1:</strong></label>
                                 <select name="line1" id="line1" class="form-control form-control-sm" style="max-width: 120px;">
-                                    <? foreach($actualConfig->getLinePossibilities() as $val) { ?>
+                                    <?php foreach($actualConfig->getLinePossibilities() as $val) { ?>
                                         <option value="<?=$val?>" <?php echo ($line1 == $val) ? 'selected' : ''; ?>><?=StringHelper::formatEnergyInWatt($val)?></option>
-                                    <? } ?>
+                                    <?php } ?>
                                 </select>
                             </div>
                         </td>
@@ -91,9 +91,9 @@
                             <div style="display: flex; align-items: center; gap: 4px;">
                                 <label for="line2" class="form-label small m-0"><strong>Linie 2:</strong></label>
                                 <select name="line2" id="line2" class="form-control form-control-sm" style="max-width: 120px;">
-                                    <? foreach($actualConfig->getLinePossibilities() as $val) { ?>
+                                    <?php foreach($actualConfig->getLinePossibilities() as $val) { ?>
                                         <option value="<?=$val?>" <?php echo ($line2 == $val) ? 'selected' : ''; ?>><?=StringHelper::formatEnergyInWatt($val)?></option>
-                                    <? } ?>
+                                    <?php } ?>
                                 </select>
                             </div>
                         </td>
@@ -111,29 +111,29 @@
                     </tr>
                     <tr class="table-primary">
                         <td>
-                            <div class="small" style="text-align: left;">Einkauf < <?=$line1?> W: <?=HtmlHelper::formatEnergyInWattAndCurrency($energyData->getEnergyUnderX1(), true)?>
-                            <? $textLine1 = "Einkauf < $line1 W: ".HtmlHelper::formatEnergyInWattAndCurrency($energyData->getEnergyUnderX1()) ?>
-                            <? $textLine1 .= "<br> Einkauf > $line1 W: ".HtmlHelper::formatEnergyInWattAndCurrency($energyData->getEnergyOverX1()) ?>
-                            <? $textLine1 .= "<br> Einkauf $line1 bis $line2 W: ".HtmlHelper::formatEnergyInWattAndCurrency($energyData->getEnergyBetweenX1AndX2()) ?>
-                            <? $textLine1 .= "<br class='small'>(Nur der Anteil über bzw. unter $line1 W.)";?>
+                            <div class="small" style="text-align: left;">Einkauf < <?=$line1?> W: <strong><?=HtmlHelper::formatEnergyInWattAndCurrency($energyData->getEnergyUnderX1())?></strong>
+                            <?php $textLine1 = "Einkauf < $line1 W: ".HtmlHelper::formatEnergyInWattAndCurrency($energyData->getEnergyUnderX1()) ?>
+                            <?php $textLine1 .= "<br> Einkauf > $line1 W: ".HtmlHelper::formatEnergyInWattAndCurrency($energyData->getEnergyOverX1()) ?>
+                            <?php $textLine1 .= "<br> Einkauf $line1 bis $line2 W: ".HtmlHelper::formatEnergyInWattAndCurrency($energyData->getEnergyBetweenX1AndX2()) ?>
+                            <?php $textLine1 .= "<br class='small'>(Nur der Anteil über bzw. unter $line1 W.)";?>
                             <i class="bi bi-info-circle text-primary" data-bs-toggle="tooltip" data-bs-html="true" title="<?=$textLine1?>"></i><div>
                         </td>
                         <td>
-                            <div class="small" style="text-align: left;">Einkauf > <?=$line2?> W: <?=HtmlHelper::formatEnergyInWattAndCurrency($energyData->getEnergyOverX2(), true)?>
-                            <? $textLine2 = "Einkauf < $line2 W: ".HtmlHelper::formatEnergyInWattAndCurrency($energyData->getEnergyUnderX2()) ?>
-                            <? $textLine2 .= "<br>Einkauf > $line2 W: ".HtmlHelper::formatEnergyInWattAndCurrency($energyData->getEnergyOverX2()) ?>
-                            <? $textLine2 .= "<br> Einkauf $line1 bis $line2 W: ".HtmlHelper::formatEnergyInWattAndCurrency($energyData->getEnergyBetweenX1AndX2()) ?>
-                            <? $textLine2 .= "<br class='small'>(Nur der Anteil über bzw. unter $line2 W.)";?>
+                            <div class="small" style="text-align: left;">Einkauf > <?=$line2?> W: <strong><?=HtmlHelper::formatEnergyInWattAndCurrency($energyData->getEnergyOverX2())?></strong>
+                            <?php $textLine2 = "Einkauf < $line2 W: ".HtmlHelper::formatEnergyInWattAndCurrency($energyData->getEnergyUnderX2()) ?>
+                            <?php $textLine2 .= "<br>Einkauf > $line2 W: ".HtmlHelper::formatEnergyInWattAndCurrency($energyData->getEnergyOverX2()) ?>
+                            <?php $textLine2 .= "<br> Einkauf $line1 bis $line2 W: ".HtmlHelper::formatEnergyInWattAndCurrency($energyData->getEnergyBetweenX1AndX2()) ?>
+                            <?php $textLine2 .= "<br class='small'>(Nur der Anteil über bzw. unter $line2 W.)";?>
                             <i class="bi bi-info-circle text-primary" data-bs-toggle="tooltip" data-bs-html="true" title="<?=$textLine2?>"></i><div>
                         </td>
                         <td> 
-                            <div class="small" style="text-align: left;">Einkauf > 0: <?=HtmlHelper::formatEnergyInWattAndCurrency($energyData->getEnergyOverZero(), true)?>
-                            <? $textEm = "Einspeisung (< 0W): ".HtmlHelper::formatEnergyInWattAndCurrency($energyData->getEnergyUnderZero()) ?>
-                            <? $textEm .= "<br>Einkauf (> 0 W): ".HtmlHelper::formatEnergyInWattAndCurrency($energyData->getEnergyOverZero()) ?>
+                            <div class="small" style="text-align: left;">Einkauf > 0: <strong><?=HtmlHelper::formatEnergyInWattAndCurrency($energyData->getEnergyOverZero())?></strong>
+                            <?php $textEm = "Einspeisung (< 0W): ".HtmlHelper::formatEnergyInWattAndCurrency($energyData->getEnergyUnderZero()) ?>
+                            <?php $textEm .= "<br>Einkauf (> 0 W): ".HtmlHelper::formatEnergyInWattAndCurrency($energyData->getEnergyOverZero()) ?>
                             <i class="bi bi-info-circle text-primary" data-bs-toggle="tooltip" data-bs-html="true" title="<?=$textEm?>"></i><div>
                         </td>
                         <td>
-                            <div class="small" style="text-align: left;">Ertrag: <?=HtmlHelper::formatEnergyInWattAndCurrency($energyData->getSavings(), true)?><div>
+                            <div class="small" style="text-align: left;">Ertrag: <strong><?=HtmlHelper::formatEnergyInWattAndCurrency($energyData->getSavings())?></strong><div>
                         </td>
                     </tr>
                 </tbody>

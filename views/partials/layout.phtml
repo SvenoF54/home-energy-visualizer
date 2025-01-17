@@ -46,50 +46,50 @@
 
     <script>    
         const URL_PREFIX = <?=json_encode(URL_PREFIX)?>;
-        <?
+        <?php
             // Add JS-Vars
             foreach($jsVars as $key => $val) {?>
         const <?=$key?> = <?=$val?>;
-        <?  } ?>        
+        <?php  } ?>        
     </script>
         
-    <?
+    <?php
         // Add JS-Header-Files
         foreach($jsHeaderFiles as $file) { ?>
     <script src="<?=URL_PREFIX.$file.'?v='.time()?>"></script>
-    <?  } ?>
+    <?php  } ?>
 
-    <?
+    <?php
         // Add CSS-Files
         foreach($cssFiles as $file) { ?>
     <link rel="stylesheet" type="text/css" href="<?=URL_PREFIX.$file.'?v='.time()?>"/>
-    <?  } ?>
+    <?php  } ?>
 
 </head>
 <body>
     <div class="container-fluid">
-        <?include_once("views/partials/navigation.phtml")?>
+        <?php include_once("views/partials/navigation.phtml")?>
 
-        <? if (isset($partialTop)) include($partialTop); ?>
-        <? if (isset($errorMsg) && $errorMsg != "") { ?>
+        <?php if (isset($partialTop)) include($partialTop); ?>
+        <?php if (isset($errorMsg) && $errorMsg != "") { ?>
             <div class="col text-center text-danger">
                 <strong><?=$errorMsg?></strong>
             </div>
-        <? } ?>
-        <? if (isset($successMsg) && $successMsg != "") { ?>
+        <?php } ?>
+        <?php if (isset($successMsg) && $successMsg != "") { ?>
             <div class="col text-center text-success">
                 <strong><?=$successMsg?></strong>
             </div>
-        <? } ?>
+        <?php } ?>
 
-        <? if (isset($partialBottom)) include($partialBottom); ?>
+        <?php if (isset($partialBottom)) include($partialBottom); ?>
     </div>
 
-    <?
+    <?php
         // Add JS-Footer-Files
         foreach($jsFooterFiles as $file) { ?>
     <script src="<?=URL_PREFIX.$file.'?v='.time()?>"></script>
-    <?  } ?>
+    <?php  } ?>
 
 </body>
 </html>

@@ -9,7 +9,7 @@
             <th class="table-active production-caption" colspan="8">
                 Produktion
                 <label for="toggleProductionColumns" class="mb-0 me-2">
-                <input type="checkbox" id="toggleProductionColumns" name="toggleProductionColumns" <?=$tableEnergyShowProductionTotal ? "checked" : "" ?>>
+                <input type="checkbox" id="toggleProductionColumns" name="toggleProductionColumns" <?=$actualConfig->configEnergy1()->getTableShowProductionInTotal() ? "checked" : "" ?>>
                 (Summe / Phasen einzeln)</label>
             </th>
         </tr>
@@ -33,7 +33,7 @@
         </tr>
     </thead>
     <tbody>                    
-    <? for($nt = 0; $nt < sizeof($overviewPageService->getLabelsXAxis()); $nt++) {             
+    <?php for($nt = 0; $nt < sizeof($overviewPageService->getLabelsXAxis()); $nt++) {             
         $captions = $overviewPageService->getLabelsXAxis()[$nt];
         $data1 = $overviewPageService->getData1List()->getItem($nt);                    
     ?>
@@ -47,8 +47,8 @@
             <td class="text-end savings" data-sort="<?=$data1->getSavings()->getEnergyPriceInCent()?>"><?=$data1->getSavings()->getEnergyPriceFormatted()?></td>
             <td class="text-end autarky" data-sort="<?=$data1->getAutarkyInPercent()?>"><?=StringHelper::formatNumber($data1->getAutarkyInPercent(), 2)?></td>
 
-            <td class="text-end production-pmtotal" data-sort="<?=$data1->getProductionPmTotal()->getEnergyInWatt()?>"><?=$data1->getProductionPm1()->getEnergyInWattFormated()?></td>
-            <td class="text-end production-pmtotal" data-sort="<?=$data1->getProductionPmTotal()->getEnergyPriceInCent()?>"><?=$data1->getProductionPm1()->getEnergyPriceFormatted()?></td>
+            <td class="text-end production-pmtotal" data-sort="<?=$data1->getProductionPmTotal()->getEnergyInWatt()?>"><?=$data1->getProductionPmTotal()->getEnergyInWattFormated()?></td>
+            <td class="text-end production-pmtotal" data-sort="<?=$data1->getProductionPmTotal()->getEnergyPriceInCent()?>"><?=$data1->getProductionPmTotal()->getEnergyPriceFormatted()?></td>
             <td class="text-end production-pm1" data-sort="<?=$data1->getProductionPm1()->getEnergyInWatt()?>"><?=$data1->getProductionPm1()->getEnergyInWattFormated()?></td>
             <td class="text-end production-pm1" data-sort="<?=$data1->getProductionPm1()->getEnergyPriceInCent()?>"><?=$data1->getProductionPm1()->getEnergyPriceFormatted()?></td>
             <td class="text-end production-pm2" data-sort="<?=$data1->getProductionPm2()->getEnergyInWatt()?>"><?=$data1->getProductionPm2()->getEnergyInWattFormated()?></td>
@@ -56,7 +56,7 @@
             <td class="text-end production-pm3" data-sort="<?=$data1->getProductionPm3()->getEnergyInWatt()?>"><?=$data1->getProductionPm3()->getEnergyInWattFormated()?></td>
             <td class="text-end production-pm3" data-sort="<?=$data1->getProductionPm3()->getEnergyPriceInCent()?>"><?=$data1->getProductionPm3()->getEnergyPriceFormatted()?></td>
         </tr>
-    <? } ?>
+    <?php } ?>
     </tbody>
     <tfoot>
         <tr>

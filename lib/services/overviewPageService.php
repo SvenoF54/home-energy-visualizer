@@ -1,4 +1,4 @@
-<?
+<?php
 
 class OverviewPageService
 {
@@ -221,6 +221,23 @@ class OverviewPageService
         return $this->pmSavingsTotal1;
     }
 
+    public function getConsumptionTotal1() : EnergyAndPriceTuple
+    {
+        $result = $this->emOverZeroTotal1;
+        $result->add($this->pmSavingsTotal1);
+        return $result;
+    }
+
+    public function getAutarkyInPercent1() {
+        $totalConsumption = $this->getEMOverZeroTotal1()->getEnergyInWatt() + $this->getPMSavingsTotal1()->getEnergyInWatt();
+        $percentAutarky = 0;
+        if ($totalConsumption > 0) {
+            $percentAutarky = (1-($this->getEMOverZeroTotal1()->getEnergyInWatt() / $totalConsumption)) * 100;
+        }
+
+        return $percentAutarky;
+    }
+
     public function getEMOverZeroTotal2() : EnergyAndPriceTuple
     {
         return $this->emOverZeroTotal2;
@@ -235,4 +252,22 @@ class OverviewPageService
     {
         return $this->pmSavingsTotal2;
     }
+
+    public function getConsumptionTotal2() : EnergyAndPriceTuple
+    {
+        $result = $this->emOverZeroTotal2;
+        $result->add($this->pmSavingsTotal2);
+        return $result;
+    }
+
+    public function getAutarkyInPercent2() {
+        $totalConsumption = $this->getEMOverZeroTotal2()->getEnergyInWatt() + $this->getPMSavingsTotal2()->getEnergyInWatt();
+        $percentAutarky = 0;
+        if ($totalConsumption > 0) {
+            $percentAutarky = (1-($this->getEMOverZeroTotal2()->getEnergyInWatt() / $totalConsumption)) * 100;
+        }
+
+        return $percentAutarky;
+    }
+
 }

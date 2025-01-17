@@ -1,5 +1,6 @@
 const emColor = getComputedStyle(document.documentElement).getPropertyValue('--em-color').trim();
 const emOverZeroColor = getComputedStyle(document.documentElement).getPropertyValue('--em-over-zero-color').trim();
+const consumptionCompleteColor = getComputedStyle(document.documentElement).getPropertyValue('--consumption-complete-color').trim();
 const emOverZeroColor2 = getComputedStyle(document.documentElement).getPropertyValue('--em-over-zero-color2').trim();
 
 const savingsColor = getComputedStyle(document.documentElement).getPropertyValue('--savings-color').trim();
@@ -122,16 +123,12 @@ const optionsEnergy = {
                 label: function(tooltipItem) {
                     const energy = tooltipItem.parsed.y;
                     const customDataSourceNo = tooltipItem.dataset.customDataSourceNo;
-                    const priceFieldName = tooltipItem.dataset.priceFieldName;
+                    const priceFieldName = tooltipItem.dataset.customPriceFieldName;
                     const dataArray = customDataSourceNo === 1 ? data1 : data2;
                     const dataPoint = dataArray[tooltipItem.dataIndex];
 
-                    let label = formatCurrent(energy, "h");
-                    if (priceFieldName && dataPoint[priceFieldName] !== undefined) {
-                        label += ' (' + formatPrice(dataPoint[priceFieldName]) + ')';
-                    } else {
-                        label += ' (-)';
-                    }
+                    let price = (priceFieldName && dataPoint[priceFieldName] !== undefined) ? dataPoint[priceFieldName] : 0;
+                    let label = formatCurrent(energy, "h") + ' (' + formatPrice(price) + ')';
 
                     return label;
                 }
@@ -142,25 +139,25 @@ const optionsEnergy = {
             annotations: {
                 line1: {
                     type: 'line',
-                    yMin: line1_selected,
-                    yMax: line1_selected,
+                    yMin: config.line1,
+                    yMax: config.line1,
                     borderColor: line1Color,
                     borderWidth: 2,
                     borderDash: [5, 5],
                     label: {
-                        content: line1_selected + ' W',
+                        content: config.line1 + ' W',
                         display: false
                     }
                 },
                 line2: {
                     type: 'line',
-                    yMin: line2_selected,
-                    yMax: line2_selected,
+                    yMin: config.line2,
+                    yMax: config.line2,
                     borderColor: line2Color,
                     borderWidth: 2,
                     borderDash: [5, 5],
                     label: {
-                        content: line2_selected + ' W',
+                        content: config.line2 + ' W',
                         display: false
                     }
                 },
@@ -174,7 +171,20 @@ const optionsEnergy = {
             }
         },
         legend: {
-            display: true
+            display: true,
+            onClick: function(event, legendItem) {
+                const clickedDatasetIndex = legendItem.datasetIndex;
+                const clickedLabel = legendItem.text;
+                const dataset = energyChart.data.datasets[clickedDatasetIndex];
+
+                // Update chart
+                dataset.hidden = !dataset.hidden;
+                energyChart.update();
+
+                // Set hidden form field to recover chart settings on next page call
+                const customFormFieldName = dataset.customFormFieldName;
+                $('#' + customFormFieldName).val(!dataset.hidden);
+            },
         },
     },
     scales: scalesEnergy
@@ -226,7 +236,7 @@ const pluginsEnergy = [{
                     $('#energy-chart-container').hide();
                     $('#autarky-chart-container').hide();
                     $('#energy-table-container').show();
-                    $('#chartOrTableOnFirstPageView').val('EnergyTable');
+                    $('#chartOrTableView').val('EnergyTable');
                 }
 
                 // Button 2: autarky-view
@@ -234,83 +244,116 @@ const pluginsEnergy = [{
                     $('#energy-chart-container').hide();
                     $('#energy-table-container').hide();
                     $('#autarky-chart-container').show();
-                    $('#chartOrTableOnFirstPageView').val('AutarkyChart');
+                    $('#chartOrTableView').val('AutarkyChart');
                 }
             });
         }
     }
 }];
 
+const emOverZeroData1 = {
+    label: '(1) Stromeinkauf',
+    data: data1.map(item => item.emOZ),
+    backgroundColor: emOverZeroColor,
+    borderColor: emOverZeroColor,
+    borderWidth: 1,
+    stack: 'Stack EM1',
+    maxBarThickness: 30,
+    customDataSourceNo: 1,
+    customFormFieldName: 'energy1_chartShowEnergyOverZero',
+    customPriceFieldName: 'emOZPrice',
+    hidden: !config.energy1.chartShowEnergyOverZero
+};
+const feedInData1 = {
+    label: '(1) Netzeinspeisung',
+    data: data1.map(item => item.emUZ),
+    borderColor: feedInColor,
+    backgroundColor: feedInColor,
+    stack: 'Stack EM1',
+    maxBarThickness: 30,
+    customDataSourceNo: 1,
+    customFormFieldName: 'energy1_chartShowFeedIn',
+    customPriceFieldName: 'emUZPrice',
+    hidden: !config.energy1.chartShowFeedIn
+};
+const savingsData1 = {
+    label: '(1) Energie Ersparnis',
+    data: data1.map(item => item.pmSvg),
+    borderColor: savingsColor,
+    backgroundColor: savingsColor,
+    stack: 'Stack PV1',
+    maxBarThickness: 30,
+    customDataSourceNo: 1,
+    customFormFieldName: 'energy1_chartShowSavings',
+    customPriceFieldName: 'pmSvgPrice',
+    hidden: !config.energy1.chartShowSavings
+};
+const energyOverZeroPlusSavings1 = {
+    label: '(1) Ersparnis addiert',
+    data: data1.map(item => item.pmSvg),
+    fill: false,
+    backgroundColor: consumptionCompleteColor,
+    tension: 0.1,
+    borderWidth: 0,
+    maxBarThickness: 30,
+    customDataSourceNo: 1,
+    customFormFieldName: 'energy1_chartShowEnergyOverZeroPlusSavings',
+    customPriceFieldName: 'pmSvgPrice',
+    stack: 'Stack EM1',
+    hidden: !config.energy1.chartShowEnergyOverZeroPlusSavings,
+};
+const emOverZeroData2 = {
+    label: '(2) Stromeinkauf',
+    data: data2.map(item => item.emOZ),
+    backgroundColor: emOverZeroColor2,
+    borderColor: emOverZeroColor2,
+    borderWidth: 1,
+    stack: 'Stack EM2',
+    customDataSourceNo: 2,
+    customFormFieldName: 'energy2_chartShowEnergyOverZero',
+    customPriceFieldName: 'emOZPrice',
+    hidden: !config.energy2.chartShowEnergyOverZero,
+}
+const feedInData2 = {
+    label: '(2) Netzeinspeisung',
+    data: data2.map(item => item.emUZ),
+    borderColor: feedInColor2,
+    backgroundColor: feedInColor2,
+    stack: 'Stack EM2',
+    maxBarThickness: 30,
+    customDataSourceNo: 2,
+    customFormFieldName: 'energy2_chartShowFeedIn',
+    customPriceFieldName: 'emUZPrice',
+    hidden: !config.energy2.chartShowFeedIn,
+}
+const savingsData2 = {
+    label: '(2) Energie Ersparnis',
+    data: data2.map(item => item.pmSvg),
+    borderColor: savingsColor2,
+    backgroundColor: savingsColor2,
+    stack: 'Stack PV2',
+    maxBarThickness: 30,
+    customDataSourceNo: 2,
+    customFormFieldName: 'energy2_chartShowSavings',
+    customPriceFieldName: 'pmSvgPrice',
+    hidden: !config.energy2.chartShowSavings,
+}
+
+const energyDataset = [];
+energyDataset.push(emOverZeroData1);
+energyDataset.push(energyOverZeroPlusSavings1);
+energyDataset.push(feedInData1);
+if (data2.length > 0) energyDataset.push(emOverZeroData2);
+if (data2.length > 0) energyDataset.push(feedInData2);
+energyDataset.push(savingsData1);
+if (data2.length > 0) energyDataset.push(savingsData2);
+
 // configure diagram
 const configEnergy = {
     type: 'bar',
     data: {
         labels: timestampsXAxis,
-        datasets: [{
-                label: '(1) Stromeinkauf',
-                data: data1.map(item => item.emOZ),
-                backgroundColor: emOverZeroColor,
-                borderColor: emOverZeroColor,
-                borderWidth: 1,
-                stack: 'Stack EM1',
-                maxBarThickness: 30,
-                customDataSourceNo: 1,
-                priceFieldName: 'emOZPrice'
-            },
-            {
-                label: '(1) Netzeinspeisung',
-                data: data1.map(item => item.emUZ),
-                borderColor: feedInColor,
-                backgroundColor: feedInColor,
-                stack: 'Stack EM1',
-                maxBarThickness: 30,
-                customDataSourceNo: 1,
-                priceFieldName: 'emUZPrice'
-            },
-            {
-                label: '(2) Stromeinkauf',
-                data: data2.map(item => item.emOZ),
-                backgroundColor: emOverZeroColor2,
-                borderColor: emOverZeroColor2,
-                borderWidth: 1,
-                stack: 'Stack EM2',
-                customDataSourceNo: 2,
-                priceFieldName: 'emOZPrice',
-                hidden: !(config.showSelection2OnEnergyChart && data2.length > 0),
-            },
-            {
-                label: '(2) Netzeinspeisung',
-                data: data2.map(item => item.emUZ),
-                borderColor: feedInColor2,
-                backgroundColor: feedInColor2,
-                stack: 'Stack EM2',
-                maxBarThickness: 30,
-                customDataSourceNo: 2,
-                priceFieldName: 'emUZPrice',
-                hidden: !(config.showSelection2OnEnergyChart && data2.length > 0),
-            },
-            {
-                label: '(1) Energie Ersparnis',
-                data: data1.map(item => item.pmSvg),
-                borderColor: savingsColor,
-                backgroundColor: savingsColor,
-                stack: 'Stack PV1',
-                maxBarThickness: 30,
-                priceFieldName: 'pmSvgPrice',
-                customDataSourceNo: 1
-            },
-            {
-                label: '(2) Energie Ersparnis',
-                data: data2.map(item => item.pmSvg),
-                borderColor: savingsColor2,
-                backgroundColor: savingsColor2,
-                stack: 'Stack PV2',
-                maxBarThickness: 30,
-                customDataSourceNo: 2,
-                priceFieldName: 'pmSvgPrice',
-                hidden: !(config.showSelection2OnEnergyChart && data2.length > 0),
-            },
-        ]
+        datasets: energyDataset
     },
     options: optionsEnergy,
     plugins: pluginsEnergy

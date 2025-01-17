@@ -1,5 +1,5 @@
 <?php
-include_once("ChartOrTableOnFirstPageViewEnum.php");
+include_once("ChartOrTableViewEnum.php");
 include_once("ConfigOptionPages.php");
 include_once("ConfigOverviewPages.php");
 
@@ -29,35 +29,35 @@ class Configuration
             [100, 150, 175, 200, 250, 300, 400, 500, 600, 700, 800, 900, 1000, 1100, 1200, 1300, 1400, 1500, 2000, 3000, 4000, 5000],
             200, 
             800,
-            ChartOrTableOnFirstPageViewEnum::EnergyChart
+            ChartOrTableViewEnum::EnergyChart
         );
 
         $this->overviewPages["hours"] = new ConfigOverviewPages(
             [-1000, -750, -500, -250, 0, 250, 500, 750, 1000, 1250, 1500, 1750, 2000, 2500, 3000, 3500, 4000, 4500, 5000, 5500, 6000, 6500, 7000, 8000, 9000, 10000, 11000, 12000, 13000, 14000, 15000, 16000, 17000, 18000, 19000, 20000]
             , -250, 
             2000,
-            ChartOrTableOnFirstPageViewEnum::EnergyChart,
+            ChartOrTableViewEnum::EnergyChart,
             true
         );
         $this->overviewPages["days"] = new ConfigOverviewPages(
             [-1000, -750, -500, -250, 0, 250, 500, 750, 1000, 1250, 1500, 1750, 2000, 2500, 3000, 3500, 4000, 4500, 5000, 5500, 6000, 6500, 7000, 8000, 9000, 10000, 11000, 12000, 13000, 14000, 15000, 16000, 17000, 18000, 19000, 20000]
             , -250, 
             10000,
-            ChartOrTableOnFirstPageViewEnum::EnergyChart,
+            ChartOrTableViewEnum::EnergyChart,
             true
         );
         $this->overviewPages["months"] = new ConfigOverviewPages(
-            [-4000, -3000, -2000, -1000, 0, 5000, 10000, 20000, 30000, 40000, 50000, 60000, 70000, 80000, 90000, 100000]
-            , -2000, 
-            20000,
-            ChartOrTableOnFirstPageViewEnum::EnergyChart,
+            [-15000, -10000, -5000, -2500, 0, 5000, 10000, 20000, 30000, 40000, 50000, 75000, 100000, 150000, 200000, 250000, 300000]
+            ,-5000, 
+            100000,
+            ChartOrTableViewEnum::EnergyChart,
             true
         );
         $this->overviewPages["years"] = new ConfigOverviewPages(
             [-1000, -750, -500, -250, 0, 250, 500, 750, 1000, 1250, 1500, 1750, 2000, 2500, 3000, 3500, 4000, 4500, 5000, 5500, 6000, 6500, 7000, 8000, 9000, 10000, 11000, 12000, 13000, 14000, 15000, 16000, 17000, 18000, 19000, 20000]
             , -250, 
             10000,
-            ChartOrTableOnFirstPageViewEnum::EnergyTable,
+            ChartOrTableViewEnum::EnergyTable,
             true
         );
     }    

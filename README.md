@@ -10,6 +10,7 @@ Mit der Energie-Visualisierung können sowohl Echtzeitdaten als auch manuell ein
 
 Die Preisberechnung erfolgt anhand der für den jeweiligen Zeitabschnitt eingegebenen Preisdaten. Dadurch ist es möglich, historische Energiedaten unter Berücksichtigung der damals gültigen Preise abzulesen.
 
+Der Benutzer muss einen eigenen PHP- und MySQL-Provider anmieten / bereitstellen, um die Anwendung nutzen zu können. Dies bietet den Vorteil, dass die Daten vollständig unter eigener Kontrolle bleiben und nicht an Dritte weitergegeben werden.
 
 
 ### Zielsetzung

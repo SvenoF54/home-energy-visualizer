@@ -1,4 +1,4 @@
-<?
+<?php
 // Diese Datei enthält lokale Konfigurationseinstellungen
 // Es muss eine Datei mit dem Namen local-config.php und den korrekten Werten erstellt werden.
 
@@ -10,4 +10,55 @@ define('DB_HOST', 'mein-host');
 define('URL_PREFIX', 'http://meine.domain/mein-pfad');
 define('API_KEY', '987654321');
 
+$config = Configuration::getInstance();
+
+// Konfiguriert einige Werte auf der Energy-Chart-Seite
+$config->hoursOverview()->configEnergy1()->setChartShowEnergyOverZeroPlusSavings(false);  
+$config->daysOverview()->configEnergy1()->setChartShowEnergyOverZeroPlusSavings(false);  
+$config->monthsOverview()->configEnergy1()->setChartShowEnergyOverZeroPlusSavings(false);  
+
+$config->hoursOverview()->configEnergy2()->setChartShowEnergyOverZero(false);  
+$config->hoursOverview()->configEnergy2()->setChartShowSavings(false);  
+$config->hoursOverview()->configEnergy2()->setChartShowFeedIn(false);  
+
+// Zeige Werte der 2. Selection auf der AutarkyChart-Übersichtsseite
+$config->hoursOverview()->configEnergy2()->setChartShowAutarky(false);  
+$config->daysOverview()->configEnergy2()->setChartShowAutarky(false);
+$config->monthsOverview()->configEnergy2()->setChartShowAutarky(false);
+
+// Anzahl Zeilen auf der Energy-Tabellenübersicht
+$config->hoursOverview()->configEnergy1()->setTablePageLength(10);  
+$config->daysOverview()->configEnergy1()->setTablePageLength(10);
+$config->monthsOverview()->configEnergy1()->setTablePageLength(25);
+
+// Für jede Übersichtsseite sind folgende Werte konfigurierbar
+// Generelles Ansichtsverhalten
+$config->hoursOverview()->setChartOrTableView(ChartOrTableViewEnum::EnergyChart | ChartOrTableViewEnum::AutarkyChart || ChartOrTableViewEnum::EnergyTable);
+$config->hoursOverview()->setLine1(100 | ...);
+$config->hoursOverview()->setLine2(100 | ...);
+$config->hoursOverview()->setLinePossibilities([-1000, -750, -500, -250, 0, 250, 500, 750, 1000, 1250]);
+
+// Energy-Chart
+$config->hoursOverview()->configEnergy1()->setChartShowEnergyOverZero(true/false);
+$config->hoursOverview()->configEnergy1()->setChartShowEnergyOverZeroPlusSavings(true/false);
+$config->hoursOverview()->configEnergy1()->setChartShowFeedIn(true/false);
+$config->hoursOverview()->configEnergy1()->setChartShowSavings(true/false);
+
+// Autarky-Chart
+$config->hoursOverview()->configEnergy1()->setChartShowAutarky(true/false);
+
+// Energy-Table
+$config->hoursOverview()->configEnergy1()->setTableShowProductionInTotal(true/false);
+$config->hoursOverview()->configEnergy1()->setTablePageLength(10|25|50);
+
+// Es gibt folgende Echtzeit-/Übersichtsseite. Je nach Seite haben die Werte unterschiedliches Verhalten
+$config->realtimeOverview()->xy
+$config->hoursOverview()->xy
+$config->daysOverview()->xy
+$config->monthsOverview()->xy
+$config->yearsOverview()->xy
+
+// Die Echtzeitübersichtsseite hat zusätzlich folgende Optionen, es sind nicht alle Optionen der Übersichtsseite benutzbar
+$config->realtimeOverview()->setLastHoursPossibilities([0.5, 1, 2, 4, 6, 8, 12, 24, 24*7, 24*14, 24*28]);
+$config->realtimeOverview()->setRefreshIntervalInSec(5);
 ?>

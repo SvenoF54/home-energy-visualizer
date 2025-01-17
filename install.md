@@ -34,6 +34,7 @@ Für die Benutzung des Programms werden gewisse technische Kenntnisse, wie das e
 - Als Vorlage die Daten local-config.php.sample benutzen
 - Die geforderten Daten eintragen
 - Der hier eingetragene API-Key muss auch bei den Shelly-Skripten verwendet werden
+- Hier können auch eigene Konfigurationen, z.B. zu den gezeigten Chart-Metriken konfiguriert werden.
 
 ### PHP-Skripte auf dem Server kopieren
 

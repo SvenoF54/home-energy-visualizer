@@ -1,4 +1,4 @@
-<?
+<?php
 class TableGapSet
 {
     private $gapStart;

@@ -1,19 +1,19 @@
 <div class="container-fluid px-0">
     <!-- Energy Chart Container -->
     <div id="energy-chart-container" 
-         style="<?=HtmlHelper::getDisplayStyle(ChartOrTableOnFirstPageViewEnum::isEnergyChart($chartOrTableOnFirstPageView))?>">
+         style="<?=HtmlHelper::getDisplayStyleVisibleOrNot($actualConfig->showEnergyChartView())?>">
         <canvas id="energyChart"></canvas>
     </div>
 
     <!-- Autarky Chart Container -->
     <div id="autarky-chart-container" 
-         style="<?=HtmlHelper::getDisplayStyle(ChartOrTableOnFirstPageViewEnum::isAutarkyChart($chartOrTableOnFirstPageView))?>">
+         style="<?=HtmlHelper::getDisplayStyleVisibleOrNot($actualConfig->showAutarkyChartView())?>">
         <canvas id="autarkyChart"></canvas>
     </div>
 
     <!-- Table Container -->
     <div id="energy-table-container" class="container mt-3" 
-        style="<?=HtmlHelper::getDisplayStyle(ChartOrTableOnFirstPageViewEnum::isEnergyTable($chartOrTableOnFirstPageView))?>">
+        style="<?=HtmlHelper::getDisplayStyleVisibleOrNot($actualConfig->showEnergyTableView())?>">
         <div class="d-flex justify-content-between align-items-center mb-3">
             <h6 class="text-start text-secondary"><?=$energyTableCaption?></h6>
             <div class="d-flex justify-content-end">
@@ -21,6 +21,6 @@
                 <button class="btn btn-primary btn-sm ms-2" id="switchToAutarkyBarView">Autarkieansicht</button>
             </div>
         </div>
-            <? include_once("energy-table.phtml");?>
+            <?php include_once("energy-table.phtml");?>
         </div>
     </div>

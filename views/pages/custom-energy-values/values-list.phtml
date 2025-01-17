@@ -24,7 +24,7 @@
             </tr>
         </thead>
         <tbody>
-        <? foreach($customDataList as $customData) {             
+        <?php foreach($customDataList as $customData) {             
             $timestampType = $customData->getTimestampType();
             $timestampRaw = $customData->getTimestampFrom();
             $timestampDataRow = $timestampType == "month" ? substr($timestampRaw, 0, 7) : substr($timestampRaw, 0, 10);
@@ -59,7 +59,7 @@
                     </button>
                 </td>
             </tr>
-        <? } ?>
+        <?php } ?>
         </tbody>
     </table>
 </div>

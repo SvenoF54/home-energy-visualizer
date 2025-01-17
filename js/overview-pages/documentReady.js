@@ -19,15 +19,16 @@ $(document).ready(function() {
         $('#autarky-chart-container').hide();
         $('#energy-table-container').hide();
         $('#energy-chart-container').show();
-        $('#chartOrTableOnFirstPageView').val('EnergyChart');
+        $('#chartOrTableView').val('EnergyChart');
     });
 
     $('#switchToAutarkyBarView').on('click', function(e) {
         $('#energy-chart-container').hide();
         $('#energy-table-container').hide();
         $('#autarky-chart-container').show();
-        $('#chartOrTableOnFirstPageView').val('AutarkyChart');
+        $('#chartOrTableView').val('AutarkyChart');
     });
+
 
     //-------------------------------------------------------
 
@@ -40,7 +41,7 @@ $(document).ready(function() {
         "autoWidth": false,
         "scrollX": false,
         "orderCellsTop": false,
-        "pageLength": config.pageLengthEnergyTable,
+        "pageLength": config.energy1.tablePageLength,
         "columnDefs": [{
             "targets": '_all',
             "orderDataType": "dom-text",

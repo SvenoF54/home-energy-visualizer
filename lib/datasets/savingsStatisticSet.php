@@ -1,4 +1,4 @@
-<?
+<?php
 
 class SavingsStatisticSet {
     private EnergyAndPriceTuple $savings;
