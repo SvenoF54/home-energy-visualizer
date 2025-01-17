@@ -4,20 +4,20 @@
             <td><div class="small fw-bold" style="text-align: left; width: 150px;"><?=$tableMainCaptionTimeUnit?></div></td>
             <td class="pe-3">
                 <div class="small fw-bold" style="text-align: left; width: 130px;">Einkauf
-                    <? $textTooltip = "Der Einkauf ist die Summe aller positiven Stromverbrauchswerte. "; ?>
+                    <?php $textTooltip = "Der Einkauf ist die Summe aller positiven Stromverbrauchswerte. "; ?>
                     <i class="bi bi-info-circle text-primary" data-bs-toggle="tooltip" data-bs-html="true" title="<?=$textTooltip?>"></i><div>
                 </div>
             </td>
             <td class="pe-3">
                 <div class="small fw-bold" style="text-align: left; width: 130px;">Einspeisung
-                    <? $textTooltip = "Der Einspeisepreis berechnet sich aus der Summe der jeweils gültigen Einspeisepreise. "; ?>
+                    <?php $textTooltip = "Der Einspeisepreis berechnet sich aus der Summe der jeweils gültigen Einspeisepreise. "; ?>
                     <i class="bi bi-info-circle text-primary" data-bs-toggle="tooltip" data-bs-html="true" title="<?=$textTooltip?>"></i><div>
                 </div>
             </td>
             <td class="pe-3">
                 <div class="small fw-bold" style="text-align: left; width: 130px;">Ersparnis
-                    <? $textTooltip = "Die Ersparnis ist die Summe der Stromproduktion, abzüglich der Einspeisung zum jeweiligen Zeitpunkt. "; ?>
-                    <? $textTooltip .= "Der Preis für die Ersparnis berechnet sich aus der Summe der jeweils gültigen Einkauspreise. "; ?>
+                    <?php $textTooltip = "Die Ersparnis ist die Summe der Stromproduktion, abzüglich der Einspeisung zum jeweiligen Zeitpunkt. "; ?>
+                    <?php $textTooltip .= "Der Preis für die Ersparnis berechnet sich aus der Summe der jeweils gültigen Einkauspreise. "; ?>
                     <i class="bi bi-info-circle text-primary" data-bs-toggle="tooltip" data-bs-html="true" title="<?=$textTooltip?>"></i><div>
                 </div>
             </td>
@@ -27,8 +27,8 @@
             <td class="pe-3">
                 <div class="small fw-bold" style="display: flex; justify-content: space-between; align-items: center;">
                     <span style="text-align: left; width: 130px;">Fehlende Werte</span>
-                    <? $textTooltip = "Diese Seite zeigt soweit vorhanden die aufaddierten Echtzeitdaten, sowie die manuell eingegebenen Daten an."; ?>
-                    <? $textTooltip .= "<br>Die Preise werden anhand der vorhandenen Preisdaten berechnet."; ?>
+                    <?php $textTooltip = "Diese Seite zeigt soweit vorhanden die aufaddierten Echtzeitdaten, sowie die manuell eingegebenen Daten an."; ?>
+                    <?php $textTooltip .= "<br>Die Preise werden anhand der vorhandenen Preisdaten berechnet."; ?>
                     <i class="bi bi-info-circle text-primary" data-bs-toggle="tooltip" data-bs-html="true" title="<?=$textTooltip?>"></i>
                 </div>
             </td>
@@ -57,7 +57,7 @@
                 </a>
             </td>
         </tr>
-    <? if (isset($tableRow2CaptionTimeUnit)) { ?>
+    <?php if (isset($tableRow2CaptionTimeUnit)) { ?>
         <tr class="table-primary">
             <td>
                 <div class="small" style="text-align: left;"><?=$tableRow2CaptionTimeUnit?></div>
@@ -81,7 +81,7 @@
                 </a>
             </td>
         </tr>
-    <? } ?>
+    <?php } ?>
     </tbody>
 </table>
 

@@ -1,29 +1,29 @@
 <table class="table-primary">
-<? if ($energyData->getMissingRows()->isEmAvailable()) { ?>
+<?php if ($energyData->getMissingRows()->isEmAvailable()) { ?>
     <tr>
         <td style="text-align: left;"><?=HtmlHelper::formatFailureValue("EM&nbsp;&nbsp;", $energyData->getMissingRows()->getEmMissingRows(), $energyData->getMissingRows()->getCountRows())?></td>
     </tr>
-<? } ?>
-<? if ($energyData->getMissingRows()->isPm1Available()) { ?>
+<?php } ?>
+<?php if ($energyData->getMissingRows()->isPm1Available()) { ?>
     <tr>
         <td style="text-align: left;"><?=HtmlHelper::formatFailureValue("PM1", $energyData->getMissingRows()->getPm1MissingRows(), $energyData->getMissingRows()->getCountRows())?></td>
     </tr>
-<? } ?>
-<? if ($energyData->getMissingRows()->isPm2Available()) { ?>
+<?php } ?>
+<?php if ($energyData->getMissingRows()->isPm2Available()) { ?>
     <tr>
         <td style="text-align: left;"><?=HtmlHelper::formatFailureValue("PM2", $energyData->getMissingRows()->getPm2MissingRows(), $energyData->getMissingRows()->getCountRows())?></td>
     </tr>
-<? } ?>
-<? if ($energyData->getMissingRows()->isPm3Available()) { ?>
+<?php } ?>
+<?php if ($energyData->getMissingRows()->isPm3Available()) { ?>
     <tr>
         <td style="text-align: left;"><?=HtmlHelper::formatFailureValue("PM3", $energyData->getMissingRows()->getPm3MissingRows(), $energyData->getMissingRows()->getCountRows())?></td>
     </tr>
-<? } ?>
+<?php } ?>
     <tr>
         <td style="text-align: left;">
             <div class="small m-0" style="color: <?= $energyData->getMissingRows()->getCountRows() > 0 ? "green" : "red"?>;">
                 <?= StringHelper::formatNumber($energyData->getMissingRows()->getCountRows()) ?> Zeilen
-                <? 
+                <?php 
                     $tooltipText = StringHelper::formatNumber($energyData->getMissingRows()->getCountRows())." Zeile für die Auswahl durchsucht, <br>".
                     StringHelper::formatNumber($realTimeEnergyDataTbl->getStatistics()->getTotalRows())." Zeilen in der Echtzeit-Datenbank seit <br>"
                     .TimeHelper::formatDate($realTimeEnergyDataTbl->getStatistics()->getFirstRowDate())

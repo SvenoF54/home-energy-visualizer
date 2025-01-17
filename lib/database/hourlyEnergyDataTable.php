@@ -1,4 +1,4 @@
-<?
+<?php
 
 class HourlyEnergyDataTable extends BaseTimestampTable {        
     public function __construct($pdo) {

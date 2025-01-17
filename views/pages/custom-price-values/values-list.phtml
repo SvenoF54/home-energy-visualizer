@@ -18,7 +18,7 @@
             </tr>
         </thead>
         <tbody>
-        <? foreach($customDataList as $customData) {             
+        <?php foreach($customDataList as $customData) {             
             $timestampFromHtml = TimeHelper::formatDate($customData->getTimestampFrom());
             $timestampToHtml = TimeHelper::formatDate($customData->getTimestampTo());
         ?>
@@ -36,17 +36,17 @@
                 <td class="text-end"><?=StringHelper::formatNumber($customData->getOutCentPricePerWh() * 1000, 8)?></td>
                 <td class="text-end"><?=StringHelper::formatNumber($customData->getInCentPricePerWh() * 1000, 8)?></td>
                 <td>
-                    <? if ($customData->isCustomValue()) { ?>
+                    <?php if ($customData->isCustomValue()) { ?>
                     <button class="btn btn-sm btn-primary edit-btn" title="Bearbeiten">
                         <i class="bi bi-pencil-square"></i> Bearbeiten
                     </button>
                     <button class="btn btn-sm btn-danger delete-btn" title="Löschen">
                         <i class="bi bi-trash"></i> Löschen
                     </button>
-                    <? } ?>
+                    <?php } ?>
                 </td>
             </tr>
-        <? } ?>
+        <?php } ?>
         </tbody>
     </table>
 </div>

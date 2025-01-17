@@ -1,5 +1,5 @@
 <table class="table-primary">
-<?  $timPeriods = [TimePeriodEnum::Today, TimePeriodEnum::ThisWeek, TimePeriodEnum::ThisMonth, TimePeriodEnum::ThisYear];
+<?php  $timPeriods = [TimePeriodEnum::Today, TimePeriodEnum::ThisWeek, TimePeriodEnum::ThisMonth, TimePeriodEnum::ThisYear];
     foreach ($timPeriods as $timePeriod) {
         $curSavings = $savings->get($timePeriod->value);
 ?>
@@ -7,12 +7,12 @@
         <td style="text-align: left;">
             <div class="small m-0" style="color: grey;">
                 <?=$timePeriod->label()?> = <?=HtmlHelper::formatEnergyInWattAndCurrency($curSavings->getSavings())?>
-                <? $textEm = "Einspeisung (< 0W): ".HtmlHelper::formatEnergyInWattAndCurrency($curSavings->getFeedIn()) ?>
-                <? $textEm .= "<br>Einkauf (> 0 W): ".HtmlHelper::formatEnergyInWattAndCurrency($curSavings->getConsumption()) ?>
-                <? $textEm .= "<br>Ersparnis: ".HtmlHelper::formatEnergyInWattAndCurrency($curSavings->getSavings()) ?>
+                <?php $textEm = "Einspeisung (< 0W): ".HtmlHelper::formatEnergyInWattAndCurrency($curSavings->getFeedIn()) ?>
+                <?php $textEm .= "<br>Einkauf (> 0 W): ".HtmlHelper::formatEnergyInWattAndCurrency($curSavings->getConsumption()) ?>
+                <?php $textEm .= "<br>Ersparnis: ".HtmlHelper::formatEnergyInWattAndCurrency($curSavings->getSavings()) ?>
                 <i class="bi bi-info-circle text-primary" data-bs-toggle="tooltip" data-bs-html="true" title="<?=$textEm?>"></i><div>
             </div>
         </td>
     </tr>
-<? } ?>
+<?php } ?>
 </table>
