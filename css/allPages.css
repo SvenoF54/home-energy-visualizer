@@ -5,15 +5,54 @@ body {
     overflow-y: auto;
 }
 
+
+/* Standard elements */
+
+.hidden-html {
+    display: none;
+}
+
 .tooltip-inner {
     max-width: 350px !important;
     white-space: normal;
     line-height: 1.5;
 }
 
-.hidden-html {
-    display: none;
+.popover {
+    background-color: #f6f6f6;
+    border: 1px solid #ccc;
 }
+
+
+/* Navigation  */
+
+.custom-navbar {
+    background-color: rgb(248, 249, 250);
+}
+
+.custom-navbar .navbar-nav .nav-link {
+    padding: 0rem 0.8rem;
+    font-size: 0.9rem;
+}
+
+.custom-navbar .dropdown-menu {
+    background-color: rgb(248, 249, 250);
+    color: white;
+}
+
+.custom-navbar .dropdown-menu .dropdown-item:hover {
+    /*background-color: rgb(208, 209, 210);*/
+    background-color: rgb(208, 209, 10);
+    color: #495057;
+}
+
+.navbar-toggler {
+    /*border-color: rgb(248, 249, 250);*/
+    border-color: rgb(248, 249, 25);
+}
+
+
+/* Chart-Colors */
 
 :root {
     --datetime-color: rgb(151, 147, 147);
@@ -34,9 +73,4 @@ body {
     --line-zero-color: marroon;
     --autarky-color: rgba(127, 181, 181, 0.6);
     --autarky-color2: rgba(97, 141, 141, 0.6);
-}
-
-.popover {
-    background-color: #f6f6f6;
-    border: 1px solid #ccc;
 }

@@ -71,14 +71,15 @@ class TimeHelper {
         return $difference->days; // difference in days
     }
 
-    public static function getWeekday($date) {
+    public static function getWeekday($date, $short = false) {
         $formatter = new IntlDateFormatter(
             setlocale(LC_TIME, 0), // Locale for german
             IntlDateFormatter::FULL,
             IntlDateFormatter::NONE
         );
-        $formatter->setPattern('EEEE'); // Muster für den Wochentag
-        return $formatter->format(new DateTime($date));
+        $formatter->setPattern('EEEE'); // pattern weekday
+        $result = $formatter->format(new DateTime($date));
+        return $short ? substr($result,0,2)."." : $result;
     }    
 
     public static function getQuarterHoursBetween($start, $end) {

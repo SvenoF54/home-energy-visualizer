@@ -2,7 +2,7 @@
 
 class EnergyDataSetList 
 {
-    private $items;
+    private $items = [];
 
     public function addItem(EnergyDataSet $item)
     {

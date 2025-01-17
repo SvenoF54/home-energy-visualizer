@@ -8,10 +8,10 @@ $actualConfig->setFormValues();
 $selectedDay1 = StringHelper::formGetDate("day1", strtotime(date("d.m.Y")));
 $selectedDay2 = StringHelper::formGetDate("day2", strtotime(date("d.m.Y", strtotime('-1 day')))); 
 
-$startTime1 = date("Y-m-d", strtotime($selectedDay1))." 00:00:00";
-$endTime1 = date("Y-m-d", strtotime($selectedDay1))."  23:59:59";
-$startTime2 = date("Y-m-d", strtotime($selectedDay2))." 00:00:00";
-$endTime2 = date("Y-m-d", strtotime($selectedDay2))."  23:59:59";
+$startTime1 = date("Y-m-d 00:00:00", strtotime($selectedDay1));
+$endTime1 = date("Y-m-d 23:59:59", strtotime($selectedDay1));
+$startTime2 = date("Y-m-d 00:00:00", strtotime($selectedDay2));
+$endTime2 = date("Y-m-d 23:59:59", strtotime($selectedDay2));
 $timeLabelUnit = TimeHelper::prepareTimeUnit($startTime1, $endTime1);
 
 

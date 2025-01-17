@@ -7,38 +7,53 @@ $options = [
 ];
 
 $pages = [
-    "Startseite" => "index.php",
-    "Stundenübersicht" => "hoursOverview.php",
-    "Tagesübersicht" => "daysOverview.php",
-    "Monatsübersicht" => "monthsOverview.php",
-    "Jahrsübersicht" => "yearsOverview.php",
+    //"Start" => "index.php",
+    "Echtzeit" => "realtimeOverview.php",
+    "Stunden" => "hoursOverview.php",
+    "Tage" => "daysOverview.php",
+    "Monate" => "monthsOverview.php",
+    "Jahre" => "yearsOverview.php",
     "Optionen" => $options
 ];
 ?>
 <div class="row justify-content-center">
-    <div class="col-auto" style="background-color: rgba(13, 110, 253, 0.25);"> 
-        <nav>
-            <div class="nav nav-tabs nav-pills nav-fill" id="nav-tab" role="tablist">
-                <?php foreach ($pages as $title => $link): ?>
-                    <?php if (is_array($link)): // Dropdown for submenu ?>
-                        <div class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" id="dropdown-<?=strtolower($title)?>" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <?=$title?>
-                            </a>
-                            <div class="dropdown-menu" aria-labelledby="dropdown-<?=strtolower($title)?>">
-                                <?php foreach ($link as $subTitle => $subLink): ?>
-                                    <a class="dropdown-item <?=basename($_SERVER['PHP_SELF']) == $subLink ? 'active' : ''?>" href="<?=$subLink?>">
-                                        <?=$subTitle?>
+    <div class="col-auto">
+        <nav class="navbar navbar-expand-lg navbar-light custom-navbar">
+            <div class="container-fluid">
+                <!-- Burger Icon -->
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <!-- Navbar Links -->
+                <div class="collapse navbar-collapse" id="navbarContent">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <?php foreach ($pages as $title => $link): ?>
+                            <?php if (is_array($link)): // Dropdown for submenu ?>
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" id="dropdown-<?=strtolower($title)?>" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <?=$title?>
                                     </a>
-                                <?php endforeach; ?>
-                            </div>
-                        </div>
-                    <?php else: // Normal Tabs ?>
-                        <a class="nav-item nav-link <?=basename($_SERVER['PHP_SELF']) == $link ? 'active' : ''?>" href="<?=$link?>" role="tab" aria-controls="nav-home" aria-selected="true">
-                            <?=$title?>
-                        </a>
-                    <?php endif; ?>
-                <?php endforeach; ?>
+                                    <ul class="dropdown-menu" aria-labelledby="dropdown-<?=strtolower($title)?>">
+                                        <?php foreach ($link as $subTitle => $subLink): ?>
+                                            <li>
+                                                <a class="dropdown-item <?=basename($_SERVER['PHP_SELF']) == $subLink ? 'active' : ''?>" href="<?=$subLink?>">
+                                                    <?=$subTitle?>
+                                                </a>
+                                            </li>
+                                        <?php endforeach; ?>
+                                    </ul>
+                                </li>
+                            <?php else: // Normal Tabs ?>
+                                <li class="nav-item">
+                                    <a class="nav-link <?=basename($_SERVER['PHP_SELF']) == $link ? 'active' : ''?>" href="<?=$link?>">
+                                        <?=$title?>
+                                    </a>
+                                </li>
+                            <?php endif; ?>
+                        <?php endforeach; ?>
+                    </ul>
+                </div>
             </div>
         </nav>
     </div>

@@ -8,29 +8,31 @@
                     <tr class="table-light">
                         <td>
                             <div class="d-flex align-items-center" style="height: 32px;">
-                                <strong class="small m-0">Auswahl 1:</strong>
+                                <strong class="small m-0 d-block d-sm-none">1:</strong>
+                                <strong class="small m-0 d-none d-sm-inline">Auswahl 1:</strong>
                             </div>
                         </td>
                         <!-- Day1 -->
                         <td>
                             <div class="d-flex align-items-center gap-2">
-                                <label for="day1" class="form-label small m-0"><strong>Tag: </strong><div class="weekday-container"><?=TimeHelper::getWeekday($selectedDay1)?>, </div></label>
+                                <label for="day1" class="form-label small m-0 d-block d-sm-none"><?=TimeHelper::getWeekday($selectedDay1, true)?></label>
+                                <label for="day1" class="form-label small m-0 d-none d-sm-inline"><strong>Tag: </strong><div class="weekday-container"><?=TimeHelper::getWeekday($selectedDay1)?>, </div></label>
                                 <input type="date-local" id="day1" name="day1" 
                                     value="<?=date("d.m.Y", strtotime($selectedDay1))?>" 
                                     class="form-control form-control-sm" style="max-width: 100px; height: 32px;">
                             </div>
                         </td>
                         <td>
-                            <div class="d-flex align-items-center gap-1">
+                            <div class="d-flex align-items-center gap-2">
                                 <!-- +1/-1 Buttons -->
-                                <a href="#" class="btn btn-sm btn-outline-secondary py-0 px-1" id="subtract-day1">-1 Tag</a>
-                                <a href="#" class="btn btn-sm btn-outline-secondary py-0 px-1" id="add-day1">+1 Tag</a>
+                                <a href="#" class="btn btn-sm btn-outline-secondary py-0 px-1" id="subtract-day1">-1<span class="d-none d-sm-inline"> Tag</span></a>
+                                <a href="#" class="btn btn-sm btn-outline-secondary py-0 px-1" id="add-day1">+1<span class="d-none d-sm-inline"> Tag</span></a>
                             </div>
                         </td>
                         <!-- Line 1 -->
                         <td>
-                            <div class="d-flex align-items-center gap-2">
-                                <label for="line1" class="form-label small m-0 line-container"><strong>Linie 1:</strong></label>
+                            <div class="d-flex align-items-center gap-4">
+                                <label for="line1" class="form-label small m-0 d-none d-sm-inline mb-0"><strong>Linie&nbsp;1:</strong></label>
                                 <select name="line1" id="line1" class="form-control form-control-sm" style="max-width: 120px; height: 32px;">
                                     <?php foreach($actualConfig->getLinePossibilities() as $val) { ?> 
                                         <option value="<?=$val?>" <?php echo ($actualConfig->getLine1() == $val) ? 'selected' : ''; ?>><?=StringHelper::formatEnergyInWattHour($val)?></option>
@@ -39,32 +41,35 @@
                             </div>
                         </td>            
                     </tr>
+
                     <tr class="table-light">
                         <td>
                             <div class="d-flex align-items-center" style="height: 32px;">
-                                <strong class="small m-0">Auswahl 2:</strong>
+                            <strong class="small m-0 d-block d-sm-none">2:</strong>
+                            <strong class="small m-0 d-none d-sm-inline">Auswahl 2:</strong>
                             </div>
                         </td>
                         <!-- Day2 -->
                         <td>
                             <div class="d-flex align-items-center gap-2">
-                                <label for="day2" class="form-label small m-0"><strong>Tag: </strong><div class="weekday-container"><?=TimeHelper::getWeekday($selectedDay2)?>, </div></label>
+                                <label for="day2" class="form-label small m-0 d-block d-sm-none"><?=TimeHelper::getWeekday($selectedDay2, true)?></label>
+                                <label for="day2" class="form-label small m-0 d-none d-sm-inline"><strong>Tag: </strong><div class="weekday-container"><?=TimeHelper::getWeekday($selectedDay2)?>, </div></label>
                                 <input type="date-local" id="day2" name="day2" 
                                     value="<?=date("d.m.Y", strtotime($selectedDay2))?>" 
                                     class="form-control form-control-sm" style="max-width: 100px; height: 32px;">
                             </div>
                         </td>
                         <td>
-                            <div class="d-flex align-items-center gap-1">
+                            <div class="d-flex align-items-center gap-2">
                                 <!-- +1/-1 Buttons -->
-                                <a href="#" class="btn btn-sm btn-outline-secondary py-0 px-1" id="subtract-day2">-1 Tag</a>
-                                <a href="#" class="btn btn-sm btn-outline-secondary py-0 px-1" id="add-day2">+1 Tag</a>
+                                <a href="#" class="btn btn-sm btn-outline-secondary py-0 px-1" id="subtract-day2">-1<span class="d-none d-sm-inline"> Tag</span></a>
+                                <a href="#" class="btn btn-sm btn-outline-secondary py-0 px-1" id="add-day2">+1<span class="d-none d-sm-inline"> Tag</span></a>
                             </div>
                         </td>
                         <!-- Line 2 -->
                         <td>
-                            <div class="d-flex align-items-center gap-2">
-                                <label for="line2" class="form-label small m-0 line-container""><strong>Linie 2:</strong></label>
+                            <div class="d-flex align-items-center gap-4">
+                            <label for="line2" class="form-label small m-0 d-none d-sm-inline"><strong>Linie&nbsp;2:</strong></label>
                                 <select name="line2" id="line2" class="form-control form-control-sm" style="max-width: 120px; height: 32px;">
                                     <?php foreach($actualConfig->getLinePossibilities() as $val) { ?> 
                                         <option value="<?=$val?>" <?php echo ($actualConfig->getLine2() == $val) ? 'selected' : ''; ?>><?=StringHelper::formatEnergyInWattHour($val)?></option>

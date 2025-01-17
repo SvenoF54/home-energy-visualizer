@@ -10,6 +10,42 @@ h1 {
 }
 
 
+/* Summary table on top of page */
+
+.custom-navbar {
+    background-color: #f8f9fa;
+}
+
+.custom-navbar .navbar-nav .nav-link {
+    padding: 0rem 0.8rem;
+    font-size: 0.9rem;
+}
+
+.custom-navbar .navbar-nav .nav-link.active {
+    background-color: #e2e6ea;
+    color: #495057;
+}
+
+.custom-navbar .navbar-nav .nav-link:hover {
+    background-color: #e2e6ea;
+    color: #495057;
+}
+
+.custom-navbar .dropdown-menu {
+    background-color: #f8f9fa;
+    color: black;
+}
+
+.custom-navbar .dropdown-menu .dropdown-item:hover {
+    background-color: #e2e6ea;
+    color: #495057;
+}
+
+.navbar-toggler {
+    border-color: #f8f9fa;
+}
+
+
 /* Chart-Container */
 
 #autarky-chart-container,

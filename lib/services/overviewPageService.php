@@ -80,7 +80,7 @@ class OverviewPageService
         
     }
 
-    public function calculateHourData($startTime1, $endTime1, $startTime2, $endTime2)
+    public function calculateHourData($startTime1, $endTime1, $startTime2=null, $endTime2=null)
     {
         $avg = 3600;  // 1 Stunde
         $this->prepareGeneralData($startTime1, $endTime1, $startTime2, $endTime2);
@@ -117,6 +117,7 @@ class OverviewPageService
     private function prepareDataRange($startTime, $endTime, $avg)
     {
         $energyDataSetList = new EnergyDataSetList();
+        if ($startTime == null) return $energyDataSetList;
         for ($time = strtotime($startTime); $time <= strtotime($endTime); $time += $avg) {
             $strStart = date('Y-m-d H:i:s', $time);
             $strEnd = date('Y-m-d H:i:s', $time + $avg -1);  # -1 Sekunde für :59 Sekunden

@@ -1,89 +1,82 @@
-<table class="table table-sm w-auto">
+<div class="row justify-content-center">
+<table class="table table-sm w-auto summary-table">
     <tbody>
-        <tr class="table-primary">
-            <td><div class="small fw-bold" style="text-align: left; width: 150px;"><?=$tableMainCaptionTimeUnit?></div></td>
-            <td class="pe-3">
-                <div class="small fw-bold" style="text-align: left; width: 130px;">Einkauf
-                    <?php $textTooltip = "Der Einkauf ist die Summe aller positiven Stromverbrauchswerte. "; ?>
-                    <i class="bi bi-info-circle text-primary" data-bs-toggle="tooltip" data-bs-html="true" title="<?=$textTooltip?>"></i><div>
-                </div>
+        <!-- Header -->
+        <tr class="table-secondary">
+            <td>
+                <div class="small fw-bold"><?=$tableMainCaptionTimeUnit?></div>
             </td>
-            <td class="pe-3">
-                <div class="small fw-bold" style="text-align: left; width: 130px;">Einspeisung
-                    <?php $textTooltip = "Der Einspeisepreis berechnet sich aus der Summe der jeweils gültigen Einspeisepreise. "; ?>
-                    <i class="bi bi-info-circle text-primary" data-bs-toggle="tooltip" data-bs-html="true" title="<?=$textTooltip?>"></i><div>
-                </div>
+            <td class="d-none d-md-table-cell">
+                <div class="small fw-bold">Einkauf</div>
             </td>
-            <td class="pe-3">
-                <div class="small fw-bold" style="text-align: left; width: 130px;">Ersparnis
-                    <?php $textTooltip = "Die Ersparnis ist die Summe der Stromproduktion, abzüglich der Einspeisung zum jeweiligen Zeitpunkt. "; ?>
-                    <?php $textTooltip .= "Der Preis für die Ersparnis berechnet sich aus der Summe der jeweils gültigen Einkauspreise. "; ?>
-                    <i class="bi bi-info-circle text-primary" data-bs-toggle="tooltip" data-bs-html="true" title="<?=$textTooltip?>"></i><div>
-                </div>
+            <td class="d-none d-md-table-cell">
+                <div class="small fw-bold">Einspeisung</div>
             </td>
-            <td class="pe-3">
-                <div class="small fw-bold" style="text-align: left; width: 130px;">Gesamtverbrauch</div>
+            <td>
+                <div class="small fw-bold">Ersparnis</div>
             </td>
-            <td class="pe-3">
-                <div class="small fw-bold" style="display: flex; justify-content: space-between; align-items: center;">
-                    <span style="text-align: left; width: 130px;">Fehlende Werte</span>
-                    <?php $textTooltip = "Diese Seite zeigt soweit vorhanden die aufaddierten Echtzeitdaten, sowie die manuell eingegebenen Daten an."; ?>
-                    <?php $textTooltip .= "<br>Die Preise werden anhand der vorhandenen Preisdaten berechnet."; ?>
-                    <i class="bi bi-info-circle text-primary" data-bs-toggle="tooltip" data-bs-html="true" title="<?=$textTooltip?>"></i>
-                </div>
+            <td class="d-none d-md-table-cell">
+                <div class="small fw-bold">Gesamtverbrauch</div>
             </td>
-
+            <td class="d-none d-md-table-cell">
+                <div class="small fw-bold">Fehlende Werte</div>
+            </td>
         </tr>
-        <tr class="table-primary">
+
+        <!-- Row 1 -->
+        <tr class="table-light">
             <td>
-                <div class="small" style="text-align: left;"><?=$tableRow1CaptionTimeUnit?></div>
+                <div class="small"><?=$tableRow1CaptionTimeUnit?></div>
+            </td>
+            <td class="d-none d-md-table-cell">
+                <div class="small"><?=HtmlHelper::formatEnergyInWattAndCurrency($overviewPageService->getEMOverZeroTotal1())?></div>
+            </td>
+            <td class="d-none d-md-table-cell">
+                <div class="small"><?=HtmlHelper::formatEnergyInWattAndCurrency($overviewPageService->getEMUnderZeroTotal1())?></div>
             </td>
             <td>
-                <div class="small" style="text-align: left;"><?=HtmlHelper::formatEnergyInWattAndCurrency($overviewPageService->getEMOverZeroTotal1())?></div>
+                <div class="small"><?=HtmlHelper::formatEnergyInWattAndCurrency($overviewPageService->getPMSavingsTotal1(), $overviewPageService->getAutarkyInPercent1())?></div>
             </td>
-            <td>
-                <div class="small" style="text-align: left;"><?=HtmlHelper::formatEnergyInWattAndCurrency($overviewPageService->getEMUnderZeroTotal1())?></div>
+            <td class="d-none d-md-table-cell">
+                <div class="small"><?=HtmlHelper::formatEnergyInWattAndCurrency($overviewPageService->getConsumptionTotal1())?></div>
             </td>
-            <td>
-                <div class="small" style="text-align: left;"><?=HtmlHelper::formatEnergyInWattAndCurrency($overviewPageService->getPMSavingsTotal1(), $overviewPageService->getAutarkyInPercent1())?></div>
-            </td>
-            <td>
-                <div class="small" style="text-align: left;"><?=HtmlHelper::formatEnergyInWattAndCurrency($overviewPageService->getConsumptionTotal1())?></div>
-            </td>
-            <td>
+            <td class="d-none d-md-table-cell">
                 <a href="#" class="btn btn-sm btn-mising-values btn-<?=HtmlHelper::prepareFailureStyle($overviewPageService->getMissingValues1()->getWorstMissingRowCountPercent())?>" data-bs-toggle="popover" data-bs-content="#missingValuesTable1" data-bs-trigger="focus">
                     <?=$overviewPageService->getMissingValues1()->getWorstMissingRowCountPercent()?>%
                     <i class="bi bi-caret-down-fill"></i>
                 </a>
             </td>
         </tr>
-    <?php if (isset($tableRow2CaptionTimeUnit)) { ?>
-        <tr class="table-primary">
+
+        <?php if (isset($tableRow2CaptionTimeUnit)) { ?>
+        <!-- Row 2 -->
+        <tr class="table-light">
             <td>
-                <div class="small" style="text-align: left;"><?=$tableRow2CaptionTimeUnit?></div>
+                <div class="small"><?=$tableRow2CaptionTimeUnit?></div>
+            </td>
+            <td class="d-none d-md-table-cell">
+                <div class="small"><?=HtmlHelper::formatEnergyInWattAndCurrency($overviewPageService->getEMOverZeroTotal2())?></div>
+            </td>
+            <td class="d-none d-md-table-cell">
+                <div class="small"><?=HtmlHelper::formatEnergyInWattAndCurrency($overviewPageService->getEMUnderZeroTotal2())?></div>
             </td>
             <td>
-                <div class="small" style="text-align: left;"><?=HtmlHelper::formatEnergyInWattAndCurrency($overviewPageService->getEMOverZeroTotal2())?></div>
+                <div class="small"><?=HtmlHelper::formatEnergyInWattAndCurrency($overviewPageService->getPMSavingsTotal2(), $overviewPageService->getAutarkyInPercent2())?></div>
             </td>
-            <td>
-                <div class="small" style="text-align: left;"><?=HtmlHelper::formatEnergyInWattAndCurrency($overviewPageService->getEMUnderZeroTotal2())?></div>
+            <td class="d-none d-md-table-cell">
+                <div class="small"><?=HtmlHelper::formatEnergyInWattAndCurrency($overviewPageService->getConsumptionTotal2())?></div>
             </td>
-            <td>
-                <div class="small" style="text-align: left;"><?=HtmlHelper::formatEnergyInWattAndCurrency($overviewPageService->getPMSavingsTotal2(), $overviewPageService->getAutarkyInPercent2())?></div>
-            </td>
-            <td>
-                <div class="small" style="text-align: left;"><?=HtmlHelper::formatEnergyInWattAndCurrency($overviewPageService->getConsumptionTotal2())?></div>
-            </td>
-            <td>
+            <td class="d-none d-md-table-cell">
                 <a href="#" class="btn btn-sm btn-mising-values btn-<?=HtmlHelper::prepareFailureStyle($overviewPageService->getMissingValues2()->getWorstMissingRowCountPercent())?>" data-bs-toggle="popover" data-bs-content="#missingValuesTable2" data-bs-trigger="focus">
                     <?=$overviewPageService->getMissingValues2()->getWorstMissingRowCountPercent()?>%
                     <i class="bi bi-caret-down-fill"></i>
                 </a>
             </td>
         </tr>
-    <?php } ?>
+        <?php } ?>
     </tbody>
 </table>
+</div>
 
 <!-- Popover content for missing values 1+2 -->
 <div id="missingValuesTable1" class="hidden-html">
