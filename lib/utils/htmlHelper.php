@@ -25,7 +25,7 @@ class HtmlHelper {
     {
         $result = StringHelper::formatEnergyInWattHour($energyData->getEnergyInWatt());
         $inner = StringHelper::formatCurrency($energyData->getEnergyPriceInCent());
-        $inner = $autarkyInPercent != null ? $inner." | ".StringHelper::formatNumber($autarkyInPercent, 2)."%" : $inner;
+        $inner = $autarkyInPercent != null ? $inner." | ".StringHelper::formatNumber($autarkyInPercent, 0)."%" : $inner;
         $result .= "&nbsp;(".$inner.")";
 
         return $result;

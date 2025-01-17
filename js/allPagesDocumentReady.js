@@ -10,6 +10,7 @@ $(document).ready(function() {
     var popoverList = [...popoverTriggerList].map(function(popoverTriggerEl) {
         return new bootstrap.Popover(popoverTriggerEl, {
             html: true,
+            trigger: 'focus',
             content: function() {
                 // Get content from the added div
                 var contentId = popoverTriggerEl.getAttribute('data-bs-content');

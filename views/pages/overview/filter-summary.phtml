@@ -26,7 +26,7 @@
             </td>
             <td class="pe-3">
                 <div class="small fw-bold" style="display: flex; justify-content: space-between; align-items: center;">
-                    <span style="text-align: left; width: 130px;">fehlende Werte</span>
+                    <span style="text-align: left; width: 130px;">Fehlende Werte</span>
                     <? $textTooltip = "Diese Seite zeigt soweit vorhanden die aufaddierten Echtzeitdaten, sowie die manuell eingegebenen Daten an."; ?>
                     <? $textTooltip .= "<br>Die Preise werden anhand der vorhandenen Preisdaten berechnet."; ?>
                     <i class="bi bi-info-circle text-primary" data-bs-toggle="tooltip" data-bs-html="true" title="<?=$textTooltip?>"></i>
@@ -51,7 +51,7 @@
                 <div class="small" style="text-align: left;"><?=HtmlHelper::formatEnergyInWattAndCurrency($overviewPageService->getConsumptionTotal1())?></div>
             </td>
             <td>
-                <a href="#" class="btn btn-sm btn-mising-values btn-<?=HtmlHelper::prepareFailureStyle($overviewPageService->getMissingValues1()->getWorstMissingRowCountPercent())?>" data-bs-toggle="popover" data-bs-content="#missingValuesTable1">
+                <a href="#" class="btn btn-sm btn-mising-values btn-<?=HtmlHelper::prepareFailureStyle($overviewPageService->getMissingValues1()->getWorstMissingRowCountPercent())?>" data-bs-toggle="popover" data-bs-content="#missingValuesTable1" data-bs-trigger="focus">
                     <?=$overviewPageService->getMissingValues1()->getWorstMissingRowCountPercent()?>%
                     <i class="bi bi-caret-down-fill"></i>
                 </a>
@@ -75,7 +75,7 @@
                 <div class="small" style="text-align: left;"><?=HtmlHelper::formatEnergyInWattAndCurrency($overviewPageService->getConsumptionTotal2())?></div>
             </td>
             <td>
-                <a href="#" class="btn btn-sm btn-mising-values btn-<?=HtmlHelper::prepareFailureStyle($overviewPageService->getMissingValues2()->getWorstMissingRowCountPercent())?>" data-bs-toggle="popover" data-bs-content="#missingValuesTable2">
+                <a href="#" class="btn btn-sm btn-mising-values btn-<?=HtmlHelper::prepareFailureStyle($overviewPageService->getMissingValues2()->getWorstMissingRowCountPercent())?>" data-bs-toggle="popover" data-bs-content="#missingValuesTable2" data-bs-trigger="focus">
                     <?=$overviewPageService->getMissingValues2()->getWorstMissingRowCountPercent()?>%
                     <i class="bi bi-caret-down-fill"></i>
                 </a>
