@@ -38,7 +38,7 @@ class OverviewPageService
         $this->prepareGeneralData($startTime1, $endTime1);
 
         $this->data1 = $this->prepareDataRangeForEachYears($firstYear, $lastYear);
-        $this->data2 = [];
+        $this->data2 = null;
         for($year = $this->getFirstYear(); $year <= $this->getLastYear(); $year++) {            
             $this->labelsTooltip[] = [$year, $year]; // Doppeltes Array für Tooltips
             $this->labelsXAxis[] = [$year];
@@ -180,11 +180,11 @@ class OverviewPageService
     }
 
     public function hasData1() {
-        return sizeof($this->data1) > 0;
+        return $this->data1 != null;
     }
 
     public function hasData2() {
-        return sizeof($this->data2) > 0;
+        return $this->data2 != null;
     }
 
     public function getLabelsTooltip() : array

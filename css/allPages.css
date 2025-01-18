@@ -23,6 +23,10 @@ body {
     border: 1px solid #ccc;
 }
 
+.strikethrough {
+    text-decoration: line-through;
+}
+
 
 /* Navigation  */
 
@@ -58,8 +62,9 @@ body {
     --datetime-color: rgb(151, 147, 147);
     --em-color: rgb(190, 110, 110);
     --em-over-zero-color: rgb(190, 110, 110);
-    --consumption-complete-color: rgba(190, 110, 110, 0.2);
+    --add-savings-color: rgba(190, 110, 110, 0.2);
     --em-over-zero-color2: rgb(150, 90, 110);
+    --add-savings-color2: rgba(150, 90, 110, 0.2);
     --savings-color: rgb(127, 181, 181);
     --savings-color2: rgb(97, 141, 141);
     --feed-in-color: rgb(127, 127, 181);
@@ -73,4 +78,76 @@ body {
     --line-zero-color: marroon;
     --autarky-color: rgba(127, 181, 181, 0.6);
     --autarky-color2: rgba(97, 141, 141, 0.6);
+}
+
+.em-color {
+    background-color: var(--em-color);
+}
+
+.em-over-zero-color {
+    background-color: var(--em-over-zero-color);
+}
+
+.add-savings-color {
+    background-color: var(--add-savings-color);
+}
+
+.em-over-zero-color2 {
+    background-color: var(--em-over-zero-color2);
+}
+
+.add-savings-color2 {
+    background-color: var(--add-savings-color2);
+}
+
+.savings-color {
+    background-color: var(--savings-color);
+}
+
+.savings-color2 {
+    background-color: var(--savings-color2);
+}
+
+.feed-in-color {
+    background-color: var(--feed-in-color);
+}
+
+.feed-in-color2 {
+    background-color: var(--feed-in-color2);
+}
+
+.pm1-color {
+    background-color: var(--pm1-color);
+}
+
+.pm2-color {
+    background-color: var(--pm2-color);
+}
+
+.pm3-color {
+    background-color: var(--pm3-color);
+}
+
+.pm-total-color {
+    background-color: var(--pm-total-color);
+}
+
+.line1-color {
+    background-color: var(--line1-color);
+}
+
+.line2-color {
+    background-color: var(--line2-color);
+}
+
+.line-zero-color {
+    background-color: var(--line-zero-color);
+}
+
+.autarky-color {
+    background-color: var(--autarky-color);
+}
+
+.autarky-color2 {
+    background-color: var(--autarky-color2);
 }

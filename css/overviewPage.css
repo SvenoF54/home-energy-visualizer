@@ -46,6 +46,59 @@ h1 {
 }
 
 
+/* Energy-Chart Legend Buttons */
+
+.custom-legend .btn-light {
+    color: #495057;
+    background-color: #f8f9fa;
+    border-color: #ced4da;
+}
+
+.custom-legend {
+    width: 95vw !important;
+    display: flex;
+    flex-wrap: nowrap !important;
+    align-items: center;
+}
+
+.legend-button {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    user-select: none;
+    font-family: Arial, sans-serif;
+    white-space: nowrap !important;
+    justify-content: center;
+}
+
+.legend-vertical-line {
+    width: 2px;
+    background-color: #aaa;
+    flex-grow: 1;
+    margin: 0 0px;
+    height: 25px;
+    display: inline-block;
+}
+
+.legend-line {
+    display: inline-block;
+    width: 20px;
+    height: 10px;
+    margin-right: 8px;
+    margin-left: 8px;
+    transition: opacity 0.3s;
+}
+
+.legend-label {
+    color: #333;
+    font-size: 0.75rem;
+}
+
+.hidden {
+    opacity: 0.2;
+}
+
+
 /* Chart-Container */
 
 #autarky-chart-container,
@@ -79,12 +132,19 @@ canvas {
     padding: 0.2rem 0.5rem;
 }
 
-#switchToEnergyBarView {
+.btn-table-switch-right {
     margin-left: 0;
 }
 
-#switchToAutarkyBarView {
+.btn-table-switch-left {
     margin-left: 10px;
+}
+
+@media (max-width: 768px) {
+    .chart-container {
+        display: none !important;
+        /* Verstecke die Legende */
+    }
 }
 
 

@@ -1,7 +1,8 @@
 const emColor = getComputedStyle(document.documentElement).getPropertyValue('--em-color').trim();
 const emOverZeroColor = getComputedStyle(document.documentElement).getPropertyValue('--em-over-zero-color').trim();
-const consumptionCompleteColor = getComputedStyle(document.documentElement).getPropertyValue('--consumption-complete-color').trim();
+const addSavingsColor = getComputedStyle(document.documentElement).getPropertyValue('--add-savings-color').trim();
 const emOverZeroColor2 = getComputedStyle(document.documentElement).getPropertyValue('--em-over-zero-color2').trim();
+const addSavingsColor2 = getComputedStyle(document.documentElement).getPropertyValue('--add-savings-color2').trim();
 
 const savingsColor = getComputedStyle(document.documentElement).getPropertyValue('--savings-color').trim();
 const savingsColor2 = getComputedStyle(document.documentElement).getPropertyValue('--savings-color2').trim();
@@ -171,85 +172,11 @@ const optionsEnergy = {
             }
         },
         legend: {
-            display: true,
-            onClick: function(event, legendItem) {
-                const clickedDatasetIndex = legendItem.datasetIndex;
-                const clickedLabel = legendItem.text;
-                const dataset = energyChart.data.datasets[clickedDatasetIndex];
-
-                // Update chart
-                dataset.hidden = !dataset.hidden;
-                energyChart.update();
-
-                // Set hidden form field to recover chart settings on next page call
-                const customFormFieldName = dataset.customFormFieldName;
-                $('#' + customFormFieldName).val(!dataset.hidden);
-            },
+            display: false,
         },
     },
     scales: scalesEnergy
 };
-
-// Plugins, here the button for the table view
-const pluginsEnergy = [{
-    id: 'customButtonPlugin',
-    afterDraw(chart) {
-        const { ctx, chartArea } = chart;
-
-        if (!chartArea) return;
-
-        // Button 1: table-view
-        const button1X = chartArea.right - 220;
-        const button1Y = chartArea.top - 30;
-
-        ctx.fillStyle = 'blue';
-        ctx.fillRect(button1X, button1Y, 100, 25);
-
-        ctx.fillStyle = 'white';
-        ctx.font = '12px Arial';
-        ctx.textBaseline = 'middle';
-        ctx.fillText('Tabellenansicht', button1X + 10, button1Y + 12);
-
-        // Button 2: autarky-view
-        const button2X = chartArea.right - 110;
-        const button2Y = chartArea.top - 30;
-
-        ctx.fillStyle = 'blue';
-        ctx.fillRect(button2X, button2Y, 100, 25);
-
-        ctx.fillStyle = 'white';
-        ctx.font = '12px Arial';
-        ctx.textBaseline = 'middle';
-        ctx.fillText('Autarkieansicht', button2X + 10, button2Y + 12);
-
-        // Add event listeners if not already added
-        if (!chart.customButtonListener) {
-            chart.customButtonListener = true;
-
-            chart.canvas.addEventListener('click', function(event) {
-                const rect = chart.canvas.getBoundingClientRect();
-                const x = event.clientX - rect.left;
-                const y = event.clientY - rect.top;
-
-                // Button 1: table-view
-                if (x > button1X && x < button1X + 100 && y > button1Y && y < button1Y + 25) {
-                    $('#energy-chart-container').hide();
-                    $('#autarky-chart-container').hide();
-                    $('#energy-table-container').show();
-                    $('#chartOrTableView').val('EnergyTable');
-                }
-
-                // Button 2: autarky-view
-                if (x > button2X && x < button2X + 100 && y > button2Y && y < button2Y + 25) {
-                    $('#energy-chart-container').hide();
-                    $('#energy-table-container').hide();
-                    $('#autarky-chart-container').show();
-                    $('#chartOrTableView').val('AutarkyChart');
-                }
-            });
-        }
-    }
-}];
 
 const emOverZeroData1 = {
     label: '(1) Stromeinkauf',
@@ -292,7 +219,7 @@ const energyOverZeroPlusSavings1 = {
     label: '(1) Ersparnis addiert',
     data: data1.map(item => item.pmSvg),
     fill: false,
-    backgroundColor: consumptionCompleteColor,
+    backgroundColor: addSavingsColor,
     tension: 0.1,
     borderWidth: 0,
     maxBarThickness: 30,
@@ -314,6 +241,20 @@ const emOverZeroData2 = {
     customPriceFieldName: 'emOZPrice',
     hidden: !config.energy2.chartShowEnergyOverZero,
 }
+const energyOverZeroPlusSavings2 = {
+    label: '(1) Ersparnis addiert',
+    data: data2.map(item => item.pmSvg),
+    fill: false,
+    backgroundColor: addSavingsColor2,
+    tension: 0.1,
+    borderWidth: 0,
+    maxBarThickness: 30,
+    customDataSourceNo: 2,
+    customFormFieldName: 'energy2_chartShowEnergyOverZeroPlusSavings',
+    customPriceFieldName: 'pmSvgPrice',
+    stack: 'Stack EM2',
+    hidden: !config.energy2.chartShowEnergyOverZeroPlusSavings,
+};
 const feedInData2 = {
     label: '(2) Netzeinspeisung',
     data: data2.map(item => item.emUZ),
@@ -344,6 +285,7 @@ energyDataset.push(emOverZeroData1);
 energyDataset.push(energyOverZeroPlusSavings1);
 energyDataset.push(feedInData1);
 if (data2.length > 0) energyDataset.push(emOverZeroData2);
+if (data2.length > 0) energyDataset.push(energyOverZeroPlusSavings2);
 if (data2.length > 0) energyDataset.push(feedInData2);
 energyDataset.push(savingsData1);
 if (data2.length > 0) energyDataset.push(savingsData2);
@@ -355,6 +297,5 @@ const configEnergy = {
         labels: timestampsXAxis,
         datasets: energyDataset
     },
-    options: optionsEnergy,
-    plugins: pluginsEnergy
+    options: optionsEnergy
 };

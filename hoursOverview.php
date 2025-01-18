@@ -14,7 +14,6 @@ $startTime2 = date("Y-m-d 00:00:00", strtotime($selectedDay2));
 $endTime2 = date("Y-m-d 23:59:59", strtotime($selectedDay2));
 $timeLabelUnit = TimeHelper::prepareTimeUnit($startTime1, $endTime1);
 
-
 // Prepare DB
 $errorMsg = "";
 $db = Database::getInstance();

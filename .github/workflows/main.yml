@@ -19,7 +19,8 @@ jobs:
     - name: Search for disallowed PHP short tags
       run: |
         DISALLOWED_PATTERN='<\?(?!php|=)'
-        if grep -rE "$DISALLOWED_PATTERN" .; then
+        if grep -rP "$DISALLOWED_PATTERN" .; then
           echo "Error: Disallowed PHP short tags '<?' found!"
           exit 1
         fi
+    
