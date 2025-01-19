@@ -8,19 +8,20 @@ $(document).ready(function() {
         ctxEnergy,
         configEnergy
     );
-    $('#energy-chart-container').data('chart', energyChart);
+    $('#energy-chart-container').data('chart', energyChart); // Add chart to container for later access
 
     ctxAutarky = document.getElementById('autarkyChart').getContext('2d');
     autarkyChart = new Chart(
         ctxAutarky,
         configAutarky
     );
-    $('#autarky-chart-container').data('chart', autarkyChart);
+    $('#autarky-chart-container').data('chart', autarkyChart); // Add chart to container for later access
 
-
+    // Toggles the chart lines and strikethrough the legend
+    // If 2 custom-form-fields are given, toggles between the 2 fields
     $('.chart-toggle-line').on('click', function() {
-        var customFormFieldName = $(this).data('custom-form-field-fame');
-        var customFormFieldName2 = $(this).data('custom-form-field-fame2');
+        var customFormFieldName = $(this).data('custom-form-field-field');
+        var customFormFieldName2 = $(this).data('custom-form-field-field2');
         var chartId = $(this).data('chart-id');
         var chart = $('#' + chartId).data('chart');
 
@@ -59,6 +60,7 @@ $(document).ready(function() {
 
     });
 
+    // Helper: Hides / shows the chart line and sets new status to the hidden form field
     function hideOrShowChartLine(chart, dataset1, hide1, dataset2 = undefined, hide2 = undefined) {
         // Hide or show chart line
         dataset1.hidden = hide1;
@@ -70,6 +72,7 @@ $(document).ready(function() {
         if (dataset2 !== undefined) $('#' + dataset2.customFormFieldName).val(!hide2);
     }
 
+    // Helper: Strikethrough the legend from the chart
     function strikethroughLegendText($buttonElement, hide) {
         // Set strikethrough outside foreach
         if (hide) {
@@ -79,6 +82,8 @@ $(document).ready(function() {
         }
     }
 
+    // Switches the energy- or autarky chart or the energy table on/off, also the buttons
+    // Sets the state in the hidden form field
     $(".switch-chart").on("click", function() {
         const chartType = $(this).data("chart");
         switch (chartType) {
@@ -86,78 +91,37 @@ $(document).ready(function() {
                 $('#autarky-chart-container').hide();
                 $('#energy-table-container').hide();
                 $('#energy-chart-container').show();
-                //$('#legendBtnEnergyChart').hide();
+
+                $('#legendBtnEnergyChart').hide();
+                $('#legendBtnEnergyTable').show();
+                $('#legendBtnAutarkyChart').show();
+
+                $('#line-buttons').addClass('d-none').addClass('d-sm-flex').show();
                 break;
             case "EnergyTable":
                 $('#autarky-chart-container').hide();
                 $('#energy-chart-container').hide();
                 $('#energy-table-container').show();
+
+                $('#legendBtnEnergyChart').show();
+                $('#legendBtnEnergyTable').hide();
+                $('#legendBtnAutarkyChart').show();
+
+                $('#line-buttons').removeClass('d-none').removeClass('d-sm-flex').hide();
                 break;
             case "AutarkyChart":
                 $('#energy-table-container').hide();
                 $('#energy-chart-container').hide();
                 $('#autarky-chart-container').show();
+
+                $('#legendBtnEnergyChart').show();
+                $('#legendBtnEnergyTable').show();
+                $('#legendBtnAutarkyChart').hide();
+
+                $('#line-buttons').removeClass('d-none').removeClass('d-sm-flex').hide();
                 break;
         }
         $('#chartOrTableView').val(chartType);
     });
-
-    //-------------------------------------------------------
-
-    // add datatable (Sort + Filter table)
-    var energyDataTable = $('#energyTable').DataTable({
-        "paging": true,
-        "searching": false,
-        "ordering": true,
-        "orderMulti": false,
-        "autoWidth": false,
-        "scrollX": false,
-        "orderCellsTop": false,
-        "pageLength": config.energy1.tablePageLength,
-        "columnDefs": [{
-            "targets": '_all',
-            "orderDataType": "dom-text",
-            "type": "num",
-            "render": function(data, type, row, meta) {
-                return $(row).find('td').eq(meta.col).data('sort') || data;
-            }
-        }],
-        language: {
-            lengthMenu: "Zeige _MENU_ Einträge pro Seite",
-            zeroRecords: "Keine Einträge gefunden",
-            info: "Zeige _START_ bis _END_ von _TOTAL_ Einträgen",
-            infoEmpty: "Keine Einträge verfügbar",
-            infoFiltered: "(gefiltert von _MAX_ gesamten Einträgen)",
-            search: "Suchen:",
-        }
-    });
-
-    setTimeout(function() {
-        energyDataTable.columns.adjust();
-    }, 200);
-
-    function toggleColumnVisibility(className, show) {
-        energyDataTable.columns().every(function() {
-            var column = this;
-            if ($(column.header()).hasClass(className)) {
-                column.visible(show);
-            }
-        });
-    }
-
-    $('#toggleProductionColumns').on('change', function() {
-        toggleColumnVisibility('production-pm1', !this.checked);
-        toggleColumnVisibility('production-pm2', !this.checked);
-        toggleColumnVisibility('production-pm3', !this.checked);
-        toggleColumnVisibility('production-pmtotal', this.checked);
-        if ($('#tableEnergyShowProductionTotal').length) {
-            $('#tableEnergyShowProductionTotal').val(this.checked ? "true" : "false");
-        }
-    });
-
-    toggleColumnVisibility('production-pm1', !$('#toggleProductionColumns').prop('checked'));
-    toggleColumnVisibility('production-pm2', !$('#toggleProductionColumns').prop('checked'));
-    toggleColumnVisibility('production-pm3', !$('#toggleProductionColumns').prop('checked'));
-    toggleColumnVisibility('production-pmtotal', $('#toggleProductionColumns').prop('checked'));
 
 });

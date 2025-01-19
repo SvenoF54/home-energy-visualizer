@@ -24,9 +24,11 @@ class TimeHelper {
         return date("d.m.Y", strtotime($mysqlDate));
     }
 
-    public static function formatMonthLongAndYear($mysqlDate)
+    public static function formatMonthNameAndYear($mysqlDate, $monthNameShort = true)
     {
-        return MONTH_LIST[date("n", strtotime($mysqlDate))]." ".date("Y", strtotime($mysqlDate));
+        $monthName = MONTH_LIST[date("n", strtotime($mysqlDate))];
+        $monthName = $monthNameShort ? substr($monthName, 0, 3) : $monthName;
+        return $monthName." ".date("Y", strtotime($mysqlDate));
     }
 
     public static function formatDateTime($mysqlDate, $withSeconds = false)

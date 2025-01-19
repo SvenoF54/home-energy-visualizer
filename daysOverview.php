@@ -33,7 +33,7 @@ $overviewPageService->calculateDayData($startTime1, $endTime1, $startTime2, $end
     $pageTitle = "Tagesübersicht";
     $jsHeaderFiles = ["/js/utils.js", "js/overview-pages/configureEnergyChart.js", "js/overview-pages/configureAutarkyChart.js", 
                       "js/overview-pages/formFunctionsForDayOverview.js"];
-    $jsFooterFiles = ["/js/overview-pages/documentReady.js"];
+    $jsFooterFiles = ["/js/overview-pages/documentReady.js", "/js/overview-pages/configureDataTable.js"];
     $cssFiles = ["/css/overviewPage.css"];
     $jsVars = [   
         "timestampsTooltip" => json_encode($overviewPageService->getLabelsTooltip()),
@@ -48,9 +48,10 @@ $overviewPageService->calculateDayData($startTime1, $endTime1, $startTime2, $end
 
     // Filter settings
     $tableMainCaptionTimeUnit = "Monat";
-    $tableRow1CaptionTimeUnit = TimeHelper::formatMonthLongAndYear($startTime1);
-    $tableRow2CaptionTimeUnit = TimeHelper::formatMonthLongAndYear($startTime2);
-    $energyTableCaption = "Energiewerte für ".TimeHelper::formatMonthLongAndYear($startTime1);
+    $tableRow1CaptionTimeUnit = TimeHelper::formatMonthNameAndYear($startTime1);
+    $tableRow2CaptionTimeUnit = TimeHelper::formatMonthNameAndYear($startTime2);
+    $energyTableCaption = "Energiewerte für ".TimeHelper::formatMonthNameAndYear($startTime1);
+
 
     $partialTop = "views/pages/overview/filter-for-days-overview.phtml";
     $partialBottom = "views/partials/chart-and-table-canvas.phtml";

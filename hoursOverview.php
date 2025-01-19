@@ -25,7 +25,7 @@ $overviewPageService->calculateHourData($startTime1, $endTime1, $startTime2, $en
     $pageTitle = "Stundenübersicht";
     $jsHeaderFiles = ["/js/utils.js", "js/overview-pages/configureEnergyChart.js", "js/overview-pages/configureAutarkyChart.js", 
                       "js/overview-pages/formFunctionsForHoursOverview.js"];
-    $jsFooterFiles = ["/js/overview-pages/documentReady.js"];
+    $jsFooterFiles = ["/js/overview-pages/documentReady.js", "/js/overview-pages/configureDataTable.js"];
     $cssFiles = ["/css/overviewPage.css"];
     $jsVars = [
         "timestampsTooltip" => json_encode($overviewPageService->getLabelsTooltip()),
@@ -42,7 +42,7 @@ $overviewPageService->calculateHourData($startTime1, $endTime1, $startTime2, $en
     $tableMainCaptionTimeUnit = "Tag";
     $tableRow1CaptionTimeUnit = TimeHelper::formatDate($selectedDay1);
     $tableRow2CaptionTimeUnit = TimeHelper::formatDate($selectedDay2);
-    $energyTableCaption = "Energiewerte für ".TimeHelper::getWeekday($selectedDay1).", ".TimeHelper::formatDate($startTime1);
+    $energyTableCaption = "Energiewerte für ".TimeHelper::getWeekday($selectedDay1).", ".TimeHelper::formatDate($startTime1);    
 
     $partialTop = "views/pages/overview/filter-for-hours-overview.phtml";
     $partialBottom = "views/partials/chart-and-table-canvas.phtml";
