@@ -6,7 +6,7 @@
                 <td>
                     <div class="small fw-bold"><?=$tableMainCaptionTimeUnit?></div>
                 </td>
-                <td class="d-none d-md-table-cell">
+                <td class="d-none d-sm-table-cell">
                     <div class="small fw-bold">Einkauf</div>
                 </td>
                 <td class="d-none d-md-table-cell">
@@ -15,11 +15,11 @@
                 <td>
                     <div class="small fw-bold">Ersparnis</div>
                 </td>
-                <td class="d-none d-md-table-cell">
+                <td class="d-none d-lg-table-cell">
                     <div class="small fw-bold">Gesamtverbrauch</div>
                 </td>
-                <td class="d-none d-md-table-cell">
-                    <div class="small fw-bold">Fehlende Werte</div>
+                <td>
+                    <div class="small fw-bold"><span class="d-none d-md-inline">Fehlende Werte</span></div>
                 </td>
             </tr>
 
@@ -28,7 +28,7 @@
                 <td>
                     <div class="small"><?=$tableRow1CaptionTimeUnit?></div>
                 </td>
-                <td class="d-none d-md-table-cell">
+                <td class="d-none d-sm-table-cell">
                     <div class="small"><?=HtmlHelper::formatEnergyInWattAndCurrency($overviewPageService->getEMOverZeroTotal1())?></div>
                 </td>
                 <td class="d-none d-md-table-cell">
@@ -37,12 +37,12 @@
                 <td>
                     <div class="small"><?=HtmlHelper::formatEnergyInWattAndCurrency($overviewPageService->getPMSavingsTotal1(), $overviewPageService->getAutarkyInPercent1())?></div>
                 </td>
-                <td class="d-none d-md-table-cell">
+                <td class="d-none d-lg-table-cell">
                     <div class="small"><?=HtmlHelper::formatEnergyInWattAndCurrency($overviewPageService->getConsumptionTotal1())?></div>
                 </td>
-                <td class="d-none d-md-table-cell">
+                <td>
                     <a href="#" class="btn btn-sm btn-mising-values btn-<?=HtmlHelper::prepareFailureStyle($overviewPageService->getMissingValues1()->getWorstMissingRowCountPercent())?>" data-bs-toggle="popover" data-bs-content="#missingValuesTable1" data-bs-trigger="focus">
-                        <?=$overviewPageService->getMissingValues1()->getWorstMissingRowCountPercent()?>%
+                        <span class="d-none d-md-inline"><?=$overviewPageService->getMissingValues1()->getWorstMissingRowCountPercent()?>%</span>
                         <i class="bi bi-caret-down-fill"></i>
                     </a>
                 </td>
@@ -54,7 +54,7 @@
                 <td>
                     <div class="small"><?=$tableRow2CaptionTimeUnit?></div>
                 </td>
-                <td class="d-none d-md-table-cell">
+                <td class="d-none d-sm-table-cell">
                     <div class="small"><?=HtmlHelper::formatEnergyInWattAndCurrency($overviewPageService->getEMOverZeroTotal2())?></div>
                 </td>
                 <td class="d-none d-md-table-cell">
@@ -63,12 +63,12 @@
                 <td>
                     <div class="small"><?=HtmlHelper::formatEnergyInWattAndCurrency($overviewPageService->getPMSavingsTotal2(), $overviewPageService->getAutarkyInPercent2())?></div>
                 </td>
-                <td class="d-none d-md-table-cell">
+                <td class="d-none d-lg-table-cell">
                     <div class="small"><?=HtmlHelper::formatEnergyInWattAndCurrency($overviewPageService->getConsumptionTotal2())?></div>
                 </td>
-                <td class="d-none d-md-table-cell">
+                <td>
                     <a href="#" class="btn btn-sm btn-mising-values btn-<?=HtmlHelper::prepareFailureStyle($overviewPageService->getMissingValues2()->getWorstMissingRowCountPercent())?>" data-bs-toggle="popover" data-bs-content="#missingValuesTable2" data-bs-trigger="focus">
-                        <?=$overviewPageService->getMissingValues2()->getWorstMissingRowCountPercent()?>%
+                        <span class="d-none d-md-inline"><?=$overviewPageService->getMissingValues2()->getWorstMissingRowCountPercent()?>%</span>
                         <i class="bi bi-caret-down-fill"></i>
                     </a>
                 </td>

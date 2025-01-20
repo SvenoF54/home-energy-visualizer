@@ -1,81 +1,93 @@
 <div class="row justify-content-center">
-        <div class="col-auto"> 
-            <?php include("views/pages/overview/filter-summary.phtml")?>
-            <table class="table table-sm table-borderless w-auto" style="table-layout: flex;">
-            <form method="post" id="date-range-form" action="">
-                <input type="hidden" name="month1" id="month1" value="<?=$selectedMonth1?>">
-                <input type="hidden" name="year1" id="year1" value="<?=$selectedYear1?>">
-                <input type="hidden" name="month2" id="month2" value="<?=$selectedMonth2?>">
-                <input type="hidden" name="year2" id="year2" value="<?=$selectedYear2?>">
-                <?php include_once("filter-hidden-config-values.phtml"); ?>
-                <tbody>
-                    <tr class="table-light">
-                        <td>
-                            <strong class="small m-0 d-block d-sm-none">1:</strong>
-                            <strong class="small m-0 d-none d-sm-inline">Auswahl 1:</strong>
-                        </td>
-                        <!-- Month 1 -->              
-                    <?php foreach(MONTH_LIST as $key => $val) { ?>
-                        <td><a class="<?=$key==$selectedMonth1?'primary':'link-dark'?> selectorMonth1 small m-0" href="#<?=$key?>"><?=$val?></td>
-                    <?php } ?>  
-                        <!-- Year 1 -->              
-                        <td>
-                            <div style="display: flex; align-items: center; gap: 4px;">                    
-                                <label for="selectorYear1" class="form-label small m-0"><strong>Jahr:</strong></label>
-                                <select name="selectorYear1" id="selectorYear1" class="form-control form-control-sm" style="max-width: 120px;">
-                                    <?php for($val = $overviewPageService->getFirstYear(); $val <= $overviewPageService->getLastYear(); $val++) { ?>
-                                        <option value="<?=$val?>" <?php echo ($selectedYear1 == $val) ? 'selected' : ''; ?>><?=$val?></option>
-                                    <?php } ?>
-                                </select>
-                            </div>
-                        </td>
-                        <!-- Line 1 -->
-                        <td>
-                            <div style="display: flex; align-items: center; gap: 4px;">
-                                <label for="line1" class="form-label small m-0 d-none d-sm-inline mb-0"><strong>Linie&nbsp;1:</strong></label>
-                                <select name="line1" id="line1" class="form-control form-control-sm" style="max-width: 120px;">
-                                    <?php foreach($actualConfig->getLinePossibilities() as $val) { ?>
-                                        <option value="<?=$val?>" <?php echo ($actualConfig->getLine1() == $val) ? 'selected' : ''; ?>><?=StringHelper::formatEnergyInWattHour($val)?></option>
-                                    <?php } ?>
-                                </select>
-                            </div>
-                        </td>            
-                    </tr>
-                    <tr class="table-light">
-                        <td>
-                            <strong class="small m-0 d-block d-sm-none">2:</strong>
-                            <strong class="small m-0 d-none d-sm-inline">Auswahl 2:</strong>
-                        </td>
-                        <!-- Month 2 -->
-                    <?php foreach(MONTH_LIST as $key => $val) { ?>
-                        <td><a class="<?=$key==$selectedMonth2?'primary':'link-dark'?> selectorMonth2 small m-0" href="#<?=$key?>"><?=$val?></td>
-                    <?php } ?>                
-                        <!-- Year 2 -->
-                        <td>
-                            <div style="display: flex; align-items: center; gap: 4px;">                    
-                                <label for="selectorYear2" class="form-label small m-0"><strong>Jahr:</strong></label>
-                                <select name="selectorYear2" id="selectorYear2" class="form-control form-control-sm" style="max-width: 120px;">
+    <div class="col-auto"> 
+        <?php include("views/pages/overview/filter-summary.phtml")?>
+        <table class="table table-sm table-borderless">
+        <form method="post" id="date-range-form" action="">                
+            <input type="hidden" name="year1" id="year1" value="<?=$selectedYear1?>">                
+            <input type="hidden" name="year2" id="year2" value="<?=$selectedYear2?>">
+            <?php include_once("filter-hidden-config-values.phtml"); ?>
+            <tbody>
+                <tr class="table-light">
+                    <td>
+                        <strong class="small m-0 d-block d-sm-none">1:</strong>
+                        <strong class="small m-0 d-none d-sm-inline">Auswahl 1:</strong>
+                    </td>
+                    <!-- Month 1 -->              
+                <?php foreach(MONTH_LIST as $key => $val) { ?>
+                    <td class="d-none d-md-inline align-middle small"><a class="<?=$key==$selectedMonth1?'primary':'link-dark'?> selectorMonth1" href="#<?=$key?>"><?=mb_substr($val, 0, 3)?><span class="d-none d-lg-inline"><?=mb_substr($val, 3)?></span></td>
+                <?php } ?>  
+                    <td class="d-block d-md-none">
+                        <select class="form-control form-control-sm" name="month1" id="month1">
+                        <?php foreach(MONTH_LIST as $key => $val) { ?>
+                            <option value="<?=$key?>" <?php echo ($key == $selectedMonth1) ? 'selected' : ''; ?>><?=$val?></option>
+                        <?php } ?>
+                        </select>
+                    </td>
+                    <!-- Year 1 -->              
+                    <td>
+                        <div style="display: flex; align-items: center; gap: 4px;">                    
+                            <label for="selectorYear1" class="form-label small d-none d-md-inline m-0"><strong>Jahr:</strong></label>
+                            <select name="selectorYear1" id="selectorYear1" class="form-control form-control-sm" style="max-width: 120px;">
                                 <?php for($val = $overviewPageService->getFirstYear(); $val <= $overviewPageService->getLastYear(); $val++) { ?>
-                                        <option value="<?=$val?>" <?php echo ($selectedYear2 == $val) ? 'selected' : ''; ?>><?=$val?></option>
+                                    <option value="<?=$val?>" <?php echo ($selectedYear1 == $val) ? 'selected' : ''; ?>><?=$val?></option>
                                 <?php } ?>
+                            </select>
+                        </div>
+                    </td>
+                    <!-- Line 1 -->
+                    <td>
+                        <div style="display: flex; align-items: center; gap: 4px;">
+                            <label for="line1" class="form-label small m-0 d-none d-md-inline mb-0"><strong>Linie&nbsp;1:</strong></label>
+                            <select name="line1" id="line1" class="form-control form-control-sm" style="max-width: 120px;">
+                                <?php foreach($actualConfig->getLinePossibilities() as $val) { ?>
+                                    <option value="<?=$val?>" <?php echo ($actualConfig->getLine1() == $val) ? 'selected' : ''; ?>><?=StringHelper::formatEnergyInWattHour($val)?></option>
+                                <?php } ?>
+                            </select>
+                        </div>
+                    </td>            
+                </tr>
+                <tr class="table-light">
+                    <td>
+                        <strong class="small m-0 d-block d-sm-none">2:</strong>
+                        <strong class="small m-0 d-none d-sm-inline">Auswahl 2:</strong>
+                    </td>
+                    <!-- Month 2 -->
+                <?php foreach(MONTH_LIST as $key => $val) { ?>
+                    <td class="d-none d-md-inline align-middle small"><a class="<?=$key==$selectedMonth2?'primary':'link-dark'?> selectorMonth2" href="#<?=$key?>"><?=mb_substr($val, 0, 3)?><span class="d-none d-lg-inline"><?=mb_substr($val, 3)?></span></td>
+                <?php } ?>
+                    <td class="d-block d-md-none">
+                        <select class="form-control form-control-sm" name="month2" id="month2">
+                        <?php foreach(MONTH_LIST as $key => $val) { ?>
+                            <option value="<?=$key?>" <?php echo ($key == $selectedMonth2) ? 'selected' : ''; ?>><?=$val?></option>
+                        <?php } ?>
+                        </select>
+                    </td>
+                    <!-- Year 2 -->
+                    <td>
+                        <div style="display: flex; align-items: center; gap: 4px;">                    
+                            <label for="selectorYear2" class="form-label small d-none d-md-inline m-0"><strong>Jahr:</strong></label>
+                            <select name="selectorYear2" id="selectorYear2" class="form-control form-control-sm" style="max-width: 120px;">
+                            <?php for($val = $overviewPageService->getFirstYear(); $val <= $overviewPageService->getLastYear(); $val++) { ?>
+                                    <option value="<?=$val?>" <?php echo ($selectedYear2 == $val) ? 'selected' : ''; ?>><?=$val?></option>
+                            <?php } ?>
+                            </select>
+                        </div>
+                    </td>
+                    <!-- Line 2 -->
+                    <td>
+                        <div style="display: flex; align-items: center; gap: 4px;">
+                            <label for="line2" class="form-label small m-0 d-none d-md-inline"><strong>Linie&nbsp;2:</strong></label>
+                                <select name="line2" id="line2" class="form-control form-control-sm" style="max-width: 120px;">
+                                    <?php foreach($actualConfig->getLinePossibilities() as $val) { ?>
+                                        <option value="<?=$val?>" <?php echo ($actualConfig->getLine2() == $val) ? 'selected' : ''; ?>><?=StringHelper::formatEnergyInWattHour($val)?></option>
+                                    <?php } ?>
                                 </select>
-                            </div>
-                        </td>
-                        <!-- Line 2 -->
-                        <td>
-                            <div style="display: flex; align-items: center; gap: 4px;">
-                                <label for="line2" class="form-label small m-0 d-none d-sm-inline"><strong>Linie&nbsp;2:</strong></label>
-                                    <select name="line2" id="line2" class="form-control form-control-sm" style="max-width: 120px;">
-                                        <?php foreach($actualConfig->getLinePossibilities() as $val) { ?>
-                                            <option value="<?=$val?>" <?php echo ($actualConfig->getLine2() == $val) ? 'selected' : ''; ?>><?=StringHelper::formatEnergyInWattHour($val)?></option>
-                                        <?php } ?>
-                                    </select>
-                                </label>
-                            </div>
-                        </td>
-                    </tr>
-                </tbody>
-                </form>
-            </table>
-        </div>
+                            </label>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+            </form>
+        </table>
     </div>
+</div>

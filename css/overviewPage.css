@@ -48,38 +48,6 @@ h1 {
 
 /* Energy-Chart Legend Buttons */
 
-.custom-legend .btn-light {
-    color: #495057;
-    background-color: #f8f9fa;
-    border-color: #ced4da;
-}
-
-.custom-legend {
-    width: 95vw !important;
-    display: flex;
-    flex-wrap: nowrap !important;
-    align-items: center;
-}
-
-.legend-button {
-    display: flex;
-    align-items: center;
-    cursor: pointer;
-    user-select: none;
-    font-family: Arial, sans-serif;
-    white-space: nowrap !important;
-    justify-content: center;
-}
-
-.legend-vertical-line {
-    width: 2px;
-    background-color: #aaa;
-    flex-grow: 1;
-    margin: 0 0px;
-    height: 25px;
-    display: inline-block;
-}
-
 .legend-line {
     display: inline-block;
     width: 20px;
@@ -92,6 +60,8 @@ h1 {
 .legend-label {
     color: #333;
     font-size: 0.75rem;
+    white-space: nowrap !important;
+    cursor: pointer;
 }
 
 .hidden {

@@ -18,7 +18,7 @@ $pages = [
 ?>
 <div class="row justify-content-center">
     <div class="col-auto">
-        <nav class="navbar navbar-expand-lg navbar-light custom-navbar">
+        <nav class="navbar navbar-expand-sm navbar-light custom-navbar">
             <div class="container-fluid">
                 <!-- Burger Icon -->
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
@@ -27,7 +27,7 @@ $pages = [
 
                 <!-- Navbar Links -->
                 <div class="collapse navbar-collapse" id="navbarContent">
-                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <ul class="navbar-nav me-auto mb-2 mb-sm-0">
                         <?php foreach ($pages as $title => $link): ?>
                             <?php if (is_array($link)): // Dropdown for submenu ?>
                                 <li class="nav-item dropdown">

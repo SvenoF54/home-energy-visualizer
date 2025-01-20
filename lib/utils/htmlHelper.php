@@ -45,7 +45,7 @@ class HtmlHelper {
         $result = '<div class="me-3 text-'.HtmlHelper::prepareFailureStyle($failurePercent).'"><strong>'.$title.'</strong></div>';
         $text = ($nullRows == 0 ? '/' : StringHelper::formatNumber($nullRows));
         $result.= '<div class="me-1 text-'.HtmlHelper::prepareFailureStyle($failurePercent).'">'.$text.'</div>';
-        $result.= '<div class="text-'.HtmlHelper::prepareFailureStyle($failurePercent).'">(' . $failurePercent . '%)</div>';
+        $result.= '<div class="text-'.HtmlHelper::prepareFailureStyle($failurePercent).'">(' . $failurePercent . '%)</div>';        
 
         return $result;
     }

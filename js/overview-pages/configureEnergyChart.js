@@ -47,14 +47,7 @@ const scalesEnergy = {
 
 
 const optionsEnergy = {
-    layout: {
-        padding: {
-            left: 20,
-            right: 20,
-            top: 20,
-            bottom: 20
-        }
-    },
+    layout: {},
     onClick: (event, elements, chart) => {
         if (elements.length > 0) {
             const element = elements[0];
