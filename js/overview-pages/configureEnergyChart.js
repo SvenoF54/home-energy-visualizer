@@ -27,6 +27,9 @@ const scalesEnergy = {
         title: {
             display: true,
             text: 'Zeitpunkt'
+        },
+        ticks: {
+
         }
     },
     y: {
@@ -38,16 +41,20 @@ const scalesEnergy = {
             //text: 'Watt'
         },
         ticks: {
+
             callback: function(value, index, values) {
                 return formatCurrent(Number(value)) + 'h';
-            }
+            },
+            padding: 0,
         }
     }
 }
 
 
 const optionsEnergy = {
-    layout: {},
+    layout: {
+        padding: 0
+    },
     onClick: (event, elements, chart) => {
         if (elements.length > 0) {
             const element = elements[0];

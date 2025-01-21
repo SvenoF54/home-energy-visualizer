@@ -68,20 +68,51 @@ h1 {
     opacity: 0.2;
 }
 
+.legend-navbar-toggler {
+    height: 28px;
+    line-height: 28px;
+    margin-right: 1px;
+}
+
+.legend-navbar-toggler-icon {
+    width: 20px;
+    height: 20px;
+    margin-bottom: 5px;
+    margin-left: 10px;
+}
+
+@media (min-width: 1200px) {
+    #chart-buttons {
+        margin-right: 25px;
+    }
+}
+
 
 /* Chart-Container */
 
 #autarky-chart-container,
 #energy-chart-container {
-    width: 95vw !important;
-    height: 67vh !important;
+    width: 100% !important;
     min-height: 300px;
     display: none;
+    margin: 0;
+    padding: 0;
+}
+
+@media (min-width: 1200px) {
+    /* out size xl (> 1200px) */
+    #autarky-chart-container,
+    #energy-chart-container {
+        width: 95vw !important;
+        height: 62vh !important;
+    }
 }
 
 canvas {
     width: 100% !important;
     height: 100% !important;
+    margin: 0;
+    padding: 0;
 }
 
 .weekday-container {

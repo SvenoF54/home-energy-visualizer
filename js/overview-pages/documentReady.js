@@ -96,11 +96,9 @@ $(document).ready(function() {
                 $('#legendBtnEnergyTable').show();
                 $('#legendBtnAutarkyChart').show();
 
-                $('#autarky-chart-legend-buttons1').hide();
-                $('#autarky-chart-legend-buttons2').hide();
-                $('#energy-table-caption').hide();
-                $('#energy-chart-legend-buttons1').show();
-                $('#energy-chart-legend-buttons2').show();
+                $('.toggle-autarky-chart-legend-buttons').hide();
+                $('.toggle-energy-table-caption').hide();
+                $('.toggle-energy-chart-legend-buttons').show();
                 break;
             case "EnergyTable":
                 $('#autarky-chart-container').hide();
@@ -111,11 +109,9 @@ $(document).ready(function() {
                 $('#legendBtnEnergyTable').hide();
                 $('#legendBtnAutarkyChart').show();
 
-                $('#energy-chart-legend-buttons1').hide();
-                $('#energy-chart-legend-buttons2').hide();
-                $('#autarky-chart-legend-buttons1').hide();
-                $('#autarky-chart-legend-buttons2').hide();
-                $('#energy-table-caption').show();
+                $('.toggle-energy-chart-legend-buttons').hide();
+                $('.toggle-autarky-chart-legend-buttons').hide();
+                $('.toggle-energy-table-caption').show();
                 break;
             case "AutarkyChart":
                 $('#energy-table-container').hide();
@@ -126,11 +122,9 @@ $(document).ready(function() {
                 $('#legendBtnEnergyTable').show();
                 $('#legendBtnAutarkyChart').hide();
 
-                $('#energy-chart-legend-buttons1').hide();
-                $('#energy-chart-legend-buttons2').hide();
-                $('#energy-table-caption').hide();
-                $('#autarky-chart-legend-buttons1').show();
-                $('#autarky-chart-legend-buttons2').show();
+                $('.toggle-energy-chart-legend-buttons').hide();
+                $('.toggle-energy-table-caption').hide();
+                $('.toggle-autarky-chart-legend-buttons').show();
                 break;
         }
         $('#chartOrTableView').val(chartType);
