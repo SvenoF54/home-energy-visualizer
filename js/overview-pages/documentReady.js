@@ -96,7 +96,11 @@ $(document).ready(function() {
                 $('#legendBtnEnergyTable').show();
                 $('#legendBtnAutarkyChart').show();
 
-                $('#line-buttons').addClass('d-none').addClass('d-sm-flex').show();
+                $('#autarky-chart-legend-buttons1').hide();
+                $('#autarky-chart-legend-buttons2').hide();
+                $('#energy-table-caption').hide();
+                $('#energy-chart-legend-buttons1').show();
+                $('#energy-chart-legend-buttons2').show();
                 break;
             case "EnergyTable":
                 $('#autarky-chart-container').hide();
@@ -107,7 +111,11 @@ $(document).ready(function() {
                 $('#legendBtnEnergyTable').hide();
                 $('#legendBtnAutarkyChart').show();
 
-                $('#line-buttons').removeClass('d-none').removeClass('d-sm-flex').hide();
+                $('#energy-chart-legend-buttons1').hide();
+                $('#energy-chart-legend-buttons2').hide();
+                $('#autarky-chart-legend-buttons1').hide();
+                $('#autarky-chart-legend-buttons2').hide();
+                $('#energy-table-caption').show();
                 break;
             case "AutarkyChart":
                 $('#energy-table-container').hide();
@@ -118,7 +126,11 @@ $(document).ready(function() {
                 $('#legendBtnEnergyTable').show();
                 $('#legendBtnAutarkyChart').hide();
 
-                $('#line-buttons').removeClass('d-none').removeClass('d-sm-flex').hide();
+                $('#energy-chart-legend-buttons1').hide();
+                $('#energy-chart-legend-buttons2').hide();
+                $('#energy-table-caption').hide();
+                $('#autarky-chart-legend-buttons1').show();
+                $('#autarky-chart-legend-buttons2').show();
                 break;
         }
         $('#chartOrTableView').val(chartType);

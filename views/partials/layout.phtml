@@ -78,8 +78,9 @@
 <body>
     <div class="container-fluid">
         <?php include_once("views/partials/navigation.phtml")?>
-
+                
         <?php if (isset($partialTop)) include($partialTop); ?>
+        
         <?php if (isset($errorMsg) && $errorMsg != "") { ?>
             <div class="col text-center text-danger">
                 <strong><?=$errorMsg?></strong>
