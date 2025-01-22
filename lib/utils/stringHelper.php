@@ -108,6 +108,12 @@ class StringHelper {
         return $formattedValue;
     }
 
+    public static function formatIntNumber($val, $digits=0)
+    {
+        $formattedValue = number_format(intval($val), $digits, ',', '.');
+        return $formattedValue;
+    }
+
     public static function formatCurrency($priceInCent)
     {        
         return number_format($priceInCent/100, 2, ',', '.')."€";

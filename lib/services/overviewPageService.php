@@ -7,8 +7,8 @@ class OverviewPageService
     private $data2 = null;
     private $labelsTooltip = [];
     private $labelsXAxis = [];
-    private $missingValues1;
-    private $missingValues2;
+    private $missingRowSet1;
+    private $missingRowSet2;
     private $emOverZeroTotal1;
     private $emUnderZeroTotal1;
     private $pmSavingsTotal1;
@@ -19,8 +19,8 @@ class OverviewPageService
     public function __construct($pdoConnection)
     {
         $this->hourlyEnergyDataTbl = new HourlyEnergyDataTable($pdoConnection);
-        $this->missingValues1 = new MissingRowSet();
-        $this->missingValues2 = new MissingRowSet();
+        $this->missingRowSet1 = new MissingRowSet();
+        $this->missingRowSet2 = new MissingRowSet();
 
         $this->emOverZeroTotal1 = new EnergyAndPriceTuple();
         $this->emUnderZeroTotal1 = new EnergyAndPriceTuple();
@@ -102,7 +102,7 @@ class OverviewPageService
         $this->emOverZeroTotal1 = $powerData->getEnergy();
         $this->emUnderZeroTotal1 = $powerData->getEnergyUnderZero();
         $this->pmSavingsTotal1 = $powerData->getSavings();
-        $this->missingValues1 = $powerData->getMissingRows();
+        $this->missingRowSet1 = $powerData->getMissingRows();
 
         if ($startTime2 == null) {
             return;
@@ -111,7 +111,7 @@ class OverviewPageService
         $this->emOverZeroTotal2 = $powerData->getEnergy();
         $this->emUnderZeroTotal2 = $powerData->getEnergyUnderZero();
         $this->pmSavingsTotal2 = $powerData->getSavings();
-        $this->missingValues2 = $powerData->getMissingRows();
+        $this->missingRowSet2 = $powerData->getMissingRows();
     }
 
     private function prepareDataRange($startTime, $endTime, $avg)
@@ -197,14 +197,14 @@ class OverviewPageService
         return $this->labelsXAxis;
     }
 
-    public function getMissingValues1() : MissingRowSet
+    public function getMissingRowSet1() : MissingRowSet
     {
-        return $this->missingValues1;
+        return $this->missingRowSet1;
     }
 
-    public function getMissingValues2() : MissingRowSet
+    public function getMissingRowSet2() : MissingRowSet
     {
-        return $this->missingValues2;
+        return $this->missingRowSet2;
     }
 
     public function getEMOverZeroTotal1() : EnergyAndPriceTuple

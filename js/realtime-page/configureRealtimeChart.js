@@ -10,7 +10,7 @@ const lineZeroColor = getComputedStyle(document.documentElement).getPropertyValu
 
 
 
-const scalesEnergy = {
+const scalesRealtime = {
     x: {
         type: 'time',
         time: {
@@ -46,17 +46,10 @@ const scalesEnergy = {
 }
 
 
-const optionsEnergy = {
+const optionsRealtime = {
+    layout: {},
     responsive: true,
     maintainAspectRatio: false,
-    layout: {
-        padding: {
-            left: 20,
-            right: 20,
-            top: 20,
-            bottom: 20
-        }
-    },
     plugins: {
         tooltip: {
             mode: 'x',
@@ -79,25 +72,25 @@ const optionsEnergy = {
             annotations: {
                 line1: {
                     type: 'line',
-                    yMin: line1_selected,
-                    yMax: line1_selected,
+                    yMin: config.line1,
+                    yMax: config.line1,
                     borderColor: line1Color,
                     borderWidth: 2,
                     borderDash: [5, 5],
                     label: {
-                        content: line1_selected + ' W',
+                        content: config.line1 + ' W',
                         display: false
                     }
                 },
                 line2: {
                     type: 'line',
-                    yMin: line2_selected,
-                    yMax: line2_selected,
+                    yMin: config.line2,
+                    yMax: config.line2,
                     borderColor: line2Color,
                     borderWidth: 2,
                     borderDash: [5, 5],
                     label: {
-                        content: line2_selected + ' W',
+                        content: config.line2 + ' W',
                         display: false
                     }
                 },
@@ -112,14 +105,14 @@ const optionsEnergy = {
         },
 
         legend: {
-            display: true
+            display: false
         },
     },
-    scales: scalesEnergy
+    scales: scalesRealtime
 };
 
 // Configure diagram
-const configEnergy = {
+const configRealtime = {
     type: 'line',
     data: {
         labels: timestamps, // timestamp on X-Axis
@@ -128,35 +121,42 @@ const configEnergy = {
                 data: emPowerRows,
                 borderColor: emColor,
                 fill: false,
+                customFormFieldName: 'realtime_chartShowEM',
+                hidden: !config.realtime.chartShowEM
+            },
+            {
+                label: '-PTotal',
+                data: pmTotalPowerRows,
+                borderColor: pmTotalColor,
+                fill: false,
+                customFormFieldName: 'realtime_chartShowPMTotal',
+                hidden: !config.realtime.chartShowPMTotal,
             },
             {
                 label: '-P1',
                 data: pm1PowerRows,
                 borderColor: pm1Color,
                 fill: false,
-                hidden: true
+                customFormFieldName: 'realtime_chartShowPM1',
+                hidden: !config.realtime.chartShowPM1,
             },
             {
                 label: '-P2',
                 data: pm2PowerRows,
                 borderColor: pm2Color,
                 fill: false,
-                hidden: true
+                customFormFieldName: 'realtime_chartShowPM2',
+                hidden: !config.realtime.chartShowPM2,
             },
             {
                 label: '-P3',
                 data: pm3PowerRows,
                 borderColor: pm3Color,
                 fill: false,
-                hidden: true
-            },
-            {
-                label: '-PTotal',
-                data: pmTotalPowerRows,
-                borderColor: pmTotalColor,
-                fill: false
+                customFormFieldName: 'realtime_chartShowPM3',
+                hidden: !config.realtime.chartShowPM3,
             },
         ]
     },
-    options: optionsEnergy
+    options: optionsRealtime
 };

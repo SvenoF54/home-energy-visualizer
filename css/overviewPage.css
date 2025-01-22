@@ -104,7 +104,7 @@ h1 {
     #autarky-chart-container,
     #energy-chart-container {
         width: 95vw !important;
-        height: 62vh !important;
+        height: 56vh !important;
     }
 }
 
@@ -139,13 +139,6 @@ canvas {
 
 .btn-table-switch-left {
     margin-left: 10px;
-}
-
-@media (max-width: 768px) {
-    .chart-container {
-        display: none !important;
-        /* Verstecke die Legende */
-    }
 }
 
 

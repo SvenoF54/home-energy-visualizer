@@ -1,6 +1,67 @@
+/* Realtime-Chart Legend Buttons */
+
+.legend-line {
+    display: inline-block;
+    width: 20px;
+    height: 10px;
+    margin-right: 8px;
+    margin-left: 8px;
+    transition: opacity 0.3s;
+}
+
+.legend-label {
+    color: #333;
+    font-size: 0.75rem;
+    white-space: nowrap !important;
+    cursor: pointer;
+}
+
+.hidden {
+    opacity: 0.2;
+}
+
+.legend-navbar-toggler {
+    height: 28px;
+    line-height: 28px;
+    margin-right: 1px;
+}
+
+.legend-navbar-toggler-icon {
+    width: 20px;
+    height: 20px;
+    margin-bottom: 5px;
+    margin-left: 10px;
+}
+
+@media (min-width: 1200px) {
+    #chart-buttons {
+        margin-right: 25px;
+    }
+}
+
+
+/* Realtime-Chart */
+
+#realtime-chart-container {
+    width: 100% !important;
+    min-height: 300px;
+    margin: 0;
+    padding: 0;
+}
+
+@media (min-width: 1200px) {
+    /* out size xl (> 1200px) */
+    #realtime-chart-container {
+        width: 95vw !important;
+        height: 56vh !important;
+    }
+}
+
 canvas {
-    width: 80%;
-    height: 50% !important;
+    width: 100% !important;
+    height: 100% !important;
+    margin: 0;
+    padding: 0;
 }
 
 h1 {

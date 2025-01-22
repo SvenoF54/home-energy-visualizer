@@ -41,8 +41,8 @@
                     <div class="small"><?=HtmlHelper::formatEnergyInWattAndCurrency($overviewPageService->getConsumptionTotal1())?></div>
                 </td>
                 <td>
-                    <a href="#" class="btn btn-sm btn-mising-values btn-<?=HtmlHelper::prepareFailureStyle($overviewPageService->getMissingValues1()->getWorstMissingRowCountPercent())?>" data-bs-toggle="popover" data-bs-content="#missingValuesTable1" data-bs-trigger="focus">
-                        <span class="d-none d-md-inline"><?=$overviewPageService->getMissingValues1()->getWorstMissingRowCountPercent()?>%</span>
+                    <a href="#" class="btn btn-sm btn-mising-values btn-<?=HtmlHelper::prepareFailureStyle($overviewPageService->getMissingRowSet1()->getWorstMissingRowCountPercent())?>" data-bs-toggle="popover" data-bs-content="#missingRowSetTable1" data-bs-trigger="focus">
+                        <span class="d-none d-md-inline"><?=$overviewPageService->getMissingRowSet1()->getWorstMissingRowCountPercent()?>%</span>
                         <i class="bi bi-caret-down-fill"></i>
                     </a>
                 </td>
@@ -67,8 +67,8 @@
                     <div class="small"><?=HtmlHelper::formatEnergyInWattAndCurrency($overviewPageService->getConsumptionTotal2())?></div>
                 </td>
                 <td>
-                    <a href="#" class="btn btn-sm btn-mising-values btn-<?=HtmlHelper::prepareFailureStyle($overviewPageService->getMissingValues2()->getWorstMissingRowCountPercent())?>" data-bs-toggle="popover" data-bs-content="#missingValuesTable2" data-bs-trigger="focus">
-                        <span class="d-none d-md-inline"><?=$overviewPageService->getMissingValues2()->getWorstMissingRowCountPercent()?>%</span>
+                    <a href="#" class="btn btn-sm btn-mising-values btn-<?=HtmlHelper::prepareFailureStyle($overviewPageService->getMissingRowSet2()->getWorstMissingRowCountPercent())?>" data-bs-toggle="popover" data-bs-content="#missingRowSetTable2" data-bs-trigger="focus">
+                        <span class="d-none d-md-inline"><?=$overviewPageService->getMissingRowSet2()->getWorstMissingRowCountPercent()?>%</span>
                         <i class="bi bi-caret-down-fill"></i>
                     </a>
                 </td>
@@ -78,58 +78,5 @@
     </table>
 
 <!-- Popover content for missing values 1+2 -->
-<div id="missingValuesTable1" class="hidden-html">
-    <?php $missingValues1 = $overviewPageService->getMissingValues1()?>
-    <div class="popover-heading"><strong>Fehlende Werte</strong></div>
-    
-    <div class="popover-body">
-        <?php if ($missingValues1->isEmAvailable()) { ?>
-            <div class="d-flex justify-content-between mb-2">
-                <?=HtmlHelper::formatFailureForPopover("EM", $missingValues1->getEmMissingRows(), $missingValues1->getEmMissingRowsPercent()) ?>
-            </div>
-        <?php } ?>
-        <?php if ($missingValues1->isPm1Available()) { ?>
-            <div class="d-flex justify-content-between mb-2">
-                <?=HtmlHelper::formatFailureForPopover("PM1", $missingValues1->getPm1MissingRows(), $missingValues1->getPm1MissingRowsPercent()) ?>
-            </div>
-        <?php } ?>
-        <?php if ($missingValues1->isPm2Available()) { ?>
-            <div class="d-flex justify-content-between mb-2">
-                <?=HtmlHelper::formatFailureForPopover("PM2", $missingValues1->getPm2MissingRows(), $missingValues1->getPm2MissingRowsPercent()) ?>
-            </div>
-        <?php } ?>
-        <?php if ($missingValues1->isPm3Available()) { ?>
-            <div class="d-flex justify-content-between mb-2">
-                <?=HtmlHelper::formatFailureForPopover("PM3", $missingValues1->getPm3MissingRows(), $missingValues1->getPm3MissingRowsPercent()) ?>
-            </div>
-        <?php } ?>
-    </div>
-</div>
-
-<div id="missingValuesTable2" class="hidden-html">
-    <?php $missingValues2 = $overviewPageService->getMissingValues2()?>
-    <div class="popover-heading"><strong>Fehlende Werte</strong></div>
-    
-    <div class="popover-body">
-        <?php if ($missingValues2->isEmAvailable()) { ?>
-            <div class="d-flex justify-content-between mb-2">
-                <?=HtmlHelper::formatFailureForPopover("EM", $missingValues2->getEmMissingRows(), $missingValues2->getEmMissingRowsPercent()) ?>
-            </div>
-        <?php } ?>
-        <?php if ($missingValues2->isPm1Available()) { ?>
-            <div class="d-flex justify-content-between mb-2">
-                <?=HtmlHelper::formatFailureForPopover("PM1", $missingValues2->getPm1MissingRows(), $missingValues2->getPm1MissingRowsPercent()) ?>
-            </div>
-        <?php } ?>
-        <?php if ($missingValues2->isPm2Available()) { ?>
-            <div class="d-flex justify-content-between mb-2">
-                <?=HtmlHelper::formatFailureForPopover("PM2", $missingValues2->getPm2MissingRows(), $missingValues2->getPm2MissingRowsPercent()) ?>
-            </div>
-        <?php } ?>
-        <?php if ($missingValues2->isPm3Available()) { ?>
-            <div class="d-flex justify-content-between mb-2">
-                <?=HtmlHelper::formatFailureForPopover("PM3", $missingValues2->getPm3MissingRows(), $missingValues2->getPm3MissingRowsPercent()) ?>
-            </div>
-        <?php } ?>
-    </div>
-</div>
+ <?=HtmlHelper::renderPopoverFailureTemplate($overviewPageService->getMissingRowSet1(), "missingRowSetTable1");?>
+ <?=HtmlHelper::renderPopoverFailureTemplate($overviewPageService->getMissingRowSet2(), "missingRowSetTable2");?>

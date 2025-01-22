@@ -35,7 +35,7 @@ class HtmlHelper {
     public static function formatFailureValue($titel, $nullRows, $rowCount)
     {        
         return '<div class="small m-0" style="color: ' . HtmlHelper::prepareFailureColor($nullRows, $rowCount) . ';">' 
-            . $titel . '&nbsp;= ' . ($nullRows == 0 ? '/' : StringHelper::formatNumber($nullRows)) 
+            . $titel . '&nbsp;= ' . ($nullRows == 0 ? '/' : StringHelper::formatIntNumber($nullRows)) 
             . ' (' . HtmlHelper::showAsPercent($nullRows, $rowCount) . ')</div>';
 
     }
@@ -43,11 +43,51 @@ class HtmlHelper {
     public static function formatFailureForPopover($title, $nullRows, $failurePercent)
     {
         $result = '<div class="me-3 text-'.HtmlHelper::prepareFailureStyle($failurePercent).'"><strong>'.$title.'</strong></div>';
-        $text = ($nullRows == 0 ? '/' : StringHelper::formatNumber($nullRows));
+        $text = ($nullRows == 0 ? '/' : StringHelper::formatIntNumber($nullRows));
         $result.= '<div class="me-1 text-'.HtmlHelper::prepareFailureStyle($failurePercent).'">'.$text.'</div>';
         $result.= '<div class="text-'.HtmlHelper::prepareFailureStyle($failurePercent).'">(' . $failurePercent . '%)</div>';        
 
         return $result;
+    }
+
+    public static function renderPopoverFailureTemplate(MissingRowSet $missingRowSet, $htmlId)
+    {
+        ?>
+
+        <div id="<?=$htmlId?>" class="hidden-html">            
+            <div class="popover-heading"><strong>Fehlende Werte</strong></div>
+            
+            <div class="popover-body">
+                <?php if ($missingRowSet->isEmAvailable()) { ?>
+                    <div class="d-flex justify-content-between mb-2">
+                        <?=HtmlHelper::formatFailureForPopover("EM", $missingRowSet->getEmMissingRows(), $missingRowSet->getEmMissingRowsPercent()) ?>
+                    </div>
+                <?php } ?>
+                <?php if ($missingRowSet->isPm1Available()) { ?>
+                    <div class="d-flex justify-content-between mb-2">
+                        <?=HtmlHelper::formatFailureForPopover("PM1", $missingRowSet->getPm1MissingRows(), $missingRowSet->getPm1MissingRowsPercent()) ?>
+                    </div>
+                <?php } ?>
+                <?php if ($missingRowSet->isPm2Available()) { ?>
+                    <div class="d-flex justify-content-between mb-2">
+                        <?=HtmlHelper::formatFailureForPopover("PM2", $missingRowSet->getPm2MissingRows(), $missingRowSet->getPm2MissingRowsPercent()) ?>
+                    </div>
+                <?php } ?>
+                <?php if ($missingRowSet->isPm3Available()) { ?>
+                    <div class="d-flex justify-content-between mb-2">
+                        <?=HtmlHelper::formatFailureForPopover("PM3", $missingRowSet->getPm3MissingRows(), $missingRowSet->getPm3MissingRowsPercent()) ?>
+                    </div>
+                <?php } ?>
+                    <div class="d-flex justify-content-between mb-2">
+                        <div class="me-3 text-success"><strong>Zeilen</strong></div>
+                        <div class="me-1 text-success"><?=($missingRowSet->getCountRows() == 0 ? '/' : StringHelper::formatIntNumber($missingRowSet->getCountRows()))?></div>
+                    </div>                
+            </div>
+        </div>
+
+
+
+        <?php        
     }
 
     public static function getDisplayStyleVisibleOrNot($visible)
