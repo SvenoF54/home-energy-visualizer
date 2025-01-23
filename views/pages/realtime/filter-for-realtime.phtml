@@ -1,0 +1,110 @@
+<div class="row justify-content-center">
+    <div class="col-12 col-md-10 col-xxl-8">
+        <form method="post" id="date-range-form" action="" >
+        <input type="hidden" id="realtime_chartShowEM" name="realtime_chartShowEM" value="<?=$actualConfig->configRealtime()->getChartShowEM()?>">
+        <input type="hidden" id="realtime_chartShowPMTotal" name="realtime_chartShowPMTotal" value="<?=$actualConfig->configRealtime()->getChartShowPMTotal()?>">
+        <input type="hidden" id="realtime_chartShowPM1" name="realtime_chartShowPM1" value="<?=$actualConfig->configRealtime()->getChartShowPM1()?>">
+        <input type="hidden" id="realtime_chartShowPM2" name="realtime_chartShowPM2" value="<?=$actualConfig->configRealtime()->getChartShowPM2()?>">
+        <input type="hidden" id="realtime_chartShowPM3" name="realtime_chartShowPM3" value="<?=$actualConfig->configRealtime()->getChartShowPM3()?>">
+        <table class="table table-sm w-100 m-0 mb-sm-1 mb-md-2">
+            <thead>
+                <tr>
+                    <th class="table-active"style="text-align: left;">Filter</th>                
+                    <th class="table-active"></th>
+                    <th class="table-active"></th>                                        
+                    <th class="table-active"></th>                                        
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="table-light">
+                    <!-- From time -->
+                    <td>
+                        <div style="display: flex; align-items: center; gap: 4px;">
+                            <label for="from-date" class="form-label small m-0 d-none d-sm-inline mb-0"><strong>Von:</strong></label>
+                            <input type="datetime-local" id="from-date" name="from-date" 
+                                value="<?=substr($startTime, 0, 16)?>" 
+                                class="form-control form-control-sm" style="max-width: 170px;">
+                        </div>
+                    </td>
+                    <!-- Line 1 -->
+                    <td>
+                        <div style="display: flex; align-items: center; gap: 4px;">
+                            <label for="line1" class="form-label small m-0 d-none d-sm-inline mb-0"><strong class="d-none d-sm-inline">Linie&nbsp;1:</strong></label>
+                            <select name="line1" id="line1" class="form-control form-control-sm" style="max-width: 120px;">
+                                <?php foreach($actualConfig->getLinePossibilities() as $val) { ?>
+                                    <option value="<?=$val?>" <?php echo ($actualConfig->getLine1() == $val) ? 'selected' : ''; ?>><?=StringHelper::formatEnergyInWatt($val)?></option>
+                                <?php } ?>
+                            </select>
+                        </div>
+                        </div>
+                    </td>
+                    <!-- Resolution -->
+                    <td>
+                        <div style="display: flex; align-items: center; gap: 4px;">
+                            <label for="averagePossibility" class="form-label small m-0"><i class="bi bi-activity d-inline d-md-none"></i><strong class="d-none d-md-inline">Auflösung:</strong></label>
+                            <select name="averagePossibility" id="averagePossibility" class="form-control form-control-sm" style="max-width: 170px;">
+                                <?php foreach ($actualConfig->getAveragePossibilitiesInSec() as $val): ?>
+                                    <option value="<?=$val?>" <?=($actualConfig->getAveragePossibility() == $val) ? 'selected' : '';?>>
+                                        <?=TimeHelper::convertSecondsToLabel($val)?>
+                                    </option>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
+                    </td>
+                    <td>
+                        <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
+                            <div class="form-check m-0">
+                                <input type="checkbox" class="form-check-input" id="reloadCheckbox" name="reloadCheckbox" 
+                                    <?php if (isset($_REQUEST["reloadCheckbox"])) echo 'checked="checked"'; ?>>
+                                <label for="reloadCheckbox" class="form-check-label small"><i class="bi bi-arrow-repeat d-inline d-md-none"></i><span class="d-none d-md-inline">Autorefresh</span></label>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr class="table-light">
+                    <!-- To time-->
+                    <td>
+                        <div style="display: flex; align-items: center; gap: 4px;">
+                            <label for="to-date" class="form-label small m-0 d-none d-sm-inline mb-0"><strong>Bis:</strong></label>
+                            <input type="datetime-local" id="to-date" name="to-date" 
+                                value="<?=substr($endTime, 0, 16)?>" 
+                                class="form-control form-control-sm" style="max-width: 170px;">
+                        </div>
+                    </td>
+                    <!-- Line 2 -->
+                    <td>
+                        <div style="display: flex; align-items: center; gap: 4px;">
+                            <label for="line2" class="form-label small m-0 d-none d-sm-inline"><strong class="d-none d-sm-inline">Linie&nbsp;2:</strong></label>
+                                <select name="line2" id="line2" class="form-control form-control-sm" style="max-width: 120px;">
+                                    <?php foreach($actualConfig->getLinePossibilities() as $val) { ?>
+                                        <option value="<?=$val?>" <?php echo ($actualConfig->getLine2() == $val) ? 'selected' : ''; ?>><?=StringHelper::formatEnergyInWatt($val)?></option>
+                                    <?php } ?>
+                                </select>
+                            </label>
+                        </div>
+                    </td>
+                    <!-- Time range -->
+                    <td>
+                        <div style="display: flex; align-items: center; gap: 4px;">
+                            <label for="pastperiod" class="form-label small m-0"><i class="bi bi-clock d-inline d-md-none"></i><strong class="d-none d-md-inline">Zeitraum:</strong></label>
+                            <select name="pastperiod" id="pastperiod" class="form-control form-control-sm" style="max-width: 170px;">
+                                <option value="0">(?)</option>
+                                <?php foreach ($actualConfig->GetPastPeriodPossibilities() as $val): ?>
+                                    <option value="<?=$val?>" <?=($actualConfig->getPastPeriod() == $val) ? 'selected' : '';?>>
+                                    <?=TimeHelper::convertSecondsToLabel($val * 3600, "<", "<")?>
+                                    </option>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
+                    </td>
+                    <td>
+                        <button type="submit" class="btn btn-primary btn-sm"><i class="bi bi-arrow-clockwise d-inline d-md-none"></i><span class="d-none d-md-inline">Aktualisieren</span></label></button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        </form>
+        <div class="p-1"></div>
+        <?php include("views/pages/realtime/filter-summary.phtml")?>
+    </div>
+</div>

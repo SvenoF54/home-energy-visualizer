@@ -39,6 +39,17 @@
     }
 }
 
+.btn-mising-values {
+    padding: 0.01rem 0.01rem;
+    font-size: 0.75rem;
+    margin-top: 0rem;
+    margin-bottom: 0rem;
+}
+
+.nav-burger-menu {
+    width: 120px;
+}
+
 
 /* Realtime-Chart */
 

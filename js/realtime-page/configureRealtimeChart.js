@@ -39,7 +39,7 @@ const scalesRealtime = {
         },
         ticks: {
             callback: function(value, index, values) {
-                return formatNumber(Number(value)) + ' W';
+                return formatCurrent(Number(value));
             }
         }
     }

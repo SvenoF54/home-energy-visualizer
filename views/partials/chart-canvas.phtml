@@ -1,8 +1,8 @@
-<div class="row justify-content-center p-0 m-0">
+<div class="row justify-content-center p-0 m-0 m-sm-0 m-md-0 m-xl-2 m-xxl-4">    
     <table class="table table-borderless p-0 mb-2 ms-auto">
         <tr>
             <td class="fixed-width p-0 m-0">
-                <nav class="navbar navbar-expand-md navbar-light bg-light d-md-none p-0">
+                <nav class="navbar navbar-expand-sm navbar-light bg-light d-sm-none p-0 nav-burger-menu">
                     
                     <!-- Burger-Icon -->
                     <button class="navbar-toggler legend-navbar-toggler p-0" type="button" data-bs-toggle="collapse" data-bs-target="#legendNavbarContent">
@@ -38,9 +38,10 @@
                 
                 </nav>
             </td>
-            <td class="no-wrap text-center p-0 m-0 d-none d-md-table-cell">
-                <!-- Realtime Chart Legend left -->
-                <div class="flex-container toggle-realtime-chart-legend-buttons">
+            <td class="no-wrap text-center p-0 m-0 d-none d-sm-table-cell">
+                <!-- Realtime Chart Legend -->                
+                <div class="flex-container toggle-realtime-chart-legend-buttons ms-5">
+                <span class="m-5"></span>
                     <span class="chart-toggle-line legend-label" data-chart-id="realtime-chart-container" data-custom-form-field-field="realtime_chartShowEM">
                         <span class="legend-line em-color me-0"></span>
                         <span class="legend-label flex-wrap: nowrap <?=$actualConfig->configRealtime()->getChartShowEM() ? '' : 'strikethrough'?>">EM</span>
@@ -49,12 +50,6 @@
                         <span class="legend-line pm-total-color me-0"></span>
                         <span class="legend-label flex-wrap: nowrap <?=$actualConfig->configRealtime()->getChartShowPMTotal() ? '' : 'strikethrough'?>">PM</span>
                     </span>
-                </div>
-            </td>
-
-            <td class="no-wrap text-center p-0 m-0 d-none d-md-table-cell">
-                <!-- Realtime Chart Legend right -->
-                <div class="flex-container toggle-realtime-chart-legend-buttons">
                     <span class="chart-toggle-line legend-label" data-chart-id="realtime-chart-container" data-custom-form-field-field="realtime_chartShowPM1">                    
                         <span class="legend-line pm1-color me-0"></span>
                         <span class="legend-label flex-wrap: nowrap <?=$actualConfig->configRealtime()->getChartShowPM1() ? '' : 'strikethrough'?>">PM1</span>
@@ -69,9 +64,9 @@
                     </span>
                 </div>
             </td>
-            <td class="fixed-width p-0 m-0">
+            <td class="fixed-width p-0 m-0 text-end">
                 <a href="#" class="btn btn-sm btn-mising-values btn-<?=HtmlHelper::prepareFailureStyle($energyData->getMissingRows()->getWorstMissingRowCountPercent())?>" data-bs-toggle="popover" data-bs-content="#missingRowSetTable" data-bs-trigger="focus">
-                    <span class="d-none d-md-inline"><?=$energyData->getMissingRows()->getWorstMissingRowCountPercent()?>%</span>
+                    <span class="d-none d-sm-inline"><?=$energyData->getMissingRows()->getWorstMissingRowCountPercent()?>%</span>
                     <i class="bi bi-caret-down-fill"></i>
                 </a>
             </td>

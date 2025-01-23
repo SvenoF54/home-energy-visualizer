@@ -65,7 +65,7 @@ $jsVars = [
     "config" => $actualConfig->toJson()
 ];
 
-$partialTop = "views/pages/realtime/filter.phtml";
+$partialTop = "views/pages/realtime/filter-for-realtime.phtml";
 $partialBottom = "views/partials/chart-canvas.phtml";
 
 

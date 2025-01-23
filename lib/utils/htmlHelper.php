@@ -26,7 +26,7 @@ class HtmlHelper {
         $result = StringHelper::formatEnergyInWattHour($energyData->getEnergyInWatt());
         $inner = StringHelper::formatCurrency($energyData->getEnergyPriceInCent());
         $inner = $autarkyInPercent != null ? $inner." | ".StringHelper::formatNumber($autarkyInPercent, 0)."%" : $inner;
-        $result .= "&nbsp;(".$inner.")";
+        $result .= " (".$inner.")";
 
         return $result;
 
@@ -42,10 +42,10 @@ class HtmlHelper {
 
     public static function formatFailureForPopover($title, $nullRows, $failurePercent)
     {
-        $result = '<div class="me-3 text-'.HtmlHelper::prepareFailureStyle($failurePercent).'"><strong>'.$title.'</strong></div>';
+        $result = '<div class="small me-3 text-'.HtmlHelper::prepareFailureStyle($failurePercent).'"><strong>'.$title.'</strong></div>';
         $text = ($nullRows == 0 ? '/' : StringHelper::formatIntNumber($nullRows));
-        $result.= '<div class="me-1 text-'.HtmlHelper::prepareFailureStyle($failurePercent).'">'.$text.'</div>';
-        $result.= '<div class="text-'.HtmlHelper::prepareFailureStyle($failurePercent).'">(' . $failurePercent . '%)</div>';        
+        $result.= '<div class="small me-1 text-'.HtmlHelper::prepareFailureStyle($failurePercent).'">'.$text.'</div>';
+        $result.= '<div class="small text-'.HtmlHelper::prepareFailureStyle($failurePercent).'">(' . $failurePercent . '%)</div>';        
 
         return $result;
     }

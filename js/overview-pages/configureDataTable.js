@@ -5,9 +5,9 @@ $(document).ready(function() {
         "searching": false,
         "ordering": true,
         "orderMulti": false,
-        "autoWidth": false,
+        //"autoWidth": true, // needed for responsive
         "scrollX": false,
-        "orderCellsTop": false,
+        "orderCellsTop": true,
         "pageLength": config.energy1.tablePageLength || 10,
         "responsive": true,
         "columnDefs": [{

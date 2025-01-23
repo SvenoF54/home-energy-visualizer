@@ -1,12 +1,12 @@
 <table class="table table-bordered table-hover display responsive nowrap" id="energyTable">
     <thead class="thead-light">
         <tr>
-            <th class="table-active timestamp">Zeitpunkt</th>
-            <th class="table-active purchase" colspan=2>Einkauf</th>
-            <th class="table-active feed-in" colspan=2>Einspeisung</th>                
-            <th class="table-active savings" colspan=2>Ersparnis</th>
-            <th class="table-active autarky">Autarkie</th>
-            <th class="table-active production-caption" colspan="8">
+            <th data-priority="1" class="table-active timestamp">Zeitpunkt</th>
+            <th data-priority="2" class="table-active purchase" colspan=2>Einkauf</th>
+            <th data-priority="3" class="table-active feed-in" colspan=2>Einspeisung</th>                
+            <th data-priority="4" class="table-active savings" colspan=2>Ersparnis</th>
+            <th data-priority="5" class="table-active autarky">Autarkie</th>
+            <th data-priority="6" class="table-active production-caption" colspan="8">
                 Produktion
                 <label for="toggleProductionColumns" class="mb-0 me-2">
                 <input type="checkbox" id="toggleProductionColumns" name="toggleProductionColumns" <?=$actualConfig->configEnergy1()->getTableShowProductionInTotal() ? "checked" : "" ?>>
@@ -14,22 +14,22 @@
             </th>
         </tr>
         <tr>
-            <th class="table-active timestamp"></th>
-            <th class="table-active cell-energy purchase">Energie</th>
-            <th class="table-active cell-price purchase">Preis</th>
-            <th class="table-active cell-energy feed-in">Energie</th>
-            <th class="table-active cell-price feed-in">Preis</th>
-            <th class="table-active cell-energy savings">Energie</th>
-            <th class="table-active cell-price savings">Preis</th>
-            <th class="table-active cell-price autarky">%</th>
-            <th class="table-active cell-energy production-pmtotal">Energie&nbsp;Total</th>
-            <th class="table-active cell-price production-pmtotal">Preis</th>
-            <th class="table-active cell-energy production-pm1">Energie&nbsp;PM1</th>
-            <th class="table-active cell-price production-pm1">Preis</th>
-            <th class="table-active cell-energy production-pm2">Energie&nbsp;PM2</th>
-            <th class="table-active cell-price production-pm2">Preis</th>
-            <th class="table-active cell-energy production-pm3">Energie&nbsp;PM3</th>
-            <th class="table-active cell-price production-pm3">Preis</th>
+            <th data-priority="1" class="table-active timestamp"></th>
+            <th data-priority="2" class="table-active cell-energy purchase">Energie</th>
+            <th data-priority="2" class="table-active cell-price purchase">Preis</th>
+            <th data-priority="3" class="table-active cell-energy feed-in">Energie</th>
+            <th data-priority="3" class="table-active cell-price feed-in">Preis</th>
+            <th data-priority="4" class="table-active cell-energy savings">Energie</th>
+            <th data-priority="4" class="table-active cell-price savings">Preis</th>
+            <th data-priority="5" class="table-active cell-price autarky">%</th>
+            <th data-priority="6" class="table-active cell-energy production-pmtotal">Energie&nbsp;Total</th>
+            <th data-priority="6" class="table-active cell-price production-pmtotal">Preis</th>
+            <th data-priority="6" class="table-active cell-energy production-pm1">Energie&nbsp;PM1</th>
+            <th data-priority="6" class="table-active cell-price production-pm1">Preis</th>
+            <th data-priority="6" class="table-active cell-energy production-pm2">Energie&nbsp;PM2</th>
+            <th data-priority="6" class="table-active cell-price production-pm2">Preis</th>
+            <th data-priority="6" class="table-active cell-energy production-pm3">Energie&nbsp;PM3</th>
+            <th data-priority="6" class="table-active cell-price production-pm3">Preis</th>
         </tr>
     </thead>
     <tbody>                    
