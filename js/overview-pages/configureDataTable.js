@@ -5,18 +5,19 @@ $(document).ready(function() {
         "searching": false,
         "ordering": true,
         "orderMulti": false,
-        //"autoWidth": true, // needed for responsive
+        "autoWidth": false, // if true, the js for hidding production tables didn't work
         "scrollX": false,
-        "orderCellsTop": true,
+        "orderCellsTop": false,
         "pageLength": config.energy1.tablePageLength || 10,
-        "responsive": true,
+        "responsive": false,
         "columnDefs": [{
             "targets": '_all',
-            "orderDataType": "dom-text",
-            "type": "num",
             "render": function(data, type, row, meta) {
-                var sortData = $(row).find('td').eq(meta.col).data('sort');
-                return sortData !== undefined ? sortData : data;
+                if (type === 'sort') {
+                    // Hole den Sortierwert aus dem Attribut data-sort
+                    return $(row).find('td').eq(meta.col).data('sort') || data;
+                }
+                return data;
             }
         }],
         language: {
@@ -33,7 +34,8 @@ $(document).ready(function() {
         energyDataTable.columns.adjust();
     }, 200);
 
-    function toggleColumnVisibility(className, show) {
+    // Helper for toggle colum visibility (triggered by production checkbox or responsive js)
+    function toggleEnergyTableColumnVisibility(className, show) {
         energyDataTable.columns().every(function() {
             var column = this;
             if ($(column.header()).hasClass(className)) {
@@ -42,18 +44,57 @@ $(document).ready(function() {
         });
     }
 
+    // checkbox to trigger production column visibility
     $('#toggleProductionColumns').on('change', function() {
-        toggleColumnVisibility('production-pm1', !this.checked);
-        toggleColumnVisibility('production-pm2', !this.checked);
-        toggleColumnVisibility('production-pm3', !this.checked);
-        toggleColumnVisibility('production-pmtotal', this.checked);
+        toggleEnergyTableColumnVisibility('production-pmtotal', this.checked);
+        toggleEnergyTableColumnVisibility('production-pm3', !this.checked);
+        toggleEnergyTableColumnVisibility('production-pm2', !this.checked);
+        toggleEnergyTableColumnVisibility('production-pm1', !this.checked);
         if ($('#tableEnergyShowProductionTotal').length) {
             $('#tableEnergyShowProductionTotal').val(this.checked ? "true" : "false");
         }
     });
 
-    toggleColumnVisibility('production-pm1', !$('#toggleProductionColumns').prop('checked'));
-    toggleColumnVisibility('production-pm2', !$('#toggleProductionColumns').prop('checked'));
-    toggleColumnVisibility('production-pm3', !$('#toggleProductionColumns').prop('checked'));
-    toggleColumnVisibility('production-pmtotal', $('#toggleProductionColumns').prop('checked'));
+    // initial production column visibility
+    toggleEnergyTableColumnVisibility('production-pm3', !$('#toggleProductionColumns').prop('checked'));
+    toggleEnergyTableColumnVisibility('production-pm2', !$('#toggleProductionColumns').prop('checked'));
+    toggleEnergyTableColumnVisibility('production-pm1', !$('#toggleProductionColumns').prop('checked'));
+    toggleEnergyTableColumnVisibility('production-pmtotal', $('#toggleProductionColumns').prop('checked'));
+
+    // responsive column visibility
+    function adjustEnergyTableColumns() {
+        var windowWidth = $(window).width();
+        if (windowWidth <= 1200) {
+            toggleEnergyTableColumnVisibility('production-pm3', false);
+            toggleEnergyTableColumnVisibility('production-pm2', false);
+            toggleEnergyTableColumnVisibility('production-pm1', false);
+            $('#toggleProductionColumns').prop('checked', true);
+            $('#toggleProductionColumns').hide();
+            $('label[for="toggleProductionColumns"]').hide();
+        }
+        if (windowWidth >= 1200) {
+            // initial production column visibility
+            toggleEnergyTableColumnVisibility('production-pm3', !$('#toggleProductionColumns').prop('checked'));
+            toggleEnergyTableColumnVisibility('production-pm2', !$('#toggleProductionColumns').prop('checked'));
+            toggleEnergyTableColumnVisibility('production-pm1', !$('#toggleProductionColumns').prop('checked'));
+            toggleEnergyTableColumnVisibility('production-pmtotal', $('#toggleProductionColumns').prop('checked'));
+            $('#toggleProductionColumns').show();
+            $('label[for="toggleProductionColumns"]').show();
+        }
+        if (windowWidth <= 990) {
+            toggleEnergyTableColumnVisibility('production-pmtotal', false);
+        }
+        if (windowWidth >= 990 && !$('#toggleProductionColumns').prop('checked')) {
+            toggleEnergyTableColumnVisibility('production-pmtotal', true);
+        }
+    }
+
+    // initial column visibility
+    //adjustEnergyTableColumns();
+
+    // guard window resize
+    $(window).resize(function() {
+        //adjustEnergyTableColumns();
+    });
+
 });

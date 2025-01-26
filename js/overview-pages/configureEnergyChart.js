@@ -53,8 +53,12 @@ const scalesEnergy = {
 
 const optionsEnergy = {
     layout: {
-        padding: 0
+        padding: {
+            right: 15
+        }
     },
+    responsive: true,
+    maintainAspectRatio: false,
     onClick: (event, elements, chart) => {
         if (elements.length > 0) {
             const element = elements[0];
@@ -100,8 +104,6 @@ const optionsEnergy = {
             window.location.href = url;
         }
     },
-    responsive: true,
-    maintainAspectRatio: false,
     plugins: {
         tooltip: {
             // Extends the tooltip with more information

@@ -30,7 +30,11 @@ const scalesAutarky = {
 }
 
 const optionsAutarky = {
-    layout: {},
+    layout: {
+        padding: {
+            right: 15
+        }
+    },
     responsive: true,
     maintainAspectRatio: false,
     plugins: {
