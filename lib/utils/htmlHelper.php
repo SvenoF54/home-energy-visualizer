@@ -2,6 +2,7 @@
 
 class HtmlHelper {
     public static function prepareFailureColor($wrongRows, $totalRows) {
+        if ($totalRows == 0 && $wrongRows == 0) return "success";
         if ($totalRows == 0) return "red";
         if ($wrongRows / $totalRows >= 0.1) return "red";
         if ($wrongRows / $totalRows >= 0.05) return "orange";
@@ -9,7 +10,7 @@ class HtmlHelper {
     }
 
     public static function prepareFailureStyle($failurePercent) {
-        if ($failurePercent == 0) return "danger";
+        if ($failurePercent == 0) return "success";
         if ($failurePercent >= 10) return "danger";
         if ($failurePercent >= 5) return "warning";
         return "success";
@@ -79,7 +80,7 @@ class HtmlHelper {
                     </div>
                 <?php } ?>
                     <div class="d-flex justify-content-between mb-2">
-                        <div class="me-3 text-success"><strong>Zeilen</strong></div>
+                        <div class="me-3 text-success"><strong>Zeilen<br/>gesamt</strong></div>
                         <div class="me-1 text-success"><?=($missingRowSet->getCountRows() == 0 ? '/' : StringHelper::formatIntNumber($missingRowSet->getCountRows()))?></div>
                     </div>                
             </div>

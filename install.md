@@ -4,6 +4,7 @@ Energie-Visualisierung für zu Hause, Beschreibung siehe hier [readme.md](./READ
 ## Installationsschritte
 
 Für die Benutzung des Programms werden gewisse technische Kenntnisse, wie das erstellen einer Datenbank, sowie das kopieren der Programmdateien auf den Webserver vorrausgesetzt. 
+Auf PHP-Drittbibliotheken wurde bewußßt verzichtet, um die Installation einfach zu halten.
 
 **Die Installation erfolgt manuell, es gibt keinen automatischen Installationsmechanismus.**
 
@@ -55,7 +56,9 @@ Falls man keine Echtzeitdaten verwendet, kann man die Navigation so anpassen um 
 
 ## Shelly-Skripte
 
-Für die Erfassung von Echtzeidaten müssen auf jedem Energiemessgerät die Shelly-Skripte installiert werden
+Für die Erfassung von Echtzeidaten müssen auf jedem Energiemessgerät die Shelly-Skripte installiert werden.
+
+**WICHTIG:** Bei jeden Script unbedingt den Hacken bei 'Run on startup' setzen, damit die Scripte automatisch beim Neustart (z.B. Firmware-Update) wieder anlaufen.
 
 ### Skript PRO Energiemessgerät
 
@@ -71,7 +74,7 @@ Im oberen Abschnitt sind folgende Parameter anzupassen:
 
 Das Skript ist hier zu finden [scripts\shelly-scripts\Shelly-Pro3EM-SendToLogger.js](scripts\shelly-scripts\Shelly-Pro3EM-SendToLogger.js)
 
-#### Erzeugungsmessung
+#### Stromerzeugungsmessung
 
 Es ist möglich die Stromerzeugung für jede Phase einzeln zu messen. Hierfür ist für jeden Energiemesser ein Skript anzulegen.
 
@@ -82,7 +85,7 @@ Im oberen Abschnitt sind folgende Parameter anzupassen:
 
 Das Skript ist hier zu finden [scripts\shelly-scripts\Shelly-Plus1PM-SendToLogger.js](scripts\shelly-scripts\Shelly-Plus1PM-SendToLogger.js)
 
-#### Skript zum aufsummieren der Daten
+#### Skript zum Aufsummieren der Daten
 
 Um die Echtzeitdaten für den schnelleren Zugriff aufzusummieren wird ein eigenes Skript benötigt. Dies kann man entweder vom Shelly oder über einen eigenen Cronjob starten. 
 Bei mir läuft es alle 60 Sekunden auf einem Shelly, z.B. dem EM.
