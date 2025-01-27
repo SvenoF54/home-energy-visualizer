@@ -109,44 +109,6 @@ class ConfigOverviewPages
 
 }
 
-class ConfigRealtimeOverviewPages extends ConfigOverviewPages
-{
-    private $lastHoursPossibilities = [0.5, 1, 2, 4, 6, 8, 12, 24, 24*7, 24*14, 24*28];
-    private $averagePossibilitiesInSec = [2, 5, 10, 30, 60, 120, 300, 600, 900, 1800, 3600];
-    private $refreshIntervalInSec = 10;
-    
-    public function getLastHoursPossibilities()
-    {
-        return $this->lastHoursPossibilities;
-    }
-    
-    public function setLastHoursPossibilities($lastHoursPossibilities)
-    {
-        $this->lastHoursPossibilities = $lastHoursPossibilities;
-    }
-    
-    public function getAveragePossibilitiesInSec()
-    {
-        return $this->averagePossibilitiesInSec;
-    }
-    
-    public function setAveragePossibilitiesInSec($averagePossibilitiesInSec)
-    {
-        $this->averagePossibilitiesInSec = $averagePossibilitiesInSec;
-    }
-    
-    public function getRefreshIntervalInSec()
-    {
-        return $this->refreshIntervalInSec;
-    }
-    
-    public function setRefreshIntervalInSec($refreshIntervalInSec)
-    {
-        $this->refreshIntervalInSec = $refreshIntervalInSec;
-    }
-    
-}
-
 class ConfigEnergyViewSettings {
     private $chartNumber;
     private $chartShowEnergyOverZero = false;

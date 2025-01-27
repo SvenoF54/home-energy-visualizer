@@ -1,51 +1,60 @@
 <div class="row justify-content-center">
-        <div class="col-auto"> 
-            <?php include("views/pages/overview/filter-summary.phtml")?>
-            <table class="table table-sm table-borderless w-auto" style="table-layout: flex;">
-            <form method="post" id="date-range-form" action="">
-                <input type="hidden" name="year1" id="year1" value="<?=$selectedYear1?>">
-                <input type="hidden" name="year2" id="year2" value="<?=$selectedYear2?>">
-                <?php include_once("filter-hidden-config-values.phtml"); ?>
-                <tbody>
-                    <tr class="table-light">
-                        <td><strong class="small m-0">Auswahl 1:</strong></td>
-                        <!-- Year 1 -->              
-                    <?php foreach($yearList as $val) { ?>
-                        <td><a class="<?=$val==$selectedYear1?'primary':'link-dark'?> selectorYear1 small m-0" href="#<?=$val?>"><?=$val?></td>
-                    <?php } ?>  
-                        <!-- Line 1 -->
-                        <td>
-                            <div style="display: flex; align-items: center; gap: 4px;">
-                                <label for="line1" class="form-label small m-0" style="width: 80px"><strong>Linie 1:</strong></label>
-                                <select name="line1" id="line1" class="form-control form-control-sm" style="max-width: 120px;">
-                                    <?php foreach($actualConfig->getLinePossibilities() as $val) { ?>
-                                        <option value="<?=$val?>" <?php echo ($actualConfig->getLine1() == $val) ? 'selected' : ''; ?>><?=StringHelper::formatEnergyInWattHour($val)?></option>
-                                    <?php } ?>
-                                </select>
-                            </div>
-                        </td>            
-                    </tr>
-                    <tr class="table-light">
-                        <td><strong class="small m-0">Auswahl 2:</strong></td>
-                        <!-- Year 2 -->
-                    <?php foreach($yearList as $key => $val) { ?>
-                        <td><a class="<?=$val==$selectedYear2?'primary':'link-dark'?> selectorYear2 small m-0" href="#<?=$val?>"><?=$val?></td>
-                    <?php } ?>                
-                        <!-- Line 2 -->
-                        <td>
-                            <div style="display: flex; align-items: center; gap: 4px;">
-                                <label for="line2" class="form-label small m-0" style="width: 80px"><strong>Linie 2:</strong></label>
+    <div class="col-12 col-md-10 col-xxl-8">
+        <?php include("views/pages/overview/filter-summary.phtml")?>
+        <table class="table table-sm table-borderless w-auto m-0" style="table-layout: flex;">
+        <form method="post" id="date-range-form" action="">
+            <input type="hidden" name="year1" id="year1" value="<?=$selectedYear1?>">
+            <input type="hidden" name="year2" id="year2" value="<?=$selectedYear2?>">
+            <?php include_once("filter-hidden-config-values.phtml"); ?>
+            <tbody>
+                <tr class="table-light">
+                    <td>
+                        <strong class="small m-0 d-block d-sm-none">1:</strong>
+                        <strong class="small m-0 d-none d-sm-inline">Auswahl 1:</strong>
+                    </td>
+                    <!-- Year 1 -->              
+                <?php foreach($yearList as $val) { ?>
+                    <td><a class="<?=$val==$selectedYear1?'primary':'link-dark'?> selectorYear1 small m-0" href="#<?=$val?>"><?=$val?></td>
+                <?php } ?>  
+                    <!-- Line 1 -->
+                    <td>
+                        <div style="display: flex; align-items: center; gap: 4px;">
+                            <label for="line1" class="form-label small m-0 d-none d-sm-inline mb-0"><strong>Linie&nbsp;1:</strong></label>
+                            <select name="line1" id="line1" class="form-control form-control-sm" style="max-width: 120px;">
+                                <?php foreach($actualConfig->getLinePossibilities() as $val) { ?>
+                                    <option value="<?=$val?>" <?php echo ($actualConfig->getLine1() == $val) ? 'selected' : ''; ?>><?=StringHelper::formatEnergyInWattHour($val)?></option>
+                                <?php } ?>
+                            </select>
+                        </div>
+                    </td>            
+                </tr>
+                <tr class="table-light">
+                    <td>
+                        <strong class="small m-0 d-block d-sm-none">2:</strong>
+                        <strong class="small m-0 d-none d-sm-inline">Auswahl 2:</strong>
+                    </td>
+                    <!-- Year 2 -->
+                        
+                <?php foreach($yearList as $key => $val) { ?>
+                    <td><a class="<?=$val==$selectedYear2?'primary':'link-dark'?> selectorYear2 small m-0" href="#<?=$val?>"><?=$val?></td>
+                <?php } ?>                
+                    
+                    <!-- Line 2 -->
+                    <td>
+                        <div style="display: flex; align-items: center; gap: 4px;">
+                            <label for="line2" class="form-label small m-0 d-none d-sm-inline"><strong>Linie&nbsp;2:</strong></label>
                                 <select name="line2" id="line2" class="form-control form-control-sm" style="max-width: 120px;">
                                     <?php foreach($actualConfig->getLinePossibilities() as $val) { ?>
                                         <option value="<?=$val?>" <?php echo ($actualConfig->getLine2() == $val) ? 'selected' : ''; ?>><?=StringHelper::formatEnergyInWattHour($val)?></option>
                                     <?php } ?>
                                 </select>
-                            </div>
-                        </td>
+                            </label>
+                        </div>
+                    </td>
 
-                    </tr>
-                </tbody>
-                </form>
-            </table>
-        </div>
+                </tr>
+            </tbody>
+            </form>
+        </table>
     </div>
+</div>

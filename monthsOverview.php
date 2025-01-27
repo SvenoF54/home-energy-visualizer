@@ -26,7 +26,7 @@ for($year = $overviewPageService->getFirstYear(); $year <= $overviewPageService-
     $pageTitle = "Monatsübersicht";
     $jsHeaderFiles = ["/js/utils.js", "js/overview-pages/configureEnergyChart.js", "js/overview-pages/configureAutarkyChart.js", 
                       "js/overview-pages/formFunctionsForMonthOverview.js"];
-    $jsFooterFiles = ["/js/overview-pages/documentReady.js"];
+    $jsFooterFiles = ["/js/overview-pages/documentReady.js", "/js/overview-pages/configureDataTable.js"];
     $cssFiles = ["/css/overviewPage.css"];
     $jsVars = [        
         "timestampsTooltip" => json_encode($overviewPageService->getLabelsTooltip()),
@@ -44,6 +44,7 @@ for($year = $overviewPageService->getFirstYear(); $year <= $overviewPageService-
     $tableRow1CaptionTimeUnit = $selectedYear1;
     $tableRow2CaptionTimeUnit = $selectedYear2;
     $energyTableCaption = "Energiewerte für ".$selectedYear1;
+
 
     $partialTop = "views/pages/overview/filter-for-months-overview.phtml";
     $partialBottom = "views/partials/chart-and-table-canvas.phtml";

@@ -32,10 +32,7 @@ const scalesAutarky = {
 const optionsAutarky = {
     layout: {
         padding: {
-            left: 20,
-            right: 20,
-            top: 20,
-            bottom: 20
+            right: 15
         }
     },
     responsive: true,
@@ -66,85 +63,11 @@ const optionsAutarky = {
             }
         },
         legend: {
-            display: true,
-            onClick: function(event, legendItem) {
-                const clickedDatasetIndex = legendItem.datasetIndex;
-                const clickedLabel = legendItem.text;
-                const dataset = autarkyChart.data.datasets[clickedDatasetIndex];
-
-                // Update chart
-                dataset.hidden = !dataset.hidden;
-                autarkyChart.update();
-
-                // Set hidden form field to recover chart settings on next page call
-                const customFormFieldName = dataset.customFormFieldName;
-                $('#' + customFormFieldName).val(!dataset.hidden);
-            },
+            display: false,
         },
     },
     scales: scalesAutarky
 };
-
-// Plugins, here the button for the table view
-const pluginsAutarky = [{
-    id: 'customButtonPlugin',
-    afterDraw(chart) {
-        const { ctx, chartArea } = chart;
-
-        if (!chartArea) return;
-
-        // Button 1: table-view
-        const button1X = chartArea.right - 220;
-        const button1Y = chartArea.top - 30;
-
-        ctx.fillStyle = 'blue';
-        ctx.fillRect(button1X, button1Y, 100, 25);
-
-        ctx.fillStyle = 'white';
-        ctx.font = '12px Arial';
-        ctx.textBaseline = 'middle';
-        ctx.fillText('Tabellenansicht', button1X + 10, button1Y + 12);
-
-        // Button 2: energy-chart-view
-        const button2X = chartArea.right - 110;
-        const button2Y = chartArea.top - 30;
-
-        ctx.fillStyle = 'blue';
-        ctx.fillRect(button2X, button2Y, 100, 25);
-
-        ctx.fillStyle = 'white';
-        ctx.font = '12px Arial';
-        ctx.textBaseline = 'middle';
-        ctx.fillText('Energieansicht', button2X + 10, button2Y + 12);
-
-        // Add event listeners if not already added
-        if (!chart.customButtonListener) {
-            chart.customButtonListener = true;
-
-            chart.canvas.addEventListener('click', function(event) {
-                const rect = chart.canvas.getBoundingClientRect();
-                const x = event.clientX - rect.left;
-                const y = event.clientY - rect.top;
-
-                // Button 1: table-view
-                if (x > button1X && x < button1X + 100 && y > button1Y && y < button1Y + 25) {
-                    $('#energy-chart-container').hide();
-                    $('#autarky-chart-container').hide();
-                    $('#energy-table-container').show();
-                    $('#chartOrTableView').val('EnergyTable');
-                }
-
-                // Button 2: energy-chart-view
-                if (x > button2X && x < button2X + 100 && y > button2Y && y < button2Y + 25) {
-                    $('#autarky-chart-container').hide();
-                    $('#energy-table-container').hide();
-                    $('#energy-chart-container').show();
-                    $('#chartOrTableView').val('EnergyChart');
-                }
-            });
-        }
-    }
-}];
 
 const autarkyData1 = {
     label: '(1) Anteil selbst produzierter Strom',
@@ -181,6 +104,5 @@ const configAutarky = {
         labels: timestampsXAxis,
         datasets: autarkyDataset
     },
-    options: optionsAutarky,
-    plugins: pluginsAutarky
+    options: optionsAutarky
 };

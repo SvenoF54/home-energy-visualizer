@@ -15,7 +15,7 @@ Der Benutzer muss einen eigenen PHP- und MySQL-Provider anmieten / bereitstellen
 
 ### Zielsetzung
 
-Das Projekt richtet sich an technisch erfahrene Benutzer, die ihren privaten Echtzeit-Energieverbrauch und/oder ihre private Echtzeit-Stromerzeugung durch PV-Anlagen, Balkonkraftwerke oder andere Energieerzeuger im Detail analysieren möchten. Es ist für die Nutzung am PC optimiert, kann jedoch auch auf einem Smartphone verwendet werden – wobei die Darstellung dort weniger optimal ist.
+Das Projekt richtet sich an technisch erfahrene Benutzer, die ihren privaten Echtzeit-Energieverbrauch und/oder ihre private Echtzeit-Stromerzeugung durch PV-Anlagen, Balkonkraftwerke oder andere Energieerzeuger im Detail analysieren möchten. Die Software kann mobil auf dem Handy als auch auf dem PC benutzt werden. 
 
 Beispielsweise können Stromspitzen in Echtzeit erkannt und mithilfe von zwei Berechnungslinien analysiert werden. Dies ermöglicht es, den Energieverbrauch oberhalb, unterhalb oder zwischen den definierten Linien zu ermitteln.
 
@@ -24,7 +24,11 @@ Beispielsweise können Stromspitzen in Echtzeit erkannt und mithilfe von zwei Be
 
 **Beispiel 2:** Wieviel Strom wird unterhalb 200 Watt verwendet. Die kann bei einer konstanten Stromeinspeisung z.B. eines Akkus in der Nacht helfen die optimale Einstellung zu finden.
 
-**Beispiel 3:** Wieviel Strom wird oberhalb 800 Watt und unterhalb 1500 Watt verwendet. Hiermit kann ich rausfinden, inwieweit eine Anhebung meiner Erzeugungsgrenze Sinn macht. 
+**Beispiel 3:** Wieviel Strom wird oberhalb 800 Watt und unterhalb 1500 Watt verwendet. Hiermit kann ich rausfinden, inwieweit eine Anhebung meiner Einspeisegrenze Sinn macht. 
+
+**Autarkieansichten**
+
+Diese ermöglichen es, sich einen Überblick über den eingekauften und selbst produzierten Strom zu verschaffen. Ein Beispiel: Im Juli wurde der eigene Strombedarf zu 55% aus selbst erzeugtem Strom gedeckt.
 
 ### Installation
 
@@ -36,19 +40,20 @@ Als Energiedaten werden folgende bezeichnet:
 
 #### Gemessene bzw. manuell eingegebene Daten
 - **Verbrauchsdaten**: Hiermit sind die selbst verbrauchten Energiedaten gemeint. Diese können entweder am eigenen Stromzähler oder über einen Energiesensor, wie z. B. die Shelly 3 EM-Sensoren mit Skriptunterstützung, in Echtzeit erfasst werden.
-- **Erzeugungsdaten**: Dies beschreibt selbst erzeugte Energie, wie z. B. aus PV-Anlagen oder Balkonkraftwerken.
+- **Erzeugungsdaten**: Dies beschreibt selbst erzeugte Energie, wie z. B. aus PV-Anlagen, Balkonkraftwerken oder Akkuspeichern.
 
 #### Datenspeicherung
 In der Datenbank ist pro Zeitabschnitt ein Wert für Verbrauchsdaten vorgesehen, also ein Wert für alle drei Phasen. Für die Erzeugungsdaten ist je Phase ein Wert vorgesehen, sodass alle drei Phasen getrennt gemessen und erfasst werden können.
 
 #### Berechnete Daten
-- **Genauigkeit**: Die Berechnung erfolgt entsprechend der Genauigkeit der verfügbaren Daten. Bei Echtzeitdaten im 2-Sekunden-Takt werden die Verbrauchs- und Erzeugungsdaten für jeweils zwei Sekunden miteinander verglichen, und der Preis wird mit dem zu diesem Zeitpunkt gültigen Wert berechnet.
+- **Genauigkeit**: Die Berechnung erfolgt entsprechend der Genauigkeit der verfügbaren Daten. Bei Echtzeitdaten im z.B. 2-Sekunden-Takt werden die Verbrauchs- und Erzeugungsdaten für jeweils zwei Sekunden miteinander verglichen, und der Preis wird mit dem zu diesem Zeitpunkt gültigen Wert berechnet.
 - **Energieersparnis**: Beschreibt die gesparte Energie, also den positiven Anteil der Verbrauchsdaten abzüglich der erzeugten Daten.
 - **Netzeinspeisung**: Definiert die überschüssige erzeugte Energie, die nicht selbst verbraucht wird.
 
 ### Echtzeitdaten und Daten-Logger
-Die Echtzeitdaten und Stundenübersicht sind nur in Verbindung mit Echtzeitdaten sinnvoll nutzbar. Gleiches gilt für die Tagesansicht, da man in der Regel nur Monatsdaten manuell eingibt.  
+Die Echtzeitdaten und Stundenübersicht sind nur in Verbindung mit Echtzeitdaten sinnvoll nutzbar. Gleiches gilt für die Tagesansicht, da man in der Regel nur Werte für einen ganzen Monat manuell eingibt.  
 Für das Datenlogging der Echtzeitdaten gibt es eine API, die diese entgegennimmt und in die Datenbank speichert. Dieses Projekt enthält Skripte für die Shelly-Energiemesssensoren. Bitte unbedingt die Sicherheitshinweise beachten, falls Sensoren genutzt werden, die in die Elektroinstallation eingebaut werden.
+Die API kann auch mit anderen Energiedaten bedient werden, man kann sich also auch ein Skript für andere Geräte programmieren.
 
 Bei mir laufen die Shelly-Skripte im 2-Sekunden-Takt stabil. Bei einer Sekunde kommt es zu Fehlern und Datenverlusten. Es sind Taktungen von 2-6 Sekunden möglich, noch höhere Taktungen werden wahrscheinlich zu ungenau sein.
 
@@ -62,7 +67,7 @@ Es können manuell Tagespreise für verschiedene Zeitabschnitte eingegeben werde
 Die Architektur erlaubt theoretisch Preisdaten im Viertelstundentakt, was eine Anbindung an einen dynamischen Stromtarif ermöglicht. Aktuell gibt es keinen Konnektor dafür. Falls jemand diesen entwickeln möchte, kann er sich gerne bei mir melden.
 
 ### Manuell eingegebene Daten
-Es ist möglich, Energiewerte für einen Tag oder einen Monat manuell einzugeben. Diese Daten werden auf den Übersichtsseiten angezeigt. Die manuelle Eingabe von Tagesdaten ist für den Fall gedacht, dass bei der Inbetriebnahme des Programms Daten für einen Monat nachgepflegt werden müssen.  
+Es ist möglich, Energiewerte für einen Tag oder einen Monat manuell einzugeben. Diese Daten werden auf den Übersichtsseiten angezeigt. Die manuelle Eingabe von Tagesdaten ist für den Fall gedacht, dass bei der Inbetriebnahme des Programms Daten für den aktuellen Monat nachgepflegt werden müssen, also für die Tage vor der Inbetriebnahme.  
 Preisdaten können ebenfalls manuell für mehrere Zeiträume eingegeben werden.
 
 ### Status fehlender Werte
@@ -83,6 +88,7 @@ Das Projekt nutzt folgende Open-Source-Bibliotheken:
      - Shelly Pro3EM
      - Shelly Plus1PM
      - Shelly Mini1PMG3
+     - Shelly Plug-S
 
 2. **jQuery** - [jQuery](https://jquery.com/)
    - **Funktion**: Ermöglicht interaktive Webanwendungen mit minimalem Aufwand.

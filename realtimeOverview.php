@@ -3,15 +3,13 @@ include_once("lib/appLibLoader.php");
 
 // Defaults
 $actualConfig = Configuration::getInstance()->realtimeOverview();
+$actualConfig->setFormValues();
+
 
 // Form values
-$avg = StringHelper::formGetInt('average', 2);
-$hours = StringHelper::formGetFloat('hours', 1);
-$startTime = ($hours != 0) ? date('Y-m-d H:i:00', time() - (3600 * $hours)) : StringHelper::formGetDateTime("from-date", 00);
-$endTime = ($hours != 0) ? date('Y-m-d H:i:59', time() - 2) : StringHelper::formGetDateTime("to-date", 59);
+$startTime = ($actualConfig->getPastperiod() != 0) ? date('Y-m-d H:i:00', time() - (3600 * $actualConfig->getPastperiod())) : StringHelper::formGetDateTime("from-date", 00);
+$endTime = ($actualConfig->getPastperiod() != 0) ? date('Y-m-d H:i:59', time() - 2) : StringHelper::formGetDateTime("to-date", 59);
 
-$line1 = StringHelper::formGetInt("line1", $actualConfig->getLine1());
-$line2 = StringHelper::formGetInt("line2", $actualConfig->getLine2());
 $timeLabelUnit = TimeHelper::prepareTimeUnit($startTime, $endTime);
 
 // prepare DB
@@ -20,12 +18,12 @@ $realTimeEnergyDataTbl = new RealTimeEnergyDataTable($db->getPdoConnection());
 $hourlyEnergyDataTbl = new HourlyEnergyDataTable($db->getPdoConnection());
 $energyPriceTbl = new EnergyPriceTable($db->getPdoConnection());
 $priceRow = $energyPriceTbl->getPriceForDateTime($startTime);
-$overviewDataRows = $realTimeEnergyDataTbl->getOverviewData($startTime, $endTime, $avg);
+$overviewDataRows = $realTimeEnergyDataTbl->getOverviewData($startTime, $endTime, $actualConfig->getAveragePossibility());
 
 $outPricePerWh = $priceRow != null ? $priceRow->getOutCentPricePerWh() : Configuration::getInstance()->getOutCentPricePerWh();
 $inPricePerWh = $priceRow != null ? $priceRow->getInCentPricePerWh() : Configuration::getInstance()->getInCentPricePerWh();
 
-$energyData = $realTimeEnergyDataTbl->getEnergyData($startTime, $endTime, $line1, $line2, $outPricePerWh, $inPricePerWh);
+$energyData = $realTimeEnergyDataTbl->getEnergyData($startTime, $endTime, $actualConfig->getLine1(), $actualConfig->getLine2(), $outPricePerWh, $inPricePerWh);
 $savings = $hourlyEnergyDataTbl->getSavingsData();
 
 $errorMsg = "";
@@ -52,7 +50,7 @@ if (sizeof($overviewDataRows) > 0) {
 // configure VIEW
 
 $pageTitle = "Echtzeitdaten";
-$jsHeaderFiles = ["/js/utils.js", "js/realtime-page/formFunctions.js", "js/realtime-page/configureEnergyChart.js"];
+$jsHeaderFiles = ["/js/utils.js", "js/realtime-page/formFunctions.js", "js/realtime-page/configureRealtimeChart.js"];
 $jsFooterFiles = ["/js/realtime-page/documentReady.js"];
 $cssFiles = ["/css/realtimePage.css"];
 $jsVars = [
@@ -62,13 +60,12 @@ $jsVars = [
     "pm2PowerRows" => json_encode($pm2PowerRows),
     "pm3PowerRows" => json_encode($pm3PowerRows),
     "pmTotalPowerRows" => json_encode($pmTotalPowerRows),
-    "line1_selected" => $line1,
-    "line2_selected" => $line2,
     "timeLabelUnit" => json_encode($timeLabelUnit),
-    "refreshIntervalInSec" => $actualConfig->getRefreshIntervalInSec()
+    "refreshIntervalInSec" => $actualConfig->getRefreshIntervalInSec(),
+    "config" => $actualConfig->toJson()
 ];
 
-$partialTop = "views/pages/realtime/filter.phtml";
+$partialTop = "views/pages/realtime/filter-for-realtime.phtml";
 $partialBottom = "views/partials/chart-canvas.phtml";
 
 

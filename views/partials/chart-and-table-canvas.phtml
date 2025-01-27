@@ -1,4 +1,138 @@
-<div class="container-fluid px-0">
+<div class="p-2"></div>
+<div class="row justify-content-center p-0 m-0 m-sm-0 m-md-0 m-xl-2 m-xxl-2">    
+    <table class="table table-borderless p-0 mb-2 ms-auto">
+        <tr>
+            <td class="fixed-width p-0 m-0 toggle-energy-chart-legend-buttons toggle-autarky-chart-legend-buttons" style="<?=HtmlHelper::getDisplayStyleVisibleOrNot($actualConfig->showEnergyChartView() || $actualConfig->showAutarkyChartView())?>">
+                <nav class="navbar navbar-expand-md navbar-light bg-light d-md-none p-0">
+                    
+                    <!-- Burger-Icon -->
+                    <button class="navbar-toggler legend-navbar-toggler p-0" type="button" data-bs-toggle="collapse" data-bs-target="#legendNavbarContent">
+                        <span class="navbar-toggler-icon legend-navbar-toggler-icon"></span>
+                    </button>
+
+                    <!-- Menu content -->
+                    <div class="collapse navbar-collapse" id="legendNavbarContent">
+                        <!-- Energy Chart Legend -->
+                        <table class="table mb-0 text-start toggle-energy-chart-legend-buttons" style="<?=HtmlHelper::getDisplayStyleVisibleOrNot($actualConfig->showEnergyChartView())?>">
+                            <tr class="nav-item chart-toggle-line legend-label" data-chart-id="energy-chart-container" data-custom-form-field-field="energy1_chartShowEnergyOverZero" data-custom-form-field-field2="energy1_chartShowEnergyOverZeroPlusSavings">
+                                <td><span class="legend-line em-over-zero-color me-0"></span><span class="legend-line add-savings-color ms-0"></span></td>
+                                <td><span class="legend-label flex-wrap: nowrap <?=$actualConfig->configEnergy1()->getChartShowEnergyOverZero() ? '' : 'strikethrough'?>"><span class="d-inline d-xl-none">Einkauf</span><span class="d-none d-xl-inline">Stromeinkauf</span> / Ersparnis</span></td>
+                            </tr>
+                            <tr class="nav-item chart-toggle-line legend-label" data-chart-id="energy-chart-container" data-custom-form-field-field="energy1_chartShowFeedIn">
+                                <td><span class="legend-line feed-in-color"></span></td>
+                                <td><span class="legend-label flex-wrap: nowrap <?=$actualConfig->configEnergy1()->getChartShowFeedIn() ? '' : 'strikethrough'?>"><span class="d-inline d-xl-none">Einspeisung</span><span class="d-none d-xl-inline">Netzeinspeisung</span></span></td>
+                            </tr>
+                            <tr class="nav-item chart-toggle-line legend-label" data-chart-id="energy-chart-container" data-custom-form-field-field="energy1_chartShowSavings">
+                                <td><span class="legend-line savings-color"></span></td>
+                                <td><span class="legend-label flex-wrap: nowrap <?=$actualConfig->configEnergy1()->getChartShowSavings() ? '' : 'strikethrough'?>">Ersparnis</span></td>
+                            </tr>
+                            <?php if ($overviewPageService->hasData2()) : ?>
+                            <tr class="nav-item chart-toggle-line" data-chart-id="energy-chart-container" data-custom-form-field-field="energy2_chartShowEnergyOverZero" data-custom-form-field-field2="energy2_chartShowEnergyOverZeroPlusSavings">
+                                <td><span class="legend-line em-over-zero-color2 me-0"></span><span class="legend-line add-savings-color2 ms-0"></span></td>
+                                <td><span class="legend-label flex-wrap: nowrap <?=$actualConfig->configEnergy2()->getChartShowEnergyOverZero() ? '' : 'strikethrough'?>"><span class="d-inline d-xl-none">Einkauf</span><span class="d-none d-xl-inline">Stromeinkauf</span> / Ersparnis</span></td>
+                            </tr>        
+                            <tr class="nav-item chart-toggle-line" data-chart-id="energy-chart-container" data-custom-form-field-field="energy2_chartShowFeedIn">
+                                <td><span class="legend-line feed-in-color2"></span></td>
+                                <td><span class="legend-label flex-wrap: nowrap <?=$actualConfig->configEnergy2()->getChartShowFeedIn() ? '' : 'strikethrough'?>"><span class="d-inline d-xl-none">Einspeisung</span><span class="d-none d-xl-inline">Netzeinspeisung</span></span></td>
+                            </tr>        
+                            <tr class="nav-item chart-toggle-line" data-chart-id="energy-chart-container" data-custom-form-field-field="energy2_chartShowSavings">
+                                <td><span class="legend-line savings-color2"></span></td>
+                                <td><span class="legend-label flex-wrap: nowrap <?=$actualConfig->configEnergy2()->getChartShowSavings() ? '' : 'strikethrough'?>">Ersparnis</span></td>
+                            </tr>
+                            <?php endif ?>        
+                        </table>
+                        <!-- Autarky Chart Legend -->
+                        <table class="table mb-0 text-start toggle-autarky-chart-legend-buttons" style="<?=HtmlHelper::getDisplayStyleVisibleOrNot($actualConfig->showAutarkyChartView())?>">
+                            <tr class="chart-toggle-line legend-label" data-chart-id="autarky-chart-container" data-custom-form-field-field="energy1_chartShowAutarky">
+                                <td><span class="legend-line autarky-color"></span></td>
+                                <td><span class="legend-label flex-wrap: nowrap <?=$actualConfig->configEnergy1()->getChartShowAutarky() ? '' : 'strikethrough'?>">Anteil selbst produzierter Strom</span></td>
+                            </tr>        
+                            <?php if ($overviewPageService->hasData2()) : ?>
+                                <tr class="chart-toggle-line" data-chart-id="autarky-chart-container" data-custom-form-field-field="energy2_chartShowAutarky">
+                                    <td><span class="legend-line autarky-color2"></span></td>
+                                    <td><span class="legend-label flex-wrap: nowrap <?=$actualConfig->configEnergy2()->getChartShowAutarky() ? '' : 'strikethrough'?>">Anteil selbst produzierter Strom</span></td>
+                                </tr>        
+                            <?php endif ?>        
+                        </table>
+                    </div>
+                    
+                </nav>
+            </td>
+
+            <td class="no-wrap text-center p-0 m-0 d-none d-md-table-cell">
+                <!-- Energy Chart Legend left -->
+                <div class="flex-container toggle-energy-chart-legend-buttons" style="<?=HtmlHelper::getDisplayStyleVisibleOrNot($actualConfig->showEnergyChartView())?>">
+                    <span class="fs-12">(1)</span>
+                    <span class="chart-toggle-line legend-label" data-chart-id="energy-chart-container" data-custom-form-field-field="energy1_chartShowEnergyOverZero" data-custom-form-field-field2="energy1_chartShowEnergyOverZeroPlusSavings">
+                        <span class="legend-line em-over-zero-color me-0"></span><span class="legend-line add-savings-color ms-0"></span>
+                        <span class="legend-label flex-wrap: nowrap <?=$actualConfig->configEnergy1()->getChartShowEnergyOverZero() ? '' : 'strikethrough'?>"><span class="d-inline d-xl-none">Einkauf</span><span class="d-none d-xl-inline">Stromeinkauf</span> / Ersparnis</span>
+                    </span>
+                    <span class="chart-toggle-line legend-label" data-chart-id="energy-chart-container" data-custom-form-field-field="energy1_chartShowFeedIn">
+                        <span class="legend-line feed-in-color"></span>
+                        <span class="legend-label flex-wrap: nowrap <?=$actualConfig->configEnergy1()->getChartShowFeedIn() ? '' : 'strikethrough'?>"><span class="d-inline d-xl-none">Einspeisung</span><span class="d-none d-xl-inline">Netzeinspeisung</span></span>
+                    </span>
+                    <span class="chart-toggle-line legend-label" data-chart-id="energy-chart-container" data-custom-form-field-field="energy1_chartShowSavings">
+                        <span class="legend-line savings-color"></span>
+                        <span class="legend-label flex-wrap: nowrap <?=$actualConfig->configEnergy1()->getChartShowSavings() ? '' : 'strikethrough'?>">Ersparnis</span>
+                    </span>
+                </div>
+                <!-- Autarky Chart Legend left -->
+                <div class="flex-container toggle-autarky-chart-legend-buttons" style="<?=HtmlHelper::getDisplayStyleVisibleOrNot($actualConfig->showAutarkyChartView())?>">
+                    <span class="fs-12">(1)</span>
+                    <span class="chart-toggle-line legend-label" data-chart-id="autarky-chart-container" data-custom-form-field-field="energy1_chartShowAutarky">
+                        <span class="legend-line autarky-color"></span><span class="legend-label flex-wrap: nowrap <?=$actualConfig->configEnergy1()->getChartShowAutarky() ? '' : 'strikethrough'?>">Anteil selbst produzierter Strom</span>
+                    </span>        
+                </div>                
+                <!-- Energy Table caption left -->
+                <div class="justify-content-between align-items-center mb-3 toggle-energy-table-caption" style="<?=HtmlHelper::getDisplayStyleVisibleOrNot($actualConfig->showEnergyTableView())?>">
+                    <h6 class="text-start text-secondary m-0 d-none d-sm-block"><?=$energyTableCaption?></h6>
+                </div>
+            </td>
+
+            <td class="no-wrap text-center p-0 m-0 d-none d-md-table-cell">
+                <!-- Energy Chart Legend right -->
+                <div class="flex-container toggle-energy-chart-legend-buttons" style="<?=HtmlHelper::getDisplayStyleVisibleOrNot($actualConfig->showEnergyChartView())?>">
+                    <span class="fs-12">(2)</span>
+                <?php if ($overviewPageService->hasData2()) : ?>            
+                    <span class="chart-toggle-line" data-chart-id="energy-chart-container" data-custom-form-field-field="energy2_chartShowEnergyOverZero" data-custom-form-field-field2="energy2_chartShowEnergyOverZeroPlusSavings">
+                        <span class="legend-line em-over-zero-color2 me-0"></span><span class="legend-line add-savings-color2 ms-0"></span>
+                        <span class="legend-label flex-wrap: nowrap <?=$actualConfig->configEnergy2()->getChartShowEnergyOverZero() ? '' : 'strikethrough'?>"><span class="d-inline d-xl-none">Einkauf</span><span class="d-none d-xl-inline">Stromeinkauf</span> / Ersparnis</span>
+                    </span>        
+                    <span class="chart-toggle-line" data-chart-id="energy-chart-container" data-custom-form-field-field="energy2_chartShowFeedIn">
+                        <span class="legend-line feed-in-color2"></span>
+                        <span class="legend-label flex-wrap: nowrap <?=$actualConfig->configEnergy2()->getChartShowFeedIn() ? '' : 'strikethrough'?>"><span class="d-inline d-xl-none">Einspeisung</span><span class="d-none d-xl-inline">Netzeinspeisung</span></span>
+                    </span>        
+                    <span class="chart-toggle-line" data-chart-id="energy-chart-container" data-custom-form-field-field="energy2_chartShowSavings">
+                        <span class="legend-line savings-color2"></span>
+                        <span class="legend-label flex-wrap: nowrap <?=$actualConfig->configEnergy2()->getChartShowSavings() ? '' : 'strikethrough'?>">Ersparnis</span>
+                    </span>
+                <?php endif ?>        
+                </div>
+                <!-- Autarky Chart Legend right -->
+                <div class="flex-container toggle-autarky-chart-legend-buttons" style="<?=HtmlHelper::getDisplayStyleVisibleOrNot($actualConfig->showAutarkyChartView())?>">
+                    <span class="fs-12">(2)</span>
+                <?php if ($overviewPageService->hasData2()) : ?>
+                    <span class="chart-toggle-line" data-chart-id="autarky-chart-container" data-custom-form-field-field="energy2_chartShowAutarky">
+                        <span class="legend-line autarky-color2"></span>
+                        <span class="legend-label flex-wrap: nowrap <?=$actualConfig->configEnergy2()->getChartShowAutarky() ? '' : 'strikethrough'?>">Anteil selbst produzierter Strom</span>
+                    </span>        
+                <?php endif ?>        
+                </div>        
+            </td>
+            
+            <td class="fixed-width text-end p-0">
+                <!-- switch view buttons for charts and table -->
+                <div id="chart-buttons" class="d-inline-flex gap-2">
+                    <button class="btn btn-light btn-sm switch-chart" data-chart="EnergyChart" id="legendBtnEnergyChart" style="<?=HtmlHelper::getDisplayStyleVisibleOrNot(!$actualConfig->showEnergyChartView())?>"><i class="bi bi-bar-chart"></i> Energie</button>
+                    <button class="btn btn-light btn-sm switch-chart" data-chart="EnergyTable" id="legendBtnEnergyTable" style="<?=HtmlHelper::getDisplayStyleVisibleOrNot(!$actualConfig->showEnergyTableView())?>"><i class="bi bi-table"></i> Energie</button>
+                    <button class="btn btn-light btn-sm switch-chart" data-chart="AutarkyChart" id="legendBtnAutarkyChart" style="<?=HtmlHelper::getDisplayStyleVisibleOrNot(!$actualConfig->showAutarkyChartView())?>"><i class="bi bi-bar-chart"></i> Autarkie</button>
+                </div>                    
+            </td>
+        </tr>
+    </table>
+</div>
+
+<div class="row justify-content-center">
     <!-- Energy Chart Container -->
     <div id="energy-chart-container" 
          style="<?=HtmlHelper::getDisplayStyleVisibleOrNot($actualConfig->showEnergyChartView())?>">
@@ -12,15 +146,8 @@
     </div>
 
     <!-- Table Container -->
-    <div id="energy-table-container" class="container mt-3" 
+    <div id="energy-table-container"  
         style="<?=HtmlHelper::getDisplayStyleVisibleOrNot($actualConfig->showEnergyTableView())?>">
-        <div class="d-flex justify-content-between align-items-center mb-3">
-            <h6 class="text-start text-secondary"><?=$energyTableCaption?></h6>
-            <div class="d-flex justify-content-end">
-                <button class="btn btn-primary btn-sm" id="switchToEnergyBarView">Energieansicht</button>
-                <button class="btn btn-primary btn-sm ms-2" id="switchToAutarkyBarView">Autarkieansicht</button>
-            </div>
-        </div>
-            <?php include_once("energy-table.phtml");?>
-        </div>
+        <?php include_once("energy-table.phtml");?>
     </div>
+</div>

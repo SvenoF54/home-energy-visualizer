@@ -59,6 +59,6 @@ $config->monthsOverview()->xy
 $config->yearsOverview()->xy
 
 // Die Echtzeitübersichtsseite hat zusätzlich folgende Optionen, es sind nicht alle Optionen der Übersichtsseite benutzbar
-$config->realtimeOverview()->setLastHoursPossibilities([0.5, 1, 2, 4, 6, 8, 12, 24, 24*7, 24*14, 24*28]);
+$config->realtimeOverview()->setPastPeriodPossibilities([0.5, 1, 2, 4, 6, 8, 12, 24, 24*7, 24*14, 24*28]);
 $config->realtimeOverview()->setRefreshIntervalInSec(5);
 ?>

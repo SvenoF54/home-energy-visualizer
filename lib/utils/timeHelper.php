@@ -24,9 +24,11 @@ class TimeHelper {
         return date("d.m.Y", strtotime($mysqlDate));
     }
 
-    public static function formatMonthLongAndYear($mysqlDate)
+    public static function formatMonthNameAndYear($mysqlDate, $monthNameShort = true)
     {
-        return MONTH_LIST[date("n", strtotime($mysqlDate))]." ".date("Y", strtotime($mysqlDate));
+        $monthName = MONTH_LIST[date("n", strtotime($mysqlDate))];
+        $monthName = $monthNameShort ? substr($monthName, 0, 3) : $monthName;
+        return $monthName." ".date("Y", strtotime($mysqlDate));
     }
 
     public static function formatDateTime($mysqlDate, $withSeconds = false)
@@ -71,14 +73,15 @@ class TimeHelper {
         return $difference->days; // difference in days
     }
 
-    public static function getWeekday($date) {
+    public static function getWeekday($date, $short = false) {
         $formatter = new IntlDateFormatter(
             setlocale(LC_TIME, 0), // Locale for german
             IntlDateFormatter::FULL,
             IntlDateFormatter::NONE
         );
-        $formatter->setPattern('EEEE'); // Muster für den Wochentag
-        return $formatter->format(new DateTime($date));
+        $formatter->setPattern('EEEE'); // pattern weekday
+        $result = $formatter->format(new DateTime($date));
+        return $short ? substr($result,0,2)."." : $result;
     }    
 
     public static function getQuarterHoursBetween($start, $end) {

@@ -26,7 +26,7 @@
                 data-gap-month-year="<?= $monthYear ?>"
                 class="table-light">
                 <td colspan="3" class="fw-bold text-start">
-                    <?= TimeHelper::formatMonthLongAndYear($monthYear . "-01") ?>
+                    <?= TimeHelper::formatMonthNameAndYear($monthYear . "-01") ?>
                 </td>
                 <td class="text-end">
                     <?php if (strtotime($realtimeEnergyStats->getFirstRowDate()) <= strtotime($gaps[0]->getGapStart())): ?>

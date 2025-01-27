@@ -23,7 +23,7 @@ function formatCurrent(val, suffix = "") {
         return formattedValue + " mW" + suffix;
     } else if (Math.abs(val) >= 1000) {
         // For kW
-        formattedValue = (val / 1000).toFixed(2).replace('.', ',');
+        formattedValue = (val / 1000).toFixed(1).replace('.', ',');
         if ((val / 1000) % 1 === 0) {
             formattedValue = (val / 1000).toFixed(0).replace('.', ',');
         }

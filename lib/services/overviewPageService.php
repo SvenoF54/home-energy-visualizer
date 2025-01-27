@@ -7,8 +7,8 @@ class OverviewPageService
     private $data2 = null;
     private $labelsTooltip = [];
     private $labelsXAxis = [];
-    private $missingValues1;
-    private $missingValues2;
+    private $missingRowSet1;
+    private $missingRowSet2;
     private $emOverZeroTotal1;
     private $emUnderZeroTotal1;
     private $pmSavingsTotal1;
@@ -19,8 +19,8 @@ class OverviewPageService
     public function __construct($pdoConnection)
     {
         $this->hourlyEnergyDataTbl = new HourlyEnergyDataTable($pdoConnection);
-        $this->missingValues1 = new MissingRowSet();
-        $this->missingValues2 = new MissingRowSet();
+        $this->missingRowSet1 = new MissingRowSet();
+        $this->missingRowSet2 = new MissingRowSet();
 
         $this->emOverZeroTotal1 = new EnergyAndPriceTuple();
         $this->emUnderZeroTotal1 = new EnergyAndPriceTuple();
@@ -38,7 +38,7 @@ class OverviewPageService
         $this->prepareGeneralData($startTime1, $endTime1);
 
         $this->data1 = $this->prepareDataRangeForEachYears($firstYear, $lastYear);
-        $this->data2 = [];
+        $this->data2 = null;
         for($year = $this->getFirstYear(); $year <= $this->getLastYear(); $year++) {            
             $this->labelsTooltip[] = [$year, $year]; // Doppeltes Array für Tooltips
             $this->labelsXAxis[] = [$year];
@@ -80,7 +80,7 @@ class OverviewPageService
         
     }
 
-    public function calculateHourData($startTime1, $endTime1, $startTime2, $endTime2)
+    public function calculateHourData($startTime1, $endTime1, $startTime2=null, $endTime2=null)
     {
         $avg = 3600;  // 1 Stunde
         $this->prepareGeneralData($startTime1, $endTime1, $startTime2, $endTime2);
@@ -102,7 +102,7 @@ class OverviewPageService
         $this->emOverZeroTotal1 = $powerData->getEnergy();
         $this->emUnderZeroTotal1 = $powerData->getEnergyUnderZero();
         $this->pmSavingsTotal1 = $powerData->getSavings();
-        $this->missingValues1 = $powerData->getMissingRows();
+        $this->missingRowSet1 = $powerData->getMissingRows();
 
         if ($startTime2 == null) {
             return;
@@ -111,12 +111,13 @@ class OverviewPageService
         $this->emOverZeroTotal2 = $powerData->getEnergy();
         $this->emUnderZeroTotal2 = $powerData->getEnergyUnderZero();
         $this->pmSavingsTotal2 = $powerData->getSavings();
-        $this->missingValues2 = $powerData->getMissingRows();
+        $this->missingRowSet2 = $powerData->getMissingRows();
     }
 
     private function prepareDataRange($startTime, $endTime, $avg)
     {
         $energyDataSetList = new EnergyDataSetList();
+        if ($startTime == null) return $energyDataSetList;
         for ($time = strtotime($startTime); $time <= strtotime($endTime); $time += $avg) {
             $strStart = date('Y-m-d H:i:s', $time);
             $strEnd = date('Y-m-d H:i:s', $time + $avg -1);  # -1 Sekunde für :59 Sekunden
@@ -179,11 +180,11 @@ class OverviewPageService
     }
 
     public function hasData1() {
-        return sizeof($this->data1) > 0;
+        return $this->data1 != null;
     }
 
     public function hasData2() {
-        return sizeof($this->data2) > 0;
+        return $this->data2 != null;
     }
 
     public function getLabelsTooltip() : array
@@ -196,14 +197,14 @@ class OverviewPageService
         return $this->labelsXAxis;
     }
 
-    public function getMissingValues1() : MissingRowSet
+    public function getMissingRowSet1() : MissingRowSet
     {
-        return $this->missingValues1;
+        return $this->missingRowSet1;
     }
 
-    public function getMissingValues2() : MissingRowSet
+    public function getMissingRowSet2() : MissingRowSet
     {
-        return $this->missingValues2;
+        return $this->missingRowSet2;
     }
 
     public function getEMOverZeroTotal1() : EnergyAndPriceTuple

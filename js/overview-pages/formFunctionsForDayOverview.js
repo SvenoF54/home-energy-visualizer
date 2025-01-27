@@ -33,6 +33,10 @@ $(document).ready(function() {
         $('#date-range-form').submit();
     });
 
+    $('#month1, #month2').change(function() {
+        $('#date-range-form').submit();
+    });
+
     $('#line1').change(function() {
         $('#date-range-form').submit();
     });
