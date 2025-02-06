@@ -9,8 +9,16 @@ define('DB_HOST', 'mein-host');
 
 define('URL_PREFIX', 'http://meine.domain/mein-pfad');
 define('API_KEY', '987654321');
+define('SYSTEM_EMAIL', 'mail@example.org');  // Mailempfänger für Systemnachrichten
 
 $config = Configuration::getInstance();
+
+// Konfiguriert, den Alarmstatus, falls keine Daten geloggt werden.
+$config->configRealtimeAlert()->setSendAlertMail(true);
+$config->configRealtimeAlert()->setAlertThresholdInMinutes(5);
+$config->configRealtimeAlert()->setAlertForEm(true);
+$config->configRealtimeAlert()->setAlertForPM1(true);
+$config->configRealtimeAlert()->setAlertForPM3(true);
 
 // Konfiguriert einige Werte auf der Energy-Chart-Seite
 $config->hoursOverview()->configEnergy1()->setChartShowEnergyOverZeroPlusSavings(false);  

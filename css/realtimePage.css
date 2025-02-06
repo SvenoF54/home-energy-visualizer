@@ -55,16 +55,39 @@
 
 #realtime-chart-container {
     width: 100% !important;
-    min-height: 300px;
+    height: 46vh;
     margin: 0;
     padding: 0;
 }
 
-@media (min-width: 1200px) {
-    /* out size xl (> 1200px) */
+@media (min-height: 220px) and (max-height: 320px) {
+    /* Landscape Handy */
+    #realtime-chart-container {
+        width: 95vw !important;
+        height: 48vh !important;
+        min-height: 220px !important;
+    }
+}
+
+@media (min-width: 768px) {
     #realtime-chart-container {
         width: 95vw !important;
         height: 56vh !important;
+    }
+}
+
+@media (min-width: 1200px) and (min-height: 320px) and (max-height: 600px) {
+    /* Landscape Tablet */
+    #realtime-chart-container {
+        width: 95vw !important;
+        height: 40vh !important;
+    }
+}
+
+@media (min-width: 1400px) {
+    #realtime-chart-container {
+        width: 95vw !important;
+        height: 60vh !important;
     }
 }
 

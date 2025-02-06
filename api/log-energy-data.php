@@ -31,10 +31,15 @@ function writeDataToTable($data) {
     $db = Database::getInstance();
     $table = new RealTimeEnergyDataInsert($db->getPdoConnection());
     if (! $table->logData($timestamp, $device_type, $interval_in_seconds, $total_act_power)) {
-        ApiHelper::dieWithResponseCode(500, "Error during saveing data: " . $table->getError());
+        ApiHelper::dieWithResponseCode(500, "Error saving data: " . $table->getError());
     }
 
     ApiHelper::dieWithResponseCode(200, "Successfully saved. Timestamp: ".date("d.m.Y H:i:s", strtotime($timestamp)).", Device: ".$device_type.", Energy: ".$total_act_power);
+}
+
+function checkLogdataStatus()
+{
+
 }
 
 ?>

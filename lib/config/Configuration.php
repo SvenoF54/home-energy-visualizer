@@ -1,8 +1,10 @@
 <?php
-include_once("ChartOrTableViewEnum.php");
-include_once("ConfigOptionPages.php");
-include_once("ConfigOverviewPages.php");
-include_once("ConfigRealtimePage.php");
+// Configuration is included here seperatly, because its used in the api and ui pages.
+include_once("chartOrTableViewEnum.php");
+include_once("configOptionPages.php");
+include_once("configOverviewPages.php");
+include_once("configRealtimePage.php");
+include_once("configRealtimeAlert.php");
 
 
 class Configuration
@@ -10,8 +12,9 @@ class Configuration
     private $overviewPages = [];
     private $configCustomEnergyValuesPage;
     private $configCustomPricesPage;
-    private $outCentPricePerWh = 0.03334;   // Preis pro Watt 	33,34 ct/kWh = 33,34/1000 = 0.03334
-    private $inCentPricePerWh = 0.082;       // Preis pro Watt 	
+    private $configRealtimeAlert;
+    private $outCentPricePerWh = 0.03334;    // Price per watt 	33,34 ct/kWh = 33,34/1000 = 0.03334
+    private $inCentPricePerWh = 0.082;       // Price per wattt 	
     private static $instance;
     
     public static function getInstance()
@@ -26,6 +29,7 @@ class Configuration
     {
         $this->configCustomEnergyValuesPage = new ConfigCustomEnergyValuesPage();
         $this->configCustomPricesPage = new ConfigCustomPricesPage();
+        $this->configRealtimeAlert = new ConfigRealtimeAlert();
         $this->overviewPages["realtime"] = new ConfigRealtimePage(
             [100, 150, 175, 200, 250, 300, 400, 500, 600, 700, 800, 900, 1000, 1100, 1200, 1300, 1400, 1500, 2000, 3000, 4000, 5000],
             200, 
@@ -71,5 +75,6 @@ class Configuration
     public function yearsOverview() : ConfigOverviewPages { return $this->overviewPages["years"];}
     public function customEnergyValuesPage() : ConfigCustomEnergyValuesPage { return $this->configCustomEnergyValuesPage; }
     public function customPricesPage() : ConfigCustomPricesPage { return $this->configCustomPricesPage; } 
+    public function configRealtimeAlert() : configRealtimeAlert { return $this->configRealtimeAlert; }
 
 }
