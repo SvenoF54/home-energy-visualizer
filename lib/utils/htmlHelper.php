@@ -80,8 +80,11 @@ class HtmlHelper {
                     </div>
                 <?php } ?>
                     <div class="d-flex justify-content-between mb-2">
-                        <div class="me-3 text-success"><strong>Zeilen<br/>gesamt</strong></div>
-                        <div class="me-1 text-success"><?=($missingRowSet->getCountRows() == 0 ? '/' : StringHelper::formatIntNumber($missingRowSet->getCountRows()))?></div>
+                        <div class="me-3 text-success">
+                            In diesem Zeitraum gibt es 
+                            <?=($missingRowSet->getCountRows() == 0 ? '/' : StringHelper::formatIntNumber($missingRowSet->getCountRows()))?>
+                            Datenbankzeilen.
+                        </div>
                     </div>                
             </div>
         </div>

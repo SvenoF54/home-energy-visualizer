@@ -12,7 +12,14 @@ Zeigt die in Echtzeit (z. B. alle 2 Sekunden) erfassten Energiewerte. Ermöglich
 
 <img src="./images/gallery/realtime-overview_mobile.png" alt="Mobile Echtzeitansicht" width="250">
 
+**Desktop: Beispiel Regelansicht Nulleinspeisung mit Ceranfeld**
+Hier kann man erkennen, wie lange ein Akkusystem mit Nulleinspeisung benötigt, um den Energiebedarf des Hause aus dem Akku zu nachzuregeln. 
 
+![Beispiel Regulierung Nulleinspeisung mit Ceranfeld](./images/gallery/realtime-overview-regulation-ceranfield.png "Beispiel Regulierung Nulleinspeisung mit Ceranfeld")
+
+**Desktop: Beispiel Nulleinspeisung über 1 Stunde**
+Ein anderes Beispiel mit einer Stunde Nulleinspeisung. Man erkennt, das das System lediglich ~20Wh aus den Netz einkauft und den restlichen Bedarf selbst abdeckt.
+![Beispiel Nulleinspeisung über 1 Stunde](./images/gallery/realtime-overview-zero-feed-in-one-hour.png "Beispiel Nulleinspeisung über 1 Stunde")
 
 
 # Stundenübersicht - Diagram

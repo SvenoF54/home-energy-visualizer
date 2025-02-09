@@ -1,10 +1,10 @@
 <?php
 
 class RealTimeEnergyDataTable extends BaseTimestampTable {
+
     public function __construct($pdo) {
         parent::__construct($pdo, "real_time_energy_data", "timestamp");
     }
-
 
     public function getOverviewData($startTime, $endTime, $avg=2) : array 
     {        
@@ -184,4 +184,36 @@ class RealTimeEnergyDataTable extends BaseTimestampTable {
     
         return $energyDataSet;
     }    
+
+    public function getLatestLogData() : LatestRealtimeLogData
+    {
+        $fieldsToAnalyse = ["em_total_power", "pm1_total_power", "pm2_total_power", "pm3_total_power"];
+
+        $selects = [];
+        foreach ($fieldsToAnalyse as $field) {
+            $selects[] = "
+                (SELECT timestamp AS last_{$field}
+                    FROM {$this->tableName} 
+                    WHERE {$field} IS NOT NULL 
+                    AND timestamp >= \"". date("Y-m-d", strtotime("-1 day"))."\"
+                    ORDER BY timestamp DESC 
+                    LIMIT 1) AS last_{$field}";
+        }
+        
+        $sql = "SELECT " . implode(", ", $selects);
+
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute();
+
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);        
+        $latestRealtimeLogData = new LatestRealtimeLogData(
+            $result['last_em_total_power'] ?? null,
+            $result['last_pm1_total_power'] ?? null,
+            $result['last_pm2_total_power'] ?? null,
+            $result['last_pm3_total_power'] ?? null
+        );
+
+        return $latestRealtimeLogData;
+    }
+
 }

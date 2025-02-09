@@ -6,6 +6,7 @@ include_once("database/database.php");
 include_once("database/baseTable.php");
 include_once("database/baseTimestampTable.php");
 
+include_once("datasets/energyTypeEnum.php");
 include_once("datasets/tableStatisticSet.php");
 include_once("datasets/tableGapSet.php");
 include_once("datasets/energyAndPriceTuple.php");
@@ -14,6 +15,7 @@ include_once("datasets/energyDataSetList.php");
 include_once("datasets/customEnergyDataSet.php");
 include_once("datasets/missingRowSet.php");
 include_once("datasets/savingsStatisticSet.php");
+include_once("datasets/latestRealtimeLogData.php");
 
 include_once("database/realTimeEnergyDataTable.php");
 include_once("database/realTimeEnergyDataRow.php");
@@ -27,4 +29,6 @@ include_once("utils/htmlHelper.php");
 include_once("utils/timeHelper.php");
 include_once("utils/timePeriodEnum.php");
 
+include_once("services/mailService.php");
 include_once("services/overviewPageService.php");
+include_once("services/alertService.php");
