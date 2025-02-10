@@ -85,12 +85,13 @@ Im oberen Abschnitt sind folgende Parameter anzupassen:
 
 Das Skript ist hier zu finden [scripts\shelly-scripts\Shelly-Plus1PM-SendToLogger.js](scripts\shelly-scripts\Shelly-Plus1PM-SendToLogger.js)
 
-#### Skript zum Aufsummieren der Daten
+#### Skript zum Aufsummieren der Daten und andere Task
 
 Um die Echtzeitdaten für den schnelleren Zugriff aufzusummieren wird ein eigenes Skript benötigt. Dies kann man entweder vom Shelly oder über einen eigenen Cronjob starten. 
+Der Taskrunner startet auch andere Tasks. Zum Beispiel wird eine E-Mail versendet, wenn über einen Zeitraum keine Daten empfangen wurde. Diese Funktion kann in der lokalen Konfiguration eingestellt werden.
 Bei mir läuft es alle 60 Sekunden auf einem Shelly, z.B. dem EM.
 
-Das Skript ist hier zu finden [scripts\shelly-scripts\Shelly-Pro3EM-Trigger_UnifyData.js](scripts\shelly-scripts\Shelly-Pro3EM-Trigger_UnifyData.js)
+Das Skript ist hier zu finden [scripts\shelly-scripts\Shelly-Pro3EM-Trigger_TaskRunner.js](scripts\shelly-scripts\Shelly-Pro3EM-Trigger_TaskRunner.js)
 
 #### Autorestart (optional)
 

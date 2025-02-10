@@ -5,7 +5,7 @@ include_once("configOptionPages.php");
 include_once("configOverviewPages.php");
 include_once("configRealtimePage.php");
 include_once("configRealtimeAlert.php");
-include_once("lib/datasets/energyTypeEnum.php");
+include_once("lib/datasets/datasetEnums.php");
 
 
 class Configuration

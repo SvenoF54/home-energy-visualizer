@@ -5,6 +5,7 @@ class ConfigRealtimeAlert
     private $alertForEnergyType = array();
     private $alertThresholdInMinutes = 5;
     private $sendAlertMail = false;
+    private $sendAlertMailEveryXMinutes = 30;
 
     public function getAlertThresholdInMinutes()
     {
@@ -26,6 +27,15 @@ class ConfigRealtimeAlert
         $this->sendAlertMail = $sendAlertMail;
     }
     
+    public function setSendAlertMailEveryXMinutes($sendAlertMailEveryXMinutes)
+    {
+        $this->sendAlertMailEveryXMinutes = $sendAlertMailEveryXMinutes;
+    }
+
+    public function getSendAlertMailEveryXMinutes()
+    {
+        return $this->sendAlertMailEveryXMinutes;
+    }
 
     public function shouldAlertForEnergyType($energyType)
     {
