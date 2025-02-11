@@ -60,4 +60,13 @@ class KeyValueStoreTable extends BaseTable {
 
     }
 
+    public function getAllRows(): array {
+        $sql = "SELECT * FROM {$this->tableName}";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute();
+
+        $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        
+        return array_map(fn($row) => KeyValueStoreRow::createFromRow($row), $rows);
+    }    
 }

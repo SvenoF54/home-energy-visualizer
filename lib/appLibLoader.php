@@ -25,6 +25,7 @@ include_once("database/hourlyEnergyDataTable.php");
 include_once("database/hourlyEnergyDataInsert.php");
 include_once("database/energyPriceRow.php");
 include_once("database/energyPriceTable.php");
+include_once("database/keyValueStoreRow.php");
 include_once("database/keyValueStoreTable.php");
 
 

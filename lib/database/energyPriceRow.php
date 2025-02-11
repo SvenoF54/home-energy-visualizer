@@ -25,82 +25,6 @@ class EnergyPriceRow
         $this->customValue = $customValue;
     }
 
-    // Getters and Setters
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    public function setId($id)
-    {
-        $this->id = $id;
-    }
-
-    public function getTimestampFrom()
-    {
-        return $this->timestampFrom;
-    }
-
-    public function getTimestampFromDate()
-    {
-        return substr($this->timestampFrom, 0, 10);
-    }
-
-    public function setTimestampFrom($timestampFrom)
-    {
-        $this->timestampFrom = $timestampFrom;
-    }
-
-    public function getTimestampTo()
-    {
-        return $this->timestampTo;
-    }
-
-    public function getTimestampToDate()
-    {
-        return substr($this->timestampTo, 0, 10);
-    }
-
-    public function setTimestampTo($timestampTo)
-    {
-        $this->timestampTo = $timestampTo;
-    }
-
-    public function getOutCentPricePerWh()
-    {
-        return $this->outCentPricePerWh;
-    }
-
-    public function setOutCentPricePerKwh($outCentPricePerWh)
-    {
-        $this->outCentPricePerWh = $outCentPricePerWh;
-    }
-
-    public function getInCentPricePerWh()
-    {
-        return $this->inCentPricePerWh;
-    }
-
-    public function setInCentPricePerWh($inCentPricePerWh)
-    {
-        $this->inCentPricePerWh = $inCentPricePerWh;
-    }
-
-    public function getCustomValue()
-    {
-        return $this->customValue;
-    }
-
-    public function isCustomValue()
-    {
-        return $this->customValue == 1;
-    }
-
-    public function setCustomValue($customValue)
-    {
-        return $this->customValue;
-    }
-
     // Method to load data from associative array (e.g., from a database query)
     public static function createFromArray(array $data)
     {
@@ -126,6 +50,25 @@ class EnergyPriceRow
             'custom_value' => $this->customValue,
         ];
     }
+
+    // Getters and Setters
+    
+    public function setId($id) { $this->id = $id; }
+    public function setTimestampFrom($timestampFrom) { $this->timestampFrom = $timestampFrom; }
+    public function setTimestampTo($timestampTo) { $this->timestampTo = $timestampTo; }
+    public function setOutCentPricePerKwh($outCentPricePerWh) { $this->outCentPricePerWh = $outCentPricePerWh; }
+    public function setInCentPricePerWh($inCentPricePerWh) { $this->inCentPricePerWh = $inCentPricePerWh; }
+    public function setCustomValue($customValue) { $this->customValue = $customValue; }
+
+    public function getId() { return $this->id; }
+    public function getTimestampFrom() { return $this->timestampFrom; }
+    public function getTimestampFromDate() { return substr($this->timestampFrom, 0, 10); }
+    public function getTimestampTo() { return $this->timestampTo; }
+    public function getTimestampToDate() { return substr($this->timestampTo, 0, 10); }
+    public function getOutCentPricePerWh() { return $this->outCentPricePerWh; }
+    public function getInCentPricePerWh() { return $this->inCentPricePerWh; }
+    public function getCustomValue() { return $this->customValue; }
+    public function isCustomValue() { return $this->customValue == 1; }
 }
 
 ?>

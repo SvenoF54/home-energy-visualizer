@@ -1,0 +1,6 @@
+<div class="container mt-4">
+    <h6 class="text-start text-secondary mb-3">Status der Anwendung</h6>
+    <div class="text-start text-muted small">
+        Zeitraum vorhandender Echtzeitdaten: <?=date("d.m.Y H:i:s", strtotime($realtimeEnergyStats->getFirstRowDate()))?> bis <?=date("d.m.Y H:i:s", strtotime($realtimeEnergyStats->getLastRowDate()))?>
+    </div>
+</div>

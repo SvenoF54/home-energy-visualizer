@@ -37,12 +37,12 @@ class ConfigRealtimeAlert
         return $this->sendAlertMailEveryXMinutes;
     }
 
-    public function shouldAlertForEnergyType($energyType)
+    public function shouldAlertForEnergyType(EnergyTypeEnum $energyType)
     {
         return array_key_exists($energyType->value, $this->alertForEnergyType) ? $this->alertForEnergyType[$energyType->value] : false;
     }
 
-    public function setShouldAlertForEnergyType($energyType, $alertForEm)
+    public function setShouldAlertForEnergyType(EnergyTypeEnum $energyType, $alertForEm)
     {
         $this->alertForEnergyType[$energyType->value] = $alertForEm;
     }

@@ -68,65 +68,32 @@ class RealTimeEnergyDataRow
         );
     }
 
-    public function getTimestampData() {
-        return $this->timestampData;
-    }
+    public function getTimestampData() { return $this->timestampData; }
 
-    public function getIntervalInSeconds() {
-        return $this->intervalInSeconds;
-    }
+    public function getIntervalInSeconds() { return $this->intervalInSeconds; }
 
-    public function getEmTotalPower() {
-        return $this->emTotalPower;
-    }
+    public function getEmTotalPower() { return $this->emTotalPower; }
 
-    public function getEmTotalPowerOverZero() {
-        return $this->emTotalPowerOverZero;
-    }    
+    public function getEmTotalPowerOverZero() { return $this->emTotalPowerOverZero; }    
 
-    public function getEmTotalPowerUnderZero() {
-        return $this->emTotalPowerUnderZero;
-    }    
+    public function getEmTotalPowerUnderZero() { return $this->emTotalPowerUnderZero; }    
 
-    public function getPmTotalPower() {
-        return $this->pm1TotalPower + $this->pm2TotalPower + $this->pm3TotalPower;
-    }
+    public function getPmTotalPower() { return $this->pm1TotalPower + $this->pm2TotalPower + $this->pm3TotalPower; }
 
-    public function getPm1TotalPower() {
-        return $this->pm1TotalPower;
-    }
+    public function getPm1TotalPower() { return $this->pm1TotalPower; }
 
-    public function getPm2TotalPower() {
-        return $this->pm2TotalPower;
-    }
+    public function getPm2TotalPower() { return $this->pm2TotalPower;}
 
-    public function getPm3TotalPower() {
-        return $this->pm3TotalPower;
-    }    
+    public function getPm3TotalPower() { return $this->pm3TotalPower; }    
 
-    public function getEmMissingRows()
-    {
-        return $this->emMissingRows;
-    }
+    public function getEmMissingRows() {return $this->emMissingRows; }
 
-    public function getPm1MissingRows()
-    {
-        return $this->pm1MissingRows;
-    }
+    public function getPm1MissingRows() { return $this->pm1MissingRows; }
 
-    public function getPm2MissingRows()
-    {
-        return $this->pm2MissingRows;
-    }
+    public function getPm2MissingRows() { return $this->pm2MissingRows; }
 
-    public function getPm3MissingRows()
-    {
-        return $this->pm3MissingRows;
-    }    
+    public function getPm3MissingRows() { return $this->pm3MissingRows; }    
 
-    public function getCountRows()
-    {
-        return $this->countRows;
-    }    
+    public function getCountRows() { return $this->countRows; }    
 
 }
