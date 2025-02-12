@@ -16,9 +16,9 @@ class OverviewPageService
     private $emUnderZeroTotal2;
     private $pmSavingsTotal2;
 
-    public function __construct($pdoConnection)
+    public function __construct()
     {
-        $this->hourlyEnergyDataTbl = new HourlyEnergyDataTable($pdoConnection);
+        $this->hourlyEnergyDataTbl = HourlyEnergyDataTable::getInstance();
         $this->missingRowSet1 = new MissingRowSet();
         $this->missingRowSet2 = new MissingRowSet();
 

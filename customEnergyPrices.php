@@ -3,9 +3,8 @@ include_once("lib/appLibLoader.php");
 
 
 // Prepare DB
-$db = Database::getInstance();
-$energyPriceTbl = new EnergyPriceTable($db->getPdoConnection());
-$hourlyEnergyDataTbl = new HourlyEnergyDataTable($db->getPdoConnection());
+$energyPriceTbl = EnergyPriceTable::getInstance();
+$hourlyEnergyDataTbl = HourlyEnergyDataTable::getInstance();
 if (isset($_POST) && sizeof($_POST)) {    
     
     if (StringHelper::formGetBool("performDelete") == true) {

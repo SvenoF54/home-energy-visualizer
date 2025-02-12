@@ -10,8 +10,7 @@ $timeLabelUnit = "year";
 // prepare DB
 $errorMsg = "";
 
-$db = Database::getInstance();
-$overviewPageService = new OverviewPageService($db->getPdoConnection());
+$overviewPageService = new OverviewPageService();
 $overviewPageService->calculateYearData($overviewPageService->getFirstYear(), $overviewPageService->getLastYear());
 $yearList = [];
 for($year = $overviewPageService->getFirstYear(); $year <= $overviewPageService->getLastYear(); $year++) {

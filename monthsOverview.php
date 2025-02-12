@@ -13,8 +13,7 @@ $timeLabelUnit = "month";
 // konfigurieren
 $errorMsg = "";
 
-$db = Database::getInstance();
-$overviewPageService = new OverviewPageService($db->getPdoConnection());
+$overviewPageService = new OverviewPageService();
 $overviewPageService->calculateMonthData($selectedYear1, $selectedYear2);
 $yearList = [];
 for($year = $overviewPageService->getFirstYear(); $year <= $overviewPageService->getLastYear(); $year++) {

@@ -1,6 +1,13 @@
 <?php
 
-class HourlyEnergyDataTable extends BaseTimestampTable {        
+class HourlyEnergyDataTable extends BaseTimestampTable 
+{        
+    public static function getInstance() : HourlyEnergyDataTable
+    {
+        $db = Database::getInstance();
+        return new HourlyEnergyDataTable($db->getPdoConnection());
+    }
+
     public function __construct($pdo) {
         parent::__construct($pdo, "hourly_energy_data", "timestamp_from", "timestamp_to");
     }

@@ -2,6 +2,12 @@
 
 class EnergyPriceTable extends BaseTimestampTable
 {
+    public static function getInstance() : EnergyPriceTable
+    {
+        $db = Database::getInstance();
+        return new EnergyPriceTable($db->getPdoConnection());
+    }
+
     public function __construct($pdo) {
         parent::__construct($pdo, "energy_price", "timestamp_from", "timestamp_to");
     }

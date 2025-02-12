@@ -13,10 +13,9 @@ $endTime = ($actualConfig->getPastperiod() != 0) ? date('Y-m-d H:i:59', time() -
 $timeLabelUnit = TimeHelper::prepareTimeUnit($startTime, $endTime);
 
 // prepare DB
-$db = Database::getInstance();
-$realTimeEnergyDataTbl = new RealTimeEnergyDataTable($db->getPdoConnection());
-$hourlyEnergyDataTbl = new HourlyEnergyDataTable($db->getPdoConnection());
-$energyPriceTbl = new EnergyPriceTable($db->getPdoConnection());
+$realTimeEnergyDataTbl = RealTimeEnergyDataTable::getInstance();
+$hourlyEnergyDataTbl = HourlyEnergyDataTable::getInstance();
+$energyPriceTbl = EnergyPriceTable::getInstance();
 $priceRow = $energyPriceTbl->getPriceForDateTime($startTime);
 $overviewDataRows = $realTimeEnergyDataTbl->getOverviewData($startTime, $endTime, $actualConfig->getAveragePossibility());
 

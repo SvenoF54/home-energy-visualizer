@@ -19,3 +19,9 @@ enum TaskEnum: string {
 enum MailEnum: string {
     case SendRealtimeEnergyDataLoss = 'SendRealtimeEnergyDataLoss';
 }
+
+enum StatusEnum: string {
+    case Success = 'Success';
+    case Failure = 'Failure';
+    case Exception = 'Exception';
+}

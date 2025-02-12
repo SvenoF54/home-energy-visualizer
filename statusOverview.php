@@ -2,10 +2,12 @@
 include_once("lib/appLibLoader.php");
 
 // Prepare DB
-$db = Database::getInstance();
-$kvsTable = new KeyValueStoreTable($db->getPdoConnection());
-$kvsRows = $kvsTable->getAllRows();
-$realtimeEnergyDataTbl = new RealTimeEnergyDataTable($db->getPdoConnection());
+$kvsTable = KeyValueStoreTable::getInstance();
+$kvsRowsPerScope = [];
+foreach (KeyValueStoreScopeEnum::cases() as $scope) {
+    $kvsRowsPerScope[$scope->value] = $kvsTable->getRowsForScope($scope);
+}
+$realtimeEnergyDataTbl = RealTimeEnergyDataTable::getInstance();
 $realtimeEnergyStats = $realtimeEnergyDataTbl->getStatistics();
 
 

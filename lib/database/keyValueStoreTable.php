@@ -1,5 +1,12 @@
 <?php
-class KeyValueStoreTable extends BaseTable {
+class KeyValueStoreTable extends BaseTable 
+{
+
+    public static function getInstance() : KeyValueStoreTable
+    {
+        $db = Database::getInstance();
+        return new KeyValueStoreTable($db->getPdoConnection());
+    }
     
     public function __construct($pdo) {
         parent::__construct($pdo, "key_value_store");
@@ -36,7 +43,7 @@ class KeyValueStoreTable extends BaseTable {
         }
     }
     
-    public function getLastUpdatedTime(KeyValueStoreScopeEnum $scope, $key)
+    public function getRow(KeyValueStoreScopeEnum $scope, $key) : KeyValueStoreRow
     {
         try {
             $sql = "SELECT * FROM {$this->tableName} WHERE scope = :scope AND store_key = :key";
@@ -51,7 +58,7 @@ class KeyValueStoreTable extends BaseTable {
                 return null;
             }
 
-            return !empty($row["updated"]) ? $row["updated"] : $row["inserted"];
+            return KeyValueStoreRow::createFromRow($row);
 
         } catch (PDOException $e) {
             $this->error = "Fehler beim Lesen der Daten: " . $e->getMessage();
@@ -60,9 +67,10 @@ class KeyValueStoreTable extends BaseTable {
 
     }
 
-    public function getAllRows(): array {
-        $sql = "SELECT * FROM {$this->tableName}";
+    public function getRowsForScope(KeyValueStoreScopeEnum $scope): array {
+        $sql = "SELECT * FROM {$this->tableName} WHERE scope = :scope ORDER BY store_key";        
         $stmt = $this->pdo->prepare($sql);
+        $stmt->bindValue(':scope', $scope->value, PDO::PARAM_STR);
         $stmt->execute();
 
         $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);

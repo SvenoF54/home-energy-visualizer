@@ -5,7 +5,8 @@ class MailService {
     {
         $db = Database::getInstance();
         $kvsTable = new KeyValueStoreTable($db->getPdoConnection());
-        $lastUpdated = $kvsTable->getLastUpdatedTime(KeyValueStoreScopeEnum::SendMail, $key->value);
+        $kvsRow = $kvsTable->getRow(KeyValueStoreScopeEnum::SendMail, $key->value);
+        $lastUpdated = $kvsRow->getInsertedOrUpdated();
         
         $canSendAgain = ($lastUpdated !== null) && (strtotime($lastUpdated) <= strtotime("-{$delayInMinutes} minutes"));
 
@@ -25,18 +26,18 @@ class MailService {
             
             mail($to, $subject, $message,$headers);
             
-            self::logToKvs($key, "Success", $to);                
+            self::logToKvs($key, StatusEnum::Success, $to);                
         } catch (Exception $ex) {
-            self::logToKvs($key, "Failure", $ex->getMessage());            
+            self::logToKvs($key, StatusEnum::Exception, $ex->getMessage());            
         }
     }
 
-    private static function logToKvs(MailEnum $key, $value, $notice = "")
+    private static function logToKvs(MailEnum $key, StatusEnum $status, $notice = "")
     {
         $db = Database::getInstance();
         $kvsTable = new KeyValueStoreTable($db->getPdoConnection());
 
-        $kvsTable->insertOrUpdate(KeyValueStoreScopeEnum::SendMail, $key->value, $value, $notice);
+        $kvsTable->insertOrUpdate(KeyValueStoreScopeEnum::SendMail, $key->value, $status->value, $notice);
     }
 
 }

@@ -1,6 +1,12 @@
 <?php
 
-class RealTimeEnergyDataTable extends BaseTimestampTable {
+class RealTimeEnergyDataTable extends BaseTimestampTable 
+{
+    public static function getInstance() : RealTimeEnergyDataTable
+    {
+        $db = Database::getInstance();
+        return new RealTimeEnergyDataTable($db->getPdoConnection());
+    }
 
     public function __construct($pdo) {
         parent::__construct($pdo, "real_time_energy_data", "timestamp");

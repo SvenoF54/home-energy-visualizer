@@ -2,13 +2,12 @@
 include_once("lib/appLibLoader.php");
 
 // Prepare DB
-$db = Database::getInstance();
-$hourlyEnergyDataTbl = new HourlyEnergyDataTable($db->getPdoConnection());
+$hourlyEnergyDataTbl = HourlyEnergyDataTable::getInstance();
 $hourlyEnergyGaps = $hourlyEnergyDataTbl->getGaps();
 $hourlyEnergyGapsGroupped = TableGapSet::groupByMonth($hourlyEnergyGaps);
 $hourlyEnergyStats = $hourlyEnergyDataTbl->getStatistics();
 
-$realtimeEnergyDataTbl = new RealTimeEnergyDataTable($db->getPdoConnection());
+$realtimeEnergyDataTbl = RealTimeEnergyDataTable::getInstance();
 $realtimeEnergyStats = $realtimeEnergyDataTbl->getStatistics();
 
 // configure VIEW

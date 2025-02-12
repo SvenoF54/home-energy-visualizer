@@ -16,46 +16,56 @@ $pages = [
     "Jahre" => "yearsOverview.php",
     "Optionen" => $options
 ];
+
+$hasAlert = TaskService::hasAlertStatus();
 ?>
 <div class="row justify-content-center">
     <div class="col-12 col-md-10 col-xxl-8">
-        <nav class="navbar navbar-expand-sm navbar-light custom-navbar">
-            <div class="container-fluid justify-content-center">
-                <!-- Burger Icon -->
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
+        <nav class="navbar navbar-expand-sm navbar-light custom-navbar">                    
+            <!-- Burger Icon -->                 
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
+                <span class="navbar-toggler-icon"></span>                    
+            </button>
+            <span class="navbar-text ms-auto d-xs-block d-sm-none">
+                <a href="statusOverview.php" class="navbar-text text-danger p-0 me-2 fs-sm d-flex <?= $hasAlert ? '' : 'd-none' ?>">
+                    <i class="bi bi-exclamation-circle me-1"></i> Datenfehler
+                </a>
+            </span>            
 
-                <!-- Navbar Links -->
-                <div class="collapse navbar-collapse" id="navbarContent">
-                    <ul class="navbar-nav d-flex justify-content-center align-items-center mb-2 mb-sm-0">
-                        <?php foreach ($pages as $title => $link): ?>
-                            <?php if (is_array($link)): // Dropdown for submenu ?>
-                                <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle" id="dropdown-<?=strtolower($title)?>" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                        <?=$title?>
-                                    </a>
-                                    <ul class="dropdown-menu" aria-labelledby="dropdown-<?=strtolower($title)?>">
-                                        <?php foreach ($link as $subTitle => $subLink): ?>
-                                            <li>
-                                                <a class="dropdown-item <?=basename($_SERVER['PHP_SELF']) == $subLink ? 'active' : ''?>" href="<?=$subLink?>">
-                                                    <?=$subTitle?>
-                                                </a>
-                                            </li>
-                                        <?php endforeach; ?>
-                                    </ul>
-                                </li>
-                            <?php else: // Normal Tabs ?>
-                                <li class="nav-item">
-                                    <a class="nav-link <?=basename($_SERVER['PHP_SELF']) == $link ? 'active' : ''?>" href="<?=$link?>">
-                                        <?=$title?>
-                                    </a>
-                                </li>
-                            <?php endif; ?>
-                        <?php endforeach; ?>
-                    </ul>
-                </div>
-            </div>
+            <!-- Navbar Links -->
+            <div class="collapse navbar-collapse ms-auto" id="navbarContent">
+                <ul class="navbar-nav me-auto">
+                    <?php foreach ($pages as $title => $link): ?>
+                        <?php if (is_array($link)): // Dropdown for submenu ?>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" id="dropdown-<?=strtolower($title)?>" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <?=$title?>
+                                </a>
+                                <ul class="dropdown-menu" aria-labelledby="dropdown-<?=strtolower($title)?>">
+                                    <?php foreach ($link as $subTitle => $subLink): ?>
+                                        <li>
+                                            <a class="dropdown-item <?=basename($_SERVER['PHP_SELF']) == $subLink ? 'active' : ''?>" href="<?=$subLink?>">
+                                                <?=$subTitle?>
+                                            </a>
+                                        </li>
+                                    <?php endforeach; ?>
+                                </ul>
+                            </li>
+                        <?php else: // Normal Tabs ?>
+                            <li class="nav-item">
+                                <a class="nav-link <?=basename($_SERVER['PHP_SELF']) == $link ? 'active' : ''?>" href="<?=$link?>">
+                                    <?=$title?>
+                                </a>
+                            </li>
+                        <?php endif; ?>
+                    <?php endforeach; ?>
+                </ul>
+                <span class="navbar-text ms-auto">
+                    <a href="statusOverview.php" class="navbar-text text-danger p-0 me-2 fs-sm d-flex <?= $hasAlert ? '' : 'd-none' ?>">
+                        <i class="bi bi-exclamation-circle me-1"></i> Datenfehler
+                    </a>
+                </span>
+            </div>            
         </nav>
     </div>
 </div>

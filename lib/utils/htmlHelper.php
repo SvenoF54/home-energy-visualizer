@@ -98,4 +98,43 @@ class HtmlHelper {
     {
         return 'display:'.($visible  ? "block" : "none");
     }
+
+    public static function getDisplayNameForKVSScope(KeyValueStoreScopeEnum $scope)
+    {
+        switch ($scope) {
+            case KeyValueStoreScopeEnum::Task:
+                return "Automatische Ausführung";
+            case KeyValueStoreScopeEnum::SendMail:
+                return "Mail versenden";
+            default:
+                return $scope->value;
+        }
+    }
+
+    public static function getDisplayNameForKVSKey($key)
+    {        
+        switch ($key) {
+            case TaskEnum::CheckRealtimeEnergyData->value:
+                return "Echtzeitdaten-Aktualitätsprüfung";
+            case TaskEnum::UnifyRealtimeEnergyData->value:
+                return "Zusammenführung der Echtzeitdaten";
+            case MailEnum::SendRealtimeEnergyDataLoss->value:
+                return "Mail versendet Aufgrund von Echtzeitdatenlücken";
+            default:
+                return $key;            
+        }
+    }
+
+    public static function getDisplayNameForStatus($status) {
+        switch ($status) {
+            case StatusEnum::Success->value:
+                return "Erfolgreich";
+            case StatusEnum::Failure->value:
+                return "Fehler";
+            case StatusEnum::Exception->value:
+                return "Fehler bei Programmausführung";
+            default:
+                return $status;            
+        }
+    }
 }

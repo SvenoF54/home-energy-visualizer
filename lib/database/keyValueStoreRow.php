@@ -41,6 +41,7 @@ class KeyValueStoreRow
     public function getNotice() { return $this->notice; }
     public function getUpdated() { return $this->updated; }
     public function getInserted() { return $this->inserted; }
+    public function getInsertedOrUpdated() { return $this->updated != null ? $this->updated : $this->inserted; }
 
     public function setScope($scope) { $this->scope = $scope; }
     public function setStoreKey($storeKey) { $this->storeKey = $storeKey; }

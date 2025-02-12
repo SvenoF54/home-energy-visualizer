@@ -1,6 +1,7 @@
 <?php
 
-class TaskService {    
+class TaskService 
+{    
     public static function checkRealtimeEnergyData()
     {
         try {
@@ -28,12 +29,12 @@ class TaskService {
             if ($hasAlerts && $actualConfig->getSendAlertMail()) {
                 $subject = "Datenverlust von: ".implode(", ", $missingEnergyTypes);
                 MailService::sendMailAfterDelay(MailEnum::SendRealtimeEnergyDataLoss, $actualConfig->getSendAlertMailEveryXMinutes(), SYSTEM_EMAIL, $subject, $message);
-                self::logToKvs(TaskEnum::CheckRealtimeEnergyData, "Data loss found", $subject);
+                self::logToKvs(TaskEnum::CheckRealtimeEnergyData, StatusEnum::Failure, $subject);
             } else {
-                self::logToKvs(TaskEnum::CheckRealtimeEnergyData, "No data loss");
+                self::logToKvs(TaskEnum::CheckRealtimeEnergyData, StatusEnum::Success);
             }
         } catch(Exception $ex) {
-            self::logToKvs(TaskEnum::CheckRealtimeEnergyData, "Failure", $ex->getMessage());
+            self::logToKvs(TaskEnum::CheckRealtimeEnergyData, StatusEnum::Exception, $ex->getMessage());
         }
     }
 
@@ -59,19 +60,32 @@ class TaskService {
             $count = $unifier->unifyDataForTimeRange($startTime, $endTime);
         
             $resultMsg = "Data saved successfully. $count Rows changed or added for timerange ".$startTime->format('d.m.Y H:i:s')." to ".$endTime->format('d.m.Y H:i:s').".";
-            self::logToKvs(TaskEnum::UnifyRealtimeEnergyData, "Success", $resultMsg);
+            self::logToKvs(TaskEnum::UnifyRealtimeEnergyData, StatusEnum::Success, $resultMsg);
             return $resultMsg;        
         } catch(Exception $ex) {
-            self::logToKvs(TaskEnum::UnifyRealtimeEnergyData, "Failure", $ex->getMessage());
+            self::logToKvs(TaskEnum::UnifyRealtimeEnergyData, StatusEnum::Exception, $ex->getMessage());
         }
 
     }
+
+    public static function hasAlertStatus()
+    {
+        try {
+            $kvsTable = KeyValueStoreTable::getInstance();
+            $row = $kvsTable->getRow(KeyValueStoreScopeEnum::Task, TaskEnum::CheckRealtimeEnergyData->value);
+            $result = $row->getValue() != StatusEnum::Success->value;
+            
+            return $result;
+        } catch (Exception $ex) {
+            return false;
+        }
+    }
     
-    private static function logToKvs(TaskEnum $key, $value, $notice = "")
+    private static function logToKvs(TaskEnum $key, StatusEnum $status, $notice = "")
     {
         $db = Database::getInstance();
         $kvsTable = new KeyValueStoreTable($db->getPdoConnection());
 
-        $kvsTable->insertOrUpdate(KeyValueStoreScopeEnum::Task, $key->value, $value, $notice);
+        $kvsTable->insertOrUpdate(KeyValueStoreScopeEnum::Task, $key->value, $status->value, $notice);
     }
 }

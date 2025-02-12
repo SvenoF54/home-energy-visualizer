@@ -16,8 +16,7 @@ $timeLabelUnit = TimeHelper::prepareTimeUnit($startTime1, $endTime1);
 
 // Prepare DB
 $errorMsg = "";
-$db = Database::getInstance();
-$overviewPageService = new OverviewPageService($db->getPdoConnection());
+$overviewPageService = new OverviewPageService();
 $overviewPageService->calculateHourData($startTime1, $endTime1, $startTime2, $endTime2);
 
 // configure VIEW
