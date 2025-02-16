@@ -1,7 +1,10 @@
+/* NrgHomeVis - Energievisualisierung für zu Hause | Repository: <https://github.com/SvenoF54/home-energy-visualizer> 
+   Licensed under the GNU GPL v3.0 - see <https://www.gnu.org/licenses/gpl-3.0.en.html> */
+
 const autarkyColor = getComputedStyle(document.documentElement).getPropertyValue('--autarky-color').trim();
 const autarkyColor2 = getComputedStyle(document.documentElement).getPropertyValue('--autarky-color2').trim();
-const emOverZeroPctColor = getComputedStyle(document.documentElement).getPropertyValue('--em-over-zero-color').trim();
-const emOverZeroPctColor2 = getComputedStyle(document.documentElement).getPropertyValue('--em-over-zero-color2').trim();
+const selfConsumptionColor = getComputedStyle(document.documentElement).getPropertyValue('--self-consumption-color').trim();
+const selfConsumptionColor2 = getComputedStyle(document.documentElement).getPropertyValue('--self-consumption-color2').trim();
 
 const scalesAutarky = {
     x: {
@@ -42,9 +45,16 @@ const optionsAutarky = {
             // Extends the tooltip with more information
             mode: 'x',
             callbacks: {
+                title: function(tooltipItems) {
+                    return "Autarkiewerte";
+                },
                 label: function(tooltipItem) {
+                    const customDataSourceNo = tooltipItem.dataset.customDataSourceNo;
+
+                    const date = timestampsTooltip[tooltipItem.dataIndex][customDataSourceNo - 1];
                     const percent = tooltipItem.parsed.y;
-                    let label = formatNumber(percent, 2) + "%";
+                    let label = formatNumber(percent, 2).padStart(6, "_");
+                    label += "% | " + tooltipItem.dataset.label + " " + date;
 
                     return label;
                 }
@@ -59,11 +69,19 @@ const optionsAutarky = {
                     borderColor: lineZeroColor,
                     borderWidth: 0.5,
                     borderDash: [10, 10],
+                },
+                lineMinusY50Pct: {
+                    type: 'line',
+                    yMin: -50,
+                    yMax: -50,
+                    borderColor: lineZeroColor,
+                    borderWidth: 0.5,
+                    borderDash: [10, 10],
                 }
             }
         },
         legend: {
-            display: false,
+            display: false
         },
     },
     scales: scalesAutarky
@@ -82,6 +100,20 @@ const autarkyData1 = {
     hidden: !config.energy1.chartShowAutarky
 };
 
+const selfConsumptionData1 = {
+    label: '(1) Eigenverbrauchsquote',
+    data: autarky1.map(item => item.slfConInPct),
+    borderWidth: 3,
+    borderColor: selfConsumptionColor,
+    backgroundColor: selfConsumptionColor,
+    fill: true,
+    maxBarThickness: 30,
+    customDataSourceNo: 1,
+    customFormFieldName: 'energy1_chartShowSelfConsumption',
+    hidden: !config.energy1.chartShowSelfConsumption
+};
+
+
 const autarky2Data = {
     label: '(2) Anteil selbst produzierter Strom',
     data: autarky2.map(item => item.autInPct),
@@ -93,9 +125,28 @@ const autarky2Data = {
     customFormFieldName: 'energy2_chartShowAutarky',
     hidden: !config.energy2.chartShowAutarky
 };
+
+const selfConsumptionData2 = {
+    label: '(2) Eigenverbrauchsquote',
+    data: autarky2.map(item => item.slfConInPct),
+    borderWidth: 3,
+    borderColor: selfConsumptionColor2,
+    backgroundColor: selfConsumptionColor2,
+    fill: true,
+    maxBarThickness: 30,
+    customDataSourceNo: 2,
+    customFormFieldName: 'energy2_chartShowSelfConsumption',
+    hidden: !config.energy2.chartShowSelfConsumption
+};
+
+
 const autarkyDataset = [];
 autarkyDataset.push(autarkyData1);
-if (data2.length > 0) autarkyDataset.push(autarky2Data);
+autarkyDataset.push(selfConsumptionData1);
+if (data2.length > 0) {
+    autarkyDataset.push(autarky2Data);
+    autarkyDataset.push(selfConsumptionData2);
+}
 
 // configure diagram
 const configAutarky = {

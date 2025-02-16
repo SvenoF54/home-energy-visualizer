@@ -1,4 +1,6 @@
 <?php
+// NrgHomeVis - Energievisualisierung für zu Hause | Repository: <https://github.com/SvenoF54/home-energy-visualizer>
+// Licensed under the GNU GPL v3.0 - see <https://www.gnu.org/licenses/gpl-3.0.en.html>
 
 class TaskService 
 {    
@@ -73,7 +75,8 @@ class TaskService
         try {
             $kvsTable = KeyValueStoreTable::getInstance();
             $row = $kvsTable->getRow(KeyValueStoreScopeEnum::Task, TaskEnum::CheckRealtimeEnergyData->value);
-            $result = $row->getValue() != StatusEnum::Success->value;
+            $result = false;
+            if ($row != null) $row->getValue() != StatusEnum::Success->value;
             
             return $result;
         } catch (Exception $ex) {

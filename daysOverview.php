@@ -1,4 +1,7 @@
 <?php
+/* NrgHomeVis - Energievisualisierung für zu Hause | Repository: <https://github.com/SvenoF54/home-energy-visualizer> 
+   Licensed under the GNU GPL v3.0 - see <https://www.gnu.org/licenses/gpl-3.0.en.html> */
+
 include_once("lib/appLibLoader.php");
 
 // Defaults
@@ -12,7 +15,7 @@ $selectedFirstDayOfMonth1 = date_create("{$selectedYear1}-{$selectedMonth1}-01 0
 
 $selectedMonth1Minus1Month = date_sub(date_create("{$selectedYear1}-{$selectedMonth1}-01 00:00:00"), date_interval_create_from_date_string("1 month"));
 $selectedMonth2 = StringHelper::formGetInt("month2", date("m", $selectedMonth1Minus1Month->getTimestamp())); 
-$selectedYear2 = StringHelper::formGetInt("year2", date("Y")-1);
+$selectedYear2 = StringHelper::formGetInt("year2", date("Y"));
 $selectedFirstDayOfMonth2 = date_create("{$selectedYear2}-{$selectedMonth2}-01 00:00:00")->getTimestamp();
 
 $startTime1 = date("Y-m-1", $selectedFirstDayOfMonth1)." 00:00:00";

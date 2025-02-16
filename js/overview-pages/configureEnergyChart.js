@@ -1,3 +1,6 @@
+/* NrgHomeVis - Energievisualisierung für zu Hause | Repository: <https://github.com/SvenoF54/home-energy-visualizer> 
+   Licensed under the GNU GPL v3.0 - see <https://www.gnu.org/licenses/gpl-3.0.en.html> */
+
 const emColor = getComputedStyle(document.documentElement).getPropertyValue('--em-color').trim();
 const emOverZeroColor = getComputedStyle(document.documentElement).getPropertyValue('--em-over-zero-color').trim();
 const addSavingsColor = getComputedStyle(document.documentElement).getPropertyValue('--add-savings-color').trim();

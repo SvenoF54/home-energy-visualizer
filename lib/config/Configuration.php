@@ -1,4 +1,7 @@
 <?php
+// NrgHomeVis - Energievisualisierung für zu Hause | Repository: <https://github.com/SvenoF54/home-energy-visualizer>
+// Licensed under the GNU GPL v3.0 - see <https://www.gnu.org/licenses/gpl-3.0.en.html>
+
 // Configuration is included here seperatly, because its used in the api and ui pages.
 include_once("chartOrTableViewEnum.php");
 include_once("configOptionPages.php");

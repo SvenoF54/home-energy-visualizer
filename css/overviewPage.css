@@ -1,288 +1,297 @@
-    h1 {
-        margin-top: 5px
+/* NrgHomeVis - Energievisualisierung für zu Hause | Repository: <https://github.com/SvenoF54/home-energy-visualizer> 
+   Licensed under the GNU GPL v3.0 - see <https://www.gnu.org/licenses/gpl-3.0.en.html> */
+
+h1 {
+    margin-top: 5px
+}
+
+.btn-mising-values {
+    padding: 0.01rem 0.01rem;
+    font-size: 0.85rem;
+    margin-top: 0rem;
+    margin-bottom: 0rem;
+}
+
+
+/* Summary table on top of page */
+
+.custom-navbar {
+    background-color: #f8f9fa;
+}
+
+.custom-navbar .navbar-nav .nav-link {
+    padding: 0rem 0.8rem;
+    font-size: 0.9rem;
+}
+
+.custom-navbar .navbar-nav .nav-link.active {
+    background-color: #e2e6ea;
+    color: #495057;
+}
+
+.custom-navbar .navbar-nav .nav-link:hover {
+    background-color: #e2e6ea;
+    color: #495057;
+}
+
+.custom-navbar .dropdown-menu {
+    background-color: #f8f9fa;
+    color: black;
+}
+
+.custom-navbar .dropdown-menu .dropdown-item:hover {
+    background-color: #e2e6ea;
+    color: #495057;
+}
+
+.navbar-toggler {
+    border-color: #f8f9fa;
+}
+
+
+/* Energy-Chart Legend Buttons */
+
+.legend-line {
+    display: inline-block;
+    width: 20px;
+    height: 10px;
+    margin-right: 8px;
+    margin-left: 8px;
+    transition: opacity 0.3s;
+}
+
+.legend-label {
+    color: #333;
+    font-size: 0.75rem;
+    white-space: nowrap !important;
+    cursor: pointer;
+}
+
+.hidden {
+    opacity: 0.2;
+}
+
+.legend-navbar-toggler {
+    height: 28px;
+    line-height: 28px;
+    margin-right: 1px;
+}
+
+.legend-navbar-toggler-icon {
+    width: 20px;
+    height: 20px;
+    margin-bottom: 5px;
+    margin-left: 10px;
+}
+
+@media (min-width: 1200px) {
+    #chart-buttons {
+        margin-right: 25px;
     }
-    
-    .btn-mising-values {
-        padding: 0.01rem 0.01rem;
-        font-size: 0.85rem;
-        margin-top: 0rem;
-        margin-bottom: 0rem;
-    }
-    /* Summary table on top of page */
-    
-    .custom-navbar {
-        background-color: #f8f9fa;
-    }
-    
-    .custom-navbar .navbar-nav .nav-link {
-        padding: 0rem 0.8rem;
-        font-size: 0.9rem;
-    }
-    
-    .custom-navbar .navbar-nav .nav-link.active {
-        background-color: #e2e6ea;
-        color: #495057;
-    }
-    
-    .custom-navbar .navbar-nav .nav-link:hover {
-        background-color: #e2e6ea;
-        color: #495057;
-    }
-    
-    .custom-navbar .dropdown-menu {
-        background-color: #f8f9fa;
-        color: black;
-    }
-    
-    .custom-navbar .dropdown-menu .dropdown-item:hover {
-        background-color: #e2e6ea;
-        color: #495057;
-    }
-    
-    .navbar-toggler {
-        border-color: #f8f9fa;
-    }
-    /* Energy-Chart Legend Buttons */
-    
-    .legend-line {
-        display: inline-block;
-        width: 20px;
-        height: 10px;
-        margin-right: 8px;
-        margin-left: 8px;
-        transition: opacity 0.3s;
-    }
-    
-    .legend-label {
-        color: #333;
-        font-size: 0.75rem;
-        white-space: nowrap !important;
-        cursor: pointer;
-    }
-    
-    .hidden {
-        opacity: 0.2;
-    }
-    
-    .legend-navbar-toggler {
-        height: 28px;
-        line-height: 28px;
-        margin-right: 1px;
-    }
-    
-    .legend-navbar-toggler-icon {
-        width: 20px;
-        height: 20px;
-        margin-bottom: 5px;
-        margin-left: 10px;
-    }
-    
-    @media (min-width: 1200px) {
-        #chart-buttons {
-            margin-right: 25px;
-        }
-    }
-    /* Chart-Container */
-    
+}
+
+
+/* Chart-Container */
+
+#autarky-chart-container,
+#energy-chart-container {
+    width: 100% !important;
+    height: 46vh;
+    display: none;
+    margin: 0;
+    padding: 0;
+}
+
+@media (min-height: 220px) and (max-height: 320px) {
+    /* Landscape Handy */
     #autarky-chart-container,
     #energy-chart-container {
-        width: 100% !important;
-        height: 46vh;
-        display: none;
-        margin: 0;
-        padding: 0;
+        width: 95vw !important;
+        height: 48vh !important;
+        min-height: 220px !important;
     }
-    
-    @media (min-height: 220px) and (max-height: 320px) {
-        /* Landscape Handy */
-        #autarky-chart-container,
-        #energy-chart-container {
-            width: 95vw !important;
-            height: 48vh !important;
-            min-height: 220px !important;
-        }
+}
+
+@media (min-width: 768px) {
+    #autarky-chart-container,
+    #energy-chart-container {
+        width: 95vw !important;
+        height: 56vh !important;
     }
-    
-    @media (min-width: 768px) {
-        #autarky-chart-container,
-        #energy-chart-container {
-            width: 95vw !important;
-            height: 56vh !important;
-        }
+}
+
+@media (min-width: 1200px) and (min-height: 320px) and (max-height: 600px) {
+    /* Landscape Tablet */
+    #autarky-chart-container,
+    #energy-chart-container {
+        width: 95vw !important;
+        height: 40vh !important;
     }
-    
-    @media (min-width: 1200px) and (min-height: 320px) and (max-height: 600px) {
-        /* Landscape Tablet */
-        #autarky-chart-container,
-        #energy-chart-container {
-            width: 95vw !important;
-            height: 40vh !important;
-        }
+}
+
+@media (min-width: 1400px) {
+    #autarky-chart-container,
+    #energy-chart-container {
+        width: 95vw !important;
+        height: 60vh !important;
     }
-    
-    @media (min-width: 1400px) {
-        #autarky-chart-container,
-        #energy-chart-container {
-            width: 95vw !important;
-            height: 60vh !important;
-        }
-    }
-    
-    canvas {
-        width: 100% !important;
-        height: 100% !important;
-        margin: 0;
-        padding: 0;
-    }
-    
-    .weekday-container {
-        padding-left: 5px;
-        display: inline-block;
-        width: 78px;
-        text-align: left;
-    }
-    
-    .line-container {
-        padding-left: 10 px;
-        width: 90px;
-    }
-    
-    .btn-outline-secondary {
-        margin-top: 6px;
-        font-size: 0.75rem;
-        padding: 0.2rem 0.5rem;
-    }
-    
-    .btn-table-switch-right {
-        margin-left: 0;
-    }
-    
-    .btn-table-switch-left {
-        margin-left: 10px;
-    }
-    
-    #energy-table-container {
-        overflow-y: auto;
-        overflow-x: auto;
-        min-height: 300px;
-        max-height: none;
-        /*padding: 20px;*/
-    }
-    
-    #energyTable {
-        width: 100% !important;
-        table-layout: auto !important;
-        font-family: Arial, sans-serif;
-        font-size: 0.75rem;
-    }
-    
-    #energyTable_info,
-    #energyTable_paginate .dt-paging-button,
-    .dt-length,
-    .dt-paging {
-        font-family: Arial, sans-serif !important;
-        font-size: 0.75rem !important;
-    }
-    
-    #energyTable .cell-energy {
-        min-width: 80px !important;
-    }
-    
-    #energyTable .cell-price {
-        min-width: 50px !important;
-    }
-    
-    #energyTable td {
-        padding: 0.2rem;
-    }
-    
-    #energyTable th {
-        padding: 0.2rem;
-        padding-right: 2rem;
-        position: relative;
-    }
-    
-    #energyTable thead {
-        filter: brightness(80%);
-        border-bottom: 3px solid white;
-    }
-    
-    #energyTable tfoot {
-        filter: brightness(80%);
-        border-top: 3px solid white;
-    }
-    
-    #energyTable th.table-active {
-        width: auto !important;
-    }
-    
-    #energyTable td.text-end {
-        text-align: right;
-    }
-    
-    #energy-table-container .d-flex {
-        align-items: center;
-        justify-content: space-between;
-        margin-bottom: 15px;
-    }
-    
-    #energy-table-container h6 {
-        margin-bottom: 0;
-        font-size: 1rem;
-    }
-    
-    #energyTable .dt-info {
-        font-size: 0.75rem !important;
-    }
-    
-    #energyTable .timestamp {
-        background-color: var(--datetime-color);
-        color: white;
-    }
-    
-    #energyTable .purchase {
-        background-color: var(--em-over-zero-color);
-        ;
-        color: white;
-    }
-    
-    #energyTable .feed-in {
-        background-color: var(--feed-in-color);
-        ;
-        color: white;
-    }
-    
-    #energyTable .savings {
-        background-color: var(--savings-color);
-        color: white;
-    }
-    
-    #energyTable .autarky {
-        background-color: var(--savings-color);
-        color: white;
-    }
-    
-    #energyTable .production-caption {
-        background-color: var(--pm1-color);
-        color: black;
-    }
-    
-    #energyTable .production-pmtotal {
-        background-color: var(--pm1-color);
-        color: black;
-    }
-    
-    #energyTable .production-pm1 {
-        background-color: var(--pm1-color);
-        color: black;
-    }
-    
-    #energyTable .production-pm2 {
-        background-color: var(--pm2-color);
-        color: black;
-    }
-    
-    #energyTable .production-pm3 {
-        background-color: var(--pm3-color);
-        color: black;
-    }
+}
+
+canvas {
+    width: 100% !important;
+    height: 100% !important;
+    margin: 0;
+    padding: 0;
+}
+
+.weekday-container {
+    padding-left: 5px;
+    display: inline-block;
+    width: 78px;
+    text-align: left;
+}
+
+.line-container {
+    padding-left: 10 px;
+    width: 90px;
+}
+
+.btn-outline-secondary {
+    margin-top: 6px;
+    font-size: 0.75rem;
+    padding: 0.2rem 0.5rem;
+}
+
+.btn-table-switch-right {
+    margin-left: 0;
+}
+
+.btn-table-switch-left {
+    margin-left: 10px;
+}
+
+#energy-table-container {
+    overflow-y: auto;
+    overflow-x: auto;
+    min-height: 300px;
+    max-height: none;
+    /*padding: 20px;*/
+}
+
+#energyTable {
+    width: 100% !important;
+    table-layout: auto !important;
+    font-family: Arial, sans-serif;
+    font-size: 0.75rem;
+}
+
+#energyTable_info,
+#energyTable_paginate .dt-paging-button,
+.dt-length,
+.dt-paging {
+    font-family: Arial, sans-serif !important;
+    font-size: 0.75rem !important;
+}
+
+#energyTable .cell-energy {
+    min-width: 80px !important;
+}
+
+#energyTable .cell-price {
+    min-width: 50px !important;
+}
+
+#energyTable td {
+    padding: 0.2rem;
+}
+
+#energyTable th {
+    padding: 0.2rem;
+    padding-right: 2rem;
+    position: relative;
+}
+
+#energyTable thead {
+    filter: brightness(80%);
+    border-bottom: 3px solid white;
+}
+
+#energyTable tfoot {
+    filter: brightness(80%);
+    border-top: 3px solid white;
+}
+
+#energyTable th.table-active {
+    width: auto !important;
+}
+
+#energyTable td.text-end {
+    text-align: right;
+}
+
+#energy-table-container .d-flex {
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 15px;
+}
+
+#energy-table-container h6 {
+    margin-bottom: 0;
+    font-size: 1rem;
+}
+
+#energyTable .dt-info {
+    font-size: 0.75rem !important;
+}
+
+#energyTable .timestamp {
+    background-color: var(--datetime-color);
+    color: white;
+}
+
+#energyTable .purchase {
+    background-color: var(--em-over-zero-color);
+    ;
+    color: white;
+}
+
+#energyTable .feed-in {
+    background-color: var(--feed-in-color);
+    ;
+    color: white;
+}
+
+#energyTable .savings {
+    background-color: var(--savings-color);
+    color: white;
+}
+
+#energyTable .autarky {
+    background-color: var(--savings-color);
+    color: white;
+}
+
+#energyTable .production-caption {
+    background-color: var(--pm1-color);
+    color: black;
+}
+
+#energyTable .production-pmtotal {
+    background-color: var(--pm1-color);
+    color: black;
+}
+
+#energyTable .production-pm1 {
+    background-color: var(--pm1-color);
+    color: black;
+}
+
+#energyTable .production-pm2 {
+    background-color: var(--pm2-color);
+    color: black;
+}
+
+#energyTable .production-pm3 {
+    background-color: var(--pm3-color);
+    color: black;
+}

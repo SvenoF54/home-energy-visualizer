@@ -50,6 +50,13 @@ Zeigt die Autarkie (Selbstverssorgungsrate) in Prozent für die erste Auswahl al
 ![Autarkieübersicht](./images/gallery/hours-overview-autarky.png "Autarkieübersicht")
 
 
+# Stundenübersicht - Autarkie (Eigenverbrauchsquote)
+Zeigt die Eigenverbrauchsquote in Prozent für die erste Auswahl als Chart dar. Alle Übersichtsseiten bieten die Autarkieansicht, hier nur exemplarsich für die Stundenansicht.
+
+**Desktop**
+![Eigenverbrauchsquote](./images/gallery/hours-overview-self-consumption-rate.png "Eigenverbrauchsquote")
+
+
 
 # Tagesübersicht
 Zeigt den Verbrauch in einer Tagesübersicht. Aus Performancegründen werden aufsummierte Werte aus den Echtzeitdaten verwendet. Es können Tage aus zwei unterschiedlichen Monaten dargestellt werden.
@@ -89,3 +96,10 @@ Es wird ein Status der fehlenden Energiewerte angezeigt. Bei manueller Eingabe k
 
 **Desktop**
 ![Status der Energiewerte](./images/gallery/status-energy-values.png "Status der Energiewerte")
+
+# Status der automatischen Jobs
+Hier wird der Status der automatischen Jobs angezeigt.
+Im Fehlerfall ist rechts oben in der Navigation ein Hinweis mit einem Link zu dieser Seite zu sehen.
+Auf dieser Seite wird die entsprechende Zeile dann rot gefärbt, z.B. wenn keine Daten von einem der Shellys übertragen werden. 
+Wenn entsprechend konfiguriert wird in diesem Fall auch eine Fehlermail versendet.
+![Status der automatischen Jobs](status-overview.png "Status der automatischen Jobs")

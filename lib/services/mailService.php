@@ -1,4 +1,6 @@
 <?php
+// NrgHomeVis - Energievisualisierung für zu Hause | Repository: <https://github.com/SvenoF54/home-energy-visualizer>
+// Licensed under the GNU GPL v3.0 - see <https://www.gnu.org/licenses/gpl-3.0.en.html>
 
 class MailService {
     public static function sendMailAfterDelay(MailEnum $key, $delayInMinutes, $to, $subject, $message) 
@@ -26,7 +28,7 @@ class MailService {
             
             mail($to, $subject, $message,$headers);
             
-            self::logToKvs($key, StatusEnum::Success, $to);                
+            self::logToKvs($key, StatusEnum::Success, "Send to: ".$to);
         } catch (Exception $ex) {
             self::logToKvs($key, StatusEnum::Exception, $ex->getMessage());            
         }

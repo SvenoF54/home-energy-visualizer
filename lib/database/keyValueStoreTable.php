@@ -1,4 +1,7 @@
 <?php
+// NrgHomeVis - Energievisualisierung für zu Hause | Repository: <https://github.com/SvenoF54/home-energy-visualizer>
+// Licensed under the GNU GPL v3.0 - see <https://www.gnu.org/licenses/gpl-3.0.en.html>
+
 class KeyValueStoreTable extends BaseTable 
 {
 
@@ -43,7 +46,7 @@ class KeyValueStoreTable extends BaseTable
         }
     }
     
-    public function getRow(KeyValueStoreScopeEnum $scope, $key) : KeyValueStoreRow
+    public function getRow(KeyValueStoreScopeEnum $scope, $key) : ?KeyValueStoreRow
     {
         try {
             $sql = "SELECT * FROM {$this->tableName} WHERE scope = :scope AND store_key = :key";
@@ -54,7 +57,7 @@ class KeyValueStoreTable extends BaseTable
 
             $stmt->execute();
             $row = $stmt->fetch(PDO::FETCH_ASSOC);
-            if (!$row) {
+            if (!$row) { 
                 return null;
             }
 
