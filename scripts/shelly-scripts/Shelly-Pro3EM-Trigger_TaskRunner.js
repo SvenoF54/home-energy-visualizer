@@ -1,5 +1,5 @@
 // Konfiguration
-let loggingUrl = "http://meine.domain/mein-verzeichnis/api/taskrunner.php?apikey=9999999"; // URL zum PHP-Skript
+let loggingUrl = "http://meine.domain/mein-verzeichnis/api/taskrunner.php?apikey=987654321"; // URL zum PHP-Skript
 
 let AppName = "Taskrunner";
 let intervalInSeconds = 60;

@@ -1,5 +1,5 @@
 // Konfiguration
-let loggingUrl = "http://meine.domain/mein-verzeichnis/api/log-energy-data.php?apikey=9999999"; // URL zum PHP-Skript
+let loggingUrl = "http://www.fahni.org/test-visualizer/api/log-energy-data.php?apikey=987654321"; // URL zum PHP-Skript
 
 let AppName = "EM3";
 let devicePhase = ""; // Phase 1, 2 oder 3. Nur notwendig für Messung der Energieerzeugung, z.B. Shelly-PM Geräte

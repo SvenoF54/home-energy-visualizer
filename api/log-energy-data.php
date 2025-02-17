@@ -40,9 +40,5 @@ function writeDataToTable($data) {
     ApiHelper::dieWithResponseCode(200, "Successfully saved. Timestamp: ".date("d.m.Y H:i:s", strtotime($timestamp)).", Device: ".$device_type.", Energy: ".$total_act_power);
 }
 
-function checkLogdataStatus()
-{
-
-}
 
 ?>

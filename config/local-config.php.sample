@@ -5,22 +5,22 @@
 // Diese Datei enthält lokale Konfigurationseinstellungen
 // Es muss eine Datei mit dem Namen local-config.php und den korrekten Werten erstellt werden.
 
------------------------------------------------------------------------
-Diese Werten werden benötigt.
------------------------------------------------------------------------
+///-----------------------------------------------------------------------
+///Diese Werten werden benötigt.
+///-----------------------------------------------------------------------
 
 define('DB_NAME', 'mein-db-name');
 define('DB_USER', 'mein-db-user');
 define('DB_PASSWORD', 'mein-password');
 define('DB_HOST', 'mein-host');
 
-define('URL_PREFIX', 'http://meine.domain/mein-pfad');
+define('URL_PREFIX', 'http://meine.domain/mein-pfad/');  // Hinweis, am Ende muss ein Slash '/' stehen.
 define('API_KEY', '987654321');
 define('SYSTEM_EMAIL', 'mail@example.org');  // Mailempfänger für Systemnachrichten
 
------------------------------------------------------------------------
-Alle nun kommenen Werte sind optional
------------------------------------------------------------------------
+///-----------------------------------------------------------------------
+///Alle nun kommenen Werte sind optional
+///-----------------------------------------------------------------------
 
 $config = Configuration::getInstance();
 
@@ -35,18 +35,20 @@ $config->configRealtimeAlert()->setShouldAlertForEnergyType(EnergyTypeEnum::PM3,
 // Konfiguriert einige Werte auf der Energy-Chart-Seite
 // Es gibt jeweils 2 Energiesets, welche Energie1 und Energie2 heißen und einzeln konfiguriert werden können.
 // Die Konfiguration beeinflust das Verhalten beim ersten Aufruf der Seite.
+// Es gibt folgende Übersichtsseiten. 
 $config->hoursOverview()->configEnergy1()->setChartShowEnergyOverZeroPlusSavings(false);  // Auf der Stundenübersicht wird bei Aufruf die Erzeugungsenergie nicht über den Verbrauch gezeigt.
 $config->daysOverview()->configEnergy1()->setChartShowEnergyOverZeroPlusSavings(false);  
 $config->monthsOverview()->configEnergy1()->setChartShowEnergyOverZeroPlusSavings(false);  
+$config->yearsOverview()->configEnergy1()->setChartShowEnergyOverZeroPlusSavings(false);  
 
 $config->hoursOverview()->configEnergy2()->setChartShowEnergyOverZero(false);  
 $config->hoursOverview()->configEnergy2()->setChartShowSavings(false);  
 $config->hoursOverview()->configEnergy2()->setChartShowFeedIn(false);  
 
 // Zeige Werte der 2. Selection auf der AutarkyChart-Übersichtsseite
-$config->hoursOverview()->configEnergy2()->setChartShowAutarkyAndSelfConsumption(false, false);  
-$config->daysOverview()->configEnergy2()->setChartShowAutarkyAndSelfConsumption(false, false);
-$config->monthsOverview()->configEnergy2()->setChartShowAutarkyAndSelfConsumption(false, false);
+$config->hoursOverview()->configEnergy2()->setChartShowAutarkyAndSelfConsumption(true, false);  
+$config->daysOverview()->configEnergy2()->setChartShowAutarkyAndSelfConsumption(true, false);
+$config->monthsOverview()->configEnergy2()->setChartShowAutarkyAndSelfConsumption(true, false);
 
 // Anzahl Zeilen auf der Energy-Tabellenübersicht
 $config->hoursOverview()->configEnergy1()->setTablePageLength(10);  
@@ -59,26 +61,21 @@ $config->hoursOverview()->setChartOrTableView(ChartOrTableViewEnum::EnergyChart)
 $config->hoursOverview()->setLine1(100);
 $config->hoursOverview()->setLine2(-100);
 $config->hoursOverview()->setLinePossibilities([-1000, -750, -500, -250, 0, 250, 500, 750, 1000, 1250]);
+$config->yearsOverview()->setChartOrTableView(ChartOrTableViewEnum::EnergyTable); // Folgende Werte sind möglich: ChartOrTableViewEnum::EnergyChart, ChartOrTableViewEnum::AutarkyChart, ChartOrTableViewEnum::EnergyTable
 
 // Energy-Chart
-$config->hoursOverview()->configEnergy1()->setChartShowEnergyOverZero(true/false);
-$config->hoursOverview()->configEnergy1()->setChartShowEnergyOverZeroPlusSavings(true/false);
-$config->hoursOverview()->configEnergy1()->setChartShowFeedIn(true/false);
-$config->hoursOverview()->configEnergy1()->setChartShowSavings(true/false);
+// Welche Chart-Linien beim ersten Aufruf der Seite gezeigt werden
+$config->hoursOverview()->configEnergy1()->setChartShowEnergyOverZero(true);
+$config->hoursOverview()->configEnergy1()->setChartShowEnergyOverZeroPlusSavings(true);
+$config->hoursOverview()->configEnergy1()->setChartShowFeedIn(true);
+$config->hoursOverview()->configEnergy1()->setChartShowSavings(true);
 
 // Autarky-Chart
-$config->hoursOverview()->configEnergy1()->setChartShowAutarky(true/false);
+$config->hoursOverview()->configEnergy1()->setChartShowAutarkyAndSelfConsumption(true, false);
 
 // Energy-Table
-$config->hoursOverview()->configEnergy1()->setTableShowProductionInTotal(true/false);
-$config->hoursOverview()->configEnergy1()->setTablePageLength(10|25|50);
-
-// Es gibt folgende Echtzeit-/Übersichtsseiten. Es gibt für die Echtzeitseite andere Konfigurationswerte als für die Übersichtsseiten.
-$config->realtimeOverview()->xy
-$config->hoursOverview()->xy
-$config->daysOverview()->xy
-$config->monthsOverview()->xy
-$config->yearsOverview()->xy
+$config->hoursOverview()->configEnergy1()->setTableShowProductionInTotal(true);
+$config->hoursOverview()->configEnergy1()->setTablePageLength(10);
 
 // Die Echtzeitübersichtsseite hat zusätzlich folgende Optionen, es sind nicht alle Optionen der Übersichtsseite benutzbar
 $config->realtimeOverview()->setPastPeriodPossibilities([0.5, 1, 2, 4, 6, 8, 12, 24, 24*7, 24*14, 24*28]);

@@ -4,11 +4,12 @@ Energie-Visualisierung für zu Hause, Beschreibung siehe hier [readme.md](./READ
 ## Installationsschritte
 
 Für die Benutzung des Programms werden gewisse technische Kenntnisse, wie das erstellen einer Datenbank, sowie das kopieren der Programmdateien auf den Webserver vorrausgesetzt. 
+
 Auf PHP-Drittbibliotheken wurde bewußt verzichtet, um die Installation einfach zu halten.
 
 **Die Installation erfolgt manuell, es gibt keinen automatischen Installationsmechanismus.**
 
-Bei Fehlern bitte ein Issue auf Github aufmachen.
+Bei Fehlern auch die [install-tips.md](./install-tips.md) beachten. Richtige Bugs können über ein Issue auf Github gemeldet werden.
 
 ### Systemvorraussetzungen
 
@@ -29,7 +30,7 @@ Bei Fehlern bitte ein Issue auf Github aufmachen.
 - Bei späteren Updates auf die Releasehinweise achten.
 
 #### HINWEISE
-- Bei der Erfassung von Echtzeitdaten enstehen z.B. im 2 Sekundentakt ca. 1 Million Datensätze pro Monat
+- Bei der Erfassung von Echtzeitdaten entstehen z.B. im 2 Sekundentakt ca. 1 Million Datensätze pro Monat
 - Bitte regelmäßg Datensicherungen durchführen, auf jeden Fall BEVOR Updates installiert werden
 
 ### Config-Datei vorbereiten
@@ -68,6 +69,10 @@ Es ist nicht notwendig einen Shelly 3 EM zu verwenden, man kann auch nur mit der
 
 Generell sind alle Skripte für die Erfassung der Energiewerte identisch und unterscheiden sich nur durch die Konfiguration im oberen Abschnitt. Die Skripte erkennen automatisch ob sie auf einem Shelly-EM oder Shelly PM laufen.
 
+### Installationshilfen und Fehlersuche
+
+In dieser Datei [install-tips.md](./install-tips.md) sind einige Hinweise, falls die Script nicht auf Anhieb so funktionieren, wie man möchte.
+
 #### Verbrauchsmessung
 
 Für die Verbrauchsmessung ist ein Skript vorgesehen, welches den aufsummierten Verbrauch aller 3 Phasen als Summe speichert. 
@@ -89,7 +94,7 @@ Im oberen Abschnitt sind folgende Parameter anzupassen:
 
 Das Skript ist hier zu finden [scripts\shelly-scripts\Shelly-Plus1PM-SendToLogger.js](scripts\shelly-scripts\Shelly-Plus1PM-SendToLogger.js)
 
-#### Skript zum Aufsummieren der Daten und andere Tasks
+#### Skript TaskRunner zum Aufsummieren der Daten und andere Tasks
 
 Um die Echtzeitdaten für den schnelleren Zugriff aufzusummieren wird ein eigenes Skript benötigt. Dies kann man entweder vom Shelly oder über einen eigenen Cronjob starten. 
 Bei mir läuft es alle 60 Sekunden auf einem Shelly, z.B. dem EM.
