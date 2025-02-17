@@ -1,4 +1,6 @@
 <?php
+// NrgHomeVis - Energievisualisierung für zu Hause | Repository: <https://github.com/SvenoF54/home-energy-visualizer>
+// Licensed under the GNU GPL v3.0 - see <https://www.gnu.org/licenses/gpl-3.0.en.html>
 
 class HtmlHelper {
     public static function prepareFailureColor($wrongRows, $totalRows) {
@@ -80,8 +82,11 @@ class HtmlHelper {
                     </div>
                 <?php } ?>
                     <div class="d-flex justify-content-between mb-2">
-                        <div class="me-3 text-success"><strong>Zeilen<br/>gesamt</strong></div>
-                        <div class="me-1 text-success"><?=($missingRowSet->getCountRows() == 0 ? '/' : StringHelper::formatIntNumber($missingRowSet->getCountRows()))?></div>
+                        <div class="me-3 text-success">
+                            In diesem Zeitraum gibt es 
+                            <?=($missingRowSet->getCountRows() == 0 ? '/' : StringHelper::formatIntNumber($missingRowSet->getCountRows()))?>
+                            Datenbankzeilen.
+                        </div>
                     </div>                
             </div>
         </div>
@@ -94,5 +99,44 @@ class HtmlHelper {
     public static function getDisplayStyleVisibleOrNot($visible)
     {
         return 'display:'.($visible  ? "block" : "none");
+    }
+
+    public static function getDisplayNameForKVSScope(KeyValueStoreScopeEnum $scope)
+    {
+        switch ($scope) {
+            case KeyValueStoreScopeEnum::Task:
+                return "Automatische Ausführung";
+            case KeyValueStoreScopeEnum::SendMail:
+                return "Mail versenden";
+            default:
+                return $scope->value;
+        }
+    }
+
+    public static function getDisplayNameForKVSKey($key)
+    {        
+        switch ($key) {
+            case TaskEnum::CheckRealtimeEnergyData->value:
+                return "Echtzeitdaten-Aktualitätsprüfung";
+            case TaskEnum::UnifyRealtimeEnergyData->value:
+                return "Zusammenführung der Echtzeitdaten";
+            case MailEnum::SendRealtimeEnergyDataLoss->value:
+                return "Mail versendet Aufgrund von Echtzeitdatenlücken";
+            default:
+                return $key;            
+        }
+    }
+
+    public static function getDisplayNameForStatus($status) {
+        switch ($status) {
+            case StatusEnum::Success->value:
+                return "Erfolgreich";
+            case StatusEnum::Failure->value:
+                return "Fehler";
+            case StatusEnum::Exception->value:
+                return "Fehler bei Programmausführung";
+            default:
+                return $status;            
+        }
     }
 }

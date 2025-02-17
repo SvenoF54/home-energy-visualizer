@@ -1,4 +1,7 @@
 <?php
+// NrgHomeVis - Energievisualisierung für zu Hause | Repository: <https://github.com/SvenoF54/home-energy-visualizer>
+// Licensed under the GNU GPL v3.0 - see <https://www.gnu.org/licenses/gpl-3.0.en.html>
+
 include_once("lib/appLibLoader.php");
 
 // Defaults
@@ -13,10 +16,9 @@ $endTime = ($actualConfig->getPastperiod() != 0) ? date('Y-m-d H:i:59', time() -
 $timeLabelUnit = TimeHelper::prepareTimeUnit($startTime, $endTime);
 
 // prepare DB
-$db = Database::getInstance();
-$realTimeEnergyDataTbl = new RealTimeEnergyDataTable($db->getPdoConnection());
-$hourlyEnergyDataTbl = new HourlyEnergyDataTable($db->getPdoConnection());
-$energyPriceTbl = new EnergyPriceTable($db->getPdoConnection());
+$realTimeEnergyDataTbl = RealTimeEnergyDataTable::getInstance();
+$hourlyEnergyDataTbl = HourlyEnergyDataTable::getInstance();
+$energyPriceTbl = EnergyPriceTable::getInstance();
 $priceRow = $energyPriceTbl->getPriceForDateTime($startTime);
 $overviewDataRows = $realTimeEnergyDataTbl->getOverviewData($startTime, $endTime, $actualConfig->getAveragePossibility());
 

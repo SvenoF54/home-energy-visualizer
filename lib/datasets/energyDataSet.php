@@ -1,4 +1,6 @@
 <?php
+// NrgHomeVis - Energievisualisierung für zu Hause | Repository: <https://github.com/SvenoF54/home-energy-visualizer>
+// Licensed under the GNU GPL v3.0 - see <https://www.gnu.org/licenses/gpl-3.0.en.html>
 
 class EnergyDataSet {
     private $timestampForView;
@@ -57,6 +59,7 @@ class EnergyDataSet {
             "raw-dt" => $this->timestampFrom,
             "x-dt" => $this->timestampForView,
             "autInPct" => $this->getAutarkyInPercent(),
+            "slfConInPct" => $this->getSelfConsumptionInPercent(),
             "savings" => $this->getSavings()->getEnergyInWatt(),
         ];
 
@@ -140,13 +143,12 @@ class EnergyDataSet {
     }
 
     public function getAutarkyInPercent() {
-        $totalConsumption = $this->getEnergyOverZero()->getEnergyInWatt() + $this->getSavings()->getEnergyInWatt();
-        $percentAutarky = 0;
-        if ($totalConsumption > 0) {
-            $percentAutarky = (1-($this->getEnergyOverZero()->getEnergyInWatt() / $totalConsumption)) * 100;
-        }
+        return OverviewPageService::calculateAutarky($this->getSavings()->getEnergyInWatt(), $this->getEnergyOverZero()->getEnergyInWatt());
+    }
 
-        return $percentAutarky;
+    public function getSelfConsumptionInPercent()
+    {
+        return OverviewPageService::calculateSelfConsumption($this->getSavings()->getEnergyInWatt(), $this->getEnergyUnderZero()->getEnergyInWatt());
     }
 
     public function getMissingRows() : MissingRowSet{

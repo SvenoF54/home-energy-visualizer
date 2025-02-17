@@ -1,4 +1,7 @@
 <?php
+// NrgHomeVis - Energievisualisierung für zu Hause | Repository: <https://github.com/SvenoF54/home-energy-visualizer>
+// Licensed under the GNU GPL v3.0 - see <https://www.gnu.org/licenses/gpl-3.0.en.html>
+
 include_once("lib/appLibLoader.php");
 
 // Defaults
@@ -10,8 +13,7 @@ $timeLabelUnit = TimeHelper::prepareTimeUnit($startTime1, $endTime1);
 
 // Prepare DB
 $errorMsg = "";
-$db = Database::getInstance();
-$overviewPageService = new OverviewPageService($db->getPdoConnection());
+$overviewPageService = new OverviewPageService();
 $overviewPageService->calculateHourData($startTime1, $endTime1);
 
 

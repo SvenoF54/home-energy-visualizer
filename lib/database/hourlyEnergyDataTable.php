@@ -1,6 +1,15 @@
 <?php
+// NrgHomeVis - Energievisualisierung für zu Hause | Repository: <https://github.com/SvenoF54/home-energy-visualizer>
+// Licensed under the GNU GPL v3.0 - see <https://www.gnu.org/licenses/gpl-3.0.en.html>
 
-class HourlyEnergyDataTable extends BaseTimestampTable {        
+class HourlyEnergyDataTable extends BaseTimestampTable 
+{        
+    public static function getInstance() : HourlyEnergyDataTable
+    {
+        $db = Database::getInstance();
+        return new HourlyEnergyDataTable($db->getPdoConnection());
+    }
+
     public function __construct($pdo) {
         parent::__construct($pdo, "hourly_energy_data", "timestamp_from", "timestamp_to");
     }

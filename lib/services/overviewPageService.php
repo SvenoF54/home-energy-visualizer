@@ -1,4 +1,6 @@
 <?php
+// NrgHomeVis - Energievisualisierung für zu Hause | Repository: <https://github.com/SvenoF54/home-energy-visualizer>
+// Licensed under the GNU GPL v3.0 - see <https://www.gnu.org/licenses/gpl-3.0.en.html>
 
 class OverviewPageService
 {
@@ -16,9 +18,9 @@ class OverviewPageService
     private $emUnderZeroTotal2;
     private $pmSavingsTotal2;
 
-    public function __construct($pdoConnection)
+    public function __construct()
     {
-        $this->hourlyEnergyDataTbl = new HourlyEnergyDataTable($pdoConnection);
+        $this->hourlyEnergyDataTbl = HourlyEnergyDataTable::getInstance();
         $this->missingRowSet1 = new MissingRowSet();
         $this->missingRowSet2 = new MissingRowSet();
 
@@ -135,7 +137,7 @@ class OverviewPageService
             $strStart = date('Y-m-d H:i:s', strtotime("$year-$month-1"." 00:00:00"));
             $strEnd = date('Y-m-d H:i:s', strtotime("$year-$month-".TimeHelper::getDaysInMonth($month, $year)." 23:59:59"));            
             $powerData = $this->hourlyEnergyDataTbl->getEnergyData($strStart, $strEnd);
-            $powerData->setTimestampForView(date('d.m.Y H:i', strtotime("$year-$month-1"." 00:00:00")));
+            $powerData->setTimestampForView(date('d.m.Y', strtotime("$year-$month-1"." 00:00:00")));
             $energyDataSetList->addItem($powerData);
         }
         return $energyDataSetList;
@@ -148,110 +150,42 @@ class OverviewPageService
             $strStart = date('Y-m-d H:i:s', strtotime("$year-1-1"." 00:00:00"));
             $strEnd = date('Y-m-d H:i:s', strtotime("$year-12-31"." 23:59:59"));            
             $powerData = $this->hourlyEnergyDataTbl->getEnergyData($strStart, $strEnd);
-            $powerData->setTimestampForView(date('Y-m-d H:i:s', strtotime("$year-1-1"." 00:00:00")));
+            $powerData->setTimestampForView(date('Y', strtotime("$year-1-1"." 00:00:00")));
             $energyDataSetList->addItem($powerData);
         }
         return $energyDataSetList;
     }
 
-    public function getTableStatistics(): TableStatisticSet
-    {
-        return $this->hourlyEnergyDataTbl->getStatistics();
-    }
+    public function getTableStatistics(): TableStatisticSet { return $this->hourlyEnergyDataTbl->getStatistics(); }
+    public function getFirstYear() { return date("Y", strtotime($this->getTableStatistics()->getFirstRowDate())); }
+    public function getLastYear() { return date("Y", strtotime($this->getTableStatistics()->getLastRowDate())); }
 
-    public function getFirstYear()
-    {        
-        return date("Y", strtotime($this->getTableStatistics()->getFirstRowDate()));
-    }
+    public function getData1List() : EnergyDataSetList { return $this->data1; }
+    public function getData2List() : EnergyDataSetList { return $this->data2; }
 
-    public function getLastYear()
-    {
-        return date("Y", strtotime($this->getTableStatistics()->getLastRowDate()));
-    }
+    public function hasData1() { return $this->data1 != null; }
+    public function hasData2() { return $this->data2 != null; }
 
-    public function getData1List() : EnergyDataSetList
-    {
-        return $this->data1;
-    }
+    public function getLabelsTooltip() : array { return $this->labelsTooltip; }
+    public function getLabelsXAxis() : array { return $this->labelsXAxis; }
 
-    public function getData2List() : EnergyDataSetList
-    {
-        return $this->data2;
-    }
+    public function getMissingRowSet1() : MissingRowSet { return $this->missingRowSet1; }
+    public function getMissingRowSet2() : MissingRowSet { return $this->missingRowSet2; }
 
-    public function hasData1() {
-        return $this->data1 != null;
-    }
+    public function getEMOverZeroTotal1() : EnergyAndPriceTuple { return $this->emOverZeroTotal1; }
+    public function getEMOverZeroTotal2() : EnergyAndPriceTuple { return $this->emOverZeroTotal2; }
 
-    public function hasData2() {
-        return $this->data2 != null;
-    }
+    public function getEMUnderZeroTotal1() : EnergyAndPriceTuple { return $this->emUnderZeroTotal1; }
+    public function getEMUnderZeroTotal2() : EnergyAndPriceTuple { return $this->emUnderZeroTotal2; }
 
-    public function getLabelsTooltip() : array
-    {
-        return $this->labelsTooltip;
-    }
-
-    public function getLabelsXAxis() : array
-    {
-        return $this->labelsXAxis;
-    }
-
-    public function getMissingRowSet1() : MissingRowSet
-    {
-        return $this->missingRowSet1;
-    }
-
-    public function getMissingRowSet2() : MissingRowSet
-    {
-        return $this->missingRowSet2;
-    }
-
-    public function getEMOverZeroTotal1() : EnergyAndPriceTuple
-    {
-        return $this->emOverZeroTotal1;
-    }
-
-    public function getEMUnderZeroTotal1() : EnergyAndPriceTuple
-    {
-        return $this->emUnderZeroTotal1;
-    }
-
-    public function getPMSavingsTotal1() : EnergyAndPriceTuple
-    {
-        return $this->pmSavingsTotal1;
-    }
+    public function getPMSavingsTotal1() : EnergyAndPriceTuple { return $this->pmSavingsTotal1; }
+    public function getPMSavingsTotal2() : EnergyAndPriceTuple { return $this->pmSavingsTotal2; }
 
     public function getConsumptionTotal1() : EnergyAndPriceTuple
     {
         $result = $this->emOverZeroTotal1;
         $result->add($this->pmSavingsTotal1);
         return $result;
-    }
-
-    public function getAutarkyInPercent1() {
-        $totalConsumption = $this->getEMOverZeroTotal1()->getEnergyInWatt() + $this->getPMSavingsTotal1()->getEnergyInWatt();
-        $percentAutarky = 0;
-        if ($totalConsumption > 0) {
-            $percentAutarky = (1-($this->getEMOverZeroTotal1()->getEnergyInWatt() / $totalConsumption)) * 100;
-        }
-
-        return $percentAutarky;
-    }
-
-    public function getEMOverZeroTotal2() : EnergyAndPriceTuple
-    {
-        return $this->emOverZeroTotal2;
-    }
-
-    public function getEMUnderZeroTotal2() : EnergyAndPriceTuple
-    {
-        return $this->emUnderZeroTotal2;
-    }
-
-    public function getPMSavingsTotal2() : EnergyAndPriceTuple
-    {
-        return $this->pmSavingsTotal2;
     }
 
     public function getConsumptionTotal2() : EnergyAndPriceTuple
@@ -261,14 +195,45 @@ class OverviewPageService
         return $result;
     }
 
+    public function getAutarkyInPercent1() {
+        return self::calculateAutarky($this->getPMSavingsTotal1()->getEnergyInWatt(), $this->getEMOverZeroTotal1()->getEnergyInWatt());
+    }
+
     public function getAutarkyInPercent2() {
-        $totalConsumption = $this->getEMOverZeroTotal2()->getEnergyInWatt() + $this->getPMSavingsTotal2()->getEnergyInWatt();
-        $percentAutarky = 0;
-        if ($totalConsumption > 0) {
-            $percentAutarky = (1-($this->getEMOverZeroTotal2()->getEnergyInWatt() / $totalConsumption)) * 100;
+        return self::calculateAutarky($this->getPMSavingsTotal2()->getEnergyInWatt(), $this->getEMOverZeroTotal2()->getEnergyInWatt());
+    }
+
+    public function getSelfConsumptionInPercent1()
+    {
+        return self::calculateSelfConsumption($this->getPMSavingsTotal1()->getEnergyInWatt(), $this->getEMUnderZeroTotal1()->getEnergyInWatt());
+    }
+
+    public function getSelfConsumptionInPercent2()
+    {
+        return self::calculateSelfConsumption($this->getPMSavingsTotal2()->getEnergyInWatt(), $this->getEMUnderZeroTotal2()->getEnergyInWatt());
+    }
+
+    public static function calculateAutarky($savings, $emOverZero)
+    {
+        $totalConsumption = $emOverZero + $savings;
+        if ($totalConsumption <= 0) {
+            return 0;
         }
 
+        $percentAutarky = (1-($emOverZero / $totalConsumption)) * 100;
         return $percentAutarky;
     }
+
+    public static function calculateSelfConsumption($savings, $emUnderZero)
+    {
+        $totalProduction = $savings + abs($emUnderZero);
+        if ($totalProduction <= 0) {
+            return 0;
+        }
+    
+        $percentSelfConsumption = ($savings / $totalProduction) * 100;    
+        return $percentSelfConsumption;
+    }
+    
 
 }

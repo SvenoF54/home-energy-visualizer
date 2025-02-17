@@ -1,3 +1,6 @@
+/* NrgHomeVis - Energievisualisierung für zu Hause | Repository: <https://github.com/SvenoF54/home-energy-visualizer> 
+   Licensed under the GNU GPL v3.0 - see <https://www.gnu.org/licenses/gpl-3.0.en.html> */
+
 h1 {
     margin-top: 5px
 }
@@ -93,18 +96,44 @@ h1 {
 #autarky-chart-container,
 #energy-chart-container {
     width: 100% !important;
-    min-height: 300px;
+    height: 46vh;
     display: none;
     margin: 0;
     padding: 0;
 }
 
-@media (min-width: 1200px) {
-    /* out size xl (> 1200px) */
+@media (min-height: 220px) and (max-height: 320px) {
+    /* Landscape Handy */
+    #autarky-chart-container,
+    #energy-chart-container {
+        width: 95vw !important;
+        height: 48vh !important;
+        min-height: 220px !important;
+    }
+}
+
+@media (min-width: 768px) {
     #autarky-chart-container,
     #energy-chart-container {
         width: 95vw !important;
         height: 56vh !important;
+    }
+}
+
+@media (min-width: 1200px) and (min-height: 320px) and (max-height: 600px) {
+    /* Landscape Tablet */
+    #autarky-chart-container,
+    #energy-chart-container {
+        width: 95vw !important;
+        height: 40vh !important;
+    }
+}
+
+@media (min-width: 1400px) {
+    #autarky-chart-container,
+    #energy-chart-container {
+        width: 95vw !important;
+        height: 60vh !important;
     }
 }
 

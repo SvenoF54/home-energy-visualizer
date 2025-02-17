@@ -1,15 +1,8 @@
 <?php
-include_once("config/config.php");
-include_once("../lib/database/database.php");
-include_once("../lib/database/baseTable.php");
-include_once("../lib/database/baseTimestampTable.php");
-include_once("../lib/database/realTimeEnergyDataTable.php");
-include_once("../lib/database/realTimeEnergyDataRow.php");
-include_once("../lib/database/hourlyEnergyDataInsert.php");
-include_once("../lib/database/energyPriceRow.php");
-include_once("../lib/database/energyPriceTable.php");
-include_once("../lib/database/realTimeEnergyDataUnifier.php");
-include_once("../lib/utils/apiHelper.php");
+// NrgHomeVis - Energievisualisierung für zu Hause | Repository: <https://github.com/SvenoF54/home-energy-visualizer>
+// Licensed under the GNU GPL v3.0 - see <https://www.gnu.org/licenses/gpl-3.0.en.html>
+
+include_once("lib/appLibLoader.php");
 
 ApiHelper::assertApiKeyIsCorrect(isset($_REQUEST["apikey"]) ? $_REQUEST["apikey"] : "");
 
@@ -17,35 +10,12 @@ switch ($_SERVER['REQUEST_METHOD']) {
     case "POST":
     case "GET":        
         $monthYear = isset($_REQUEST["monthYear"]) ? $_REQUEST["monthYear"] : null;
-        unifyRealTimeData($monthYear);
+
+        $resultMsg = TaskService::unifyRealTimeData($monthYear);
+        ApiHelper::dieWithResponseCode(200, $resultMsg);
         break;
     default:
         ApiHelper::dieWithResponseCode(500, "Method not supported");
-}
-return;
-
-function unifyRealTimeData($monthYear)
-{    
-    if (isset($monthYear)) {
-        $startTime = new DateTime($monthYear . '-01 00:00:00');
-        $endTime = clone $startTime;
-        $endTime->modify('last day of ' . $monthYear . ' 23:59:59');
-    } else {
-        $startTime = new DateTime();
-        $startTime->modify('-1 day');
-        $endTime = new DateTime();    
-    }
-
-    $db = Database::getInstance();
-    $realTimeEnergyDataTbl = new RealTimeEnergyDataTable($db->getPdoConnection());
-    $hourlyEnergyDataTbl = new HourlyEnergyDataInsert($db->getPdoConnection());
-    $energyPriceTbl = new EnergyPriceTable($db->getPdoConnection());
-
-    $unifier = new RealTimeEnergyDataUnifier($hourlyEnergyDataTbl, $realTimeEnergyDataTbl, $energyPriceTbl, Configuration::getInstance()->getOutCentPricePerWh(), Configuration::getInstance()->getInCentPricePerWh());
-    $count = $unifier->unifyDataForTimeRange($startTime, $endTime);
-
-    ApiHelper::dieWithResponseCode(200, "Data saved successfully. $count Rows changed or added for timerange ".$startTime->format('d.m.Y H:i:s')." to ".$endTime->format('d.m.Y H:i:s').".");
-
 }
 
 ?>

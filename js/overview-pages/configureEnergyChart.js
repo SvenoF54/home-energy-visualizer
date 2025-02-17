@@ -1,3 +1,6 @@
+/* NrgHomeVis - Energievisualisierung für zu Hause | Repository: <https://github.com/SvenoF54/home-energy-visualizer> 
+   Licensed under the GNU GPL v3.0 - see <https://www.gnu.org/licenses/gpl-3.0.en.html> */
+
 const emColor = getComputedStyle(document.documentElement).getPropertyValue('--em-color').trim();
 const emOverZeroColor = getComputedStyle(document.documentElement).getPropertyValue('--em-over-zero-color').trim();
 const addSavingsColor = getComputedStyle(document.documentElement).getPropertyValue('--add-savings-color').trim();
@@ -97,7 +100,7 @@ const optionsEnergy = {
 
                     toDateTime.setHours(toDateTime.getHours() + 1);
                     fromDateTime.setHours(fromDateTime.getHours());
-                    url = `${URL_PREFIX}realtimeOverview.php?from-date=${formatDateTime(fromDateTime)}&to-date=${formatDateTime(toDateTime)}&hours=0`;
+                    url = `${URL_PREFIX}realtimeOverview.php?from-date=${formatDateTime(fromDateTime)}&to-date=${formatDateTime(toDateTime)}&pastperiod=0`;
                     break;
             }
 

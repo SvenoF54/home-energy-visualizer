@@ -1,7 +1,8 @@
 <?php
 setlocale(LC_TIME, 'de_DE.UTF-8', 'de_DE', 'deu_deu');
+date_default_timezone_set('Europe/Berlin');
 
-include_once(__DIR__ ."/../lib/config/Configuration.php");
+include_once(__DIR__ ."/../lib/config/configuration.php");
 include_once("local-config.php");  // Eine local.config.php Datei erstellen, s. local-config.php.sample
 
 define('MONTH_LIST', [

@@ -1,5 +1,5 @@
 // Konfiguration
-let loggingUrl = "http://meine.domain/mein-verzeichnis/api/log-energy-data.php?apikey=9999999"; // URL zum PHP-Skript
+let loggingUrl = "http://meine.domain/mein-verzeichnis/api/log-energy-data.php?apikey=987654321"; // URL zum PHP-Skript
 
 let AppName = "PM-Battery"; // Wird in den Shelly-Logs angezeigt
 let devicePhase = 1; // Phase 1, 2 oder 3. Nur notwendig für Messung der Energieerzeugung, z.B. Shelly-PM Geräte

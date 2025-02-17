@@ -12,7 +12,14 @@ Zeigt die in Echtzeit (z. B. alle 2 Sekunden) erfassten Energiewerte. Ermöglich
 
 <img src="./images/gallery/realtime-overview_mobile.png" alt="Mobile Echtzeitansicht" width="250">
 
+**Desktop: Beispiel Regelansicht Nulleinspeisung mit Ceranfeld**
+Hier kann man erkennen, wie lange ein Akkusystem mit Nulleinspeisung benötigt, um den Energiebedarf des Hause aus dem Akku zu nachzuregeln. 
 
+![Beispiel Regulierung Nulleinspeisung mit Ceranfeld](./images/gallery/realtime-overview-regulation-ceranfield.png "Beispiel Regulierung Nulleinspeisung mit Ceranfeld")
+
+**Desktop: Beispiel Nulleinspeisung über 1 Stunde**
+Ein anderes Beispiel mit einer Stunde Nulleinspeisung. Man erkennt, das das System lediglich ~20Wh aus den Netz einkauft und den restlichen Bedarf selbst abdeckt.
+![Beispiel Nulleinspeisung über 1 Stunde](./images/gallery/realtime-overview-zero-feed-in-one-hour.png "Beispiel Nulleinspeisung über 1 Stunde")
 
 
 # Stundenübersicht - Diagram
@@ -41,6 +48,13 @@ Zeigt die Autarkie (Selbstverssorgungsrate) in Prozent für die erste Auswahl al
 
 **Desktop**
 ![Autarkieübersicht](./images/gallery/hours-overview-autarky.png "Autarkieübersicht")
+
+
+# Stundenübersicht - Autarkie (Eigenverbrauchsquote)
+Zeigt die Eigenverbrauchsquote in Prozent für die erste Auswahl als Chart dar. Alle Übersichtsseiten bieten die Autarkieansicht, hier nur exemplarsich für die Stundenansicht.
+
+**Desktop**
+![Eigenverbrauchsquote](./images/gallery/hours-overview-self-consumption-rate.png "Eigenverbrauchsquote")
 
 
 
@@ -82,3 +96,10 @@ Es wird ein Status der fehlenden Energiewerte angezeigt. Bei manueller Eingabe k
 
 **Desktop**
 ![Status der Energiewerte](./images/gallery/status-energy-values.png "Status der Energiewerte")
+
+# Status der automatischen Jobs
+Hier wird der Status der automatischen Jobs angezeigt.
+Im Fehlerfall ist rechts oben in der Navigation ein Hinweis mit einem Link zu dieser Seite zu sehen.
+Auf dieser Seite wird die entsprechende Zeile dann rot gefärbt, z.B. wenn keine Daten von einem der Shellys übertragen werden. 
+Wenn entsprechend konfiguriert wird in diesem Fall auch eine Fehlermail versendet.
+![Status der automatischen Jobs](status-overview.png "Status der automatischen Jobs")

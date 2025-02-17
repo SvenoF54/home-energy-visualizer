@@ -1,4 +1,7 @@
 <?php
+// NrgHomeVis - Energievisualisierung für zu Hause | Repository: <https://github.com/SvenoF54/home-energy-visualizer>
+// Licensed under the GNU GPL v3.0 - see <https://www.gnu.org/licenses/gpl-3.0.en.html>
+
 include_once("lib/appLibLoader.php");
 
 // Defaults
@@ -13,8 +16,7 @@ $timeLabelUnit = "month";
 // konfigurieren
 $errorMsg = "";
 
-$db = Database::getInstance();
-$overviewPageService = new OverviewPageService($db->getPdoConnection());
+$overviewPageService = new OverviewPageService();
 $overviewPageService->calculateMonthData($selectedYear1, $selectedYear2);
 $yearList = [];
 for($year = $overviewPageService->getFirstYear(); $year <= $overviewPageService->getLastYear(); $year++) {

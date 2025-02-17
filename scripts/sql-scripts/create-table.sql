@@ -17,7 +17,7 @@ CREATE TABLE IF NOT EXISTS `energy_price` (
   `custom_value` tinyint(1) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`),
   KEY `timefrom_timeto` (`timestamp_from`,`timestamp_to`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
 
 -- Daten-Export vom Benutzer nicht ausgewählt
 
@@ -40,8 +40,8 @@ CREATE TABLE IF NOT EXISTS `hourly_energy_data` (
   `pm3_missing_rows` int(11) DEFAULT NULL,
   `count_rows` int(11) DEFAULT NULL,
   `custom_value` tinyint(1) DEFAULT 0,
-  PRIMARY KEY (`timestamp`),
-  KEY `timestamp_em_total_power` (`timestamp`,`em_total_power`)
+	PRIMARY KEY (`timestamp_from`) USING BTREE,
+	INDEX `timestamp_em_total_power` (`timestamp_from`, `em_total_power`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
 
 -- Daten-Export vom Benutzer nicht ausgewählt
@@ -61,7 +61,20 @@ CREATE TABLE IF NOT EXISTS `real_time_energy_data` (
   KEY `idx_timestamp_pm1_total_power` (`timestamp`,`pm1_total_power`) USING BTREE,
   KEY `idx_timestamp_pm2_total_power` (`timestamp`,`pm2_total_power`) USING BTREE,
   KEY `idx_timestamp_pm3_total_power` (`timestamp`,`pm3_total_power`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=5882346 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+CREATE TABLE IF NOT EXISTS `key_value_store` (
+	`scope` VARCHAR(50) NULL DEFAULT NULL COLLATE 'utf8mb3_general_ci',
+	`store_key` VARCHAR(50) NULL DEFAULT NULL COLLATE 'utf8mb3_general_ci',
+	`value` VARCHAR(250) NULL DEFAULT NULL COLLATE 'utf8mb3_general_ci',
+	`json_data` MEDIUMTEXT NULL DEFAULT NULL COLLATE 'utf8mb3_general_ci',
+	`notice` MEDIUMTEXT NULL DEFAULT NULL COLLATE 'utf8mb3_general_ci',
+	`updated` DATETIME NULL DEFAULT NULL,
+	`inserted` DATETIME NULL DEFAULT NULL,
+	UNIQUE INDEX `scope_key_unique` (`scope`, `store_key`) USING BTREE,
+	INDEX `key` (`store_key`) USING BTREE
+) COLLATE='utf8mb3_general_ci' ENGINE=InnoDB
+;
 
 -- Daten-Export vom Benutzer nicht ausgewählt
 

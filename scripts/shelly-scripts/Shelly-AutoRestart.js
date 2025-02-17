@@ -1,4 +1,4 @@
-let targetScriptId = 1; // Ändere die ID entsprechend
+let targetScriptId = 1; // Ändere die ID entsprechend des Shelly-Scripte für den Logger. Diese kann der Browser-URL entnommen werden (.../script/2).
 let checkInterval = 3600 * 1000; // 1 Stunde in Millisekunden
 
 Timer.set(checkInterval, true, function() {

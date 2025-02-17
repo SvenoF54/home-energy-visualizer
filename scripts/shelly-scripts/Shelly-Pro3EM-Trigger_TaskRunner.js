@@ -1,7 +1,7 @@
 // Konfiguration
-let loggingUrl = "http://meine.domain/mein-verzeichnis/api/unify-data.php?apikey=9999999"; // URL zum PHP-Skript
+let loggingUrl = "http://meine.domain/mein-verzeichnis/api/taskrunner.php?apikey=987654321"; // URL zum PHP-Skript
 
-let AppName = "UnifyData";
+let AppName = "Taskrunner";
 let intervalInSeconds = 60;
 let printLogMsg = true;
 

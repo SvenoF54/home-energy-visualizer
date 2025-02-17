@@ -1,4 +1,4 @@
-# Energie-Visualisierung für zu Hause
+# NrgHomeVis - Energie-Visualisierung für zu Hause
 
 ![Echtzeit-Ansicht](./images/gallery/realtime-overview.png "Echtzeit-Ansicht")
 
@@ -28,7 +28,10 @@ Beispielsweise können Stromspitzen in Echtzeit erkannt und mithilfe von zwei Be
 
 **Autarkieansichten**
 
-Diese ermöglichen es, sich einen Überblick über den eingekauften und selbst produzierten Strom zu verschaffen. Ein Beispiel: Im Juli wurde der eigene Strombedarf zu 55% aus selbst erzeugtem Strom gedeckt.
+Diese ermöglichen es, sich einen Überblick über den eingekauften und selbst produzierten Strom zu verschaffen. Weiterhin ist es möglich sich die Eigenverbrauchsquote anzuzeigen.
+
+Ein Beispiel: Im Juli wurde der eigene Strombedarf zu 55% aus selbst erzeugtem Strom gedeckt und der Eigenverbrauch liegt bei 85% und 15% wurden ins Netz eingespeist.
+
 
 ### Installation
 

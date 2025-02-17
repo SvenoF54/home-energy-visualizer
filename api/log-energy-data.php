@@ -1,4 +1,7 @@
 <?php
+// NrgHomeVis - Energievisualisierung für zu Hause | Repository: <https://github.com/SvenoF54/home-energy-visualizer>
+// Licensed under the GNU GPL v3.0 - see <https://www.gnu.org/licenses/gpl-3.0.en.html>
+
 include_once("config/config.php");
 include_once("../lib/database/database.php");
 include_once("../lib/database/baseTable.php");
@@ -31,10 +34,11 @@ function writeDataToTable($data) {
     $db = Database::getInstance();
     $table = new RealTimeEnergyDataInsert($db->getPdoConnection());
     if (! $table->logData($timestamp, $device_type, $interval_in_seconds, $total_act_power)) {
-        ApiHelper::dieWithResponseCode(500, "Error during saveing data: " . $table->getError());
+        ApiHelper::dieWithResponseCode(500, "Error saving data: " . $table->getError());
     }
 
     ApiHelper::dieWithResponseCode(200, "Successfully saved. Timestamp: ".date("d.m.Y H:i:s", strtotime($timestamp)).", Device: ".$device_type.", Energy: ".$total_act_power);
 }
+
 
 ?>

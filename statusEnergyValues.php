@@ -1,14 +1,16 @@
 <?php
+// NrgHomeVis - Energievisualisierung für zu Hause | Repository: <https://github.com/SvenoF54/home-energy-visualizer>
+// Licensed under the GNU GPL v3.0 - see <https://www.gnu.org/licenses/gpl-3.0.en.html>
+
 include_once("lib/appLibLoader.php");
 
 // Prepare DB
-$db = Database::getInstance();
-$hourlyEnergyDataTbl = new HourlyEnergyDataTable($db->getPdoConnection());
+$hourlyEnergyDataTbl = HourlyEnergyDataTable::getInstance();
 $hourlyEnergyGaps = $hourlyEnergyDataTbl->getGaps();
 $hourlyEnergyGapsGroupped = TableGapSet::groupByMonth($hourlyEnergyGaps);
 $hourlyEnergyStats = $hourlyEnergyDataTbl->getStatistics();
 
-$realtimeEnergyDataTbl = new RealTimeEnergyDataTable($db->getPdoConnection());
+$realtimeEnergyDataTbl = RealTimeEnergyDataTable::getInstance();
 $realtimeEnergyStats = $realtimeEnergyDataTbl->getStatistics();
 
 // configure VIEW

@@ -1,3 +1,6 @@
+/* NrgHomeVis - Energievisualisierung für zu Hause | Repository: <https://github.com/SvenoF54/home-energy-visualizer> 
+   Licensed under the GNU GPL v3.0 - see <https://www.gnu.org/licenses/gpl-3.0.en.html> */
+
 function calculateAverage(dataArray) {
     const sum = dataArray.reduce((acc, value) => acc + value, 0);
     return (sum / dataArray.length).toFixed(2);
@@ -115,6 +118,7 @@ function formatNumber(val, digits = 0) {
         .toFixed(digits) // round to given decimal digits
         .replace('.', ',');
 
+    if (formattedValue == "100,00") return formattedValue;
     formattedValue = formattedValue.replace(new RegExp(`\\B(?=(\\d{${digits}})+(?!\\d))`, 'g'), '.');
 
     if (digits > 0) {

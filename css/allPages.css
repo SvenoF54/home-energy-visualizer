@@ -1,3 +1,6 @@
+/* NrgHomeVis - Energievisualisierung für zu Hause | Repository: <https://github.com/SvenoF54/home-energy-visualizer> 
+   Licensed under the GNU GPL v3.0 - see <https://www.gnu.org/licenses/gpl-3.0.en.html> */
+
 body {
     font-family: Arial, sans-serif;
     text-align: center;
@@ -42,6 +45,12 @@ body {
 .custom-navbar .navbar-nav .nav-link {
     padding: 0rem 0.8rem;
     font-size: 0.9rem;
+}
+
+.navbar-product-title {
+    text-decoration: none;
+    font-size: 0.8rem !important;
+    font-style: italic;
 }
 
 .custom-navbar .dropdown-menu {
@@ -89,6 +98,8 @@ body {
     --line-zero-color: marroon;
     --autarky-color: rgba(127, 181, 181, 0.6);
     --autarky-color2: rgba(97, 141, 141, 0.6);
+    --self-consumption-color: rgba(127, 181, 181, 0.3);
+    --self-consumption-color2: rgba(97, 141, 141, 0.3);
 }
 
 .em-color {
@@ -161,4 +172,12 @@ body {
 
 .autarky-color2 {
     background-color: var(--autarky-color2);
+}
+
+.self-consumption-color {
+    background-color: var(--self-consumption-color);
+}
+
+.self-consumption-color2 {
+    background-color: var(--self-consumption-color2);
 }
