@@ -3,11 +3,34 @@
 
 $(document).ready(function() {
 
-    // initialize Charts
-    ctxEnergy = document.getElementById('energyChart').getContext('2d');
-    energyChart = new Chart(
-        ctxEnergy,
-        configEnergy
-    );
+    function fetchDashboardData() {
+        console.log("fetch");
+        $.ajax({
+            url: URL_PREFIX + 'api/dashboard-reader.php',
+            method: 'GET',
+            dataType: 'json', // Falls die Antwort JSON ist
+            success: function(response) {
+                //console.log(JSON.stringify(response));
+                $('#em_total').html(response.em_total);
+                $('#em_over_zero').html(response.em_over_zero);
+                $('#em_under_zero').html(response.em_under_zero);
+                $('#pm_total').html(response.pm_total);
+                $('#pm1_total').html(response.pm1_total);
+                $('#pm2_total').html(response.pm2_total);
+                $('#pm3_total').html(response.pm3_total);
 
+
+                $('#dashboard-data').html(response); // Passe die Ausgabe an
+            },
+            error: function() {
+                $('#dashboard-data').html('Fehler beim Laden der Daten');
+            }
+        });
+    }
+
+    // Initialer Aufruf
+    fetchDashboardData();
+
+    // Wiederhole den Abruf alle 1 Sekunden
+    setInterval(fetchDashboardData, 1000);
 });

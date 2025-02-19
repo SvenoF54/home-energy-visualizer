@@ -98,7 +98,8 @@ const optionsEnergy = {
                     let fromDateTime = parseDate(selectedDateTime);
                     let toDateTime = parseDate(selectedDateTime);
 
-                    toDateTime.setHours(toDateTime.getHours() + 1);
+                    toDateTime.setMinutes(toDateTime.getMinutes() + 59);
+                    toDateTime.setSeconds(toDateTime.getSeconds() + 59);
                     fromDateTime.setHours(fromDateTime.getHours());
                     url = `${URL_PREFIX}realtimeOverview.php?from-date=${formatDateTime(fromDateTime)}&to-date=${formatDateTime(toDateTime)}&pastperiod=0`;
                     break;

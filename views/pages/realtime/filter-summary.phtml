@@ -3,7 +3,7 @@
         <!-- Header -->
         <tr class="table-light">
         <td class="small">
-                <div class="small" style="text-align: left;"><strong><span class="d-none d-sm-inline">Einkauf</span> < <?=$actualConfig->getLine1()?> W: <strong>
+                <div class="small" style="text-align: left;"><strong><span class="d-none d-sm-inline">Einkauf</span> < <?=$actualConfig->getLine1()?> W: </strong>
                 <?php $textLine1 = "Einkauf < {$actualConfig->getLine1()} W: ".HtmlHelper::formatEnergyInWattAndCurrency($energyData->getEnergyUnderX1()) ?>
                 <?php $textLine1 .= "<br> Einkauf > {$actualConfig->getLine1()} W: ".HtmlHelper::formatEnergyInWattAndCurrency($energyData->getEnergyOverX1()) ?>
                 <?php $textLine1 .= "<br> Einkauf {$actualConfig->getLine1()} bis {$actualConfig->getLine2()} W: ".HtmlHelper::formatEnergyInWattAndCurrency($energyData->getEnergyBetweenX1AndX2()) ?>
@@ -11,7 +11,7 @@
                 <i class="bi bi-info-circle text-primary" data-bs-toggle="tooltip" data-bs-html="true" title="<?=$textLine1?>"></i><div>
             </td>
             <td class="small">
-                <div class="small" style="text-align: left;"><strong><span class="d-none d-sm-inline">Einkauf</span> > <?=$actualConfig->getLine2()?> W: <strong>
+                <div class="small" style="text-align: left;"><strong><span class="d-none d-sm-inline">Einkauf</span> > <?=$actualConfig->getLine2()?> W: </strong>
                 <?php $textLine2 = "Einkauf < {$actualConfig->getLine2()} W: ".HtmlHelper::formatEnergyInWattAndCurrency($energyData->getEnergyUnderX2()) ?>
                 <?php $textLine2 .= "<br>Einkauf > {$actualConfig->getLine2()} W: ".HtmlHelper::formatEnergyInWattAndCurrency($energyData->getEnergyOverX2()) ?>
                 <?php $textLine2 .= "<br> Einkauf {$actualConfig->getLine1()} bis {$actualConfig->getLine2()} W: ".HtmlHelper::formatEnergyInWattAndCurrency($energyData->getEnergyBetweenX1AndX2()) ?>
@@ -19,7 +19,7 @@
                 <i class="bi bi-info-circle text-primary" data-bs-toggle="tooltip" data-bs-html="true" title="<?=$textLine2?>"></i><div>
             </td>
             <td class="small">
-                <div class="small" style="text-align: left;"><strong><span class="d-none d-sm-inline">Einkauf</span> > 0: <strong>
+                <div class="small" style="text-align: left;"><strong><span class="d-none d-sm-inline">Einkauf</span> > 0: </strong>
                 <?php $textEm = "Einspeisung (< 0W): ".HtmlHelper::formatEnergyInWattAndCurrency($energyData->getEnergyUnderZero()) ?>
                 <?php $textEm .= "<br>Einkauf (> 0 W): ".HtmlHelper::formatEnergyInWattAndCurrency($energyData->getEnergyOverZero()) ?>
                 <i class="bi bi-info-circle text-primary" data-bs-toggle="tooltip" data-bs-html="true" title="<?=$textEm?>"></i><div>

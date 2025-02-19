@@ -39,4 +39,5 @@ include_once("utils/apiHelper.php");
 
 include_once("services/mailService.php");
 include_once("services/overviewPageService.php");
+include_once("services/dashboardService.php");
 include_once("services/taskService.php");

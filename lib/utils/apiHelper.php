@@ -17,6 +17,14 @@ class ApiHelper {
         http_response_code($code);
         die($msg);
     }
+
+    public static function dieWithJsonResponse($json)
+    {
+        header('Content-Type: application/json');
+        http_response_code(200);        
+        
+        die($json);
+    }
         
 }
 ?>
