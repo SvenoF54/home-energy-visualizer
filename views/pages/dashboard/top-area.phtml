@@ -1,38 +1,88 @@
 <div class="row justify-content-center">
     <div class="col-12 col-md-10 col-xxl-8">
         <table class="table table-sm w-100 m-0 mb-sm-1 mb-md-2">
-                <tbody>
-                    <!-- Header -->
-                    <tr class="table-secondary">
-                        <td>
-                            <div class="small fw-bold">Einkauf</div>
-                        </td>
-                        <td>
-                            <div class="small fw-bold">Einspeisung</div>
-                        </td>
-                        <td>
-                            <div class="small fw-bold">Ersparnis</div>
-                        </td>
-                        <td>
-                            <div class="small fw-bold">Gesamtverbrauch</div>
-                        </td>
-                    </tr>
-                    <!-- Row 1 -->
-                    <tr class="table-light">
-                        <td>
-                            <div class="small"><span id="em_over_zero">0</span></div>
-                        </td>
-                        <td>
-                            <div class="small"><span id="em_under_zero">0</span></div>
-                        </td>
-                        <td>
-                            <div class="small"><span id="pm_total">0</span></div>
-                        </td>
-                        <td>
-                            <div class="small"><span id="em_total">0</span></div>
-                        </td>
-                    </tr>
-                </tbody>
+            <tbody>
+                <!-- Header -->
+                <tr class="table-secondary">
+                    <td>
+                        <div class="small fw-bold">Zeitraum</div>
+                    </td>
+                    <td>
+                        <div class="small fw-bold">Einkauf</div>
+                    </td>
+                    <td>
+                        <div class="small fw-bold">Einspeisung</div>
+                    </td>
+                    <td>
+                        <div class="small fw-bold">Ersparnis</div>
+                    </td>
+                </tr>
+                <!-- Row today -->
+                <tr class="table-light">
+                    <td>
+                        <div class="small">Heute</div>
+                    </td>
+                    <td>
+                        <div class="small"><span id="today-emOZ">0</span> (<span id="today-emOZPrice">0</span>)</div>
+                    </td>
+                    <td>
+                        <div class="small"><span id="today-emUZ">0</span> (<span id="today-emUZPrice">0</span>)</div>
+                    </td>
+                    <td>
+                        <div class="small"><span id="today-pmSvg">0</span> (<span id="today-pmSvgPrice">0</span>)</div>
+                    </td>
+                </tr>
+                <!-- Row current hour -->
+                <tr class="table-light">
+                    <td>
+                        <div class="small">Aktuelle Stunde</div>
+                    </td>
+                    <td>
+                        <div class="small"><span id="currenthour-emOZ">0</span> (<span id="currenthour-emOZPrice">0</span>)</div>
+                    </td>
+                    <td>
+                        <div class="small"><span id="currenthour-emUZ">0</span> (<span id="currenthour-emUZPrice">0</span>)</div>
+                    </td>
+                    <td>
+                        <div class="small"><span id="currenthour-pmSvg">0</span> (<span id="currenthour-pmSvgPrice">0</span>)</div>
+                    </td>
+                </tr>
+            </tbody>
         </table>
+        <br>
+
+        <div class="container text-center">
+        <!-- Both progress circles -->
+        <div class="progress-container">
+            <div class="progress-box">
+                <h6><strong>Jetzt</strong></h6>
+                <div id="circle-now" class="progress-circle"></div>
+            </div>
+            <div class="progress-box">
+                <h6><strong>Heute</strong></h6>
+                <div id="circle-today" class="progress-circle"></div>
+            </div>
+        </div>
+
+        <!-- horizontal progress bars -->
+        <div class="mt-4">
+            <div class="small text-start"><strong>EM: </strong><span id="now-em">0</span></div>
+            <div class="progress-bar-container">
+                <div id="em-now-bar" class="progress-bar-1"></div>
+            </div>
+        </div>
+
+        <div class="mt-4">
+            <div class="small text-start">
+                <strong>PM: </strong><span id="now-pm">0</span>
+                | PM1: <span id="now-pm1">0</span>
+                | PM2: <span id="now-pm2">0</span>
+                | PM3: <span id="now-pm3">0</span>
+            </div>
+            <div class="progress-bar-container">
+                <div id="pm-now-bar" class="progress-bar-2"></div>
+            </div>
+        </div>
+
     </div>
 </div>

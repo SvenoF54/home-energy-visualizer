@@ -70,6 +70,24 @@ class RealTimeEnergyDataRow
         );
     }
 
+    public function convertToJsArray() : array
+    {
+        $autarky = OverviewPageService::calculateAutarky($this->getSavingsPower(), $this->getEmTotalPowerOverZero());
+        $selfConsumption = OverviewPageService::calculateAutarky($this->getSavingsPower(), $this->getEmTotalPowerOverZero());
+        return [
+            'em' => $this->getEmTotalPower(),
+            'emOZ' => $this->getEmTotalPowerOverZero(),
+            'emUZ' => $this->getEmTotalPowerUnderZero(),
+            'pm' => $this->getPmTotalPower(),
+            'pm1' => $this->getPm1TotalPower(),
+            'pm2' => $this->getPm2TotalPower(),
+            'pm3' => $this->getPm3TotalPower(),
+            'pmSvg' => $this->getSavingsPower(),
+            'autInPct' => $autarky,
+            'slfConInPct' => $selfConsumption
+        ];
+    }
+
     public function getTimestampData() { return $this->timestampData; }
     public function getIntervalInSeconds() { return $this->intervalInSeconds; }
 
@@ -81,6 +99,7 @@ class RealTimeEnergyDataRow
     public function getPm1TotalPower() { return $this->pm1TotalPower; }
     public function getPm2TotalPower() { return $this->pm2TotalPower;}
     public function getPm3TotalPower() { return $this->pm3TotalPower; }    
+    public function getSavingsPower() { return $this->getPmTotalPower() - $this->getEmTotalPowerUnderZero(); }
 
     public function getEmMissingRows() {return $this->emMissingRows; }
     public function getPm1MissingRows() { return $this->pm1MissingRows; }

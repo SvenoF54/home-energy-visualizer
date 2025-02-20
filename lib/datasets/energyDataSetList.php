@@ -31,21 +31,21 @@ class EnergyDataSetList
         return $this->hasItem($position) ? $this->items[$position] : null;
     }
 
-    public function convertToJsChartArray() : array
+    public function convertEnergyToJsArray() : array
     {
         $result = [];
         foreach ($this->items as $item) {
-            $result[] = $item->convertToJsChartArray();
+            $result[] = $item->convertEnergyToJsArray();
         }
 
         return $result;
     }
 
-    public function calculateAutarkyForJsChartArray() : array
+    public function convertAutarkyToJsArray() : array
     {
         $result = [];
         foreach ($this->items as $item) {
-            $result[] = $item->calculateAutarkyForJsChartArray();
+            $result[] = $item->convertAutarkyToJsArray();
         }
 
         return $result;
