@@ -1,18 +1,6 @@
 /* NrgHomeVis - Energievisualisierung für zu Hause | Repository: <https://github.com/SvenoF54/home-energy-visualizer> 
    Licensed under the GNU GPL v3.0 - see <https://www.gnu.org/licenses/gpl-3.0.en.html> */
 
-const emColor = getComputedStyle(document.documentElement).getPropertyValue('--em-color').trim();
-const pm1Color = getComputedStyle(document.documentElement).getPropertyValue('--pm1-color').trim();
-const pm2Color = getComputedStyle(document.documentElement).getPropertyValue('--pm2-color').trim();
-const pm3Color = getComputedStyle(document.documentElement).getPropertyValue('--pm3-color').trim();
-const pmTotalColor = getComputedStyle(document.documentElement).getPropertyValue('--pm-total-color').trim();
-
-const line1Color = getComputedStyle(document.documentElement).getPropertyValue('--line1-color').trim();
-const line2Color = getComputedStyle(document.documentElement).getPropertyValue('--line2-color').trim();
-const lineZeroColor = getComputedStyle(document.documentElement).getPropertyValue('--line-zero-color').trim();
-
-
-
 const scalesRealtime = {
     x: {
         type: 'time',

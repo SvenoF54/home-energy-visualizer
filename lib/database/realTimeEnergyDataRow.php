@@ -73,18 +73,19 @@ class RealTimeEnergyDataRow
     public function convertToJsArray() : array
     {
         $autarky = OverviewPageService::calculateAutarky($this->getSavingsPower(), $this->getEmTotalPowerOverZero());
-        $selfConsumption = OverviewPageService::calculateAutarky($this->getSavingsPower(), $this->getEmTotalPowerOverZero());
+        $selfConsumptionRate = OverviewPageService::calculateAutarky($this->getSavingsPower(), $this->getEmTotalPowerOverZero());        
         return [
             'em' => $this->getEmTotalPower(),
             'emOZ' => $this->getEmTotalPowerOverZero(),
             'emUZ' => $this->getEmTotalPowerUnderZero(),
+            'slfCon' => $this->getSelfConsumptionPower(),
             'pm' => $this->getPmTotalPower(),
             'pm1' => $this->getPm1TotalPower(),
             'pm2' => $this->getPm2TotalPower(),
             'pm3' => $this->getPm3TotalPower(),
             'pmSvg' => $this->getSavingsPower(),
             'autInPct' => $autarky,
-            'slfConInPct' => $selfConsumption
+            'slfConInPct' => $selfConsumptionRate
         ];
     }
 
@@ -94,6 +95,7 @@ class RealTimeEnergyDataRow
     public function getEmTotalPower() { return $this->emTotalPower; }
     public function getEmTotalPowerOverZero() { return $this->emTotalPowerOverZero; }    
     public function getEmTotalPowerUnderZero() { return $this->emTotalPowerUnderZero; }    
+    public function getSelfConsumptionPower() { return $this->emTotalPowerOverZero + $this->getSavingsPower(); }    
 
     public function getPmTotalPower() { return $this->pm1TotalPower + $this->pm2TotalPower + $this->pm3TotalPower; }
     public function getPm1TotalPower() { return $this->pm1TotalPower; }

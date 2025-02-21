@@ -7,6 +7,7 @@ class DashboardService
     private $realTimeEnergyDataTbl;
     private $hourlyEnergyDataTbl;
     private $latestRealtimeRow;
+    private $nowZeroFeedInActive;
     private $todayData;
     private $currentHourData;
 
@@ -20,8 +21,11 @@ class DashboardService
     {
         $startTime = date('Y-m-d H:i:s', strtotime("- 65 seconds"));
         $endTime = date('Y-m-d H:i:s', strtotime("- 5 seconds"));
-        $dataRows = $this->realTimeEnergyDataTbl->getOverviewData($startTime, $endTime, 5);
+        //$startTime = date('Y-m-d H:i:s', strtotime("- 5 hours -60 seconds"));
+        //$endTime = date('Y-m-d H:i:s', strtotime("- 5 hours"));
+        $dataRows = $this->realTimeEnergyDataTbl->getOverviewData($startTime, $endTime, 5);                
         $this->latestRealtimeRow = end($dataRows);
+        $this->nowZeroFeedInActive = $this->isZeroFeedInActive($dataRows);
 
         $strStart = date('Y-m-d 00:00:00');
         $strEnd = date('Y-m-d 23:59:59');
@@ -35,21 +39,32 @@ class DashboardService
 
     }
 
+    private function isZeroFeedInActive($dataRows)
+    {
+        $nowZeroFeedInActive = true;
+        foreach ($dataRows as $row) { 
+            $nowZeroFeedInActive = $nowZeroFeedInActive && ($row->getEmTotalPower() < 40) && ($row->getEmTotalPower() > -40);
+        }
+        
+        return $nowZeroFeedInActive;
+    }
+
     public function getDataAsJson()
     {
         
         $today = $this->todayData->convertEnergyToJsArray() + $this->todayData->convertAutarkyToJsArray();
         $currentHour = $this->currentHourData->convertEnergyToJsArray() + $this->currentHourData->convertAutarkyToJsArray();
-        $now = $this->latestRealtimeRow->convertToJsArray();
         
-        $now["emPercent"] = ($this->latestRealtimeRow->getEmTotalPower() + 1000) / (10000 + 1000) * 100;
+        $now = $this->latestRealtimeRow->convertToJsArray();        
+        $now["emPercent"] = abs($this->latestRealtimeRow->getEmTotalPower() / 6000 * 100);
         $now["pmPercent"] = ($this->latestRealtimeRow->getPmTotalPower() / 1000) * 100;
+        $now["isZeroFeedInActive"] = $this->nowZeroFeedInActive;
         
         $result = [
             "now" => $now,
             "today" => $today,            
             "currenthour" => $currentHour,
-        ];
+        ];        
 
         return json_encode($result);
     }

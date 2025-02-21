@@ -43,22 +43,22 @@
                         </table>
                         <!-- Autarky Chart Legend -->
                         <table class="table mb-0 text-start toggle-autarky-chart-legend-buttons" style="<?=HtmlHelper::getDisplayStyleVisibleOrNot($actualConfig->showAutarkyChartView())?>">
-                            <tr class="chart-toggle-line legend-label" data-chart-id="autarky-chart-container" data-custom-form-field-field="energy1_chartShowAutarky">
+                            <tr class="chart-toggle-line legend-label" data-chart-id="autarky-chart-container" data-custom-form-field-field="energy1_chartShowAutarkyRate">
                                 <td><span class="legend-line autarky-color"></span></td>
-                                <td><span class="legend-label flex-wrap: nowrap <?=$actualConfig->configEnergy1()->getChartShowAutarky() ? '' : 'strikethrough'?>">Anteil selbst produzierter Strom</span></td>
+                                <td><span class="legend-label flex-wrap: nowrap <?=$actualConfig->configEnergy1()->getChartShowAutarkyRate() ? '' : 'strikethrough'?>">Anteil selbst produzierter Strom</span></td>
                             </tr>        
-                            <tr class="chart-toggle-line legend-label" data-chart-id="autarky-chart-container" data-custom-form-field-field="energy1_chartShowSelfConsumption">
+                            <tr class="chart-toggle-line legend-label" data-chart-id="autarky-chart-container" data-custom-form-field-field="energy1_chartShowSelfConsumptionRate">
                                 <td><span class="legend-line self-consumption-color"></span></td>
-                                <td><span class="legend-label flex-wrap: nowrap <?=$actualConfig->configEnergy1()->getChartShowSelfConsumption() ? '' : 'strikethrough'?>">Eigenverbrauchsquote</span></td>
+                                <td><span class="legend-label flex-wrap: nowrap <?=$actualConfig->configEnergy1()->getChartShowSelfConsumptionRate() ? '' : 'strikethrough'?>">Eigenverbrauchsquote</span></td>
                             </tr>        
                             <?php if ($overviewPageService->hasData2()) : ?>
-                                <tr class="chart-toggle-line" data-chart-id="autarky-chart-container" data-custom-form-field-field="energy2_chartShowAutarky">
+                                <tr class="chart-toggle-line" data-chart-id="autarky-chart-container" data-custom-form-field-field="energy2_chartShowAutarkyRate">
                                     <td><span class="legend-line autarky-color2"></span></td>
-                                    <td><span class="legend-label flex-wrap: nowrap <?=$actualConfig->configEnergy2()->getChartShowAutarky() ? '' : 'strikethrough'?>">Anteil selbst produzierter Strom</span></td>
+                                    <td><span class="legend-label flex-wrap: nowrap <?=$actualConfig->configEnergy2()->getChartShowAutarkyRate() ? '' : 'strikethrough'?>">Anteil selbst produzierter Strom</span></td>
                                 </tr>        
-                                <tr class="chart-toggle-line" data-chart-id="autarky-chart-container" data-custom-form-field-field="energy2_chartShowSelfConsumption">
+                                <tr class="chart-toggle-line" data-chart-id="autarky-chart-container" data-custom-form-field-field="energy2_chartShowSelfConsumptionRate">
                                     <td><span class="legend-line self-consumption-color2"></span></td>
-                                    <td><span class="legend-label flex-wrap: nowrap <?=$actualConfig->configEnergy2()->getChartShowSelfConsumption() ? '' : 'strikethrough'?>">Eigenverbrauchsquote</span></td>
+                                    <td><span class="legend-label flex-wrap: nowrap <?=$actualConfig->configEnergy2()->getChartShowSelfConsumptionRate() ? '' : 'strikethrough'?>">Eigenverbrauchsquote</span></td>
                                 </tr>        
                             <?php endif ?>        
                         </table>
@@ -87,11 +87,11 @@
                 <!-- Autarky Chart Legend left -->
                 <div class="flex-container toggle-autarky-chart-legend-buttons" style="<?=HtmlHelper::getDisplayStyleVisibleOrNot($actualConfig->showAutarkyChartView())?>">
                     <span class="fs-12">(1)</span>
-                    <span class="chart-toggle-line legend-label" data-chart-id="autarky-chart-container" data-custom-form-field-field="energy1_chartShowAutarky">
-                        <span class="legend-line autarky-color"></span><span class="legend-label flex-wrap: nowrap <?=$actualConfig->configEnergy1()->getChartShowAutarky() ? '' : 'strikethrough'?>">Anteil selbst produzierter Strom</span>
+                    <span class="chart-toggle-line legend-label" data-chart-id="autarky-chart-container" data-custom-form-field-field="energy1_chartShowAutarkyRate">
+                        <span class="legend-line autarky-color"></span><span class="legend-label flex-wrap: nowrap <?=$actualConfig->configEnergy1()->getChartShowAutarkyRate() ? '' : 'strikethrough'?>">Anteil selbst produzierter Strom</span>
                     </span>        
-                    <span class="chart-toggle-line legend-label" data-chart-id="autarky-chart-container" data-custom-form-field-field="energy1_chartShowSelfConsumption">
-                        <span class="legend-line self-consumption-color"></span><span class="legend-label flex-wrap: nowrap <?=$actualConfig->configEnergy1()->getChartShowSelfConsumption() ? '' : 'strikethrough'?>">Eigenverbrauchsquote</span>
+                    <span class="chart-toggle-line legend-label" data-chart-id="autarky-chart-container" data-custom-form-field-field="energy1_chartShowSelfConsumptionRate">
+                        <span class="legend-line self-consumption-color"></span><span class="legend-label flex-wrap: nowrap <?=$actualConfig->configEnergy1()->getChartShowSelfConsumptionRate() ? '' : 'strikethrough'?>">Eigenverbrauchsquote</span>
                     </span>        
                 </div>                
                 <!-- Energy Table caption left -->
@@ -123,12 +123,12 @@
                 <div class="flex-container toggle-autarky-chart-legend-buttons" style="<?=HtmlHelper::getDisplayStyleVisibleOrNot($actualConfig->showAutarkyChartView())?>">
                     <span class="fs-12">(2)</span>
                 <?php if ($overviewPageService->hasData2()) : ?>
-                    <span class="chart-toggle-line" data-chart-id="autarky-chart-container" data-custom-form-field-field="energy2_chartShowAutarky">
+                    <span class="chart-toggle-line" data-chart-id="autarky-chart-container" data-custom-form-field-field="energy2_chartShowAutarkyRate">
                         <span class="legend-line autarky-color2"></span>
-                        <span class="legend-label flex-wrap: nowrap <?=$actualConfig->configEnergy2()->getChartShowAutarky() ? '' : 'strikethrough'?>">Anteil selbst produzierter Strom</span>
+                        <span class="legend-label flex-wrap: nowrap <?=$actualConfig->configEnergy2()->getChartShowAutarkyRate() ? '' : 'strikethrough'?>">Anteil selbst produzierter Strom</span>
                     </span>        
-                    <span class="chart-toggle-line legend-label" data-chart-id="autarky-chart-container" data-custom-form-field-field="energy2_chartShowSelfConsumption">
-                        <span class="legend-line self-consumption-color"></span><span class="legend-label flex-wrap: nowrap <?=$actualConfig->configEnergy2()->getChartShowSelfConsumption() ? '' : 'strikethrough'?>">Eigenverbrauchsquote</span>
+                    <span class="chart-toggle-line legend-label" data-chart-id="autarky-chart-container" data-custom-form-field-field="energy2_chartShowSelfConsumptionRate">
+                        <span class="legend-line self-consumption-color"></span><span class="legend-label flex-wrap: nowrap <?=$actualConfig->configEnergy2()->getChartShowSelfConsumptionRate() ? '' : 'strikethrough'?>">Eigenverbrauchsquote</span>
                     </span>        
                 <?php endif ?>        
                 </div>        

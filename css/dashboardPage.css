@@ -39,14 +39,14 @@
     height: 100%;
     width: 0%;
     transition: width 1.5s ease-in-out;
-    background: linear-gradient(90deg, #007bff, #00c3ff);
+    background: linear-gradient(90deg, var(--em-over-zero-color), var(--em-over-zero-color));
 }
 
 .progress-bar-2 {
     height: 100%;
     width: 0%;
     transition: width 1.5s ease-in-out;
-    background: linear-gradient(90deg, #28a745, #66ff66);
+    background: linear-gradient(90deg, var(--pm-total-color), var(--pm-total-color));
 }
 
 .table-custom th,

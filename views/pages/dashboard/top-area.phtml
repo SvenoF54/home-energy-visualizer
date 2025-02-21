@@ -10,7 +10,7 @@
                     <td>
                         <div class="small fw-bold">Einkauf</div>
                     </td>
-                    <td>
+                    <td class="d-none d-sm-table-cell">
                         <div class="small fw-bold">Einspeisung</div>
                     </td>
                     <td>
@@ -20,12 +20,12 @@
                 <!-- Row today -->
                 <tr class="table-light">
                     <td>
-                        <div class="small">Heute</div>
+                        <div class="small"><i class="bi bi-calendar2 d-inline d-md-none"></i><span class="d-none d-md-inline">Heute</span></div> 
                     </td>
                     <td>
                         <div class="small"><span id="today-emOZ">0</span> (<span id="today-emOZPrice">0</span>)</div>
                     </td>
-                    <td>
+                    <td class="d-none d-sm-table-cell">
                         <div class="small"><span id="today-emUZ">0</span> (<span id="today-emUZPrice">0</span>)</div>
                     </td>
                     <td>
@@ -35,12 +35,12 @@
                 <!-- Row current hour -->
                 <tr class="table-light">
                     <td>
-                        <div class="small">Aktuelle Stunde</div>
+                        <div class="small"><i class="bi bi-clock d-inline d-md-none"></i><span class="d-none d-md-inline">Aktuelle Stunde</span></div> 
                     </td>
                     <td>
                         <div class="small"><span id="currenthour-emOZ">0</span> (<span id="currenthour-emOZPrice">0</span>)</div>
                     </td>
-                    <td>
+                    <td class="d-none d-sm-table-cell">
                         <div class="small"><span id="currenthour-emUZ">0</span> (<span id="currenthour-emUZPrice">0</span>)</div>
                     </td>
                     <td>
@@ -51,33 +51,42 @@
         </table>
         <br>
 
-        <div class="container text-center">
+        <div class="container text-center">        
         <!-- Both progress circles -->
-        <div class="progress-container">
+        <div class="progress-container">            
             <div class="progress-box">
-                <h6><strong>Jetzt</strong></h6>
+                <h6><strong>Autarkie aktuell</strong></h6>
                 <div id="circle-now" class="progress-circle"></div>
             </div>
             <div class="progress-box">
-                <h6><strong>Heute</strong></h6>
+                <h6><strong>Autarkie heute</strong></h6>
                 <div id="circle-today" class="progress-circle"></div>
             </div>
         </div>
 
         <!-- horizontal progress bars -->
         <div class="mt-4">
-            <div class="small text-start"><strong>EM: </strong><span id="now-em">0</span></div>
+            <div class="small d-flex justify-content-between">
+                <div>
+                    <strong><span id="now-em-caption">Einkauf</span>: </strong><span id="now-em">0</span>
+                </div>
+                <div>
+                    <strong>Verbrauch: </strong><span id="now-slfCon">0</span>
+                </div>                
+            </div>
             <div class="progress-bar-container">
                 <div id="em-now-bar" class="progress-bar-1"></div>
             </div>
         </div>
 
         <div class="mt-4">
-            <div class="small text-start">
-                <strong>PM: </strong><span id="now-pm">0</span>
-                | PM1: <span id="now-pm1">0</span>
-                | PM2: <span id="now-pm2">0</span>
-                | PM3: <span id="now-pm3">0</span>
+            <div class="small d-flex justify-content-between">
+                <div>
+                    <strong>Produktion: </strong><span id="now-pm">0</span>
+                </div>
+                <div>
+                    <strong id="zeroFeedInActive">Nulleinspeisung</strong>
+                </div>
             </div>
             <div class="progress-bar-container">
                 <div id="pm-now-bar" class="progress-bar-2"></div>
