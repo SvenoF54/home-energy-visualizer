@@ -3,40 +3,35 @@
 
 $(document).ready(function() {
 
+    function prepareCircle(id, color) {
+        return new ProgressBar.Circle(id, {
+            color: color,
+            strokeWidth: 10,
+            trailColor: '#e0e0e0',
+            duration: 500,
+            easing: 'easeInOut',
+            text: {
+                value: '0%',
+                className: 'progress-text'
+            },
+            step: function(state, bar) {
+                bar.setText(Math.round(bar.value() * 100) + '%');
+            }
+        });
+    }
+
     // Prepare Cirlce for now
     var autarkyColorRGB = autarkyColor.replace(/rgba?\(([^,]+),([^,]+),([^,]+),?.*\)/, 'rgb($1,$2,$3)'); // Extracts RGB-Part from RGBA
-    var circleNow = new ProgressBar.Circle('#circle-now', {
-        color: autarkyColorRGB,
-        strokeWidth: 10,
-        trailColor: '#e0e0e0',
-        duration: 500,
-        easing: 'easeInOut',
-        text: {
-            value: '0%',
-            className: 'progress-text'
-        },
-        step: function(state, bar) {
-            bar.setText(Math.round(bar.value() * 100) + '%');
-        }
-    });
+    var circleNow = prepareCircle('#circle-now', autarkyColorRGB);
 
     // Prepare Cirlce for today
     var autarkyColorRGB2 = autarkyColor2.replace(/rgba?\(([^,]+),([^,]+),([^,]+),?.*\)/, 'rgb($1,$2,$3)'); // Extracts RGB-Part from RGBA
-    var circleToday = new ProgressBar.Circle('#circle-today', {
-        color: autarkyColorRGB2,
-        strokeWidth: 10,
-        trailColor: '#e0e0e0',
-        duration: 500,
-        easing: 'easeInOut',
-        text: {
-            value: '0%',
-            className: 'progress-text'
-        },
-        step: function(state, bar) {
-            bar.setText(Math.round(bar.value() * 100) + '%');
-        }
-    });
+    var circleToday = prepareCircle('#circle-today', autarkyColorRGB2);
 
+    // Prepare Cirlce for yesterday
+    var autarkyColorRGB2 = autarkyColor2.replace(/rgba?\(([^,]+),([^,]+),([^,]+),?.*\)/, 'rgb($1,$2,$3)'); // Extracts RGB-Part from RGBA
+    var circleYesterday = prepareCircle('#circle-yesterday', autarkyColorRGB2);
+    circleYesterday.animate(staticData.yesterday.autInPct / 100);
 
     function fetchDashboardData() {
         $.ajax({

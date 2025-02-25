@@ -5,11 +5,7 @@
 include_once("lib/appLibLoader.php");
 
 //ApiHelper::assertApiKeyIsCorrect(isset($_REQUEST["apikey"]) ? $_REQUEST["apikey"] : "");
-
-$actualConfig = Configuration::getInstance()->monthsOverview();
-
-$dashboardService = new DashboardService();
-$dashboardService->prepareInstantData();
-$jsondData = $dashboardService->getInstantDataAsJson();
+$hasAlert = TaskService::hasAlertStatus();
+$jsondData = json_encode(["hasAlert" => $hasAlert]);
 
 ApiHelper::dieWithJsonResponse($jsondData);

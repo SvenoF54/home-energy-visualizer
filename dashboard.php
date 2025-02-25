@@ -5,8 +5,11 @@
 include_once("lib/appLibLoader.php");
 
 // Defaults
-$actualConfig = Configuration::getInstance()->monthsOverview();
-
+$actualConfig = Configuration::getInstance()->configDashboardPage();;
+$dashboardsServce = new DashboardService();
+$dashboardsServce->prepareStaticData();
+$overviewPageService = new OverviewPageService();
+$overviewPageService->calculateYearData($overviewPageService->getFirstYear(), $overviewPageService->getLastYear());
 
 $errorMsg = "";
 
@@ -18,6 +21,7 @@ $jsHeaderFiles = ["/js/utils.js"];
 $jsFooterFiles = ["/js/dashboard/documentReady.js"];
 $cssFiles = ["/css/dashboardPage.css"]; 
 $jsVars = [    
+    "staticData" => $dashboardsServce->getStaticDataAsJson(),
     "config" => $actualConfig->toJson()
 ];
 

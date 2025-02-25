@@ -17,50 +17,48 @@
                         <div class="small fw-bold">Ersparnis</div>
                     </td>
                 </tr>
-                <!-- Row today -->
+                <?php 
+                    $linkYesterdayOverview = "hoursOverview.php?day1=".date("d.m.Y", strtotime($dashboardsServce->getYesterdayData()->getTimestampFrom()));
+                    $topRows = [
+                        "yesterday" => ["caption" => "Gestern", "icon" => "bi-calendar2-check", "data" => $dashboardsServce->getYesterdayData(), "link" => $linkYesterdayOverview],
+                        "today" => ["caption" => "Heute", "icon" => "bi-calendar", "data" => $dashboardsServce->getTodayData(), "link" => "hoursOverview.php"],
+                        "currenthour" => ["caption" => "Aktuelle Stunde", "icon" => "bi-clock", "data" => $dashboardsServce->getCurrentHourData() , "link" => "realtimeOverview.php"]
+                    ]; 
+                ?>
+                <?php foreach ($topRows as $key => $val) { ?>
                 <tr class="table-light">
                     <td>
-                        <div class="small"><i class="bi bi-calendar2 d-inline d-md-none"></i><span class="d-none d-md-inline">Heute</span></div> 
+                        <div class="small"><i class="bi <?=$val["icon"]?> d-inline d-md-none"></i><span class="d-none d-md-inline"><a href="<?=$val["link"]?>" class="text-reset text-decoration-none"><?=$val["caption"]?></a></span></div> 
                     </td>
                     <td>
-                        <div class="small"><span id="today-emOZ">0</span> (<span id="today-emOZPrice">0</span>)</div>
+                        <div class="small"><?=HtmlHelper::formatEnergyInWattAndCurrency($val["data"]->getEnergyOverZero(), null, $key."-emOZ")?></div>
                     </td>
                     <td class="d-none d-sm-table-cell">
-                        <div class="small"><span id="today-emUZ">0</span> (<span id="today-emUZPrice">0</span>)</div>
+                        <div class="small"><?=HtmlHelper::formatEnergyInWattAndCurrency($val["data"]->getEnergyUnderZero(), null, $key."-emUZ")?></div>
                     </td>
                     <td>
-                        <div class="small"><span id="today-pmSvg">0</span> (<span id="today-pmSvgPrice">0</span>)</div>
-                    </td>
+                        <div class="small"><?=HtmlHelper::formatEnergyInWattAndCurrency($val["data"]->getSavings(), null, $key."-pmSvg")?></div>
+                    </td>                
                 </tr>
-                <!-- Row current hour -->
-                <tr class="table-light">
-                    <td>
-                        <div class="small"><i class="bi bi-clock d-inline d-md-none"></i><span class="d-none d-md-inline">Aktuelle Stunde</span></div> 
-                    </td>
-                    <td>
-                        <div class="small"><span id="currenthour-emOZ">0</span> (<span id="currenthour-emOZPrice">0</span>)</div>
-                    </td>
-                    <td class="d-none d-sm-table-cell">
-                        <div class="small"><span id="currenthour-emUZ">0</span> (<span id="currenthour-emUZPrice">0</span>)</div>
-                    </td>
-                    <td>
-                        <div class="small"><span id="currenthour-pmSvg">0</span> (<span id="currenthour-pmSvgPrice">0</span>)</div>
-                    </td>
-                </tr>
+
+                <?php } ?>
             </tbody>
         </table>
         <br>
-
-        <div class="container text-center">        
-        <!-- Both progress circles -->
-        <div class="progress-container">            
-            <div class="progress-box">
+        
+        <!-- three progress circles -->
+        <div class="progress-circle-container">            
+            <div class="progress-circle-box">
                 <h6><strong>Autarkie aktuell</strong></h6>
-                <div id="circle-now" class="progress-circle"></div>
+                <a href="realtimeOverview.php"><div id="circle-now" class="progress-circle"></div></a>
             </div>
-            <div class="progress-box">
+            <div class="progress-circle-box">
                 <h6><strong>Autarkie heute</strong></h6>
-                <div id="circle-today" class="progress-circle"></div>
+                <a href="hoursOverview.php"><div id="circle-today" class="progress-circle"></div></a>
+            </div>
+            <div class="progress-circle-box d-none d-sm-inline">
+                <h6><strong>Autarkie gestern</strong></h6>
+                <a href="<?=$linkYesterdayOverview?>"><div id="circle-yesterday" class="progress-circle"></div></a>
             </div>
         </div>
 
@@ -92,6 +90,7 @@
                 <div id="pm-now-bar" class="progress-bar-2"></div>
             </div>
         </div>
-
-    </div>
+        <div class="small mt-4 text-start" style="color: var(--savings-color);"><a href="yearsOverview.php" class="text-reset text-decoration-none"><strong>Ersparnis seit <?=TimeHelper::formatMonthNameAndYear($overviewPageService->getTableStatistics()->getPmFirstRowDate(), false)?>:</strong> <?=HtmlHelper::formatEnergyInWattAndCurrency($overviewPageService->getPMSavingsTotal1())?></a></div>
+        
+    </div>    
 </div>

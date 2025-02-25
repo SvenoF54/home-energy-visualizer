@@ -27,15 +27,12 @@ $hasAlert = TaskService::hasAlertStatus();
                 <span class="navbar-toggler-icon"></span>                    
             </button>
             <span class="navbar-text ms-auto d-xs-block d-sm-none">
-                <?php if ($hasAlert) { ?>
-                <a href="statusOverview.php" class="navbar-text text-danger p-0 me-2 fs-sm d-flex">
+                <a id="naviMobileAlert" href="statusOverview.php" class="navbar-text text-danger p-0 me-2 fs-sm d-flex <?=$hasAlert ? "" : "d-none"?>">
                     <i class="bi bi-exclamation-circle me-1"></i> Datenfehler
                 </a>
-                <?php } else { ?>
-                <a href="index.php" class="navbar-text p-0 me-2 fs-6 d-flex navbar-product-title">
+                <a id="naviMobileAppTitle" href="index.php" class="navbar-text p-0 me-2 fs-6 d-flex navbar-product-title <?=$hasAlert ? "d-none" : ""?>">
                     NrgHomeVis
                 </a>
-                <?php } ?>
             </span>            
 
             <!-- Navbar Links -->
@@ -67,15 +64,12 @@ $hasAlert = TaskService::hasAlertStatus();
                     <?php endforeach; ?>
                 </ul>
                 <span class="navbar-text ms-auto">
-                    <?php if ($hasAlert) { ?>
-                    <a href="statusOverview.php" class="navbar-text text-danger p-0 me-2 fs-sm d-flex">
+                    <a id="naviAlert" href="statusOverview.php" class="navbar-text text-danger p-0 me-2 fs-sm d-flex <?=$hasAlert ? "" : "d-none"?>">
                         <i class="bi bi-exclamation-circle me-1"></i> Datenfehler
                     </a>
-                    <?php } else { ?>
-                    <a href="index.php" class="navbar-text p-0 me-2 fs-6 d-flex navbar-product-title">
+                    <a id="naviAppTitle" href="index.php" class="navbar-text p-0 me-2 fs-6 d-flex navbar-product-title <?=$hasAlert ? "d-none" : ""?>">
                     NrgHomeVis
                     </a>
-                    <?php } ?>
                 </span>
             </div>            
         </nav>

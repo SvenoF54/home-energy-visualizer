@@ -22,10 +22,18 @@ class BaseTimestampTable extends BaseTable {
     
         $sql = "
             SELECT 
-                COUNT(*) AS totalRows,
-                MIN($this->timestampFromRowName) AS firstDate,
-                MAX($this->timestampFromRowName) AS lastDate
-            FROM $this->tableName;
+                -- Gesamtdaten
+                (SELECT COUNT(*) FROM $this->tableName) AS totalRows,
+                (SELECT MIN($this->timestampFromRowName) FROM $this->tableName) AS firstDate,
+                (SELECT MAX($this->timestampFromRowName) FROM $this->tableName) AS lastDate,
+
+                -- PM-Daten
+                (SELECT COUNT(*) FROM $this->tableName
+                WHERE pm1_total_power IS NOT NULL OR pm2_total_power IS NOT NULL OR pm3_total_power IS NOT NULL) AS totalPmRows,
+                (SELECT MIN($this->timestampFromRowName) FROM $this->tableName 
+                WHERE pm1_total_power IS NOT NULL OR pm2_total_power IS NOT NULL OR pm3_total_power IS NOT NULL) AS firstPmDate,
+                (SELECT MAX($this->timestampFromRowName) FROM $this->tableName 
+                WHERE pm1_total_power IS NOT NULL OR pm2_total_power IS NOT NULL OR pm3_total_power IS NOT NULL) AS lastPmDate;
         ";
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute();
@@ -39,6 +47,9 @@ class BaseTimestampTable extends BaseTable {
                 $data['firstDate'], 
                 $data['lastDate']
             );
+            $this->statisticSet->setPmFirstRowDate($data['firstPmDate']);
+            $this->statisticSet->setPmLastRowDate($data['lastPmDate']);
+            $this->statisticSet->setPmTotalRows((int) $data['totalPmRows']);
         }
     
         return $this->statisticSet;

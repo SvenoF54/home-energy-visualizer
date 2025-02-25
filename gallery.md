@@ -1,6 +1,17 @@
 # Energie-Visualisierung für zu Hause
 Eine Beschreibung ist hier [readme.md](./README.md) zu finden. Exemplarisch wird bei einigen Ansichten auch die mobile Version gezeigt.
 
+# Dashboard
+Zeigt eine Auswahl an interessanten Daten kompakt an, wenn man auf den Toolnamen rechts klickt. Der Nulleinspeisungsindikator wird angezeigt, sobald ungefähr 1 Minute lang der Hausverbrauch zwischen -40W und + 40W liegt.
+
+**Desktop**
+
+![Dashboard-Ansicht](./images/gallery/dashboard.png "Dashboard")
+
+**Mobil**
+
+<img src="./images/gallery/dashboard_mobile.png" alt="Mobile Dashboardansicht" width="250">
+
 # Echtzeitansicht
 Zeigt die in Echtzeit (z. B. alle 2 Sekunden) erfassten Energiewerte. Ermöglicht die Analyse der Werte durch zwei einstellbare Watt-Linien.
 

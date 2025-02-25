@@ -4,19 +4,34 @@
 
 /* Container for the 2 progressbars */
 
-.progress-container {
-    display: flex;
-    flex-direction: row;
+.progress-circle-container {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(140px, 1fr));
+    /* Standard: 2 Spalten */
+    gap: 20px;
     justify-content: center;
     align-items: center;
-    gap: 20px;
-    flex-wrap: nowrap;
+    max-width: 500px;
+    /* Verhindert zu viel Dehnung auf Mobil */
+    margin: auto;
+    /* Immer zentriert */
 }
 
-.progress-box {
+
+/* Ab mittleren Bildschirmen (md) → 3 Spalten */
+
+@media (min-width: 576px) {
+    .progress-circle-container {
+        grid-template-columns: repeat(3, minmax(140px, 1fr));
+        max-width: 100%;
+        /* Breite anpassen */
+    }
+}
+
+.progress-circle-box {
     text-align: center;
-    flex: 1;
     min-width: 140px;
+    flex-shrink: 0;
 }
 
 .progress-circle {

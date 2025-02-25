@@ -4,28 +4,21 @@
 
 class DashboardService
 {
-    private $realTimeEnergyDataTbl;
+    private $realTimeService;
     private $hourlyEnergyDataTbl;
-    private $latestRealtimeRow;
-    private $nowZeroFeedInActive;
-    private $todayData;
-    private $currentHourData;
+    private EnergyDataSet $todayData;
+    private EnergyDataSet $yesterdayData;
+    private EnergyDataSet $currentHourData;    
 
     public function __construct()
     {
-        $this->realTimeEnergyDataTbl = RealTimeEnergyDataTable::getInstance();
+        $this->realTimeService = new RealtimeService();
         $this->hourlyEnergyDataTbl = HourlyEnergyDataTable::getInstance();
     }
 
-    public function prepareData()
+    public function prepareInstantData()
     {
-        $startTime = date('Y-m-d H:i:s', strtotime("- 65 seconds"));
-        $endTime = date('Y-m-d H:i:s', strtotime("- 5 seconds"));
-        //$startTime = date('Y-m-d H:i:s', strtotime("- 5 hours -60 seconds"));
-        //$endTime = date('Y-m-d H:i:s', strtotime("- 5 hours"));
-        $dataRows = $this->realTimeEnergyDataTbl->getOverviewData($startTime, $endTime, 5);                
-        $this->latestRealtimeRow = end($dataRows);
-        $this->nowZeroFeedInActive = $this->isZeroFeedInActive($dataRows);
+        $this->realTimeService->readLatestData();
 
         $strStart = date('Y-m-d 00:00:00');
         $strEnd = date('Y-m-d 23:59:59');
@@ -39,26 +32,36 @@ class DashboardService
 
     }
 
-    private function isZeroFeedInActive($dataRows)
+    public function prepareStaticData()
     {
-        $nowZeroFeedInActive = true;
-        foreach ($dataRows as $row) { 
-            $nowZeroFeedInActive = $nowZeroFeedInActive && ($row->getEmTotalPower() < 40) && ($row->getEmTotalPower() > -40);
-        }
-        
-        return $nowZeroFeedInActive;
+        $strStart = date('Y-m-d 00:00:00', strtotime("- 1 day"));
+        $strEnd = date('Y-m-d 23:59:59', strtotime("- 1 day"));
+        $avg = 86400;  // Sekunden pro Tag
+        $this->yesterdayData = $this->hourlyEnergyDataTbl->getEnergyData($strStart, $strEnd, $avg);        
     }
 
-    public function getDataAsJson()
+    public function getStaticDataAsJson()
+    {
+        $this->prepareInstantData();
+        $yesterday = $this->yesterdayData->convertEnergyToJsArray() + $this->yesterdayData->convertAutarkyToJsArray();
+        $result = [
+            "yesterday" => $yesterday,
+        ];
+        
+        return json_encode($result);
+    }
+
+    public function getInstantDataAsJson()
     {
         
         $today = $this->todayData->convertEnergyToJsArray() + $this->todayData->convertAutarkyToJsArray();
         $currentHour = $this->currentHourData->convertEnergyToJsArray() + $this->currentHourData->convertAutarkyToJsArray();
         
-        $now = $this->latestRealtimeRow->convertToJsArray();        
-        $now["emPercent"] = abs($this->latestRealtimeRow->getEmTotalPower() / 6000 * 100);
-        $now["pmPercent"] = ($this->latestRealtimeRow->getPmTotalPower() / 1000) * 100;
-        $now["isZeroFeedInActive"] = $this->nowZeroFeedInActive;
+        $latestRealTimeRow = $this->realTimeService->getLatestDataRow();
+        $now = $latestRealTimeRow->convertToJsArray();        
+        $now["emPercent"] = abs($latestRealTimeRow->getEmTotalPower() / 6000 * 100);
+        $now["pmPercent"] = ($latestRealTimeRow->getPmTotalPower() / 1000) * 100;
+        $now["isZeroFeedInActive"] = $this->realTimeService->isZeroFeedInActive();
         
         $result = [
             "now" => $now,
@@ -69,6 +72,9 @@ class DashboardService
         return json_encode($result);
     }
 
+    public function getYesterdayData() : EnergyDataSet { return $this->yesterdayData; }
+    public function getTodayData() : EnergyDataSet { return $this->todayData; }
+    public function getCurrentHourData() : EnergyDataSet { return $this->currentHourData; }
 
 
 }

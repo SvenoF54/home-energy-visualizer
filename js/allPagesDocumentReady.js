@@ -50,4 +50,20 @@ $(document).ready(function() {
             }
         });
     });
+
+    function fetchAlertData() {
+        $.ajax({
+            url: URL_PREFIX + 'api/get-hasAlert.php',
+            method: 'GET',
+            dataType: 'json', // Falls die Antwort JSON ist
+            success: function(response) {
+                $("#naviAlert, #naviMobileAlert").toggleClass("d-none", !response.hasAlert);
+                $("#naviAppTitle, #naviMobileAppTitle").toggleClass("d-none", response.hasAlert);
+            }
+
+        });
+    }
+
+    // Add time for alerting
+    setInterval(fetchAlertData, 10000);
 });
