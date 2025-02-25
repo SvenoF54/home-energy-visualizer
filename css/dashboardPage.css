@@ -1,0 +1,84 @@
+/* NrgHomeVis - Energievisualisierung für zu Hause | Repository: <https://github.com/SvenoF54/home-energy-visualizer> 
+   Licensed under the GNU GPL v3.0 - see <https://www.gnu.org/licenses/gpl-3.0.en.html> */
+
+
+/* Container for the 2 progressbars */
+
+.progress-circle-container {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(140px, 1fr));
+    /* Standard: 2 Spalten */
+    gap: 20px;
+    justify-content: center;
+    align-items: center;
+    max-width: 500px;
+    /* Verhindert zu viel Dehnung auf Mobil */
+    margin: auto;
+    /* Immer zentriert */
+}
+
+
+/* Ab mittleren Bildschirmen (md) → 3 Spalten */
+
+@media (min-width: 576px) {
+    .progress-circle-container {
+        grid-template-columns: repeat(3, minmax(140px, 1fr));
+        max-width: 100%;
+        /* Breite anpassen */
+    }
+}
+
+.progress-circle-box {
+    text-align: center;
+    min-width: 140px;
+    flex-shrink: 0;
+}
+
+.progress-circle {
+    width: 120px;
+    height: 120px;
+    margin: auto;
+    position: relative;
+}
+
+.progress-bar-container {
+    width: 100%;
+    height: 15px;
+    border-radius: 10px;
+    background: #e0e0e0;
+    overflow: hidden;
+    position: relative;
+}
+
+.progress-bar-1 {
+    height: 100%;
+    width: 0%;
+    transition: width 1.5s ease-in-out;
+    background: linear-gradient(90deg, var(--em-over-zero-color), var(--em-over-zero-color));
+}
+
+.progress-bar-2 {
+    height: 100%;
+    width: 0%;
+    transition: width 1.5s ease-in-out;
+    background: linear-gradient(90deg, var(--pm-total-color), var(--pm-total-color));
+}
+
+.table-custom th,
+.table-custom td {
+    text-align: center;
+    vertical-align: middle;
+}
+
+
+/* Responsive Fix */
+
+@media (max-width: 400px) {
+    .progress-circle {
+        width: 90px;
+        height: 90px;
+    }
+    .progress-text {
+        font-size: 14px;
+    }
+}

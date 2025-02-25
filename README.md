@@ -2,6 +2,8 @@
 
 ![Echtzeit-Ansicht](./images/gallery/realtime-overview.png "Echtzeit-Ansicht")
 
+<img src="./images/gallery/dashboard_mobile.png" alt="Mobile Dashboardansicht" width="250">
+
 Zur Bildergallerie [gallery.md](gallery.md)
 
 ## Beschreibung

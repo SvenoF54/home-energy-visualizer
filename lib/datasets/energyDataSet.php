@@ -31,7 +31,7 @@ class EnergyDataSet {
         $this->missingRows = new MissingRowSet();          
     }
 
-    public function convertToJsChartArray() : array
+    public function convertEnergyToJsArray() : array
     {
         $dataRow = [
             "raw-dt" => $this->timestampFrom,
@@ -53,62 +53,31 @@ class EnergyDataSet {
         return $dataRow;
     }
 
-    public function calculateAutarkyForJsChartArray() : array
+    public function convertAutarkyToJsArray() : array
     {        
         $dataRow = [
             "raw-dt" => $this->timestampFrom,
             "x-dt" => $this->timestampForView,
             "autInPct" => $this->getAutarkyInPercent(),
             "slfConInPct" => $this->getSelfConsumptionInPercent(),
-            "savings" => $this->getSavings()->getEnergyInWatt(),
+            "pmSvg" => $this->getSavings()->getEnergyInWatt(),
         ];
 
         return $dataRow;
     }
 
     // Getter methods
-    public function getTimestampForView()
-    {
-        return $this->timestampForView;
-    }
+    public function getTimestampForView() { return $this->timestampForView; }
+    public function getTimestampFrom() { return $this->timestampFrom; }
+    public function getTimestampTo() { return $this->timestampTo; }
 
-    public function getTimestampFrom()
-    {
-        return $this->timestampFrom;
-    }
-
-    public function getTimestampTo()
-    {
-        return $this->timestampTo;
-    }
-
-    public function getEnergy() : EnergyAndPriceTuple {
-        return $this->energy;
-    }
-
-    public function getEnergyOverZero(): EnergyAndPriceTuple {
-        return $this->energyOverZero;
-    }
-
-    public function getEnergyUnderZero() : EnergyAndPriceTuple {
-        return $this->energyUnderZero;
-    }
-
-    public function getEnergyUnderX1() : EnergyAndPriceTuple {
-        return $this->energyUnderX1;
-    }
-
-    public function getEnergyOverX1() : EnergyAndPriceTuple {
-        return $this->energyOverX1;
-    }
-
-    public function getEnergyUnderX2() : EnergyAndPriceTuple {
-        return $this->energyUnderX2;
-    }
-
-    public function getEnergyOverX2() : EnergyAndPriceTuple {
-        return $this->energyOverX2;
-    }
+    public function getEnergy() : EnergyAndPriceTuple { return $this->energy; }
+    public function getEnergyOverZero(): EnergyAndPriceTuple { return $this->energyOverZero; }
+    public function getEnergyUnderZero() : EnergyAndPriceTuple { return $this->energyUnderZero; }
+    public function getEnergyUnderX1() : EnergyAndPriceTuple { return $this->energyUnderX1; }
+    public function getEnergyOverX1() : EnergyAndPriceTuple { return $this->energyOverX1; }
+    public function getEnergyUnderX2() : EnergyAndPriceTuple { return $this->energyUnderX2; }
+    public function getEnergyOverX2() : EnergyAndPriceTuple { return $this->energyOverX2; }
 
     public function getEnergyBetweenX1AndX2() : EnergyAndPriceTuple {
         $betweenX1AndX2 =  $this->getEnergyOverZero()->getEnergyInWatt() - $this->getEnergyUnderX1()->getEnergyInWatt() - $this->getEnergyOverX2()->getEnergyInWatt(); 
@@ -126,38 +95,23 @@ class EnergyDataSet {
         return $result;
     }
 
-    public function getProductionPm1() : EnergyAndPriceTuple{
-        return $this->productionPm1;
-    }
+    public function getProductionPm1() : EnergyAndPriceTuple { return $this->productionPm1; }
+    public function getProductionPm2() : EnergyAndPriceTuple { return $this->productionPm2; }
+    public function getProductionPm3() : EnergyAndPriceTuple { return $this->productionPm3; }
 
-    public function getProductionPm2() : EnergyAndPriceTuple{
-        return $this->productionPm2;
-    }
-
-    public function getProductionPm3() : EnergyAndPriceTuple{
-        return $this->productionPm3;
-    }
-
-    public function getSavings() : EnergyAndPriceTuple{
-        return $this->savings;
-    }
+    public function getSavings() : EnergyAndPriceTuple { return $this->savings; }
 
     public function getAutarkyInPercent() {
         return OverviewPageService::calculateAutarky($this->getSavings()->getEnergyInWatt(), $this->getEnergyOverZero()->getEnergyInWatt());
     }
 
     public function getSelfConsumptionInPercent()
-    {
+    {        
         return OverviewPageService::calculateSelfConsumption($this->getSavings()->getEnergyInWatt(), $this->getEnergyUnderZero()->getEnergyInWatt());
     }
 
-    public function getMissingRows() : MissingRowSet{
-        return $this->missingRows;
-    }
-
-    public function getCountOriginRows() {
-        return $this->countOriginRows;
-    }
+    public function getMissingRows() : MissingRowSet { return $this->missingRows; }
+    public function getCountOriginRows() { return $this->countOriginRows; }
 
     // Setter methods
     public function setTimestampForView($timestampForView)
@@ -171,56 +125,21 @@ class EnergyDataSet {
         $this->timestampTo = $timestampTo;
     }
 
-    public function setEnergy($energy, $energyPriceInCent) {
-        $this->energy = new EnergyAndPriceTuple($energy, $energyPriceInCent);
-    }
+    public function setEnergy($energy, $energyPriceInCent) { $this->energy = new EnergyAndPriceTuple($energy, $energyPriceInCent); }
+    public function setEnergyOverZero($energy, $energyPriceInCent) { $this->energyOverZero = new EnergyAndPriceTuple($energy, $energyPriceInCent); }
+    public function setEnergyUnderZero($energy, $energyPriceInCent) { $this->energyUnderZero = new EnergyAndPriceTuple($energy, $energyPriceInCent); }
 
-    public function setEnergyOverZero($energy, $energyPriceInCent) {
-        $this->energyOverZero = new EnergyAndPriceTuple($energy, $energyPriceInCent);
-    }
+    public function setProductionPm1($energy, $energyPriceInCent) { $this->productionPm1 = new EnergyAndPriceTuple($energy, $energyPriceInCent); }
+    public function setProductionPm2($energy, $energyPriceInCent) { $this->productionPm2 = new EnergyAndPriceTuple($energy, $energyPriceInCent); }
+    public function setProductionPm3($energy, $energyPriceInCent) { $this->productionPm3 = new EnergyAndPriceTuple($energy, $energyPriceInCent); }
 
-    public function setEnergyUnderZero($energy, $energyPriceInCent) {
-        $this->energyUnderZero = new EnergyAndPriceTuple($energy, $energyPriceInCent);
-    }
+    public function setEnergyUnderX1($energy, $energyPriceInCent) { $this->energyUnderX1 = new EnergyAndPriceTuple($energy, $energyPriceInCent); }
+    public function setEnergyOverX1($energy, $energyPriceInCent) { $this->energyOverX1 = new EnergyAndPriceTuple($energy, $energyPriceInCent); }
+    public function setEnergyUnderX2($energy, $energyPriceInCent) { $this->energyUnderX2 = new EnergyAndPriceTuple($energy, $energyPriceInCent); }
+    public function setEnergyOverX2($energy, $energyPriceInCent) { $this->energyOverX2 = new EnergyAndPriceTuple($energy, $energyPriceInCent); }
 
-    public function setProductionPm1($energy, $energyPriceInCent) {
-        $this->productionPm1 = new EnergyAndPriceTuple($energy, $energyPriceInCent);
-    }
-
-    public function setProductionPm2($energy, $energyPriceInCent) {
-        $this->productionPm2 = new EnergyAndPriceTuple($energy, $energyPriceInCent);
-    }
-
-    public function setProductionPm3($energy, $energyPriceInCent) {
-        $this->productionPm3 = new EnergyAndPriceTuple($energy, $energyPriceInCent);
-    }
-
-    public function setEnergyUnderX1($energy, $energyPriceInCent) {
-        $this->energyUnderX1 = new EnergyAndPriceTuple($energy, $energyPriceInCent);
-    }
-
-    public function setEnergyOverX1($energy, $energyPriceInCent) {
-        $this->energyOverX1 = new EnergyAndPriceTuple($energy, $energyPriceInCent);
-    }
-
-    public function setEnergyUnderX2($energy, $energyPriceInCent) {
-        $this->energyUnderX2 = new EnergyAndPriceTuple($energy, $energyPriceInCent);
-    }
-
-    public function setEnergyOverX2($energy, $energyPriceInCent) {
-        $this->energyOverX2 = new EnergyAndPriceTuple($energy, $energyPriceInCent);
-    }
-
-    public function setSavings($energy, $energyPriceInCent) {
-        $this->savings = new EnergyAndPriceTuple($energy, $energyPriceInCent);
-    }
-
-    public function setMissingRows($em, $pm1, $pm2, $pm3, $countRows) {
-        $this->missingRows = new MissingRowSet($em, $pm1, $pm2, $pm3, $countRows);
-    }
-
-    public function setCountOriginRows($value) {
-        $this->countOriginRows = $value;
-    }
+    public function setSavings($energy, $energyPriceInCent) { $this->savings = new EnergyAndPriceTuple($energy, $energyPriceInCent); }
+    public function setMissingRows($em, $pm1, $pm2, $pm3, $countRows) { $this->missingRows = new MissingRowSet($em, $pm1, $pm2, $pm3, $countRows); }
+    public function setCountOriginRows($value) { $this->countOriginRows = $value; }
 
 }

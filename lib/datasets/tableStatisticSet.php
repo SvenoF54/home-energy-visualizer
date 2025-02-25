@@ -4,9 +4,12 @@
 
 class TableStatisticSet 
 {
-    private $totalRows;
-    private $firstRowDate;
-    private $lastRowDate;
+    private $totalRows = 0;
+    private $firstRowDate = null;
+    private $lastRowDate = null;
+    private $totalPmRows = 0;        // When PM-Data are available
+    private $firstPmRowDate = null;
+    private $lastPmRowDate = null;
 
     public function __construct($totalRows = 0, $firstRowDate = null, $lastRowDate = null) 
     {
@@ -15,33 +18,22 @@ class TableStatisticSet
         $this->lastRowDate = $lastRowDate;
     }
 
-    public function getTotalRows()
-    {
-        return $this->totalRows;
-    }
+    public function getTotalRows() { return $this->totalRows; }
+    public function setTotalRows($totalRows) { $this->totalRows = $totalRows; }
 
-    public function setTotalRows($totalRows)
-    {
-        $this->totalRows = $totalRows;
-    }
+    public function getFirstRowDate() { return $this->firstRowDate; }
+    public function setFirstRowDate($firstRowDate) { $this->firstRowDate = $firstRowDate; }
 
-    public function getFirstRowDate()
-    {
-        return $this->firstRowDate;
-    }
+    public function getLastRowDate() { return $this->lastRowDate; }
+    public function setLastRowDate($lastRowDate) { $this->lastRowDate = $lastRowDate; }
 
-    public function setFirstRowDate($firstRowDate)
-    {
-        $this->firstRowDate = $firstRowDate;
-    }
+    public function getPmTotalRows() { return $this->totalPmRows; }
+    public function setPmTotalRows($totalPmRows) { $this->totalPmRows = $totalPmRows; }
 
-    public function getLastRowDate()
-    {
-        return $this->lastRowDate;
-    }
+    public function getPmFirstRowDate() { return $this->firstPmRowDate; }
+    public function setPmFirstRowDate($firstPmRowDate) { $this->firstPmRowDate = $firstPmRowDate; }
 
-    public function setLastRowDate($lastRowDate)
-    {
-        $this->lastRowDate = $lastRowDate;
-    }
+    public function getPmLastRowDate() { return $this->lastPmRowDate; }
+    public function setPmLastRowDate($lastPmRowDate) { $this->lastPmRowDate = $lastPmRowDate; }
+
 }

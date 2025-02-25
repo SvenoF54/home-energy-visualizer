@@ -38,5 +38,7 @@ include_once("utils/timePeriodEnum.php");
 include_once("utils/apiHelper.php");
 
 include_once("services/mailService.php");
+include_once("services/realtimeService.php");
 include_once("services/overviewPageService.php");
+include_once("services/dashboardService.php");
 include_once("services/taskService.php");

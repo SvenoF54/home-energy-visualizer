@@ -24,12 +24,20 @@ class HtmlHelper {
         return number_format($val1 / $val2 * 100, 2) . "%";
     }
 
-    public static function formatEnergyInWattAndCurrency(EnergyAndPriceTuple $energyData, $autarkyInPercent = null)
+    public static function formatEnergyInWattAndCurrency(EnergyAndPriceTuple $energyData, $autarkyInPercent = null, $htmlId = null)
     {
-        $result = StringHelper::formatEnergyInWattHour($energyData->getEnergyInWatt());
-        $inner = StringHelper::formatCurrency($energyData->getEnergyPriceInCent());
-        $inner = $autarkyInPercent != null ? $inner." | ".StringHelper::formatNumber($autarkyInPercent, 0)."%" : $inner;
-        $result .= " (".$inner.")";
+        $energyFormated = StringHelper::formatEnergyInWattHour($energyData->getEnergyInWatt());
+        $energyId = $htmlId != null ? 'id="'.$htmlId.'"' : "";
+        $priceFormated = StringHelper::formatCurrency($energyData->getEnergyPriceInCent());
+        $priceId = $htmlId != null ? 'id="'.$htmlId.'Price"' : "";
+        $autarkyFormated = $autarkyInPercent != null ? StringHelper::formatNumber($autarkyInPercent, 0) : "";
+        $autarkyId = $htmlId != null ? 'id="'.$htmlId.'Autarky"' : "";
+
+        $result = "<span $energyId>$energyFormated</span>";
+        $result .= " (";
+        $result .= "<span $priceId>$priceFormated</span>";
+        $result .= $autarkyInPercent != null ? " | <span $autarkyId>".$autarkyFormated."</span>%" : "";
+        $result .= ")";
 
         return $result;
 

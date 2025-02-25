@@ -1,26 +1,6 @@
 /* NrgHomeVis - Energievisualisierung für zu Hause | Repository: <https://github.com/SvenoF54/home-energy-visualizer> 
    Licensed under the GNU GPL v3.0 - see <https://www.gnu.org/licenses/gpl-3.0.en.html> */
 
-const emColor = getComputedStyle(document.documentElement).getPropertyValue('--em-color').trim();
-const emOverZeroColor = getComputedStyle(document.documentElement).getPropertyValue('--em-over-zero-color').trim();
-const addSavingsColor = getComputedStyle(document.documentElement).getPropertyValue('--add-savings-color').trim();
-const emOverZeroColor2 = getComputedStyle(document.documentElement).getPropertyValue('--em-over-zero-color2').trim();
-const addSavingsColor2 = getComputedStyle(document.documentElement).getPropertyValue('--add-savings-color2').trim();
-
-const savingsColor = getComputedStyle(document.documentElement).getPropertyValue('--savings-color').trim();
-const savingsColor2 = getComputedStyle(document.documentElement).getPropertyValue('--savings-color2').trim();
-
-const feedInColor = getComputedStyle(document.documentElement).getPropertyValue('--feed-in-color').trim();
-const feedInColor2 = getComputedStyle(document.documentElement).getPropertyValue('--feed-in-color2').trim();
-
-const pm1Color = getComputedStyle(document.documentElement).getPropertyValue('--pm1-color').trim();
-const pm2Color = getComputedStyle(document.documentElement).getPropertyValue('--pm2-color').trim();
-const pm3Color = getComputedStyle(document.documentElement).getPropertyValue('--pm3-color').trim();
-const pmTotalColor = getComputedStyle(document.documentElement).getPropertyValue('--pm-total-color').trim();
-
-const line1Color = getComputedStyle(document.documentElement).getPropertyValue('--line1-color').trim();
-const line2Color = getComputedStyle(document.documentElement).getPropertyValue('--line2-color').trim();
-const lineZeroColor = getComputedStyle(document.documentElement).getPropertyValue('--line-zero-color').trim();
 
 
 const scalesEnergy = {
@@ -98,7 +78,8 @@ const optionsEnergy = {
                     let fromDateTime = parseDate(selectedDateTime);
                     let toDateTime = parseDate(selectedDateTime);
 
-                    toDateTime.setHours(toDateTime.getHours() + 1);
+                    toDateTime.setMinutes(toDateTime.getMinutes() + 59);
+                    toDateTime.setSeconds(toDateTime.getSeconds() + 59);
                     fromDateTime.setHours(fromDateTime.getHours());
                     url = `${URL_PREFIX}realtimeOverview.php?from-date=${formatDateTime(fromDateTime)}&to-date=${formatDateTime(toDateTime)}&pastperiod=0`;
                     break;

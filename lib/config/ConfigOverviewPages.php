@@ -73,8 +73,8 @@ class ConfigEnergyViewSettings {
     private $chartShowEnergyOverZeroPlusSavings = false;
     private $chartShowFeedIn = false;
     private $chartShowSavings = false;    
-    private $chartShowAutarky = false;
-    private $chartShowSelfConsumption = false;
+    private $chartShowAutarkyRate = false;
+    private $chartShowSelfConsumptionRate = false;
     private $tableShowProductionInTotal = true;
     private $tablePageLength = 10;
 
@@ -85,7 +85,7 @@ class ConfigEnergyViewSettings {
         $this->chartShowEnergyOverZeroPlusSavings = $showMetrics;
         $this->chartShowFeedIn = $showMetrics;
         $this->chartShowSavings = $showMetrics;
-        $this->chartShowAutarky = $showMetrics;
+        $this->chartShowAutarkyRate = $showMetrics;
     }
 
     public function setFormValues()
@@ -94,8 +94,8 @@ class ConfigEnergyViewSettings {
         $this->chartShowEnergyOverZeroPlusSavings = StringHelper::formGetBool("energy".$this->chartNumber."_chartShowEnergyOverZeroPlusSavings", $this->chartShowEnergyOverZeroPlusSavings);
         $this->chartShowFeedIn = StringHelper::formGetBool("energy".$this->chartNumber."_chartShowFeedIn", $this->chartShowFeedIn);
         $this->chartShowSavings = StringHelper::formGetBool("energy".$this->chartNumber."_chartShowSavings", $this->chartShowSavings);
-        $this->chartShowAutarky = StringHelper::formGetBool("energy".$this->chartNumber."_chartShowAutarky", $this->chartShowAutarky);
-        $this->chartShowSelfConsumption = StringHelper::formGetBool("energy".$this->chartNumber."_chartShowSelfConsumption", $this->chartShowSelfConsumption);
+        $this->chartShowAutarkyRate = StringHelper::formGetBool("energy".$this->chartNumber."_chartShowAutarky", $this->chartShowAutarkyRate);
+        $this->chartShowSelfConsumptionRate = StringHelper::formGetBool("energy".$this->chartNumber."_chartShowSelfConsumptionRate", $this->chartShowSelfConsumptionRate);
         $this->tableShowProductionInTotal = StringHelper::formGetBool("energy".$this->chartNumber."_tableShowProductionInTotal", $this->tableShowProductionInTotal);
         $this->tablePageLength = StringHelper::formGetInt("energy".$this->chartNumber."_tablePageLength", $this->tablePageLength);
         
@@ -112,11 +112,11 @@ class ConfigEnergyViewSettings {
     public function getChartShowSavings() { return $this->chartShowSavings; }
     public function setChartShowSavings($chartShowSavings) { $this->chartShowSavings = $chartShowSavings; }
 
-    public function getChartShowAutarky() { return $this->chartShowAutarky; }
-    public function getChartShowSelfConsumption() { return $this->chartShowSelfConsumption; }    
-    public function setChartShowAutarkyAndSelfConsumption($chartShowAutarky, $chartShowSelfConsumption) { 
-        $this->chartShowAutarky = $chartShowAutarky; 
-        $this->chartShowSelfConsumption = $chartShowSelfConsumption;
+    public function getChartShowAutarkyRate() { return $this->chartShowAutarkyRate; } 
+    public function getChartShowSelfConsumptionRate() { return $this->chartShowSelfConsumptionRate; }    
+    public function setChartShowAutarkyAndSelfConsumptionRate($chartShowAutarkyRate, $chartShowSelfConsumptionRate) { 
+        $this->chartShowAutarkyRate = $chartShowAutarkyRate; 
+        $this->chartShowSelfConsumptionRate = $chartShowSelfConsumptionRate;
     }    
 
     public function getTableShowProductionInTotal() { return $this->tableShowProductionInTotal; }
@@ -132,8 +132,8 @@ class ConfigEnergyViewSettings {
             'chartShowEnergyOverZeroPlusSavings' => $this->chartShowEnergyOverZeroPlusSavings,
             'chartShowFeedIn' => $this->chartShowFeedIn,
             'chartShowSavings' => $this->chartShowSavings,
-            'chartShowAutarky' => $this->chartShowAutarky,
-            'chartShowSelfConsumption' => $this->chartShowSelfConsumption,
+            'chartShowAutarkyRate' => $this->chartShowAutarkyRate,
+            'chartShowSelfConsumptionRate' => $this->chartShowSelfConsumptionRate,
             'tableShowProductionInTotal' => $this->tableShowProductionInTotal,
             'tablePageLength' => $this->tablePageLength,
         ];

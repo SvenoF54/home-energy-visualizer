@@ -70,30 +70,42 @@ class RealTimeEnergyDataRow
         );
     }
 
-    public function getTimestampData() { return $this->timestampData; }
+    public function convertToJsArray() : array
+    {
+        $autarky = OverviewPageService::calculateAutarky($this->getSavingsPower(), $this->getEmTotalPowerOverZero());
+        $selfConsumptionRate = OverviewPageService::calculateAutarky($this->getSavingsPower(), $this->getEmTotalPowerOverZero());        
+        return [
+            'em' => $this->getEmTotalPower(),
+            'emOZ' => $this->getEmTotalPowerOverZero(),
+            'emUZ' => $this->getEmTotalPowerUnderZero(),
+            'slfCon' => $this->getSelfConsumptionPower(),
+            'pm' => $this->getPmTotalPower(),
+            'pm1' => $this->getPm1TotalPower(),
+            'pm2' => $this->getPm2TotalPower(),
+            'pm3' => $this->getPm3TotalPower(),
+            'pmSvg' => $this->getSavingsPower(),
+            'autInPct' => $autarky,
+            'slfConInPct' => $selfConsumptionRate
+        ];
+    }
 
+    public function getTimestampData() { return $this->timestampData; }
     public function getIntervalInSeconds() { return $this->intervalInSeconds; }
 
     public function getEmTotalPower() { return $this->emTotalPower; }
-
     public function getEmTotalPowerOverZero() { return $this->emTotalPowerOverZero; }    
-
     public function getEmTotalPowerUnderZero() { return $this->emTotalPowerUnderZero; }    
+    public function getSelfConsumptionPower() { return $this->emTotalPowerOverZero + $this->getSavingsPower(); }    
 
     public function getPmTotalPower() { return $this->pm1TotalPower + $this->pm2TotalPower + $this->pm3TotalPower; }
-
     public function getPm1TotalPower() { return $this->pm1TotalPower; }
-
     public function getPm2TotalPower() { return $this->pm2TotalPower;}
-
     public function getPm3TotalPower() { return $this->pm3TotalPower; }    
+    public function getSavingsPower() { return $this->getPmTotalPower() - $this->getEmTotalPowerUnderZero(); }
 
     public function getEmMissingRows() {return $this->emMissingRows; }
-
     public function getPm1MissingRows() { return $this->pm1MissingRows; }
-
     public function getPm2MissingRows() { return $this->pm2MissingRows; }
-
     public function getPm3MissingRows() { return $this->pm3MissingRows; }    
 
     public function getCountRows() { return $this->countRows; }    

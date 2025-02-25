@@ -1,0 +1,96 @@
+<div class="row justify-content-center">
+    <div class="col-12 col-md-10 col-xxl-8">
+        <table class="table table-sm w-100 m-0 mb-sm-1 mb-md-2">
+            <tbody>
+                <!-- Header -->
+                <tr class="table-secondary">
+                    <td>
+                        <div class="small fw-bold">Zeitraum</div>
+                    </td>
+                    <td>
+                        <div class="small fw-bold">Einkauf</div>
+                    </td>
+                    <td class="d-none d-sm-table-cell">
+                        <div class="small fw-bold">Einspeisung</div>
+                    </td>
+                    <td>
+                        <div class="small fw-bold">Ersparnis</div>
+                    </td>
+                </tr>
+                <?php 
+                    $linkYesterdayOverview = "hoursOverview.php?day1=".date("d.m.Y", strtotime($dashboardsServce->getYesterdayData()->getTimestampFrom()));
+                    $topRows = [
+                        "yesterday" => ["caption" => "Gestern", "icon" => "bi-calendar2-check", "data" => $dashboardsServce->getYesterdayData(), "link" => $linkYesterdayOverview],
+                        "today" => ["caption" => "Heute", "icon" => "bi-calendar", "data" => $dashboardsServce->getTodayData(), "link" => "hoursOverview.php"],
+                        "currenthour" => ["caption" => "Aktuelle Stunde", "icon" => "bi-clock", "data" => $dashboardsServce->getCurrentHourData() , "link" => "realtimeOverview.php"]
+                    ]; 
+                ?>
+                <?php foreach ($topRows as $key => $val) { ?>
+                <tr class="table-light">
+                    <td>
+                        <div class="small"><i class="bi <?=$val["icon"]?> d-inline d-md-none"></i><span class="d-none d-md-inline"><a href="<?=$val["link"]?>" class="text-reset text-decoration-none"><?=$val["caption"]?></a></span></div> 
+                    </td>
+                    <td>
+                        <div class="small"><?=HtmlHelper::formatEnergyInWattAndCurrency($val["data"]->getEnergyOverZero(), null, $key."-emOZ")?></div>
+                    </td>
+                    <td class="d-none d-sm-table-cell">
+                        <div class="small"><?=HtmlHelper::formatEnergyInWattAndCurrency($val["data"]->getEnergyUnderZero(), null, $key."-emUZ")?></div>
+                    </td>
+                    <td>
+                        <div class="small"><?=HtmlHelper::formatEnergyInWattAndCurrency($val["data"]->getSavings(), null, $key."-pmSvg")?></div>
+                    </td>                
+                </tr>
+
+                <?php } ?>
+            </tbody>
+        </table>
+        <br>
+        
+        <!-- three progress circles -->
+        <div class="progress-circle-container">            
+            <div class="progress-circle-box">
+                <h6><strong>Autarkie aktuell</strong></h6>
+                <a href="realtimeOverview.php"><div id="circle-now" class="progress-circle"></div></a>
+            </div>
+            <div class="progress-circle-box">
+                <h6><strong>Autarkie heute</strong></h6>
+                <a href="hoursOverview.php"><div id="circle-today" class="progress-circle"></div></a>
+            </div>
+            <div class="progress-circle-box d-none d-sm-inline">
+                <h6><strong>Autarkie gestern</strong></h6>
+                <a href="<?=$linkYesterdayOverview?>"><div id="circle-yesterday" class="progress-circle"></div></a>
+            </div>
+        </div>
+
+        <!-- horizontal progress bars -->
+        <div class="mt-4">
+            <div class="small d-flex justify-content-between">
+                <div>
+                    <strong><span id="now-em-caption">Einkauf</span>: </strong><span id="now-em">0</span>
+                </div>
+                <div>
+                    <strong>Verbrauch: </strong><span id="now-slfCon">0</span>
+                </div>                
+            </div>
+            <div class="progress-bar-container">
+                <div id="em-now-bar" class="progress-bar-1"></div>
+            </div>
+        </div>
+
+        <div class="mt-4">
+            <div class="small d-flex justify-content-between">
+                <div>
+                    <strong>Produktion: </strong><span id="now-pm">0</span>
+                </div>
+                <div>
+                    <strong id="zeroFeedInActive">Nulleinspeisung</strong>
+                </div>
+            </div>
+            <div class="progress-bar-container">
+                <div id="pm-now-bar" class="progress-bar-2"></div>
+            </div>
+        </div>
+        <div class="small mt-4 text-start" style="color: var(--savings-color);"><a href="yearsOverview.php" class="text-reset text-decoration-none"><strong>Ersparnis seit <?=TimeHelper::formatMonthNameAndYear($overviewPageService->getTableStatistics()->getPmFirstRowDate(), false)?>:</strong> <?=HtmlHelper::formatEnergyInWattAndCurrency($overviewPageService->getPMSavingsTotal1())?></a></div>
+        
+    </div>    
+</div>

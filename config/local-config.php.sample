@@ -46,9 +46,9 @@ $config->hoursOverview()->configEnergy2()->setChartShowSavings(false);
 $config->hoursOverview()->configEnergy2()->setChartShowFeedIn(false);  
 
 // Zeige Werte der 2. Selection auf der AutarkyChart-Übersichtsseite
-$config->hoursOverview()->configEnergy2()->setChartShowAutarkyAndSelfConsumption(true, false);  
-$config->daysOverview()->configEnergy2()->setChartShowAutarkyAndSelfConsumption(true, false);
-$config->monthsOverview()->configEnergy2()->setChartShowAutarkyAndSelfConsumption(true, false);
+$config->hoursOverview()->configEnergy2()->setChartShowAutarkyAndSelfConsumptionRate(true, false);  
+$config->daysOverview()->configEnergy2()->setChartShowAutarkyAndSelfConsumptionRate(true, false);
+$config->monthsOverview()->configEnergy2()->setChartShowAutarkyAndSelfConsumptionRate(true, false);
 
 // Anzahl Zeilen auf der Energy-Tabellenübersicht
 $config->hoursOverview()->configEnergy1()->setTablePageLength(10);  
@@ -71,7 +71,7 @@ $config->hoursOverview()->configEnergy1()->setChartShowFeedIn(true);
 $config->hoursOverview()->configEnergy1()->setChartShowSavings(true);
 
 // Autarky-Chart
-$config->hoursOverview()->configEnergy1()->setChartShowAutarkyAndSelfConsumption(true, false);
+$config->hoursOverview()->configEnergy1()->setChartShowAutarkyAndSelfConsumptionRate(true, false);
 
 // Energy-Table
 $config->hoursOverview()->configEnergy1()->setTableShowProductionInTotal(true);

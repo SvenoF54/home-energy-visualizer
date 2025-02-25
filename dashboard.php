@@ -5,31 +5,26 @@
 include_once("lib/appLibLoader.php");
 
 // Defaults
-$actualConfig = Configuration::getInstance()->monthsOverview();
-
-$startTime1 = date("Y-m-d 00:00:00");
-$endTime1 = date("Y-m-d 23:59:59");
-$timeLabelUnit = TimeHelper::prepareTimeUnit($startTime1, $endTime1);
-
-// Prepare DB
-$errorMsg = "";
+$actualConfig = Configuration::getInstance()->configDashboardPage();;
+$dashboardsServce = new DashboardService();
+$dashboardsServce->prepareStaticData();
 $overviewPageService = new OverviewPageService();
-$overviewPageService->calculateHourData($startTime1, $endTime1);
+$overviewPageService->calculateYearData($overviewPageService->getFirstYear(), $overviewPageService->getLastYear());
+
+$errorMsg = "";
 
 
 // configure VIEW
 
 $pageTitle = "Dashboard";
-$jsHeaderFiles = ["/js/utils.js", "js/dashboard/configureEnergyChart.js"];
+$jsHeaderFiles = ["/js/utils.js"];
 $jsFooterFiles = ["/js/dashboard/documentReady.js"];
-$cssFiles = ["/css/dasboardPage.css"];
-$jsVars = [
-    "timestampsTooltip" => json_encode($overviewPageService->getLabelsTooltip()),
-    "timestampsXAxis" => json_encode($overviewPageService->getLabelsXAxis()),
-    "data1" => json_encode($overviewPageService->getData1List()->convertToJsChartArray()),
-    "timeLabelUnit" => json_encode($timeLabelUnit),
+$cssFiles = ["/css/dashboardPage.css"]; 
+$jsVars = [    
+    "staticData" => $dashboardsServce->getStaticDataAsJson(),
     "config" => $actualConfig->toJson()
 ];
 
+$partialTop = "views/pages/dashboard/top-area.phtml";
 
 include("views/partials/layout.phtml");
