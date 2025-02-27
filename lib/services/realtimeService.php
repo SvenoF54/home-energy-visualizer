@@ -19,7 +19,7 @@ class RealtimeService
     public function readLatestData() {
         $startTime = date('Y-m-d H:i:s', strtotime("- 65 seconds"));
         $endTime = date('Y-m-d H:i:s', strtotime("- 5 seconds"));
-        #$startTime = date('Y-m-d H:i:s', strtotime("- 5 hours -60 seconds"));  // For testing
+        #$startTime = date('Y-m-d H:i:s', strtotime("- 5 hours -60 seconds"));  // For testing 
         #$endTime = date('Y-m-d H:i:s', strtotime("- 5 hours"));
         $this->latestDataRows = $this->realTimeEnergyDataTbl->getOverviewData($startTime, $endTime, 5);                
     }

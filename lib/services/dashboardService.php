@@ -8,7 +8,8 @@ class DashboardService
     private $hourlyEnergyDataTbl;
     private EnergyDataSet $todayData;
     private EnergyDataSet $yesterdayData;
-    private EnergyDataSet $currentHourData;    
+    private EnergyDataSet $currentHourData;
+    private $zendureData;    
 
     public function __construct()
     {
@@ -30,6 +31,11 @@ class DashboardService
         $avg = 3600;  // Sekunden pro Tag
         $this->currentHourData = $this->hourlyEnergyDataTbl->getEnergyData($strStart, $strEnd, $avg);
 
+        $kvsTable = KeyValueStoreTable::getInstance();
+        $this->zendureData = [];
+        foreach ($kvsTable->getRowsForScope(KeyValueStoreScopeEnum::Zendure) as $row) {
+            $this->zendureData[$row->getStoreKey()] = $row->getValue();
+        }
     }
 
     public function prepareStaticData()
@@ -52,8 +58,7 @@ class DashboardService
     }
 
     public function getInstantDataAsJson()
-    {
-        
+    {        
         $today = $this->todayData->convertEnergyToJsArray() + $this->todayData->convertAutarkyToJsArray();
         $currentHour = $this->currentHourData->convertEnergyToJsArray() + $this->currentHourData->convertAutarkyToJsArray();
         
@@ -67,6 +72,7 @@ class DashboardService
             "now" => $now,
             "today" => $today,            
             "currenthour" => $currentHour,
+            "zendure" => $this->zendureData
         ];        
 
         return json_encode($result);

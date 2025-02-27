@@ -4,12 +4,12 @@
 
 include_once("lib/appLibLoader.php");
 
-//ApiHelper::assertApiKeyIsCorrect(isset($_REQUEST["apikey"]) ? $_REQUEST["apikey"] : "");
+#ApiHelper::assertApiKeyIsCorrect(isset($_REQUEST["apikey"]) ? $_REQUEST["apikey"] : "");
 
 $actualConfig = Configuration::getInstance()->monthsOverview();
 
 $dashboardService = new DashboardService();
 $dashboardService->prepareInstantData();
-$jsondData = $dashboardService->getInstantDataAsJson();
+$jsonData = $dashboardService->getInstantDataAsJson();
 
-ApiHelper::dieWithJsonResponse($jsondData);
+ApiHelper::dieWithJsonResponse($jsonData);

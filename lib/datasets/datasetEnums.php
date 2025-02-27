@@ -12,11 +12,13 @@ enum EnergyTypeEnum: string {
 enum KeyValueStoreScopeEnum: string {
     case Task = 'Task';
     case SendMail = 'SendMail';
+    case Zendure = 'Zendure';
 }
 
 enum TaskEnum: string {
     case CheckRealtimeEnergyData = 'CheckRealtimeEnergyData';
     case UnifyRealtimeEnergyData = 'UnifyRealtimeEnergyData';
+    case ReadZendureData = 'ReadZendureData';
 }
 
 enum MailEnum: string {

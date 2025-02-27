@@ -4,7 +4,7 @@
 
 include_once("lib/appLibLoader.php");
 
-//ApiHelper::assertApiKeyIsCorrect(isset($_REQUEST["apikey"]) ? $_REQUEST["apikey"] : "");
+#ApiHelper::assertApiKeyIsCorrect(isset($_REQUEST["apikey"]) ? $_REQUEST["apikey"] : "");
 $hasAlert = TaskService::hasAlertStatus();
 $jsondData = json_encode(["hasAlert" => $hasAlert]);
 

@@ -91,6 +91,55 @@
             </div>
         </div>
         <div class="small mt-4 text-start" style="color: var(--savings-color);"><a href="yearsOverview.php" class="text-reset text-decoration-none"><strong>Ersparnis seit <?=TimeHelper::formatMonthNameAndYear($overviewPageService->getTableStatistics()->getPmFirstRowDate(), false)?>:</strong> <?=HtmlHelper::formatEnergyInWattAndCurrency($overviewPageService->getPMSavingsTotal1())?></a></div>
-        
+
+        <table class="table table-sm w-100 m-0 mb-sm-1 mb-md-2">
+            <tbody>
+                <!-- Header -->
+                <tr class="table-secondary">
+                    <td>
+                        <div class="small fw-bold">Batterie:</div>
+                    </td>
+                    <td>
+                        <div class="small fw-bold">Hauseinspeisung</div>
+                    </td>
+                    <td>
+                        <div class="small fw-bold">Akku Abgabe</div>
+                    </td>
+                </tr>
+                <tr class="table-light">
+                    <td>
+                        <div class="small fw-bold"><span id="zendure-electricLevel">x</span>%<br></div>
+                    </td>
+                    <td>
+                        <div class="small fw-bold"><span id="zendure-outputHomePower">x</span></div>
+                    </td>
+                    <td>
+                        <div class="small fw-bold"><span id="zendure-packInputPower">x</span></div>
+                    </td>
+                </tr>
+                <tr class="table-secondary">
+                    <td>
+                        <div class="small fw-bold"> PV Erzeugung:</div>
+                    </td>
+                    <td>
+                        <div class="small fw-bold">PV 1</div>
+                    </td>
+                    <td>
+                        <div class="small fw-bold">PV 1</div>
+                    </td>
+                </tr>
+                <tr class="table-light">
+                    <td>
+                        <div class="small fw-bold"><span id="zendure-solarInputPower">x</span>%<br></div>
+                    </td>
+                    <td>
+                        <div class="small fw-bold"><span id="zendure-solarPower1">x</span></div>
+                    </td>
+                    <td>
+                        <div class="small fw-bold"><span id="zendure-solarPower2">x</span></div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
     </div>    
 </div>

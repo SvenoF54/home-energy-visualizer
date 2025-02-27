@@ -4,6 +4,18 @@
 
 class TaskService 
 {    
+    public static function readZendureData()
+    {
+        try {
+            self::logToKvs(TaskEnum::ReadZendureData, StatusEnum::Success, "Start MQQT-Reader");
+            $reader = new ZendureDataReader();
+            $reader->connect();
+            $reader->readDataFromMqqt();
+        } catch(Exception $ex) {
+            self::logToKvs(TaskEnum::ReadZendureData, StatusEnum::Exception, $ex->getMessage());
+        }
+    }
+
     public static function checkRealtimeEnergyData()
     {
         try {

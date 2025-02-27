@@ -15,18 +15,19 @@ class KeyValueStoreTable extends BaseTable
         parent::__construct($pdo, "key_value_store");
     }
 
-    public function insertOrUpdate(KeyValueStoreScopeEnum $scope, $key, $value, $notice = "")
+    public function insertOrUpdate(KeyValueStoreScopeEnum $scope, $key, $value, $notice = "", $jsonData="")
     {
         try {
             $sql = "
                 INSERT INTO {$this->tableName} 
-                (`scope`, `store_key`, `value`, `notice`, `inserted`, `updated`)
-                VALUES (:scope, :storeKey, :value, :notice, :now, null)
+                (`scope`, `store_key`, `value`, `notice`, `json_data`, `inserted`, `updated`)
+                VALUES (:scope, :storeKey, :value, :notice, :jsonData, :now, null)
                 ON DUPLICATE KEY UPDATE
                     `scope` = VALUES(`scope`),
                     `store_key` = VALUES(`store_key`),
                     `value` = VALUES(`value`),
                     `notice` = VALUES(`notice`),
+                    `json_data` = VALUES(`json_data`),
                     `updated` = :now
             ";
         
@@ -36,6 +37,7 @@ class KeyValueStoreTable extends BaseTable
             $stmt->bindValue(':storeKey', $key, PDO::PARAM_STR);
             $stmt->bindValue(':value', $value, PDO::PARAM_STR);
             $stmt->bindValue(':notice', $notice, PDO::PARAM_STR);
+            $stmt->bindValue(':jsonData', $jsonData, PDO::PARAM_STR);
             $stmt->bindValue(':now', date("Y-m-d H:i:s"), PDO::PARAM_STR);
         
             $stmt->execute();
