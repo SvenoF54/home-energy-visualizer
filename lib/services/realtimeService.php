@@ -5,7 +5,6 @@
 class RealtimeService
 {
     private ConfigDashboardPage $dashboardConfig;
-    private ConfigRealtimeAlert $realtimeAlertConfig;
     private $realTimeEnergyDataTbl;
     private $latestDataRows;
 
@@ -13,7 +12,6 @@ class RealtimeService
     {
         $this->realTimeEnergyDataTbl = RealTimeEnergyDataTable::getInstance();
         $this->dashboardConfig = Configuration::getInstance()->configDashboardPage();
-        $this->realtimeAlertConfig = Configuration::getInstance()->configRealtimeAlert();
     }
 
     public function readLatestData() {

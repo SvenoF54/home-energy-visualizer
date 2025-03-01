@@ -13,7 +13,7 @@ class ZendureDataReader
     private $secret = ZENDURE_SECRET;           // Dein Secret    
     private $client_id;
     private $mqqtClient;
-    private $timeoutInSec = 20;
+    private $timeoutInSec = 50;
     private $kvsTable;
 
     public function __construct() {
@@ -37,19 +37,16 @@ class ZendureDataReader
         $topic = ZENDURE_APPKEY.'/u67KGs48/state';  // TODO mittlerer Wert
         
         $this->mqqtClient->subscribe([
-            //$topic => ['qos' => 0, 'function' => 'ZendureDataReader::handleMessage']
             $topic => ['qos' => 0, 'function' => [$this, 'handleMessage']]
         ]);
 
         $start = time();
-        echo "Request data...";
         while (true) {
             if (! $this->mqqtClient->proc()) {
                 break;
             }
             
             if ((time() - $start) >= $this->timeoutInSec) {
-                echo "Timeout reached.\n";
                 break;
             }
             
@@ -62,20 +59,43 @@ class ZendureDataReader
         }
 
         $this->mqqtClient->close();
-
     }
 
     public function handleMessage($topic, $msg) {
-        echo "Nachricht empfangen auf $topic: $msg\n";
-        
         $data = json_decode($msg, true);
 
-        $keys = ["electricLevel", "outputHomePower", "packInputPower", "solarInputPower", "solarPower1", "solarPower2"];
-        foreach ($keys as $key) {
+        foreach ($this->getZendureKeys() as $key => $notice) {
             if ($data && isset($data[$key])) {
-                $this->kvsTable->insertOrUpdate(KeyValueStoreScopeEnum::Zendure, $key, $data[$key]);
+                $this->kvsTable->insertOrUpdate(KeyValueStoreScopeEnum::Zendure, $key, $data[$key], $notice);
             }
         }
+    }
+
+    public function getZendureKeys()
+    {
+        $keys = [
+            "electricLevel"    =>"Ladestand über alle Batterien in %", 
+
+            "solarInputPower"  => "Aktuelle Solarleistung über alle Eingänge in W", 
+            "solarPower1"      => "Aktuelle Solarleistung Eingang PV 1 in W", 
+            "solarPower2"      => "Aktuelle Solarleistung Eingang PV 2 in W", 
+
+            "outputHomePower"  => "Aktuelle Leistungsabgabe ans 'Haus' in W nur im Terminmmodus",
+            "gridInputPower"   => "Leistungsbezug aus dem Netz in W", 
+            "inverseMaxPower"  => "Maximal zulässige Abgabeleistung ans 'Haus' / Gesetzliche Obergrenze in W", 
+            "outputLimit"      => "Maximale Leistungsabgabe ans 'Haus' (Obergrenze) in W",
+
+            "packInputPower"   => "Aktuelle Entladeleistung der Batterien in W", 
+            "outputPackPower"  => "Aktuelle Ladeleistung der Batterien in W", 
+            "remainOutTime"    => "Verbleibende Zeit bis Batterien entladen in min. Ob die Entladegrenze berücksichtigt wird, ist mir nicht bekannt", 
+            "remainInputTime"  => "Verbleibende Zeit bis Batterien geladen in min. Ob die Ladegrenze berücksichtigt wird, ist mir nicht bekannt", 
+            "packState"        => "Status über alle Batterien (0: Standby, 1: Mind. eine Batterie wird geladen, 2: Mind. eine Batterie wird entladen)",
+            "socSet"           => "(Obere) Ladegrenze in % * 10", 
+
+            "sn"               => "Seriennummer"
+           ];
+
+        return $keys;
     }
 
 }

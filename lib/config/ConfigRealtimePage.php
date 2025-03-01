@@ -44,87 +44,30 @@ class ConfigRealtimePage
         $this->configRealtime->setFormValues();
     }
 
-    public function getLinePossibilities()
-    {
-        return $this->linePosibilities;
-    }
+    public function getLinePossibilities() { return $this->linePosibilities; }
+    public function setLinePossibilities($linePosibilities) { $this->linePosibilities = $linePosibilities; }
     
-    public function setLinePossibilities($linePosibilities)
-    {
-        $this->linePosibilities = $linePosibilities;
-    }
+    public function getLine1() { return $this->line1; }    
+    public function setLine1($line1) { $this->line1 = $line1; }
     
-    public function getLine1()
-    {
-        return $this->line1;
-    }
-    
-    public function setLine1($line1)
-    {
-        $this->line1 = $line1;
-    }
-    
-    public function getLine2()
-    {
-        return $this->line2;
-    }
-    
-    public function setLine2($line2)
-    {
-        $this->line2 = $line2;
-    }
+    public function getLine2() { return $this->line2; }    
+    public function setLine2($line2) { $this->line2 = $line2; }
 
-    public function getPastPeriodPossibilities()
-    {
-        return $this->pastPeriodPossibilities;
-    }
+    public function getPastPeriodPossibilities() { return $this->pastPeriodPossibilities; }    
+    public function setPastPeriodPossibilities($pastPeriodPossibilities) { $this->pastPeriodPossibilities = $pastPeriodPossibilities; }
     
-    public function setPastPeriodPossibilities($pastPeriodPossibilities)
-    {
-        $this->pastPeriodPossibilities = $pastPeriodPossibilities;
-    }
-    
-    public function getPastperiod()
-    {
-        return $this->pastperiod;
-    }
-    
-    public function setPastperiod($pastperiod)
-    {
-        $this->pastperiod = $pastperiod;
-    }    
+    public function getPastperiod() { return $this->pastperiod; }    
+    public function setPastperiod($pastperiod) { $this->pastperiod = $pastperiod; }    
 
-    public function getAveragePossibilitiesInSec()
-    {
-        return $this->averagePossibilitiesInSec;
-    }
+    public function getAveragePossibilitiesInSec() { return $this->averagePossibilitiesInSec; }    
+    public function setAveragePossibilitiesInSec($averagePossibilitiesInSec) { $this->averagePossibilitiesInSec = $averagePossibilitiesInSec; }
     
-    public function setAveragePossibilitiesInSec($averagePossibilitiesInSec)
-    {
-        $this->averagePossibilitiesInSec = $averagePossibilitiesInSec;
-    }
-    
-    public function getAveragePossibility() {
-        return $this->averagePossibility;
-    }
+    public function getAveragePossibility() { return $this->averagePossibility; }
+    public function setAveragePossibility($averagePossibility) { $this->averagePossibility = $averagePossibility; }
 
-    public function setAveragePossibility($averagePossibility) {
-        $this->averagePossibility = $averagePossibility;
-    }
-
-    public function getRefreshIntervalInSec()
-    {
-        return $this->refreshIntervalInSec;
-    }
-    
-    public function setRefreshIntervalInSec($refreshIntervalInSec)
-    {
-        $this->refreshIntervalInSec = $refreshIntervalInSec;
-    }
-
-    public function configRealtime() : ConfigRealtimeViewSettings{
-        return $this->configRealtime;
-    }
+    public function getRefreshIntervalInSec() { return $this->refreshIntervalInSec; }    
+    public function setRefreshIntervalInSec($refreshIntervalInSec) { $this->refreshIntervalInSec = $refreshIntervalInSec; }
+    public function configRealtime() : ConfigRealtimeViewSettings{ return $this->configRealtime; }
 }
 
 class ConfigRealtimeViewSettings {
@@ -153,45 +96,20 @@ class ConfigRealtimeViewSettings {
         
     }
 
-    public function getChartShowEM(): bool {
-        return $this->chartShowEM;
-    }
+    public function getChartShowEM(): bool { return $this->chartShowEM; }
+    public function setChartShowEM(bool $value): void { $this->chartShowEM = $value; }
 
-    public function setChartShowEM(bool $value): void {
-        $this->chartShowEM = $value;
-    }
+    public function getChartShowPMTotal(): bool { return $this->chartShowPMTotal; }
+    public function setChartShowPMTotal(bool $value): void { $this->chartShowPMTotal = $value; }
 
-    public function getChartShowPMTotal(): bool {
-        return $this->chartShowPMTotal;
-    }
+    public function getChartShowPM1(): bool { return $this->chartShowPM1; }
+    public function setChartShowPM1(bool $value): void { $this->chartShowPM1 = $value; }
 
-    public function setChartShowPMTotal(bool $value): void {
-        $this->chartShowPMTotal = $value;
-    }
+    public function getChartShowPM2(): bool { return $this->chartShowPM2; }
+    public function setChartShowPM2(bool $value): void { $this->chartShowPM2 = $value; }
 
-    public function getChartShowPM1(): bool {
-        return $this->chartShowPM1;
-    }
-
-    public function setChartShowPM1(bool $value): void {
-        $this->chartShowPM1 = $value;
-    }
-
-    public function getChartShowPM2(): bool {
-        return $this->chartShowPM2;
-    }
-
-    public function setChartShowPM2(bool $value): void {
-        $this->chartShowPM2 = $value;
-    }
-
-    public function getChartShowPM3(): bool {
-        return $this->chartShowPM3;
-    }
-
-    public function setChartShowPM3(bool $value): void {
-        $this->chartShowPM3 = $value;
-    }
+    public function getChartShowPM3(): bool { return $this->chartShowPM3; }
+    public function setChartShowPM3(bool $value): void { $this->chartShowPM3 = $value; }
 
     public function toArray(): array {
         return [

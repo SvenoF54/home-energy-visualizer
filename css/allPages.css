@@ -100,6 +100,11 @@ body {
     --autarky-color2: rgba(97, 141, 141, 0.6);
     --self-consumption-color: rgba(127, 181, 181, 0.3);
     --self-consumption-color2: rgba(97, 141, 141, 0.3);
+    --akku-red-color: rgba(233, 115, 115, 0.8);
+    --akku-orange-color: rgba(239, 180, 120, 0.8);
+    --akku-yellow-color: rgba(240, 210, 130, 0.8);
+    --akku-green-color: rgba(145, 195, 165, 0.8);
+    --akku-greenfull-color: rgba(102, 179, 102, 0.8);
 }
 
 .em-color {
@@ -180,4 +185,24 @@ body {
 
 .self-consumption-color2 {
     background-color: var(--self-consumption-color2);
+}
+
+.akku-red-color {
+    background-color: var(--akku-red-color);
+}
+
+.akku-orange-color {
+    background-color: var(--akku-orange-color);
+}
+
+.akku-yellow-color {
+    background-color: var(--akku-yellow-color);
+}
+
+.akku-green-color {
+    background-color: var(--akku-green-color);
+}
+
+.akku-greenfull-color {
+    background-color: var(--akku-greenfull-color);
 }

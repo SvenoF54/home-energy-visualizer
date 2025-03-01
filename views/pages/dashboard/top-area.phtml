@@ -22,7 +22,7 @@
                     $topRows = [
                         "yesterday" => ["caption" => "Gestern", "icon" => "bi-calendar2-check", "data" => $dashboardsServce->getYesterdayData(), "link" => $linkYesterdayOverview],
                         "today" => ["caption" => "Heute", "icon" => "bi-calendar", "data" => $dashboardsServce->getTodayData(), "link" => "hoursOverview.php"],
-                        "currenthour" => ["caption" => "Aktuelle Stunde", "icon" => "bi-clock", "data" => $dashboardsServce->getCurrentHourData() , "link" => "realtimeOverview.php"]
+                        //"currenthour" => ["caption" => "Aktuelle Stunde", "icon" => "bi-clock", "data" => $dashboardsServce->getCurrentHourData() , "link" => "realtimeOverview.php"]
                     ]; 
                 ?>
                 <?php foreach ($topRows as $key => $val) { ?>
@@ -66,6 +66,20 @@
         <div class="mt-4">
             <div class="small d-flex justify-content-between">
                 <div>
+                    <strong>Produktion: </strong><span id="now-production">0</span>
+                </div>
+                <div>
+                    <strong id="zeroFeedInActive">Nulleinspeisung</strong>
+                </div>
+            </div>
+            <div class="progress-bar-container">
+                <div id="pm-now-bar" class="progress-bar-production"></div>
+            </div>
+        </div>
+
+        <div class="mt-4">
+            <div class="small d-flex justify-content-between">
+                <div>
                     <strong><span id="now-em-caption">Einkauf</span>: </strong><span id="now-em">0</span>
                 </div>
                 <div>
@@ -73,73 +87,29 @@
                 </div>                
             </div>
             <div class="progress-bar-container">
-                <div id="em-now-bar" class="progress-bar-1"></div>
+                <div id="em-now-bar" class="progress-bar-house"></div>
             </div>
         </div>
 
         <div class="mt-4">
-            <div class="small d-flex justify-content-between">
+            <div class="small d-flex justify-content-between text-secondary">
                 <div>
-                    <strong>Produktion: </strong><span id="now-pm">0</span>
+                    <strong>Akku: </strong><span id="zendure-electricLevelPercent">0</span>
                 </div>
-                <div>
-                    <strong id="zeroFeedInActive">Nulleinspeisung</strong>
+                <div id="zendure-chargeActive">
+                    <strong>Ladeleistung: </strong><span id="zendure-chargePackPowerCalc">+-</span>
+                </div>
+                <div id="zendure-dischargeActive">
+                    <strong>Entadeleistung: </strong><span id="zendure-dischargePackPowerCalc">+-</span>
                 </div>
             </div>
             <div class="progress-bar-container">
-                <div id="pm-now-bar" class="progress-bar-2"></div>
+                <div id="pm-pack-bar" class="progress-bar-akkupack"></div>
             </div>
         </div>
-        <div class="small mt-4 text-start" style="color: var(--savings-color);"><a href="yearsOverview.php" class="text-reset text-decoration-none"><strong>Ersparnis seit <?=TimeHelper::formatMonthNameAndYear($overviewPageService->getTableStatistics()->getPmFirstRowDate(), false)?>:</strong> <?=HtmlHelper::formatEnergyInWattAndCurrency($overviewPageService->getPMSavingsTotal1())?></a></div>
+        <!-- /horizontal progress bars -->
 
-        <table class="table table-sm w-100 m-0 mb-sm-1 mb-md-2">
-            <tbody>
-                <!-- Header -->
-                <tr class="table-secondary">
-                    <td>
-                        <div class="small fw-bold">Batterie:</div>
-                    </td>
-                    <td>
-                        <div class="small fw-bold">Hauseinspeisung</div>
-                    </td>
-                    <td>
-                        <div class="small fw-bold">Akku Abgabe</div>
-                    </td>
-                </tr>
-                <tr class="table-light">
-                    <td>
-                        <div class="small fw-bold"><span id="zendure-electricLevel">x</span>%<br></div>
-                    </td>
-                    <td>
-                        <div class="small fw-bold"><span id="zendure-outputHomePower">x</span></div>
-                    </td>
-                    <td>
-                        <div class="small fw-bold"><span id="zendure-packInputPower">x</span></div>
-                    </td>
-                </tr>
-                <tr class="table-secondary">
-                    <td>
-                        <div class="small fw-bold"> PV Erzeugung:</div>
-                    </td>
-                    <td>
-                        <div class="small fw-bold">PV 1</div>
-                    </td>
-                    <td>
-                        <div class="small fw-bold">PV 1</div>
-                    </td>
-                </tr>
-                <tr class="table-light">
-                    <td>
-                        <div class="small fw-bold"><span id="zendure-solarInputPower">x</span>%<br></div>
-                    </td>
-                    <td>
-                        <div class="small fw-bold"><span id="zendure-solarPower1">x</span></div>
-                    </td>
-                    <td>
-                        <div class="small fw-bold"><span id="zendure-solarPower2">x</span></div>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+        <!-- Saving from -->
+        <div class="small mt-4 text-start" style="color: var(--savings-color);"><a href="yearsOverview.php" class="text-reset text-decoration-none"><strong>Ersparnis seit <?=TimeHelper::formatMonthNameAndYear($overviewPageService->getTableStatistics()->getPmFirstRowDate(), false)?>:</strong> <?=HtmlHelper::formatEnergyInWattAndCurrency($overviewPageService->getPMSavingsTotal1())?></a></div>
     </div>    
 </div>

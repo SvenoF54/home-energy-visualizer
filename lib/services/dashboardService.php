@@ -9,6 +9,7 @@ class DashboardService
     private EnergyDataSet $todayData;
     private EnergyDataSet $yesterdayData;
     private EnergyDataSet $currentHourData;
+    private RealTimeEnergyDataRow $realTimeData;
     private $zendureData;    
 
     public function __construct()
@@ -20,6 +21,7 @@ class DashboardService
     public function prepareInstantData()
     {
         $this->realTimeService->readLatestData();
+        $this->realTimeData = $this->realTimeService->getLatestDataRow();
 
         $strStart = date('Y-m-d 00:00:00');
         $strEnd = date('Y-m-d 23:59:59');
@@ -31,11 +33,35 @@ class DashboardService
         $avg = 3600;  // Sekunden pro Tag
         $this->currentHourData = $this->hourlyEnergyDataTbl->getEnergyData($strStart, $strEnd, $avg);
 
+        $this->prepareZendureData();
+    }
+
+    /// Zendure liefert als einzigen regelmäßigen Wert die solarInputPower, d.h. die anderen Werte müssen entsprechend berechnet werden.
+    private function prepareZendureData()
+    {
+        // Prepare data
         $kvsTable = KeyValueStoreTable::getInstance();
-        $this->zendureData = [];
+        $zendureKvsData = ["solarInputPower" => 0, "electricLevelPercent" => 0]; // Todo keys vorfüllen
         foreach ($kvsTable->getRowsForScope(KeyValueStoreScopeEnum::Zendure) as $row) {
-            $this->zendureData[$row->getStoreKey()] = $row->getValue();
+            $zendureKvsData[$row->getStoreKey()] = $row->getValue();
         }
+
+        // Prepare result set
+        $this->zendureData = [];
+        // Aktuelle Solarleistung über alle Eingänge in W
+        $this->zendureData["solarInputPower"] = isset($zendureKvsData["solarInputPower"]) ? $zendureKvsData["solarInputPower"] : 0;
+        // Ladestand über alle Batterien in %        
+        $this->zendureData["electricLevelPercent"] = isset($zendureKvsData["electricLevel"]) ? $zendureKvsData["electricLevel"] : 0;
+        
+        // Pack charge calculation
+        $currentAkkuCharge = $this->zendureData["solarInputPower"] - $this->realTimeData->getPm3TotalPower();        
+        $this->zendureData["chargePackPowerCalc"] = $currentAkkuCharge > 0 ? $currentAkkuCharge : 0;        // Aktuelle Ladeleistung der Batterien in W
+        $this->zendureData["isZendureChargeActive"] = $currentAkkuCharge > 0;                         // Ladung aktiv
+        $this->zendureData["dischargePackPowerCalc"] = $currentAkkuCharge < 0 ? -$currentAkkuCharge : 0;    // Aktuelle Entladeleistung der Batterien in W
+        $this->zendureData["isZendureDischargeActive"] = $currentAkkuCharge < 0;                      // Entladung aktiv
+
+        // Zendure production
+        $this->zendureData["production"] = $this->zendureData["solarInputPower"] + $this->zendureData["dischargePackPowerCalc"];
     }
 
     public function prepareStaticData()
@@ -65,7 +91,9 @@ class DashboardService
         $latestRealTimeRow = $this->realTimeService->getLatestDataRow();
         $now = $latestRealTimeRow->convertToJsArray();        
         $now["emPercent"] = abs($latestRealTimeRow->getEmTotalPower() / 6000 * 100);
-        $now["pmPercent"] = ($latestRealTimeRow->getPmTotalPower() / 1000) * 100;
+        $now["pmPercent"] = ($latestRealTimeRow->getPmTotalPower() / 2000) * 100;
+        $now["production"] = $now["pm1"] + $this->zendureData["production"];
+        $now["productionPercent"] = ($now["production"] / 2000) * 100;
         $now["isZeroFeedInActive"] = $this->realTimeService->isZeroFeedInActive();
         
         $result = [
