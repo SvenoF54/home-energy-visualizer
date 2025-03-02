@@ -56,7 +56,8 @@ In der Datenbank ist pro Zeitabschnitt ein Wert für Verbrauchsdaten vorgesehen,
 - **Netzeinspeisung**: Definiert die überschüssige erzeugte Energie, die nicht selbst verbraucht wird.
 
 ### Echtzeitdaten und Daten-Logger
-Die Echtzeitdaten und Stundenübersicht sind nur in Verbindung mit Echtzeitdaten sinnvoll nutzbar. Gleiches gilt für die Tagesansicht, da man in der Regel nur Werte für einen ganzen Monat manuell eingibt.  
+Die Echtzeitdaten und Stundenübersicht sind nur in Verbindung mit Echtzeitdaten sinnvoll nutzbar. Gleiches gilt für die Tagesansicht, da man in der Regel nur Werte für einen ganzen Monat manuell eingibt. Es handelt sich hierbei um eine nahezu Echtzeitanzeige, d.h. es tritt immer eine geringe Verzögerung im Sekundenbereich auf. 
+
 Für das Datenlogging der Echtzeitdaten gibt es eine API, die diese entgegennimmt und in die Datenbank speichert. Dieses Projekt enthält Skripte für die Shelly-Energiemesssensoren. Bitte unbedingt die Sicherheitshinweise beachten, falls Sensoren genutzt werden, die in die Elektroinstallation eingebaut werden.
 Die API kann auch mit anderen Energiedaten bedient werden, man kann sich also auch ein Skript für andere Geräte programmieren.
 
@@ -77,6 +78,10 @@ Preisdaten können ebenfalls manuell für mehrere Zeiträume eingegeben werden.
 
 ### Status fehlender Werte
 Hier wird ein Status angezeigt, der einen Überblick über die Datenabdeckung gibt und die Möglichkeit bietet, fehlende Daten manuell nachzupflegen. Falls bei der Berechnung der Echtzeitdaten ein Fehler beim Cronjob aufgetreten ist, kann der Monat manuell nachberechnet werden. Fehlen allerdings die Echtzeitdaten vollständig, bleibt die Lücke bestehen.
+
+### Zendure (Hyper 2000 System)
+Es können Daten von dem Zendure System zusätzlich mit angezeigt werden. Derzeit ist es nur mit dem Hyper 2000 System getestet, da keine spezifischen Hyper 2000 Werte benutzt werden, sollten auch die anderen Zendure Systeme funktionieren.
+Die Daten werden von der offiziellen Zendure-API aus deren Cloud ausgelesen.
 
 ## Lizenz
 
@@ -117,6 +122,14 @@ Das Projekt nutzt folgende Open-Source-Bibliotheken:
 7. **Bootstrap Icons** - [Bootstrap Icons](https://icons.getbootstrap.com/)
    - **Funktion**: Sammlung von Icons für die Verwendung in Bootstrap-basierten Webseiten.
 
+8. **Bluerhinos phpmqtt** - [Bluerhinos phpmqtt](https://github.com/bluerhinos/phpMQTT/)
+   - **Funktion**: Optional Bluerhinos phpmqtt Bibliothek, derzeit für die Zendure Anbindung.
+
+9. **Zendure API** - [Zendure API](https://github.com/Zendure/developer-device-data-report)
+   - **Funktion**: Optional, falls ein Zendure Akkusystem benutzt wird, um die Daten aus der Zendure API zu lesen.
+
+
+
 ## Shelly-Geräte und Skripte
 
 ### Verwendung von Shelly-Geräten und -Skripten
@@ -142,3 +155,9 @@ Ebenso wird keine Haftung für die erfassten Daten, deren Speicherung oder deren
 Darüber hinaus wird keine Verantwortung für etwaige Datenverluste, Abwärtskompatibilitätsprobleme (z. B. nach einem Update) oder andere technische Probleme übernommen. Es wird ausdrücklich empfohlen, regelmäßig ein Backup der Datenbank zu erstellen, um den Verlust wichtiger Informationen zu vermeiden.
 
 **Wichtiger Hinweis**: Die Geräte und Skripte dürfen nur in Übereinstimmung mit den geltenden gesetzlichen Bestimmungen und Sicherheitsvorgaben genutzt werden.
+
+## Zendure Geräte und API (Optional)
+
+### Auslesen von PV Ertrag sowie Akkudaten
+
+Falls entsprechend konfiguriert, wird die Zendure-API benutzt um den Erzeugten PV-Ertrag und den aktuellen Akkustand auszulesen. Aktuell nur mit dem Hyper 2000 System getestet.

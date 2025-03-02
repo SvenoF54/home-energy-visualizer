@@ -42,6 +42,6 @@ include_once("services/realtimeService.php");
 include_once("services/overviewPageService.php");
 include_once("services/dashboardService.php");
 include_once("services/taskService.php");
-include_once("services/zendureDataReader.php");
+include_once("services/zendureService.php");
 
 include_once("third-party/Bluerhinos/phpMQTT.php");

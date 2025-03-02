@@ -100,8 +100,14 @@ class RealTimeEnergyDataRow
     public function getPmTotalPower() { return $this->pm1TotalPower + $this->pm2TotalPower + $this->pm3TotalPower; }
     public function getPm1TotalPower() { return $this->pm1TotalPower; }
     public function getPm2TotalPower() { return $this->pm2TotalPower;}
-    public function getPm3TotalPower() { return $this->pm3TotalPower; }    
+    public function getPm3TotalPower() { return $this->pm3TotalPower; }        
     public function getSavingsPower() { return $this->getPmTotalPower() - $this->getEmTotalPowerUnderZero(); }
+    public function getPmXTotalPower($pmNumber) { 
+        if (strtoLower($pmNumber) == "pm1") return $this->pm1TotalPower; 
+        if (strtoLower($pmNumber) == "pm2") return $this->pm2TotalPower; 
+        if (strtoLower($pmNumber) == "pm3") return $this->pm3TotalPower; 
+        return 0;
+    }    
 
     public function getEmMissingRows() {return $this->emMissingRows; }
     public function getPm1MissingRows() { return $this->pm1MissingRows; }

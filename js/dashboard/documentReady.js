@@ -49,8 +49,8 @@ $(document).ready(function() {
                 $('#zeroFeedInActive').toggle(response.now.isZeroFeedInActive); // Set zero feed in active msg
 
                 // Bar 3 (Zendure Batteriedaten)
-                $("#pm-pack-bar").css("width", (response.zendure.electricLevelPercent) + "%");
-                $("#pm-pack-bar").css("background-color", "var(--" + getAkkuColor(response.zendure.electricLevelPercent) + ")");
+                $("#pm-pack-bar").css("width", (response.zendure.akkuPackLevelPercent) + "%");
+                $("#pm-pack-bar").css("background-color", "var(--" + getAkkuColor(response.zendure.akkuPackLevelPercent) + ")");
                 $('#zendure-chargeActive').toggle(response.zendure.isZendureChargeActive);
                 $('#zendure-dischargeActive').toggle(response.zendure.isZendureDischargeActive);
 

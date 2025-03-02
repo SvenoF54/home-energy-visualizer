@@ -91,22 +91,24 @@
             </div>
         </div>
 
+        <?php if (Configuration::getInstance()->dashboardPage()->getShowZendureOnDashboard()) { ?>
         <div class="mt-4">
             <div class="small d-flex justify-content-between text-secondary">
                 <div>
-                    <strong>Akku: </strong><span id="zendure-electricLevelPercent">0</span>
+                    <strong><?=Configuration::getInstance()->zendure()->getDisplayName()?>: </strong><span id="zendure-akkuPackLevelPercent">0</span>
                 </div>
                 <div id="zendure-chargeActive">
-                    <strong>Ladeleistung: </strong><span id="zendure-chargePackPowerCalc">+-</span>
+                    <strong>Ladeleistung: </strong><span id="zendure-chargePackPowerCalc">0</span>
                 </div>
                 <div id="zendure-dischargeActive">
-                    <strong>Entadeleistung: </strong><span id="zendure-dischargePackPowerCalc">+-</span>
+                    <strong>Entadeleistung: </strong><span id="zendure-dischargePackPowerCalc">0</span>
                 </div>
             </div>
             <div class="progress-bar-container">
                 <div id="pm-pack-bar" class="progress-bar-akkupack"></div>
             </div>
         </div>
+        <?php } ?>
         <!-- /horizontal progress bars -->
 
         <!-- Saving from -->

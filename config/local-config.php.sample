@@ -25,12 +25,12 @@ define('SYSTEM_EMAIL', 'mail@example.org');  // Mailempfänger für Systemnachri
 $config = Configuration::getInstance();
 
 // Konfiguriert, den Alarmstatus, falls keine Daten geloggt werden.
-$config->configRealtimeAlert()->setSendAlertMail(true);
-$config->configRealtimeAlert()->setAlertThresholdInMinutes(5);      // Wenn x Minuten keine Einträge gefunden werden, wird ein Mail und ein Hinweis in der Navigation gezeigt, solange das Problem besteht.
-$config->configRealtimeAlert()->setSendAlertMailEveryXMinutes(30);  // Die Mail wird alle x Minuten erneut gesendet, solange das Problem besteht.
-$config->configRealtimeAlert()->setShouldAlertForEnergyType(EnergyTypeEnum::EM, true);  // Welche Kanäle überwacht werden
-$config->configRealtimeAlert()->setShouldAlertForEnergyType(EnergyTypeEnum::PM1, true);
-$config->configRealtimeAlert()->setShouldAlertForEnergyType(EnergyTypeEnum::PM3, true);
+$config->realtimeAlert()->setSendAlertMail(true);
+$config->realtimeAlert()->setAlertThresholdInMinutes(5);      // Wenn x Minuten keine Einträge gefunden werden, wird ein Mail und ein Hinweis in der Navigation gezeigt, solange das Problem besteht.
+$config->realtimeAlert()->setSendAlertMailEveryXMinutes(30);  // Die Mail wird alle x Minuten erneut gesendet, solange das Problem besteht.
+$config->realtimeAlert()->setShouldAlertForEnergyType(EnergyTypeEnum::EM, true);  // Welche Kanäle überwacht werden
+$config->realtimeAlert()->setShouldAlertForEnergyType(EnergyTypeEnum::PM1, true);
+$config->realtimeAlert()->setShouldAlertForEnergyType(EnergyTypeEnum::PM3, true);
 
 // Konfiguriert einige Werte auf der Energy-Chart-Seite
 // Es gibt jeweils 2 Energiesets, welche Energie1 und Energie2 heißen und einzeln konfiguriert werden können.
@@ -80,4 +80,16 @@ $config->hoursOverview()->configEnergy1()->setTablePageLength(10);
 // Die Echtzeitübersichtsseite hat zusätzlich folgende Optionen, es sind nicht alle Optionen der Übersichtsseite benutzbar
 $config->realtimeOverview()->setPastPeriodPossibilities([0.5, 1, 2, 4, 6, 8, 12, 24, 24*7, 24*14, 24*28]);
 $config->realtimeOverview()->setRefreshIntervalInSec(5);
+
+// Zendure
+$config->zendure()->setAppKey("DeinAppKey");                            // Der AppKey, siehe Installationsanleitung
+$config->zendure()->setAppSecret("DeinAppSecret");                      // Das AppSecret, siehe Installationsanleitung
+$config->zendure()->setReadTimeInSec(60);                               // Wie lange ein Request die Zendure Nachrichten abfragt, hängt vom Timeout des Webservers ab.
+$config->zendure()->setDisplayName("Akku");                             // Name auf dem Dashboard
+$config->zendure()->setConnectedToPmPort("PM3");                        // An welcher Phase der Zendure angeschlossen ist. Kann auch in der Echtzeitübersicht erkannt werden
+
+$config->dashboardPage()->setShowZendureOnDashboard(false);             // Falls ein Zendure-System benutzt wird, das die Werte auf dem Dashboard angezeigt werden
+$config->dashboardPage()->setConsumptionIndicatedAs100Percent(6000);  	// Max. Wert für 100% Hausverbrauch, z.B. 6000W
+$config->dashboardPage()->setMaxEnergyProduction(1600);					// Max. Wert für Energieproduktion, z.B. 1600W PV-Panel Leistung
+
 ?>

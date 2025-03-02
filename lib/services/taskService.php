@@ -8,7 +8,7 @@ class TaskService
     {
         try {
             self::logToKvs(TaskEnum::ReadZendureData, StatusEnum::Success, "Start MQQT-Reader");
-            $reader = new ZendureDataReader();
+            $reader = new ZendureService();
             $reader->connect();
             $reader->readDataFromMqqt();
         } catch(Exception $ex) {
@@ -21,7 +21,7 @@ class TaskService
         try {
             $db = Database::getInstance();
             $realTimeEnergyDataTbl = new RealTimeEnergyDataTable($db->getPdoConnection());
-            $actualConfig = Configuration::getInstance()->configRealtimeAlert();
+            $actualConfig = Configuration::getInstance()->realtimeAlert();
             $latestLogData = $realTimeEnergyDataTbl->getLatestLogData();        
 
             $hasAlerts = false;

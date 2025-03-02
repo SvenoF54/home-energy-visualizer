@@ -1,7 +1,11 @@
-# Zengure-Guthub Dokumentation
+# Zengure-Github Dokumentation
 # https://github.com/Zendure/developer-device-data-report
 # 
 # Unteren Befehl in Powershell ausführen, nachdem die E-Mail und Seriennummer eingetragen wurde.
 # Den App-Key in die local-config.php eintragen
 
-curl -H "Content-Type: application/json" -X POST -d '{"snNumber":"<deine Seriennummer>","account": "<dein Account>"}' https://app.zendure.tech/eu/developer/api/apply
+curl -i --json "{'snNumber': '<deine Seriennummer>', 'account': '<dein Account>'}" https://app.zendure.tech/eu/developer/api/apply
+
+Falls eine Zertifikatsfehlermeldung kommt kann auch der Parmeter --insecure benutzt werden, ist aber nicht empfohlen.
+
+curl -i --json "{'snNumber': '<deine Seriennummer>', 'account': '<dein Account>'}" https://app.zendure.tech/eu/developer/api/apply --insecure
