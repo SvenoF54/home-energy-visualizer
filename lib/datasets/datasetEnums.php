@@ -29,4 +29,12 @@ enum StatusEnum: string {
     case Success = 'Success';
     case Failure = 'Failure';
     case Exception = 'Exception';
+
+    public function isErrorOrException(): bool {
+        return $this === self::Failure || $this === self::Exception;
+    }
+    
+    public static function isErrorOrExceptionValue(string $status): bool {
+        return in_array($status, [self::Failure->value, self::Exception->value], true);
+    }
 }

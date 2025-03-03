@@ -29,7 +29,7 @@ class TimeHelper {
     public static function formatMonthNameAndYear($mysqlDate, $monthNameShort = true)
     {
         $monthName = MONTH_LIST[date("n", strtotime($mysqlDate))];
-        $monthName = $monthNameShort ? substr($monthName, 0, 3) : $monthName;
+        $monthName = $monthNameShort ? mb_substr($monthName, 0, 3) : $monthName;
         return $monthName." ".date("Y", strtotime($mysqlDate));
     }
 

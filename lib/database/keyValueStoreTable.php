@@ -73,7 +73,7 @@ class KeyValueStoreTable extends BaseTable
     }
 
     public function getRowsForScope(KeyValueStoreScopeEnum $scope): array {
-        $sql = "SELECT * FROM {$this->tableName} WHERE scope = :scope ORDER BY store_key";        
+        $sql = "SELECT * FROM {$this->tableName} WHERE scope = :scope ORDER BY updated DESC, inserted DESC";        
         $stmt = $this->pdo->prepare($sql);
         $stmt->bindValue(':scope', $scope->value, PDO::PARAM_STR);
         $stmt->execute();

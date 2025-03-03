@@ -8,10 +8,9 @@ include_once("lib/appLibLoader.php");
 $hourlyEnergyDataTbl = HourlyEnergyDataTable::getInstance();
 $hourlyEnergyGaps = $hourlyEnergyDataTbl->getGaps();
 $hourlyEnergyGapsGroupped = TableGapSet::groupByMonth($hourlyEnergyGaps);
-$hourlyEnergyStats = $hourlyEnergyDataTbl->getStatistics();
 
 $realtimeEnergyDataTbl = RealTimeEnergyDataTable::getInstance();
-$realtimeEnergyStats = $realtimeEnergyDataTbl->getStatistics();
+$realtimeEnergyStats = $realtimeEnergyDataTbl->getStatistics(true);
 
 // configure VIEW
 

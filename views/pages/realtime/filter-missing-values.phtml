@@ -25,9 +25,9 @@
                 <?= StringHelper::formatNumber($energyData->getMissingRows()->getCountRows()) ?> Zeilen
                 <?php 
                     $tooltipText = StringHelper::formatNumber($energyData->getMissingRows()->getCountRows())." Zeile für die Auswahl durchsucht, <br>".
-                    StringHelper::formatNumber($realTimeEnergyDataTbl->getStatistics()->getTotalRows())." Zeilen in der Echtzeit-Datenbank seit <br>"
-                    .TimeHelper::formatDate($realTimeEnergyDataTbl->getStatistics()->getFirstRowDate())
-                    ." bis ".TimeHelper::formatDate($realTimeEnergyDataTbl->getStatistics()->getLastRowDate()).".";
+                    StringHelper::formatNumber($realTimeEnergyDataTbl->getStatistics(true)->getTotalRows())." Zeilen in der Echtzeit-Datenbank seit <br>"
+                    .TimeHelper::formatDate($realTimeEnergyDataTbl->getStatistics(true)->getFirstRowDate())
+                    ." bis ".TimeHelper::formatDate($realTimeEnergyDataTbl->getStatistics(true)->getLastRowDate()).".";
                 ?>
                 <i class="bi bi-info-circle text-primary" data-bs-html="true" data-bs-toggle="tooltip" data-bs-placement="top" title="<?=$tooltipText?>"></i>
             </div>

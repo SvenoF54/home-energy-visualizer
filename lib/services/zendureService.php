@@ -68,9 +68,12 @@ class ZendureService
     public function getZendureKeys()
     {
         $keys = [
-            $this->config->getKeySolarInput()   => "Ladestand über alle Batterien in %", 
-            $this->config->getKeyAkkuCapacity() => "Aktuelle Solarleistung über alle Eingänge in W",
-            $this->config->getKeyAkkuMax()      => "(Obere) Ladegrenze in % * 10"
+            $this->config->getKeySolarInput()           => "Ladestand über alle Batterien in %", 
+            $this->config->getKeyAkkuCapacity()         => "Aktuelle Solarleistung über alle Eingänge in W",
+            $this->config->getKeyMaxUpperLoadLimit()    => "(Obere) Ladegrenze in % * 10",
+            $this->config->getKeyPackDischarge()        => "Aktuelle Entladeleistung der Batterien in W",
+            $this->config->getKeyPackCharge()           => "Aktuelle Ladeleistung der Batterien in W",
+            $this->config->getKeyPackState()            => "Status über alle Batterien (0: Standby, 1: Laden, 2: Entladen)"
         ];
 
         return $keys;
@@ -106,6 +109,9 @@ class ZendureService
     {
         $keySolarInput = $this->config->getKeySolarInput();
         $keyAkkuCapacity = $this->config->getKeyAkkuCapacity();
+        $keyPackCharge = $this->config->getKeyPackCharge();
+        $keyPackDischarge = $this->config->getKeyPackDischarge();
+        $keyPackState = $this->config->getKeyPackState();
         $resultData = [];
         
         // Read latest Zendure data from DB
@@ -122,18 +128,16 @@ class ZendureService
         $resultData["akkuPackLevelPercent"] = isset($zendureKvsData[$keyAkkuCapacity]) ? $zendureKvsData[$keyAkkuCapacity] : 0;
         
         // Pack charge calculation, only if zero feed in is active because zendure data are not send very often
-        if ($isZeroFeedInActive) {
+        if ($this->config->getCalculatePackData()) {
             $currentAkkuCharge = $resultData["solarInputPower"] - $substractPmxData;                     // If another PM-Port has third party power
             $resultData["chargePackPowerCalc"] = $currentAkkuCharge > 0 ? $currentAkkuCharge : 0;        // Caclulated current pack charging W
-            $resultData["isZendureChargeActive"] = $currentAkkuCharge > 0;                               // Pack charging active
             $resultData["dischargePackPowerCalc"] = $currentAkkuCharge < 0 ? -$currentAkkuCharge : 0;    // Caclulated current pack discharging W
-            $resultData["isZendureDischargeActive"] = $currentAkkuCharge < 0;                            // Pack discharging active
         } else {
-            $resultData["chargePackPowerCalc"] = 0;
-            $resultData["isZendureChargeActive"] = false;
-            $resultData["dischargePackPowerCalc"] = 0;
-            $resultData["isZendureDischargeActive"] = false;
-        }
+            $resultData["chargePackPowerCalc"] = $zendureKvsData[$keyPackCharge];
+            $resultData["dischargePackPowerCalc"] = $zendureKvsData[$keyPackDischarge];
+        } 
+        $resultData["isZendureChargeActive"] = $zendureKvsData[$keyPackState] == 1 && $resultData["chargePackPowerCalc"] > 0;          // Pack charging active
+        $resultData["isZendureDischargeActive"] = $zendureKvsData[$keyPackState] == 2 && $resultData["dischargePackPowerCalc"] > 0;    // Pack discharging active
 
         // Zendure production
         $resultData["productionTotal"] = $resultData["solarInputPower"] + $resultData["dischargePackPowerCalc"];

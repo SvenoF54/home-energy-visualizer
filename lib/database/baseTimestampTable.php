@@ -14,7 +14,7 @@ class BaseTimestampTable extends BaseTable {
         $this->timestampToRowName = $timestampToRowName;
     }
 
-    public function getStatistics(): TableStatisticSet
+    public function getStatistics($onlyCountAndFirstLastDate = false): TableStatisticSet
     {
         if ($this->statisticSet !== null) {
             return $this->statisticSet;
@@ -25,16 +25,20 @@ class BaseTimestampTable extends BaseTable {
                 -- Gesamtdaten
                 (SELECT COUNT(*) FROM $this->tableName) AS totalRows,
                 (SELECT MIN($this->timestampFromRowName) FROM $this->tableName) AS firstDate,
-                (SELECT MAX($this->timestampFromRowName) FROM $this->tableName) AS lastDate,
-
+                (SELECT MAX($this->timestampFromRowName) FROM $this->tableName) AS lastDate
+            ";
+        if (!$onlyCountAndFirstLastDate) {
+            $sql .= "
                 -- PM-Daten
-                (SELECT COUNT(*) FROM $this->tableName
+                ,(SELECT COUNT(*) FROM $this->tableName
                 WHERE pm1_total_power IS NOT NULL OR pm2_total_power IS NOT NULL OR pm3_total_power IS NOT NULL) AS totalPmRows,
                 (SELECT MIN($this->timestampFromRowName) FROM $this->tableName 
                 WHERE pm1_total_power IS NOT NULL OR pm2_total_power IS NOT NULL OR pm3_total_power IS NOT NULL) AS firstPmDate,
                 (SELECT MAX($this->timestampFromRowName) FROM $this->tableName 
                 WHERE pm1_total_power IS NOT NULL OR pm2_total_power IS NOT NULL OR pm3_total_power IS NOT NULL) AS lastPmDate;
-        ";
+            ";
+        }
+        
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute();
         
@@ -47,9 +51,9 @@ class BaseTimestampTable extends BaseTable {
                 $data['firstDate'], 
                 $data['lastDate']
             );
-            $this->statisticSet->setPmFirstRowDate($data['firstPmDate']);
-            $this->statisticSet->setPmLastRowDate($data['lastPmDate']);
-            $this->statisticSet->setPmTotalRows((int) $data['totalPmRows']);
+            $this->statisticSet->setPmFirstRowDate(isset($data['firstPmDate']) ? $data['firstPmDate'] : null);
+            $this->statisticSet->setPmLastRowDate(isset($data['lastPmDate']) ? $data['lastPmDate'] : null);
+            $this->statisticSet->setPmTotalRows(isset($data['totalPmRows']) ? (int) $data['totalPmRows'] : null);
         }
     
         return $this->statisticSet;
