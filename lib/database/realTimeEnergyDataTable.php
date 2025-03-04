@@ -49,7 +49,7 @@ class RealTimeEnergyDataTable extends BaseTimestampTable
                     COALESCE(pm1_total_power, 0) 
                     + COALESCE(pm2_total_power, 0) 
                     + COALESCE(pm3_total_power, 0) 
-                    - IF (em_total_power > 0, COALESCE(em_total_power, 0), 0)
+                    + IF (em_total_power < 0, COALESCE(em_total_power, 0), 0)  -- Substract FeedIn from savings
                 ), 2) AS sum_savings,
 
                 -- Count missing values

@@ -83,7 +83,4 @@ class DashboardService
 
     public function getYesterdayData() : EnergyDataSet { return $this->yesterdayData; }
     public function getTodayData() : EnergyDataSet { return $this->todayData; }
-    public function getCurrentHourData() : EnergyDataSet { return $this->currentHourData; }
-
-
 }

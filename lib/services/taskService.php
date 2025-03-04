@@ -5,12 +5,14 @@
 class TaskService 
 {    
     public static function readZendureData()
-    {
+    {        
         try {
-            self::logToKvs(TaskEnum::ReadZendureData, StatusEnum::Success, "Start MQQT-Reader");
             $reader = new ZendureService();
             $reader->connect();
-            $reader->readDataFromMqqt();
+            $startTime = time();
+            $countMsgReceived = $reader->readDataFromMqqt();
+            $diffInSeconds = time() - $startTime;
+            self::logToKvs(TaskEnum::ReadZendureData, StatusEnum::Success, "$countMsgReceived Messages received in the last $diffInSeconds seconds.");
         } catch(Exception $ex) {
             self::logToKvs(TaskEnum::ReadZendureData, StatusEnum::Exception, $ex->getMessage());
         }

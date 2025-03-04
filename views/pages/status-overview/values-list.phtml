@@ -17,10 +17,10 @@
             <tr class="<?=StatusEnum::isErrorOrExceptionValue($row->getValue()) ? "table-danger" : "table-light"?>">
                 <td></td>
                 <td class="text-start" colspan="2">
-                    <?php if (mb_strlen($notice) > 23) {                  
-                        $shortNotice = mb_strlen($notice) > 24 ? mb_substr($notice, 24) : $notice;
+                    <?php if (mb_strlen($notice) > 17) {                  
+                        $shortNotice = mb_strlen($notice) > 18 ? mb_substr($notice, 18) : $notice;
                     ?>
-                        <?=mb_substr($notice, 0, 24)?><i class="bi bi-info-circle text-primary d-inline-block d-sm-none" 
+                        <?=mb_substr($notice, 0, 18)?><i class="bi bi-info-circle text-primary d-inline-block d-sm-none" 
                             data-bs-toggle="tooltip" 
                             data-bs-html="true" 
                             title="<?= htmlspecialchars($shortNotice, ENT_QUOTES, 'UTF-8') ?>">

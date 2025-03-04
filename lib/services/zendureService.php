@@ -7,12 +7,14 @@
 
 class ZendureService
 {
+    private const TIMEOUT_MQQT_DATA_FOR_DASHBOARD_IN_MINUTES = 10*60;
     private $client_id;
     private $mqqtClient;
     private $timeoutInSec = 10;
     private $kvsTable;
     private $stateTopic;
     private $config;
+    private $countMsgReceived;
 
     public function __construct() {
         $this->client_id = uniqid('nrgHomeVis_');  
@@ -26,10 +28,10 @@ class ZendureService
 
         // Connect
         if ($config->getAppKey() == null || $config->getAppSecret() == null) {
-            throw new Exception("Kein AppKey oder kein AppSecret in der local-config.php gesetzt.");
+            throw new Exception("No AppKey or AppSecret set in local-config.php.");
         }
         if (! $this->mqqtClient->connect(true, NULL, $config->getAppKey(), $config->getAppSecret())) {            
-            throw new Exception("Fehler: Verbindung zum Zendure MQTT-Broker fehlgeschlagen.");
+            throw new Exception("No connection to Zendure MQTT-Broker possible.");
         }
 
         $this->stateTopic = $config->getAppKey()."/#";  // Typical AppKey/#
@@ -37,6 +39,7 @@ class ZendureService
     }
 
     public function readDataFromMqqt() {
+        $this->countMsgReceived = 0;
         $this->mqqtClient->subscribe([
             $this->stateTopic => ['qos' => 0, 'function' => [$this, 'handleMessage']]
         ]);
@@ -50,13 +53,16 @@ class ZendureService
         }
             
         if (! $this->mqqtClient->proc()) {
-            throw new Exception("Error: MQTT-connect lost or a problem with the message.");
+            throw new Exception("MQTT-connect lost or a problem with the message.");
         }
 
         $this->mqqtClient->close();
+
+        return $this->countMsgReceived;
     }
 
     public function handleMessage($topic, $msg) {
+        $this->countMsgReceived++;
         $data = json_decode($msg, true);
         foreach ($this->getZendureKeys() as $key => $notice) {
             if ($data && isset($data[$key])) {
@@ -70,7 +76,7 @@ class ZendureService
         $keys = [
             $this->config->getKeySolarInput()           => "Ladestand über alle Batterien in %", 
             $this->config->getKeyAkkuCapacity()         => "Aktuelle Solarleistung über alle Eingänge in W",
-            $this->config->getKeyMaxUpperLoadLimit()    => "(Obere) Ladegrenze in % * 10",
+            $this->config->getKeyPackMaxUpperLoadLimit()=> "(Obere) Ladegrenze in % * 10",
             $this->config->getKeyPackDischarge()        => "Aktuelle Entladeleistung der Batterien in W",
             $this->config->getKeyPackCharge()           => "Aktuelle Ladeleistung der Batterien in W",
             $this->config->getKeyPackState()            => "Status über alle Batterien (0: Standby, 1: Laden, 2: Entladen)"
@@ -115,13 +121,18 @@ class ZendureService
         $resultData = [];
         
         // Read latest Zendure data from DB
-        $zendureKvsData = [$keySolarInput => 0, $keyAkkuCapacity => 0];
-        foreach ($this->kvsTable->getRowsForScope(KeyValueStoreScopeEnum::Zendure) as $row) {
-            $zendureKvsData[$row->getStoreKey()] = $row->getValue();
+        $zendureKvsData = [$keySolarInput => 0, $keyAkkuCapacity => 0, $keyPackCharge => 0, $keyPackDischarge => 0, $keyPackState => 0];
+        $latestLogRow = $this->kvsTable->getRow(KeyValueStoreScopeEnum::Task, TaskEnum::ReadZendureData->value);
+        $updated = strtotime($latestLogRow->getUpdated());
+        $dataLoss = (time() - $updated) > (static::TIMEOUT_MQQT_DATA_FOR_DASHBOARD_IN_MINUTES);
+        if (! $dataLoss) {
+            foreach ($this->kvsTable->getRowsForScope(KeyValueStoreScopeEnum::Zendure) as $row) {            
+                $zendureKvsData[$row->getStoreKey()] = $row->getValue();
+            }
         }
 
         // Prepare result set
-        $resultData = [];        
+        $resultData = ["isDataloss" => $dataLoss];        
         // Current solar energy over all in W
         $resultData["solarInputPower"] = isset($zendureKvsData[$keySolarInput]) ? $zendureKvsData[$keySolarInput] : 0;
         // Current pack capacity over all in %        

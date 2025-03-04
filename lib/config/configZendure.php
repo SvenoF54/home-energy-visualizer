@@ -12,7 +12,7 @@ class ConfigZendure
     private $displayName = "Akku";
     private $keyAkkuCapacity = "electricLevel";     // MQQT Key for electricLevel
     private $keySolarInput = "solarInputPower";     // MQQT Key for solarInputPower 
-    private $keyMaxUpperLoadLimit = "socSet";       // MQQT Key for max. Charge in %
+    private $keyPackMaxUpperLoadLimit = "socSet";   // MQQT Key for max. Charge in %
     private $keyPackDischarge = "packInputPower";   // MQQT Key for pack discharge current W
     private $keyPackCharge = "outputPackPower";     // MQQT Key for pack charge current in W
     private $keyPackState = "packState";            // MQQT Key for pack state (0: Standby, 1: Charge, 2: Discharge)
@@ -43,8 +43,8 @@ class ConfigZendure
     public function getKeySolarInput() { return $this->keySolarInput; }
     public function setKeySolarInput($keySolarInput) { $this->keySolarInput = $keySolarInput; }
 
-    public function getKeyMaxUpperLoadLimit() { return $this->keyMaxUpperLoadLimit; }
-    public function setKeyMaxUpperLoadLimit($keyMaxUpperLoadLimit) { $this->keyMaxUpperLoadLimit = $keyMaxUpperLoadLimit; }
+    public function getKeyPackMaxUpperLoadLimit() { return $this->keyPackMaxUpperLoadLimit; }
+    public function setKeyPackMaxUpperLoadLimit($keyPackMaxUpperLoadLimit) { $this->keyPackMaxUpperLoadLimit = $keyPackMaxUpperLoadLimit; }
 
     public function getKeyPackDischarge() { return $this->keyPackDischarge; }
     public function setKeyPackDischarge($keyPackDischarge) { $this->keyPackDischarge = $keyPackDischarge; }

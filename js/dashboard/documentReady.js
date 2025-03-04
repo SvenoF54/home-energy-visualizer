@@ -53,6 +53,8 @@ $(document).ready(function() {
                 $("#pm-pack-bar").css("background-color", "var(--" + getAkkuColor(response.zendure.akkuPackLevelPercent) + ")");
                 $('#zendure-chargeActive').toggle(response.zendure.isZendureChargeActive);
                 $('#zendure-dischargeActive').toggle(response.zendure.isZendureDischargeActive);
+                $('#zendure-dataloss').toggle(response.zendure.isDataloss);
+                $('#zendure-akkuPackLevelPercent').toggle(!response.zendure.isDataloss);
 
             },
 
