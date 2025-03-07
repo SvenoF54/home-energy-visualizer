@@ -35,7 +35,7 @@ class DashboardService
             $zendureConfig = Configuration::getInstance()->zendure();
             $zendureService = new ZendureService();
             $pmxPower = $this->realTimeData->getPmXTotalPower($zendureConfig->getConnectedToPmPort());
-            $this->zendureData = $zendureService->prepareZendureDashboardData($this->realTimeService->isZeroFeedInActive(), $pmxPower);
+            $this->zendureData = $zendureService->prepareZendureDashboardData($pmxPower);
         }
     }
 

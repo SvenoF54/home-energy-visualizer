@@ -18,6 +18,7 @@ include_once("datasets/customEnergyDataSet.php");
 include_once("datasets/missingRowSet.php");
 include_once("datasets/savingsStatisticSet.php");
 include_once("datasets/latestRealtimeLogData.php");
+include_once("datasets/zendureStatsSet.php");
 
 include_once("database/realTimeEnergyDataTable.php");
 include_once("database/realTimeEnergyDataInsert.php");
