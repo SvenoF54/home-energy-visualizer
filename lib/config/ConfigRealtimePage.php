@@ -39,7 +39,7 @@ class ConfigRealtimePage
         $this->line1 = StringHelper::formGetInt("line1", $this->line1);
         $this->line2 = StringHelper::formGetInt("line2", $this->line2);
         $this->averagePossibility = StringHelper::formGetInt("averagePossibility", $this->averagePossibility);
-        $this->pastperiod = StringHelper::formGetInt("pastperiod", $this->pastperiod);
+        $this->pastperiod = StringHelper::formGetFloat("pastperiod", $this->pastperiod);
 
         $this->configRealtime->setFormValues();
     }

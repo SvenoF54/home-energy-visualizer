@@ -2,10 +2,10 @@
     <thead class="thead-light">
         <tr>
             <th class="table-active timestamp">Zeitpunkt</th>
-            <th class="table-active purchase" colspan=2>Einkauf</th>
-            <th class="table-active feed-in" colspan=2>Einspeisung</th>                
             <th class="table-active savings" colspan=2>Ersparnis</th>
             <th class="table-active autarky">Autarkie</th>
+            <th class="table-active feed-in" colspan=2>Einspeisung</th>                
+            <th class="table-active purchase" colspan=2>Einkauf</th>
             <th class="table-active production-caption" colspan="8">
                 Produktion
                 <label for="toggleProductionColumns" class="mb-0 me-2">
@@ -15,13 +15,13 @@
         </tr>
         <tr>
             <th class="table-active timestamp"></th>
-            <th class="table-active cell-energy purchase">Energie</th>
-            <th class="table-active cell-price purchase">Preis</th>
-            <th class="table-active cell-energy feed-in">Energie</th>
-            <th class="table-active cell-price feed-in">Preis</th>
             <th class="table-active cell-energy savings">Energie</th>
             <th class="table-active cell-price savings">Preis</th>
             <th class="table-active cell-price autarky">%</th>
+            <th class="table-active cell-energy feed-in">Energie</th>
+            <th class="table-active cell-price feed-in">Preis</th>
+            <th class="table-active cell-energy purchase">Energie</th>
+            <th class="table-active cell-price purchase">Preis</th>
             <th class="table-active cell-energy production-pmtotal">Energie&nbsp;Total</th>
             <th class="table-active cell-price production-pmtotal">Preis</th>
             <th class="table-active cell-energy production-pm1">Energie&nbsp;PM1</th>
@@ -39,13 +39,13 @@
     ?>
         <tr>
             <td class="timestamp" data-sort="<?=$data1->getTimestampFrom()?>"><?=$captions[0]?></td>
-            <td class="text-end purchase" data-sort="<?=$data1->getEnergyOverZero()->getEnergyInWatt()?>"><?=$data1->getEnergyOverZero()->getEnergyInWattFormated()?></td>
-            <td class="text-end purchase" data-sort="<?=$data1->getEnergyOverZero()->getEnergyPriceInCent()?>"><?=$data1->getEnergyOverZero()->getEnergyPriceFormatted()?></td>
-            <td class="text-end feed-in" data-sort="<?=$data1->getEnergyUnderZero()->getEnergyInWatt()?>"><?=$data1->getEnergyUnderZero()->getEnergyInWattFormated()?></td>
-            <td class="text-end feed-in" data-sort="<?=$data1->getEnergyUnderZero()->getEnergyPriceInCent()?>"><?=$data1->getEnergyUnderZero()->getEnergyPriceFormatted()?></td>
             <td class="text-end savings" data-sort="<?=$data1->getSavings()->getEnergyInWatt()?>"><?=$data1->getSavings()->getEnergyInWattFormated()?></td>
             <td class="text-end savings" data-sort="<?=$data1->getSavings()->getEnergyPriceInCent()?>"><?=$data1->getSavings()->getEnergyPriceFormatted()?></td>
             <td class="text-end autarky" data-sort="<?=$data1->getAutarkyInPercent()?>"><?=StringHelper::formatNumber($data1->getAutarkyInPercent(), 2)?></td>
+            <td class="text-end feed-in" data-sort="<?=$data1->getEnergyUnderZero()->getEnergyInWatt()?>"><?=$data1->getEnergyUnderZero()->getEnergyInWattFormated()?></td>
+            <td class="text-end feed-in" data-sort="<?=$data1->getEnergyUnderZero()->getEnergyPriceInCent()?>"><?=$data1->getEnergyUnderZero()->getEnergyPriceFormatted()?></td>
+            <td class="text-end purchase" data-sort="<?=$data1->getEnergyOverZero()->getEnergyInWatt()?>"><?=$data1->getEnergyOverZero()->getEnergyInWattFormated()?></td>
+            <td class="text-end purchase" data-sort="<?=$data1->getEnergyOverZero()->getEnergyPriceInCent()?>"><?=$data1->getEnergyOverZero()->getEnergyPriceFormatted()?></td>
 
             <td class="text-end production-pmtotal" data-sort="<?=$data1->getProductionPmTotal()->getEnergyInWatt()?>"><?=$data1->getProductionPmTotal()->getEnergyInWattFormated()?></td>
             <td class="text-end production-pmtotal" data-sort="<?=$data1->getProductionPmTotal()->getEnergyPriceInCent()?>"><?=$data1->getProductionPmTotal()->getEnergyPriceFormatted()?></td>
@@ -61,13 +61,13 @@
     <tfoot>
         <tr>
             <td class="timestamp">Summe</td>
-            <td class="text-end purchase"><?=$overviewPageService->getData1List()->getEnergyOverZeroSum()->getEnergyInWattFormated()?></td>
-            <td class="text-end purchase"><?=$overviewPageService->getData1List()->getEnergyOverZeroSum()->getEnergyPriceFormatted()?></td>
-            <td class="text-end feed-in"><?=$overviewPageService->getData1List()->getEnergyUnderZeroSum()->getEnergyInWattFormated()?></td>
-            <td class="text-end feed-in"><?=$overviewPageService->getData1List()->getEnergyUnderZeroSum()->getEnergyPriceFormatted()?></td>
             <td class="text-end savings"><?=$overviewPageService->getData1List()->getSavingsSum()->getEnergyInWattFormated()?></td>
             <td class="text-end savings"><?=$overviewPageService->getData1List()->getSavingsSum()->getEnergyPriceFormatted()?></td>
             <td class="text-end autarky"><?=StringHelper::formatNumber($overviewPageService->getData1List()->getAutarkyInPercent(),2)?></td>            
+            <td class="text-end feed-in"><?=$overviewPageService->getData1List()->getEnergyUnderZeroSum()->getEnergyInWattFormated()?></td>
+            <td class="text-end feed-in"><?=$overviewPageService->getData1List()->getEnergyUnderZeroSum()->getEnergyPriceFormatted()?></td>
+            <td class="text-end purchase"><?=$overviewPageService->getData1List()->getEnergyOverZeroSum()->getEnergyInWattFormated()?></td>
+            <td class="text-end purchase"><?=$overviewPageService->getData1List()->getEnergyOverZeroSum()->getEnergyPriceFormatted()?></td>
 
             <td class="text-end production-pmtotal"><?=$overviewPageService->getData1List()->getProductionPmTotalSum()->getEnergyInWattFormated()?></td>
             <td class="text-end production-pmtotal"><?=$overviewPageService->getData1List()->getProductionPmTotalSum()->getEnergyPriceFormatted()?></td>
