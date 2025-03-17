@@ -144,3 +144,47 @@ AuthName "Bitte Anmelden"
 AuthUserFile /www/htdocs/[pfad]/[zum]/[projekt]/.htpasswd
 Require valid-user
 ```
+## Zendure (optional, rudimentär)
+
+Es kann der aktuelle Wert der PV Stromgenerierung und der Akkustand aus dem Zendure-System ausgelesen und mit angezeigt werden. Die Werte werden dann außerdem auf dem Dashboard auch für die Anzeige der gesamten Energieproduktion berücksichtigt. Dies zeigt dann auch die PV-Energie an, welche für das Laden des Akkus verwendet wird.
+Die Werte werden über die API ausgelesen und in der DB zwischengespeichert.
+
+Beim Lesen der Zendure-Werte kann es zu geringfügigen Datenverlusten, insbesondere bei der aktuellen PV-Leistung kommen, wodurch ggfls. die Echtzeitanzeige etwas verfälscht ist. Die Akkudaten können auch berechnet werden, weil die API die Akkudaten nur ~ alle Minute sendet und im Smart-Modus dann nur ein Indiz sind.
+
+Hintergrund: Das Auslesen erfolgt per einzelne Requests durch den TaskManager welcher dann einen gewissen Zeitraum läuft, da auf dem Webserver kein dauerhafter Prozess laufen kann. Dies ist nicht so, wie das MQQT-Protokoll es vorsieht, funktioniert aber auch. Deshalb ist das Feature als rudimentär gekennzeichnet.
+
+Um ein Zendure-System anzubinden, sind folgende Schritt notwendig:
+
+1. AppKey und AppSecret für die Zendure API besorgen
+Als Vorbereitung muss man die Seriennummer aus der Zendure-App im Einstellungsbereich auslesen.
+Mit der Seriennummer und die E-Mail, mit welcher man sich registriert hat setzt man folgenden Befehl ab, um die Zugangsdaten zu erhalten:
+- Eingabeaufforderung (cmd) öffnen
+- Die Werte in diesem Befehl entsprechend ersetzen und abschicken:
+- Nicht empfohlen: Bei Zertifikatsfehlermeldung am Ende --insecure anhängen.
+
+```
+curl -i --json "{'snNumber': '<deine Seriennummer>', 'account': '<dein Account>'}" https://app.zendure.tech/eu/developer/api/apply
+
+```
+
+Als Ergebnis erhält man ein JSON, das so aussieht:
+```
+{"code":200,"success":true,"data":{"appKey":"DeinAppKey","secret":"DeinAppSecret","mqttUrl":"mqtt.zen-iot.com","port":1883},"msg":"Successful operation"}
+```
+
+Die Werte von DeinAppKey + DeinAppSecret werden in der local-config.php eingetragen.
+Folgende Einstellungen können für Zendure vorgenommen werden:
+
+```
+// Zendure
+$config->zendure()->setAppKey("DeinAppKey");                            // Der oben gelesene AppKey
+$config->zendure()->setAppSecret("DeinAppSecret");                      // Das oben gelesene AppSecret
+$config->zendure()->setReadTimeInSec(60);                               // Wie lange ein Request die Zendure Nachrichten abfragt, hängt vom Timeout des Webservers ab.
+$config->zendure()->setDisplayName("Akku");                             // Name auf dem Dashboard
+$config->zendure()->setConnectedToPmPort("PM3");                        // An welcher Phase der Zendure angeschlossen ist. Kann auch in der Echtzeitübersicht erkannt werden
+$config->zendure()->setCalculatePackData(true);                         // Wenn Zendure im Smart Mode, also mit Nulleinspeisung betrieben wird, bekommt man schnellere ungefähre Werte, wenn der Akku berechnet wird.
+
+$config->dashboardPage()->setShowZendureOnDashboard(true);              // Falls ein Zendure-System benutzt wird, das die Werte auf dem Dashboard angezeigt werden
+$config->dashboardPage()->setConsumptionIndicatedAs100Percent(6000);  	// Max. Wert für 100% Hausverbrauch, z.B. 6000W
+$config->dashboardPage()->setMaxEnergyProduction(1600);					// Max. Wert für Energieproduktion, z.B. 1600W PV-Panel Leistung
+```

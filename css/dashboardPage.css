@@ -50,18 +50,25 @@
     position: relative;
 }
 
-.progress-bar-1 {
+.progress-bar-house {
     height: 100%;
     width: 0%;
     transition: width 1.5s ease-in-out;
     background: linear-gradient(90deg, var(--em-over-zero-color), var(--em-over-zero-color));
 }
 
-.progress-bar-2 {
+.progress-bar-production {
     height: 100%;
     width: 0%;
     transition: width 1.5s ease-in-out;
     background: linear-gradient(90deg, var(--pm-total-color), var(--pm-total-color));
+}
+
+.progress-bar-akkupack {
+    height: 100%;
+    width: 0%;
+    transition: width 1.5s ease-in-out;
+    background: var(--akku-orange-color)
 }
 
 .table-custom th,

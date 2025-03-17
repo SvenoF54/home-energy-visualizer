@@ -6,30 +6,37 @@ class DashboardService
 {
     private $realTimeService;
     private $hourlyEnergyDataTbl;
+    private ConfigDashboardPage $config;
     private EnergyDataSet $todayData;
     private EnergyDataSet $yesterdayData;
-    private EnergyDataSet $currentHourData;    
+    private RealTimeEnergyDataRow $realTimeData;
+    private $zendureData;    
 
     public function __construct()
     {
         $this->realTimeService = new RealtimeService();
         $this->hourlyEnergyDataTbl = HourlyEnergyDataTable::getInstance();
+        $this->config = Configuration::getInstance()->dashboardPage();
     }
 
     public function prepareInstantData()
     {
         $this->realTimeService->readLatestData();
+        $this->realTimeData = $this->realTimeService->getLatestDataRow();
 
         $strStart = date('Y-m-d 00:00:00');
         $strEnd = date('Y-m-d 23:59:59');
         $avg = 86400;  // Sekunden pro Tag
         $this->todayData = $this->hourlyEnergyDataTbl->getEnergyData($strStart, $strEnd, $avg);
 
-        $strStart = date('Y-m-d H:00:00');
-        $strEnd = date('Y-m-d H:59:59');
-        $avg = 3600;  // Sekunden pro Tag
-        $this->currentHourData = $this->hourlyEnergyDataTbl->getEnergyData($strStart, $strEnd, $avg);
-
+        
+        if ($this->config->getShowZendureOnDashboard()) {
+            // Prepare Zendure Dashboard data
+            $zendureConfig = Configuration::getInstance()->zendure();
+            $zendureService = new ZendureService();
+            $pmxPower = $this->realTimeData->getPmXTotalPower($zendureConfig->getConnectedToPmPort());
+            $this->zendureData = $zendureService->prepareZendureDashboardData($pmxPower);
+        }
     }
 
     public function prepareStaticData()
@@ -52,21 +59,23 @@ class DashboardService
     }
 
     public function getInstantDataAsJson()
-    {
-        
+    {        
         $today = $this->todayData->convertEnergyToJsArray() + $this->todayData->convertAutarkyToJsArray();
-        $currentHour = $this->currentHourData->convertEnergyToJsArray() + $this->currentHourData->convertAutarkyToJsArray();
         
         $latestRealTimeRow = $this->realTimeService->getLatestDataRow();
-        $now = $latestRealTimeRow->convertToJsArray();        
-        $now["emPercent"] = abs($latestRealTimeRow->getEmTotalPower() / 6000 * 100);
-        $now["pmPercent"] = ($latestRealTimeRow->getPmTotalPower() / 1000) * 100;
+        $totalProduction = $latestRealTimeRow->getPmTotalPower() 
+                           + (isset($this->zendureData["productionUsedInternal"]) ? $this->zendureData["productionUsedInternal"] : 0);
+        $now = $latestRealTimeRow->convertToJsArray();     
+        $now["emPercent"] = abs($latestRealTimeRow->getEmTotalPower() / $this->config->getConsumptionIndicatedAs100Percent() * 100);
+        $now["pmPercent"] = ($latestRealTimeRow->getPmTotalPower() / $this->config->getMaxEnergyProduction()) * 100;
+        $now["production"] = $totalProduction;
+        $now["productionPercent"] = ($now["production"] / 2000) * 100;
         $now["isZeroFeedInActive"] = $this->realTimeService->isZeroFeedInActive();
         
         $result = [
             "now" => $now,
             "today" => $today,            
-            "currenthour" => $currentHour,
+            "zendure" => $this->zendureData
         ];        
 
         return json_encode($result);
@@ -74,7 +83,4 @@ class DashboardService
 
     public function getYesterdayData() : EnergyDataSet { return $this->yesterdayData; }
     public function getTodayData() : EnergyDataSet { return $this->todayData; }
-    public function getCurrentHourData() : EnergyDataSet { return $this->currentHourData; }
-
-
 }

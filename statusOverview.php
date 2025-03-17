@@ -10,8 +10,6 @@ $kvsRowsPerScope = [];
 foreach (KeyValueStoreScopeEnum::cases() as $scope) {
     $kvsRowsPerScope[$scope->value] = $kvsTable->getRowsForScope($scope);
 }
-$realtimeEnergyDataTbl = RealTimeEnergyDataTable::getInstance();
-$realtimeEnergyStats = $realtimeEnergyDataTbl->getStatistics();
 
 
 // configure VIEW

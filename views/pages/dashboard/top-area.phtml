@@ -20,9 +20,9 @@
                 <?php 
                     $linkYesterdayOverview = "hoursOverview.php?day1=".date("d.m.Y", strtotime($dashboardsServce->getYesterdayData()->getTimestampFrom()));
                     $topRows = [
-                        "yesterday" => ["caption" => "Gestern", "icon" => "bi-calendar2-check", "data" => $dashboardsServce->getYesterdayData(), "link" => $linkYesterdayOverview],
                         "today" => ["caption" => "Heute", "icon" => "bi-calendar", "data" => $dashboardsServce->getTodayData(), "link" => "hoursOverview.php"],
-                        "currenthour" => ["caption" => "Aktuelle Stunde", "icon" => "bi-clock", "data" => $dashboardsServce->getCurrentHourData() , "link" => "realtimeOverview.php"]
+                        "yesterday" => ["caption" => "Gestern", "icon" => "bi-calendar2-check", "data" => $dashboardsServce->getYesterdayData(), "link" => $linkYesterdayOverview],
+                        //"currenthour" => ["caption" => "Aktuelle Stunde", "icon" => "bi-clock", "data" => $dashboardsServce->getCurrentHourData() , "link" => "realtimeOverview.php"]
                     ]; 
                 ?>
                 <?php foreach ($topRows as $key => $val) { ?>
@@ -66,6 +66,20 @@
         <div class="mt-4">
             <div class="small d-flex justify-content-between">
                 <div>
+                    <strong>Produktion: </strong><span id="now-production">0</span>
+                </div>
+                <div>
+                    <strong id="zeroFeedInActive">Nulleinspeisung</strong>
+                </div>
+            </div>
+            <div class="progress-bar-container">
+                <div id="pm-now-bar" class="progress-bar-production"></div>
+            </div>
+        </div>
+
+        <div class="mt-4">
+            <div class="small d-flex justify-content-between">
+                <div>
                     <strong><span id="now-em-caption">Einkauf</span>: </strong><span id="now-em">0</span>
                 </div>
                 <div>
@@ -73,24 +87,31 @@
                 </div>                
             </div>
             <div class="progress-bar-container">
-                <div id="em-now-bar" class="progress-bar-1"></div>
+                <div id="em-now-bar" class="progress-bar-house"></div>
             </div>
         </div>
 
+        <?php if (Configuration::getInstance()->dashboardPage()->getShowZendureOnDashboard()) { ?> 
         <div class="mt-4">
-            <div class="small d-flex justify-content-between">
+            <div class="small d-flex justify-content-between text-secondary">
                 <div>
-                    <strong>Produktion: </strong><span id="now-pm">0</span>
+                    <strong><?=Configuration::getInstance()->zendure()->getDisplayName()?>: </strong><span id="zendure-akkuPackLevelPercent"></span><strong id="zendure-dataloss" class="text-danger">(Datenfehler)</strong>
                 </div>
-                <div>
-                    <strong id="zeroFeedInActive">Nulleinspeisung</strong>
+                <div id="zendure-chargeActive">
+                <strong class="d-none d-sm-inline">Ladung: </strong><span id="zendure-chargePackPowerCalc"></span>
+                </div>
+                <div id="zendure-dischargeActive">
+                    <strong class="d-none d-sm-inline">Entladung: </strong><span id="zendure-dischargePackPowerCalc"></span>
                 </div>
             </div>
             <div class="progress-bar-container">
-                <div id="pm-now-bar" class="progress-bar-2"></div>
+                <div id="pm-pack-bar" class="progress-bar-akkupack"></div>
             </div>
         </div>
+        <?php } ?>
+        <!-- /horizontal progress bars -->
+
+        <!-- Saving from -->
         <div class="small mt-4 text-start" style="color: var(--savings-color);"><a href="yearsOverview.php" class="text-reset text-decoration-none"><strong>Ersparnis seit <?=TimeHelper::formatMonthNameAndYear($overviewPageService->getTableStatistics()->getPmFirstRowDate(), false)?>:</strong> <?=HtmlHelper::formatEnergyInWattAndCurrency($overviewPageService->getPMSavingsTotal1())?></a></div>
-        
     </div>    
 </div>

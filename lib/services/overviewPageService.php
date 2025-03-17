@@ -101,7 +101,7 @@ class OverviewPageService
     {
         $powerData = $this->hourlyEnergyDataTbl->getEnergyData($startTime1, $endTime1);
         
-        $this->emOverZeroTotal1 = $powerData->getEnergy();
+        $this->emOverZeroTotal1 = $powerData->getEnergyOverZero();
         $this->emUnderZeroTotal1 = $powerData->getEnergyUnderZero();
         $this->pmSavingsTotal1 = $powerData->getSavings();
         $this->missingRowSet1 = $powerData->getMissingRows();
@@ -110,7 +110,7 @@ class OverviewPageService
             return;
         }
         $powerData = $this->hourlyEnergyDataTbl->getEnergyData($startTime2, $endTime2);
-        $this->emOverZeroTotal2 = $powerData->getEnergy();
+        $this->emOverZeroTotal2 = $powerData->getEnergyOverZero();
         $this->emUnderZeroTotal2 = $powerData->getEnergyUnderZero();
         $this->pmSavingsTotal2 = $powerData->getSavings();
         $this->missingRowSet2 = $powerData->getMissingRows();

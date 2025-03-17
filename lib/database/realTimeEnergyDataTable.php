@@ -22,7 +22,7 @@ class RealTimeEnergyDataTable extends BaseTimestampTable
         //$offsetHours = floor($offsetInSeconds / 3600);
         $offsetHours = 0;
 
-        // Calcualtes the AVG, maybe MIN + MAX make seens sometimes
+        // Calculates the AVG
         $sql = "
             SELECT 
                 DATE_FORMAT(
@@ -38,7 +38,9 @@ class RealTimeEnergyDataTable extends BaseTimestampTable
                 ROUND(AVG(em_total_power), 2) AS em_total_power_avg,
 
                 ROUND(AVG(IF(em_total_power > 0, em_total_power, NULL)), 2) AS em_total_power_over_zero_avg,
+                SUM(IF(em_total_power > 0, 1, 0)) AS em_total_power_over_zero_rows,
                 ROUND(AVG(IF(em_total_power < 0, em_total_power, NULL)), 2) AS em_total_power_under_zero_avg,
+                SUM(IF(em_total_power < 0, 1, 0)) AS em_total_power_under_zero_rows,
 
                 ROUND(AVG(pm1_total_power), 2) AS pm1_total_power_avg,
                 ROUND(AVG(pm2_total_power), 2) AS pm2_total_power_avg,
@@ -49,7 +51,7 @@ class RealTimeEnergyDataTable extends BaseTimestampTable
                     COALESCE(pm1_total_power, 0) 
                     + COALESCE(pm2_total_power, 0) 
                     + COALESCE(pm3_total_power, 0) 
-                    - IF (em_total_power > 0, COALESCE(em_total_power, 0), 0)
+                    + IF (em_total_power < 0, COALESCE(em_total_power, 0), 0)  -- Substract FeedIn from savings
                 ), 2) AS sum_savings,
 
                 -- Count missing values
@@ -81,13 +83,17 @@ class RealTimeEnergyDataTable extends BaseTimestampTable
     
             while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
                 if ($row["timestamp_avg"] === null) continue;
+
+                $totalRows = $row["count_rows"];
+                $emOverZero = $row["em_total_power_over_zero_rows"] / $totalRows * $row["em_total_power_over_zero_avg"];
+                $emUnderZero = $row["em_total_power_under_zero_rows"] / $totalRows * $row["em_total_power_under_zero_avg"];
     
                 $resultRows[] = new RealTimeEnergyDataRow(
                     $row["timestamp_avg"], 
                     $row["interval_in_seconds_avg"],
                     $row["em_total_power_avg"],
-                    $row["em_total_power_over_zero_avg"],
-                    $row["em_total_power_under_zero_avg"],
+                    $emOverZero,
+                    $emUnderZero,
                     $row["pm1_total_power_avg"],
                     $row["pm2_total_power_avg"],
                     $row["pm3_total_power_avg"],
@@ -116,28 +122,35 @@ class RealTimeEnergyDataTable extends BaseTimestampTable
                         WHEN em_total_power >= 0 THEN em_total_power
                         ELSE 0 
                     END) * interval_in_seconds / 3600, 0) AS sum_em_over_0,
+                SUM(IF(em_total_power >= 0, 1, 0)) AS sum_em_over_0_rows,
+
                 ROUND(SUM(CASE 
                         WHEN em_total_power <= 0 THEN em_total_power
                         ELSE 0 
                     END) * interval_in_seconds / 3600, 0) AS sum_em_under_0,
+                SUM(IF(em_total_power <= 0, 1, 0)) AS sum_em_under_0_rows,
     
                 ROUND(SUM(CASE 
                         WHEN em_total_power >= :line1 THEN em_total_power - :line1
                         ELSE 0 
                     END) * interval_in_seconds / 3600, 0) AS sum_em_over_x1,
+                SUM(IF(em_total_power >= :line1, 1, 0)) AS sum_em_over_x1_rows,
                 ROUND(SUM(CASE 
-                        WHEN em_total_power <= :line1 THEN :line1 - em_total_power
+                        WHEN em_total_power <= :line1 AND em_total_power >= 0 THEN em_total_power
                         ELSE 0 
                     END) * interval_in_seconds / 3600, 0) AS sum_em_under_x1,
+                SUM(IF(em_total_power <= :line1 AND em_total_power >= 0, 1, 0)) AS sum_em_under_x1_rows,
     
                 ROUND(SUM(CASE 
                         WHEN em_total_power >= :line2 THEN em_total_power - :line2
                         ELSE 0 
                     END) * interval_in_seconds / 3600, 0) AS sum_em_over_x2,
+                SUM(IF(em_total_power >= :line2, 1, 0)) AS sum_em_over_x2_rows,
                 ROUND(SUM(CASE 
-                        WHEN em_total_power <= :line2 THEN :line2 - em_total_power
+                        WHEN em_total_power <= :line2 AND em_total_power >= 0 THEN em_total_power
                         ELSE 0 
                     END) * interval_in_seconds / 3600, 0) AS sum_em_under_x2,
+                SUM(IF(em_total_power <= :line2 AND em_total_power >= 0, 1, 0)) AS sum_em_under_x2_rows,
     
                 ROUND(
                     SUM(
@@ -177,12 +190,21 @@ class RealTimeEnergyDataTable extends BaseTimestampTable
             $row = $stmt->fetch(PDO::FETCH_ASSOC);
     
             if ($row) {    
-                $energyDataSet->setEnergyOverZero(round($row["sum_em_over_0"], 0), $row["sum_em_over_0"] * $outPricePerWh);
-                $energyDataSet->setEnergyUnderZero(round($row["sum_em_under_0"], 0), $row["sum_em_under_0"] * $inPricePerWh);
-                $energyDataSet->setEnergyUnderX1(round($row["sum_em_under_x1"], 0), $row["sum_em_under_x1"] * $outPricePerWh);
-                $energyDataSet->setEnergyOverX1(round($row["sum_em_over_x1"], 0), $row["sum_em_over_x1"] * $outPricePerWh);
-                $energyDataSet->setEnergyUnderX2(round($row["sum_em_under_x2"], 0), $row["sum_em_under_x2"] * $outPricePerWh);
-                $energyDataSet->setEnergyOverX2(round($row["sum_em_over_x2"], 0), $row["sum_em_over_x2"] * $outPricePerWh);
+                $totalRows = $row["count_rows"];
+                $emOverZero = $row["sum_em_over_0_rows"] / $totalRows * $row["sum_em_over_0"];
+                $emUnderZero = $row["sum_em_under_0_rows"] / $totalRows * $row["sum_em_under_0"];
+                $emOverX1 = $row["sum_em_over_x1_rows"] / $totalRows * $row["sum_em_over_x1"];
+                $emUnderX1 = $row["sum_em_under_x1_rows"] / $totalRows * $row["sum_em_under_x1"];
+                $emOverX2 = $row["sum_em_over_x2_rows"] / $totalRows * $row["sum_em_over_x2"];
+                $emUnderX2 = $row["sum_em_under_x2_rows"] / $totalRows * $row["sum_em_under_x2"];
+
+
+                $energyDataSet->setEnergyOverZero(round($emOverZero, 0), $emOverZero * $outPricePerWh);
+                $energyDataSet->setEnergyUnderZero(round($emUnderZero, 0), $emUnderZero * $inPricePerWh);
+                $energyDataSet->setEnergyOverX1(round($emOverX1, 0), $emOverX1 * $outPricePerWh);
+                $energyDataSet->setEnergyUnderX1(round($emUnderX1, 0), $emUnderX1 * $outPricePerWh);
+                $energyDataSet->setEnergyOverX2(round($emOverX2, 0), $emOverX2 * $outPricePerWh);
+                $energyDataSet->setEnergyUnderX2(round($emUnderX2, 0), $emUnderX2 * $outPricePerWh);
                 $energyDataSet->setSavings(round($row["sum_savings"], 0), $row["sum_savings"] * $outPricePerWh);
                 $energyDataSet->setMissingRows($row["em_missing_rows"], $row["pm1_missing_rows"], $row["pm2_missing_rows"], $row["pm3_missing_rows"], $row["count_rows"]);
             }

@@ -12,11 +12,13 @@ enum EnergyTypeEnum: string {
 enum KeyValueStoreScopeEnum: string {
     case Task = 'Task';
     case SendMail = 'SendMail';
+    case Zendure = 'Zendure';
 }
 
 enum TaskEnum: string {
     case CheckRealtimeEnergyData = 'CheckRealtimeEnergyData';
     case UnifyRealtimeEnergyData = 'UnifyRealtimeEnergyData';
+    case ReadZendureData = 'ReadZendureData';
 }
 
 enum MailEnum: string {
@@ -27,4 +29,12 @@ enum StatusEnum: string {
     case Success = 'Success';
     case Failure = 'Failure';
     case Exception = 'Exception';
+
+    public function isErrorOrException(): bool {
+        return $this === self::Failure || $this === self::Exception;
+    }
+    
+    public static function isErrorOrExceptionValue(string $status): bool {
+        return in_array($status, [self::Failure->value, self::Exception->value], true);
+    }
 }
