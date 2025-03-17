@@ -19,21 +19,21 @@ class RealTimeEnergyDataRow
     private $countRows = null;
 
     public function __construct(
-        $timestampData, 
-        $intervalInSeconds, 
-        $emTotalPower, 
-        $emTotalPowerOverZero,
-        $emTotalPowerUnderZero,
-        $pm1TotalPower, 
-        $pm2TotalPower, 
-        $pm3TotalPower,        
+        $timestampData = null, 
+        $intervalInSeconds = 2, 
+        $emTotalPower = 0, 
+        $emTotalPowerOverZero = 0,
+        $emTotalPowerUnderZero = 0,
+        $pm1TotalPower = null, 
+        $pm2TotalPower = null, 
+        $pm3TotalPower = null,        
         $emMissingRows = null, 
         $pm1MissingRows = null, 
         $pm2MissingRows = null, 
         $pm3MissingRows = null,
         $countRows = null
     ) {
-        $this->timestampData = $timestampData;
+        $this->timestampData = ($timestampData != null) ? $timestampData : date("Y-m-d H:i:s");
         $this->intervalInSeconds = $intervalInSeconds;
         $this->emTotalPower = $emTotalPower;
         $this->emTotalPowerOverZero = $emTotalPowerOverZero;

@@ -15,7 +15,7 @@ foreach (KeyValueStoreScopeEnum::cases() as $scope) {
 // configure VIEW
 
 $pageTitle = "Status Übersicht";
-$jsHeaderFiles = ["/js/utils.js"];
+$jsHeaderFiles = ["js/utils.js"];
 $jsFooterFiles = [];
 $cssFiles = [];
 

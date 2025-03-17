@@ -52,9 +52,9 @@ if (sizeof($overviewDataRows) > 0) {
 // configure VIEW
 
 $pageTitle = "Echtzeitdaten";
-$jsHeaderFiles = ["/js/utils.js", "js/realtime-page/formFunctions.js", "js/realtime-page/configureRealtimeChart.js"];
-$jsFooterFiles = ["/js/realtime-page/documentReady.js"];
-$cssFiles = ["/css/realtimePage.css"];
+$jsHeaderFiles = ["js/utils.js", "js/realtime-page/formFunctions.js", "js/realtime-page/configureRealtimeChart.js"];
+$jsFooterFiles = ["js/realtime-page/documentReady.js"];
+$cssFiles = ["css/realtimePage.css"];
 $jsVars = [
     "timestamps" => json_encode($timestamps),
     "emPowerRows" => json_encode($emPowerRows),

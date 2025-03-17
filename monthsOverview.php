@@ -26,10 +26,10 @@ for($year = $overviewPageService->getFirstYear(); $year <= $overviewPageService-
 // configure VIEW
 
     $pageTitle = "Monatsübersicht";
-    $jsHeaderFiles = ["/js/utils.js", "js/overview-pages/configureEnergyChart.js", "js/overview-pages/configureAutarkyChart.js", 
+    $jsHeaderFiles = ["js/utils.js", "js/overview-pages/configureEnergyChart.js", "js/overview-pages/configureAutarkyChart.js", 
                       "js/overview-pages/formFunctionsForMonthOverview.js"];
-    $jsFooterFiles = ["/js/overview-pages/documentReady.js", "/js/overview-pages/configureDataTable.js"];
-    $cssFiles = ["/css/overviewPage.css"];
+    $jsFooterFiles = ["js/overview-pages/documentReady.js", "js/overview-pages/configureDataTable.js"];
+    $cssFiles = ["css/overviewPage.css"];
     $jsVars = [        
         "timestampsTooltip" => json_encode($overviewPageService->getLabelsTooltip()),
         "timestampsXAxis" => json_encode($overviewPageService->getLabelsXAxis()),

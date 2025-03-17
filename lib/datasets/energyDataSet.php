@@ -26,7 +26,15 @@ class EnergyDataSet {
         $this->timestampTo = $timestampTo;
         
         $this->energy = new EnergyAndPriceTuple();
+        $this->energyOverZero = new EnergyAndPriceTuple();
         $this->energyUnderZero = new EnergyAndPriceTuple();
+        $this->energyUnderX1 = new EnergyAndPriceTuple();
+        $this->energyOverX1 = new EnergyAndPriceTuple();
+        $this->energyUnderX2 = new EnergyAndPriceTuple();
+        $this->energyOverX2 = new EnergyAndPriceTuple();
+        $this->productionPm1 = new EnergyAndPriceTuple();
+        $this->productionPm2 = new EnergyAndPriceTuple();
+        $this->productionPm3 = new EnergyAndPriceTuple();
         $this->savings = new EnergyAndPriceTuple();
         $this->missingRows = new MissingRowSet();          
     }

@@ -15,7 +15,7 @@ $realtimeEnergyStats = $realtimeEnergyDataTbl->getStatistics(true);
 // configure VIEW
 
 $pageTitle = "Status Übersichtsseiten";
-$jsHeaderFiles = ["/js/utils.js", "/js/status-energy-values/documentReady.js"];
+$jsHeaderFiles = ["js/utils.js", "js/status-energy-values/documentReady.js"];
 $jsFooterFiles = [];
 $cssFiles = [];
 $jsVars = [

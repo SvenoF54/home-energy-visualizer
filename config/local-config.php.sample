@@ -12,7 +12,7 @@
 define('DB_NAME', 'mein-db-name');
 define('DB_USER', 'mein-db-user');
 define('DB_PASSWORD', 'mein-password');
-define('DB_HOST', 'mein-host');
+define('DB_HOST', 'mein-host'); 
 
 define('URL_PREFIX', 'http://meine.domain/mein-pfad/');  // Hinweis, am Ende muss ein Slash '/' stehen.
 define('API_KEY', '987654321');

@@ -36,7 +36,7 @@ class RealtimeService
 
     public function getLatestDataRow() : RealTimeEnergyDataRow
     {
-        return end($this->latestDataRows);
+        return count($this->latestDataRows) > 0 ? end($this->latestDataRows) : new RealTimeEnergyDataRow();
     }
 
 }

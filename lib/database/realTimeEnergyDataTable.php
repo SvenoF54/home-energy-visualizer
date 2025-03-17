@@ -189,7 +189,7 @@ class RealTimeEnergyDataTable extends BaseTimestampTable
             $stmt->execute();
             $row = $stmt->fetch(PDO::FETCH_ASSOC);
     
-            if ($row) {    
+            if ($row && ($row["count_rows"] > 0)) {    
                 $totalRows = $row["count_rows"];
                 $emOverZero = $row["sum_em_over_0_rows"] / $totalRows * $row["sum_em_over_0"];
                 $emUnderZero = $row["sum_em_under_0_rows"] / $totalRows * $row["sum_em_under_0"];

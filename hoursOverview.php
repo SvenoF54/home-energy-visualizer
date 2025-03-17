@@ -25,10 +25,10 @@ $overviewPageService->calculateHourData($startTime1, $endTime1, $startTime2, $en
 // configure VIEW
 
     $pageTitle = "Stundenübersicht";
-    $jsHeaderFiles = ["/js/utils.js", "js/overview-pages/configureEnergyChart.js", "js/overview-pages/configureAutarkyChart.js", 
+    $jsHeaderFiles = ["js/utils.js", "js/overview-pages/configureEnergyChart.js", "js/overview-pages/configureAutarkyChart.js", 
                       "js/overview-pages/formFunctionsForHoursOverview.js"];
-    $jsFooterFiles = ["/js/overview-pages/documentReady.js", "/js/overview-pages/configureDataTable.js"];
-    $cssFiles = ["/css/overviewPage.css"];
+    $jsFooterFiles = ["js/overview-pages/documentReady.js", "js/overview-pages/configureDataTable.js"];
+    $cssFiles = ["css/overviewPage.css"];
     $jsVars = [
         "timestampsTooltip" => json_encode($overviewPageService->getLabelsTooltip()),
         "timestampsXAxis" => json_encode($overviewPageService->getLabelsXAxis()),
