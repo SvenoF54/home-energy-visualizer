@@ -4,6 +4,8 @@
 
 <img src="./images/gallery/dashboard_mobile.png" alt="Mobile Dashboardansicht" width="250">
 
+<img src="./images/gallery/hours-overview_mobile.png" alt="Mobile Stundenübersicht" width="250">
+
 Zur Bildergallerie [gallery.md](gallery.md)
 
 ## Beschreibung
@@ -17,7 +19,7 @@ Der Benutzer muss einen eigenen PHP- und MySQL-Provider anmieten / bereitstellen
 
 ### Zielsetzung
 
-Das Projekt richtet sich an technisch erfahrene Benutzer, die ihren privaten Echtzeit-Energieverbrauch und/oder ihre private Echtzeit-Stromerzeugung durch PV-Anlagen, Balkonkraftwerke oder andere Energieerzeuger im Detail analysieren möchten. Die Software kann mobil auf dem Handy als auch auf dem PC benutzt werden. 
+Das Projekt richtet sich an technisch erfahrene Benutzer, die ihren privaten Echtzeit-Energieverbrauch und/oder ihre private Echtzeit-Stromerzeugung durch PV-Anlagen, Balkonkraftwerke, Akkusysteme oder andere Energieerzeuger in der eigenen Datenbank speichern möchten. Es werden umfangreiche Analyseansichten angeboten, wie z.B. eine nahezu Echtzeitübersicht, eine Eigenverbrauchsquote oder eine Autarkieansicht jeweils für Stunden, Tage, Monate oder Jahre. Die Software kann mobil auf dem Handy als auch auf dem PC benutzt werden. 
 
 Beispielsweise können Stromspitzen in Echtzeit erkannt und mithilfe von zwei Berechnungslinien analysiert werden. Dies ermöglicht es, den Energieverbrauch oberhalb, unterhalb oder zwischen den definierten Linien zu ermitteln.
 

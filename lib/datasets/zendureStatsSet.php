@@ -16,6 +16,10 @@ class ZendureStatsSet {
     public function __construct() {        
         $this->kvsTable = KeyValueStoreTable::getInstance();
         $this->config = Configuration::getInstance()->zendure();
+
+        $this->total = new ZendureStatsSubSet();        
+        $this->today = new ZendureStatsSubSet();
+        $this->todayDate = null;
     }
 
     public function toJson()
@@ -44,9 +48,9 @@ class ZendureStatsSet {
         $this->akkuPackUpperLimit = ($rowUpperLimit != null) ? $rowUpperLimit->getValue() : null;
 
         $row = $this->kvsTable->getRow(KeyValueStoreScopeEnum::Zendure, self::STATS_KEY);
-        $this->fromJson($row->getJsonData());
+        $this->fromJson(isset($row) ? $row->getJsonData() : null);
 
-        $this->lastUpdated = ($row->getUpdated() != null) ? $row->getUpdated() : date("Y-m-d H:i:s", strtotime("-1 day"));        
+        $this->lastUpdated = (isset($row) && $row->getUpdated() != null) ? $row->getUpdated() : date("Y-m-d H:i:s", strtotime("-1 day"));        
         if ($this->todayDate != date("Y-m-d")) {
             // Day changed
             $this->todayDate = date("Y-m-d");
@@ -68,7 +72,7 @@ class ZendureStatsSet {
 
         if ($key == $this->config->getKeyAkkuCapacity()) {                    
             // Check akku loaded complete
-            $akkuLoadedComplete = ($value * 10 >= $this->akkuPackUpperLimit);            
+            $akkuLoadedComplete = isset($this->akkuPackUpperLimit) ? ($value * 10 >= $this->akkuPackUpperLimit) : false;
             
             $this->total->akkuPackChargedDays += ($this->today->akkuPackChargedDays == 0 && $akkuLoadedComplete) ? 1 : 0;
             $this->today->akkuPackChargedDays = ($this->today->akkuPackChargedDays || $akkuLoadedComplete) ? 1 : 0;

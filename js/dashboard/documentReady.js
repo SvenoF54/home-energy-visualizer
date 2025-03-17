@@ -100,9 +100,9 @@ $(document).ready(function() {
     }
 
     function getAkkuColor(stateInPercent) {
-        if (stateInPercent < 15) return "akku-red-color";
-        if (stateInPercent >= 15 && stateInPercent < 25) return "akku-orange-color";
+        if (stateInPercent < 9) return "akku-red-color";
+        if (stateInPercent >= 9 && stateInPercent < 25) return "akku-orange-color";
         if (stateInPercent >= 25 && stateInPercent < 85) return "akku-green-color";
-        if (stateInPercent >= 85 && stateInPercent < 100) return "akku-greenfull-color";
+        if (stateInPercent >= 85) return "akku-greenfull-color";
     }
 });
