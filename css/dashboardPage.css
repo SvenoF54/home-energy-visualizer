@@ -48,6 +48,8 @@
     background: #e0e0e0;
     overflow: hidden;
     position: relative;
+    color: gray;
+    font-size: 0.75rem;
 }
 
 .progress-bar-house {
@@ -68,7 +70,15 @@
     height: 100%;
     width: 0%;
     transition: width 1.5s ease-in-out;
-    background: var(--akku-orange-color)
+    background: var(--akku-orange-color);
+    color: white;
+    text-align: center;
+    font-weight: bold;
+    line-height: 20px;
+    position: absolute;
+    left: 0;
+    top: 0;
+    border-radius: 10px;
 }
 
 .table-custom th,

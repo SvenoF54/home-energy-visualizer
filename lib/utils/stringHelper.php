@@ -39,7 +39,7 @@ class StringHelper {
         return (int) filter_var($_REQUEST[$keyname], FILTER_SANITIZE_NUMBER_INT);
     }
 
-    public static function formGetDateTime($keyname, $seconds) {
+    public static function formGetDateTime($keyname, $seconds = 0) {
         if (! isset($_REQUEST[$keyname])) return date("Y-m-d H:i:$seconds");
         $val = filter_var($_REQUEST[$keyname], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
         return self::convertToDateTime($val, $seconds);
@@ -105,8 +105,8 @@ class StringHelper {
     }
 
     public static function formatNumber($val, $digits=0)
-    {
-        $formattedValue = rtrim(rtrim(number_format($val, $digits, ',', '.'), '0'), ',');
+    {        
+        $formattedValue = number_format($val, $digits, ',', '.');
         return $formattedValue;
     }
 

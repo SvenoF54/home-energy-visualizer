@@ -26,12 +26,7 @@ $(document).ready(function() {
                 $.each(response, function(category, values) {
                     $.each(values, function(key, value) {
                         let fieldId = `${category}-${key}`; // HTML id now-emOZ
-                        let field = $("#" + fieldId);
-
-                        if (field.length) {
-                            let formated = formatJsValue(category, key, value);
-                            field.text(formated);
-                        }
+                        setFieldHtml(category, fieldId, formatJsValue(category, key, value));
                     });
                 });
 
@@ -49,12 +44,23 @@ $(document).ready(function() {
                 $('#zeroFeedInActive').toggle(response.now.isZeroFeedInActive); // Set zero feed in active msg
 
                 // Bar 3 (Zendure Batteriedaten)
-                $("#pm-pack-bar").css("width", (response.zendure.akkuPackLevelPercent) + "%");
-                $("#pm-pack-bar").css("background-color", "var(--" + getAkkuColor(response.zendure.akkuPackLevelPercent) + ")");
-                $('#zendure-chargeActive').toggle(response.zendure.isZendureChargeActive);
-                $('#zendure-dischargeActive').toggle(response.zendure.isZendureDischargeActive);
-                $('#zendure-dataloss').toggle(response.zendure.isDataloss);
-                $('#zendure-akkuPackLevelPercent').toggle(!response.zendure.isDataloss);
+                $("#pm-zendure-pack-bar").css("width", (response.zendurePack.akkuPackLevelPercent) + "%");
+                $("#pm-zendure-pack-bar").css("background-color", "var(--" + getAkkuColor(response.zendurePack.akkuPackLevelPercent) + ")");
+                $('#zendurePack-chargeActive').toggle(response.zendurePack.isChargeActive);
+                $('#zendurePack-dischargeActive').toggle(response.zendurePack.isDischargeActive);
+                $('#zendurePack-dataloss').toggle(response.zendurePack.isDataloss);
+                $('#zendurePack-akkuPackLevelPercent').toggle(!response.zendurePack.isDataloss);
+
+                // Shelly-Uni
+                $("#pm-shelly-pack-bar").css("width", (response.shellyPack.akkuPackLevelPercent) + "%");
+                $("#pm-shelly-pack-bar").css("background-color", "var(--" + getAkkuColor(response.shellyPack.akkuPackLevelPercent) + ")");
+                $('#shellyPack-chargeActive').toggle(response.shellyPack.isChargeActive);
+                $('#shellyPack-dischargeActive').toggle(response.shellyPack.isDischargeActive);
+                $('#shellyPack-dataloss').html(response.shellyPack.isDataloss);
+
+                $('#shelly-garage-voltage').html(response.shellyPack.voltage + "V");
+                $('#shelly-garage-updated').html(response.shellyPack.timestamp);
+                $('#shelly-dischargeActive').html(response.shellyPack.dischargeActive ? "An" : "Aus");
 
             },
 
@@ -68,11 +74,22 @@ $(document).ready(function() {
     fetchDashboardData();
     setInterval(fetchDashboardData, 2000);
 
+    function setFieldHtml(category, fieldId, value) {
+        let field = $("#" + fieldId);
+
+        if (field.length) {
+            field.text(value);
+        }
+
+    }
+
     // Format helper
     function formatJsValue(category, key, value) {
         if (key.toLowerCase().includes("price")) {
             return formatPrice(value);
         } else if (category.toLowerCase().includes("now")) {
+            return formatCurrent(value);
+        } else if (key.toLowerCase().includes("power")) {
             return formatCurrent(value);
         } else if (key.toLowerCase().includes("percent")) {
             return formatNumber(value, 0) + "%";
