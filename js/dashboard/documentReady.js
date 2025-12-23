@@ -33,6 +33,7 @@ $(document).ready(function() {
                 // set progress circle + bar
                 circleNow.animate(response.now.autInPct / 100);
                 circleToday.animate(response.today.autInPct / 100);
+                circleYesterday.animate(response.yesterday.autInPct / 100);
 
                 // Bar 1 (Hausdaten)
                 $("#em-now-bar").css("width", (response.now.emPercent) + "%");
@@ -91,6 +92,8 @@ $(document).ready(function() {
             return formatCurrent(value);
         } else if (key.toLowerCase().includes("power")) {
             return formatCurrent(value);
+        } else if (key.toLowerCase().includes("voltage")) {
+            return formatNumber(value, 2) + "V";
         } else if (key.toLowerCase().includes("percent")) {
             return formatNumber(value, 0) + "%";
         }

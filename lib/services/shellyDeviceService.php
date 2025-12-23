@@ -28,18 +28,24 @@ class ShellyDeviceService
         }
         $jsonData = json_decode($shellyKvsRow->getJsonData());
         $voltage = $jsonData->{self::KEY_VOLTAGE} ?? 0;
-        $minVoltage10Percent = 24.2;
-        $maxVoltage100Percent = 27.5;  // Oder 28.23, wenn kein WR an ist und die Ladung in Float übergeht
+        // Voltage-Tabelle:
+        // Akku 100%, WR  an, kein Solar = 26.12V
+        // Akku 100%, WR aus, Solar = 28.43V
+        // Akku  70%, WR aus, Solar = 27.67V
+        // Akku  20%, WR aus, Solar = 26.93V
+        $minVoltage10Percent = 25.2;        
+        $maxVoltage100Percent = $voltage > 27.5 ? 28.23 : 27.5;  // Oder 28.23, wenn kein WR an ist und die Ladung in Float übergeht
         $voltagePercent = 0;
         if ($voltage > 0 && $minVoltage10Percent > 0 && $maxVoltage100Percent > 0) {
             $voltagePercent = ($voltage - $minVoltage10Percent) / ($maxVoltage100Percent - $minVoltage10Percent) * 90 + 10;
+            $voltagePercent = $voltagePercent > 100 ? 100 : $voltagePercent;
         }
         //var_dump($jsonData);die;
-
+ 
         $device = ["isDataloss" => false];  
         $device["akkuPackVoltage"] = $voltage;
         $device["akkuPackLevelPercent"] = $voltagePercent;
-        $device["akkuPackRemainingEnergy"] = number_format(2000 * ($voltagePercent / 100));
+        $device["akkuPackRemainingEnergy"] = (int) (2000 * $voltagePercent / 100);
         $device["chargePackPowerCalc"] = 0;
         $device["isChargeActive"] = false;
         $device["isDischargeActive"] = $measuredPmxEnergieData != 0;
