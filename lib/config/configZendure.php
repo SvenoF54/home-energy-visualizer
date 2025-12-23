@@ -10,14 +10,15 @@ class ConfigZendure
     private $port = 1883;
     private $readTimeInSec = 50; 
     private $displayName = "Akku";
-    private $keyAkkuCapacity = "electricLevel";     // MQQT Key for electricLevel
-    private $keySolarInput = "solarInputPower";     // MQQT Key for solarInputPower 
-    private $keyPackMaxUpperLoadLimit = "socSet";   // MQQT Key for max. Charge in %
-    private $keyPackDischarge = "packInputPower";   // MQQT Key for pack discharge current W
-    private $keyPackCharge = "outputPackPower";     // MQQT Key for pack charge current in W
-    private $keyPackState = "packState";            // MQQT Key for pack state (0: Standby, 1: Charge, 2: Discharge)
-    private $calculatePackData = false;             // If the pack data are calculated, usefull if smart mode was used
-    private $connectedToPmPort = "";                // PM Port Phase to which Zendure was connected, i.e. PM3
+    private $packCapacityInW = 2000;
+    private $keyPackCapacityPercent = "electricLevel"; // MQQT Key for electricLevel
+    private $keySolarInput = "solarInputPower";        // MQQT Key for solarInputPower 
+    private $keyPackMaxUpperLoadLimit = "socSet";      // MQQT Key for max. Charge in %
+    private $keyPackDischarge = "packInputPower";      // MQQT Key for pack discharge current W
+    private $keyPackCharge = "outputPackPower";        // MQQT Key for pack charge current in W
+    private $keyPackState = "packState";               // MQQT Key for pack state (0: Standby, 1: Charge, 2: Discharge)
+    private $calculatePackData = false;                // If the pack data are calculated, usefull if smart mode was used
+    private $connectedToPmPort = "";                   // PM Port Phase to which Zendure was connected, i.e. PM3
 
     public function getAppKey() { return $this->appKey; }
     public function setAppKey($appKey) { $this->appKey = $appKey; }
@@ -37,8 +38,11 @@ class ConfigZendure
     public function getDisplayName() { return $this->displayName; }
     public function setDisplayName($displayName) { $this->displayName = $displayName; }
 
-    public function getKeyAkkuCapacity() { return $this->keyAkkuCapacity; }
-    public function setKeyAkkuCapacity($keyAkkuCapacity) { $this->keyAkkuCapacity = $keyAkkuCapacity; }
+    public function getPackCapacityInW() { return $this->packCapacityInW; }
+    public function setPackCapacityInW($packCapacityInW) { return $this->packCapacityInW = $packCapacityInW; }
+
+    public function getKeyPackCapacityPercent() { return $this->keyPackCapacityPercent; }
+    public function setKeyPackCapacityPercent($keyPackCapacityPercent) { $this->keyPackCapacityPercent = $keyPackCapacityPercent; }
 
     public function getKeySolarInput() { return $this->keySolarInput; }
     public function setKeySolarInput($keySolarInput) { $this->keySolarInput = $keySolarInput; }

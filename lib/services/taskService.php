@@ -100,9 +100,7 @@ class TaskService
     
     private static function logToKvs(TaskEnum $key, StatusEnum $status, $notice = "")
     {
-        $db = Database::getInstance();
-        $kvsTable = new KeyValueStoreTable($db->getPdoConnection());
-
+        $kvsTable = KeyValueStoreTable::getInstance();
         $kvsTable->insertOrUpdate(KeyValueStoreScopeEnum::Task, $key->value, $status->value, $notice);
     }
 }

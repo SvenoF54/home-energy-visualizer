@@ -11,6 +11,7 @@ class DashboardService
     private EnergyDataSet $yesterdayData;
     private RealTimeEnergyDataRow $realTimeData;
     private $zendureData;    
+    private $shellyData;
 
     public function __construct()
     {
@@ -21,30 +22,38 @@ class DashboardService
 
     public function prepareInstantData()
     {
+        // Realtime data
         $this->realTimeService->readLatestData();
         $this->realTimeData = $this->realTimeService->getLatestDataRow();
 
+        // Today data
         $strStart = date('Y-m-d 00:00:00');
         $strEnd = date('Y-m-d 23:59:59');
         $avg = 86400;  // Sekunden pro Tag
         $this->todayData = $this->hourlyEnergyDataTbl->getEnergyData($strStart, $strEnd, $avg);
 
+        // Yesterday Data
+        $strStart = date('Y-m-d 00:00:00', strtotime("- 1 day"));
+        $strEnd = date('Y-m-d 23:59:59', strtotime("- 1 day"));
+        $avg = 86400;  // Sekunden pro Tag
+        $this->yesterdayData = $this->hourlyEnergyDataTbl->getEnergyData($strStart, $strEnd, $avg);        
         
+        // Optional PlugIn Data
         if ($this->config->getShowZendureOnDashboard()) {
             // Prepare Zendure Dashboard data
             $zendureConfig = Configuration::getInstance()->zendure();
             $zendureService = new ZendureService();
             $pmxPower = $this->realTimeData->getPmXTotalPower($zendureConfig->getConnectedToPmPort());
-            $this->zendureData = $zendureService->prepareZendureDashboardData($pmxPower);
+            $this->zendureData = $zendureService->prepareDashboardData($pmxPower);
         }
+        //if ($this->config->getShowXY())
+        $shellyService = new ShellyDeviceService();
+        $pmxPower = $this->realTimeData->getPmXTotalPower("PM1");
+        $this->shellyData = $shellyService->prepareDashboardData($pmxPower);
     }
 
     public function prepareStaticData()
     {
-        $strStart = date('Y-m-d 00:00:00', strtotime("- 1 day"));
-        $strEnd = date('Y-m-d 23:59:59', strtotime("- 1 day"));
-        $avg = 86400;  // Sekunden pro Tag
-        $this->yesterdayData = $this->hourlyEnergyDataTbl->getEnergyData($strStart, $strEnd, $avg);        
     }
 
     public function getStaticDataAsJson()
@@ -61,6 +70,7 @@ class DashboardService
     public function getInstantDataAsJson()
     {        
         $today = $this->todayData->convertEnergyToJsArray() + $this->todayData->convertAutarkyToJsArray();
+        $yesterday = $this->yesterdayData->convertEnergyToJsArray() + $this->yesterdayData->convertAutarkyToJsArray();
         
         $latestRealTimeRow = $this->realTimeService->getLatestDataRow();
         $totalProduction = $latestRealTimeRow->getPmTotalPower() 
@@ -74,8 +84,10 @@ class DashboardService
         
         $result = [
             "now" => $now,
-            "today" => $today,            
-            "zendure" => $this->zendureData
+            "today" => $today,         
+            "yesterday" => $yesterday,   
+            "zendurePack" => $this->zendureData,
+            "shellyPack" => $this->shellyData
         ];        
 
         return json_encode($result);
