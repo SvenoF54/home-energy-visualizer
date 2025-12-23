@@ -1,16 +1,20 @@
 // Konfiguration
-let loggingUrl = "http://meine.domain/mein-verzeichnis/api/taskrunner.php?apikey=987654321"; // URL zum PHP-Skript
+let taskRunnerUrl = "http://meine.domain/mein-verzeichnis/api/taskrunner.php?apikey=987654321"; // URL zum PHP-Skript
+let logZendureDataUrl = "http://meine.domain/mein-verzeichnis/api/log-zendure-data.php?apikey=987654321"; // URL zum PHP-Skript
+let zendureUrl = "http://lokale-ip-zendure/properties/report";
 
 let AppName = "Taskrunner";
-let intervalInSeconds = 60;
+let intervalInSeconds = 10;
 let printLogMsg = true;
+
 
 function timerCallback() {
     try {
         log("----------------------------------------------");
-        log("Sende Triger-Signal an den Server");
+        log("Starte Taskrunner Tasks...");
 
         sendTriggerSignalToServerApi();
+        forwardZendureData();
     } catch (e) {
         Info("Fehler beim TimerCallback: " + e.message);
     }
@@ -18,7 +22,7 @@ function timerCallback() {
 
 function sendTriggerSignalToServerApi(data) {
     try {
-        log("Bereite Daten zum Senden vor.");
+        log("Bereite Triggerdaten vor.");
         let time = getTimestamp(true);
 
         // Erstelle zu sendendes JSON
@@ -27,29 +31,65 @@ function sendTriggerSignalToServerApi(data) {
         };
 
         // Sende berechnete Daten an DB-Logger
-        log("Sende Daten an die Server-API.");
+        log("Sende Triggerdaten an die Server-API.");
 
         Shelly.call(
             "HTTP.POST", {
-                url: loggingUrl,
+                url: taskRunnerUrl,
                 body: JSON.stringify(dataToSend),
-                timeout: 5, // Timeout in Sekunden
+                timeout: 2, // Timeout in Sekunden
                 headers: { "Content-Type": "application/json" }
             },
             function(response) {
                 if (response && response.code === 200) {
-                    info("Daten erfolgreich an den DB-Logger-Server gesendet: " + (response.body || "Kein Inhalt"));
+                    info("Triggerdaten erfolgreich an den DB-Logger-Server gesendet: " + (response.body || "Kein Inhalt"));
                 } else {
                     const errorMessage = response && response.body ?
                         response.body :
                         "Keine Antwort vom Server oder Fehler ohne Nachricht.";
-                    info("Fehler beim Senden der Daten: " + errorMessage);
+                    info("Fehler beim Senden der Triggerdaten: " + errorMessage);
                 }
             }
         );
     } catch (e) {
-        info("Fehler beim Senden der Daten an die Server-API: " + e.message);
+        info("Fehler beim Senden der Triggerdaten an die Server-API: " + e.message);
     }
+}
+
+function forwardZendureData() {
+    log("Lese Zendure-Daten ein.");
+    Shelly.call("HTTP.GET", {
+        url: zendureUrl,
+        timeout: 2
+    }, function(response) {
+        if (response && response.code === 200 && response.body) {
+            log("Zenduredaten erfolgreich gelesen, sende Zenduredaten an DB-Server");
+            // 2. Rohdaten 1:1 als POST weiterleiten
+            let dataToSend = {
+                timestamp: getTimestamp(true),
+                zendureData: JSON.parse(response.body)
+            };
+
+            Shelly.call("HTTP.POST", {
+                url: logZendureDataUrl,
+                body: JSON.stringify(dataToSend),
+                timeout: 2,
+                headers: { "Content-Type": "application/json" }
+            }, function(serverResponse) {
+                if (serverResponse && serverResponse.code === 200) {
+                    info("Zendure-Daten 1:1 weitergeleitet: " + serverResponse.body.slice(0, 100));
+                } else {
+                    var errorMsg = "HTTP " + (serverResponse ? serverResponse.code : "keine Antwort");
+                    if (serverResponse && serverResponse.body) {
+                        errorMsg = serverResponse.body;
+                    }
+                    info("Fehler beim Weiterleiten an Server: " + errorMsg);
+                }
+            });
+        } else {
+            info("Fehler beim lesen der Zendure-Daten: " + (response ? response.body || "Keine Daten"));
+        }
+    });
 }
 
 function getTimestamp(onlyEvenSeconds) {

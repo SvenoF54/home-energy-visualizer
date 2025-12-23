@@ -13,7 +13,7 @@ TaskService::checkRealtimeEnergyData();
 
 if ($currentMinute % 1 === 0) {
     // Every minute
-    TaskService::readZendureData();
+    //TaskService::readZendureData();
 }
 
 if ($currentMinute % 5 === 0) {

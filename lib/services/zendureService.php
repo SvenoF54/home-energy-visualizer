@@ -26,6 +26,20 @@ class ZendureService
         $this->zendureStatsSet->loadData();
     }
 
+    public function parseAndSaveData(array $data) {
+        $inverterData = $data["properties"];
+        $key = "electricLevel";
+        $notice = "Total Pack capacity";
+        $this->kvsTable->insertOrUpdate(KeyValueStoreScopeEnum::Zendure, $key, $inverterData[$key], $notice);
+        $this->zendureStatsSet->update($key, $inverterData[$key]);        
+
+        return true;
+    }
+
+    public function getError() {
+        return "todo-zendure-error";
+    }
+
     public function connect() {
         $config = Configuration::getInstance()->zendure();        
         $this->mqqtClient = new Bluerhinos\phpMQTT($config->getServer(), $config->getPort(), $this->client_id);
