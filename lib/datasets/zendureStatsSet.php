@@ -70,7 +70,7 @@ class ZendureStatsSet {
         $updateSameMinute = date("Y-m-d H:i", strtotime($this->lastUpdated)) === date("Y-m-d H:i");                
         if ($updateSameMinute) { return; }
 
-        if ($key == $this->config->getKeyAkkuCapacity()) {                    
+        if ($key == $this->config->getKeyPackCapacityPercent()) {                    
             // Check akku loaded complete
             $akkuLoadedComplete = isset($this->akkuPackUpperLimit) ? ($value * 10 >= $this->akkuPackUpperLimit) : false;
             

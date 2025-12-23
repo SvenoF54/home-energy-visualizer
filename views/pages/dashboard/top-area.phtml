@@ -93,19 +93,36 @@
 
         <?php if (Configuration::getInstance()->dashboardPage()->getShowZendureOnDashboard()) { ?> 
         <div class="mt-4">
-            <div class="small d-flex justify-content-between text-secondary">
+            <div class="small d-flex justify-content-between text-secondary"> 
                 <div>
-                    <strong><?=Configuration::getInstance()->zendure()->getDisplayName()?>: </strong><span id="zendure-akkuPackLevelPercent"></span><strong id="zendure-dataloss" class="text-danger">(Datenfehler)</strong>
+                    <strong><?=Configuration::getInstance()->zendure()->getDisplayName()?>: </strong><span id="zendurePack-akkuPackLevelPercent"></span><strong id="zendurePack-dataloss" class="text-danger">(Datenfehler)</strong>
                 </div>
-                <div id="zendure-chargeActive">
-                <strong class="d-none d-sm-inline">Ladung: </strong><span id="zendure-chargePackPowerCalc"></span>
+                <div id="zendurePack-chargeActive">
+                <strong class="d-none d-sm-inline">Ladung: </strong><strong class="d-inline d-sm-none">+</strong><span id="zendurePack-chargePackPowerCalc"></span>
                 </div>
-                <div id="zendure-dischargeActive">
-                    <strong class="d-none d-sm-inline">Entladung: </strong><span id="zendure-dischargePackPowerCalc"></span>
+                <div id="zendurePack-dischargeActive">
+                    <strong class="d-none d-sm-inline">Entladung: </strong><span id="zendurePack-dischargePackPowerCalc"></span>
                 </div>
             </div>
             <div class="progress-bar-container">
-                <div id="pm-pack-bar" class="progress-bar-akkupack"></div>
+                <span id="zendurePack-akkuPackRemainingEnergy"></span>
+                <div id="pm-zendure-pack-bar" class="progress-bar-akkupack"></div>
+            </div>
+        </div>
+        <?php } ?>
+        <?php if (1==1) { ?> 
+        <div class="mt-4">
+            <div class="small d-flex justify-content-between text-secondary">
+                <div>
+                    <strong>LiTime-Akku: </strong><span id="shellyPack-akkuPackLevelPercent"></span><strong id="shellyPack-dataloss" class="text-danger">(Datenfehler)</strong>
+                </div>
+                <div id="shellyPack-dischargeActive">
+                    <strong class="d-none d-sm-inline">Entladung: </strong><span id="shellyPack-dischargePackPowerCalc"></span>
+                </div>
+            </div>
+            <div class="progress-bar-container">
+                <span id="shellyPack-akkuPackRemainingEnergy"></span> / <span id="shellyPack-akkuPackVoltage"></span>
+                <div id="pm-shelly-pack-bar" class="progress-bar-akkupack"></div>
             </div>
         </div>
         <?php } ?>
