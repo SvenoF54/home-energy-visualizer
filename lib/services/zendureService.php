@@ -3,8 +3,6 @@
 // Licensed under the GNU GPL v3.0 - see <https://www.gnu.org/licenses/gpl-3.0.en.html>
 
 
-# https://github.com/bluerhinos/phpMQTT/tree/master
-
 class ZendureService
 {
     private const TIMEOUT_MQQT_DATA_FOR_DASHBOARD_IN_MINUTES = 10*60;

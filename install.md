@@ -97,10 +97,18 @@ Das Skript ist hier zu finden [scripts\shelly-scripts\Shelly-Plus1PM-SendToLogge
 #### Skript TaskRunner zum Aufsummieren der Daten und andere Tasks
 
 Um die Echtzeitdaten für den schnelleren Zugriff aufzusummieren wird ein eigenes Skript benötigt. Dies kann man entweder vom Shelly oder über einen eigenen Cronjob starten. 
-Bei mir läuft es alle 60 Sekunden auf einem Shelly, z.B. dem EM.
+Bei mir läuft es alle 10 Sekunden auf einem Shelly, z.B. dem EM.
 Die Tasks können auf der Statusübersicht überprüft werden.
 
 Das Skript ist hier zu finden [scripts\shelly-scripts\Shelly-Pro3EM-Trigger_TaskRunner.js](scripts\shelly-scripts\Shelly-Pro3EM-Trigger_TaskRunner.js)
+
+##### Zendure System
+
+Falls ein Zendure-System angeschlossen ist, werden im Taskrunner-Script auch die Zenduredaten lokal ausgelesen und an den PHP-Server geschickt.
+Hierfür muss man im oberen Abschnitt die lokale IP-Adresse des Zendure-Systems eintragen. Die lokale IP wird z.B. in der Zendure-App unter Gerätedaten angezeigt, oder man liest diese aus der eigenen Routerkonfiguration aus.
+
+Zum Test kann man diese URL mit der richtigen IP-Adresse im lokalen Browser aufrufen, fängt meistens mit 192 an:
+http://[lokale-zendure-ip]/properties/report
 
 ##### E-Mail Benachrichtigung bei fehlenden Daten
 
@@ -149,37 +157,16 @@ Require valid-user
 Es kann der aktuelle Wert der PV Stromgenerierung und der Akkustand aus dem Zendure-System ausgelesen und mit angezeigt werden. Die Werte werden dann außerdem auf dem Dashboard auch für die Anzeige der gesamten Energieproduktion berücksichtigt. Dies zeigt dann auch die PV-Energie an, welche für das Laden des Akkus verwendet wird.
 Die Werte werden über die API ausgelesen und in der DB zwischengespeichert.
 
-Beim Lesen der Zendure-Werte kann es zu geringfügigen Datenverlusten, insbesondere bei der aktuellen PV-Leistung kommen, wodurch ggfls. die Echtzeitanzeige etwas verfälscht ist. Die Akkudaten können auch berechnet werden, weil die API die Akkudaten nur ~ alle Minute sendet und im Smart-Modus dann nur ein Indiz sind.
-
-Hintergrund: Das Auslesen erfolgt per einzelne Requests durch den TaskManager welcher dann einen gewissen Zeitraum läuft, da auf dem Webserver kein dauerhafter Prozess laufen kann. Dies ist nicht so, wie das MQQT-Protokoll es vorsieht, funktioniert aber auch. Deshalb ist das Feature als rudimentär gekennzeichnet.
+Beim Lesen der Zendure-Werte kann es zu geringfügigen Datenverlusten, insbesondere bei der aktuellen PV-Leistung kommen, wodurch ggfls. die Echtzeitanzeige etwas verfälscht ist.
 
 Um ein Zendure-System anzubinden, sind folgende Schritt notwendig:
 
-1. AppKey und AppSecret für die Zendure API besorgen
-Als Vorbereitung muss man die Seriennummer aus der Zendure-App im Einstellungsbereich auslesen.
-Mit der Seriennummer und die E-Mail, mit welcher man sich registriert hat setzt man folgenden Befehl ab, um die Zugangsdaten zu erhalten:
-- Eingabeaufforderung (cmd) öffnen
-- Die Werte in diesem Befehl entsprechend ersetzen und abschicken:
-- Nicht empfohlen: Bei Zertifikatsfehlermeldung am Ende --insecure anhängen.
+1. lokale IP-Adresse des System in das Shelly-Script für den Taskrunner eintragen. Siehe Beschreibung dort.
 
-```
-curl -i --json "{'snNumber': '<deine Seriennummer>', 'account': '<dein Account>'}" https://app.zendure.tech/eu/developer/api/apply
-
-```
-
-Als Ergebnis erhält man ein JSON, das so aussieht:
-```
-{"code":200,"success":true,"data":{"appKey":"DeinAppKey","secret":"DeinAppSecret","mqttUrl":"mqtt.zen-iot.com","port":1883},"msg":"Successful operation"}
-```
-
-Die Werte von DeinAppKey + DeinAppSecret werden in der local-config.php eingetragen.
-Folgende Einstellungen können für Zendure vorgenommen werden:
+2. Folgende Einstellungen können für Zendure vorgenommen werden:
 
 ```
 // Zendure
-$config->zendure()->setAppKey("DeinAppKey");                            // Der oben gelesene AppKey
-$config->zendure()->setAppSecret("DeinAppSecret");                      // Das oben gelesene AppSecret
-$config->zendure()->setReadTimeInSec(60);                               // Wie lange ein Request die Zendure Nachrichten abfragt, hängt vom Timeout des Webservers ab.
 $config->zendure()->setDisplayName("Akku");                             // Name auf dem Dashboard
 $config->zendure()->setConnectedToPmPort("PM3");                        // An welcher Phase der Zendure angeschlossen ist. Kann auch in der Echtzeitübersicht erkannt werden
 $config->zendure()->setCalculatePackData(true);                         // Wenn Zendure im Smart Mode, also mit Nulleinspeisung betrieben wird, bekommt man schnellere ungefähre Werte, wenn der Akku berechnet wird.

@@ -1,7 +1,7 @@
 // Konfiguration
 let taskRunnerUrl = "http://meine.domain/mein-verzeichnis/api/taskrunner.php?apikey=987654321"; // URL zum PHP-Skript
 let logZendureDataUrl = "http://meine.domain/mein-verzeichnis/api/log-zendure-data.php?apikey=987654321"; // URL zum PHP-Skript
-let zendureUrl1 = "http://lokale-ip-zendure/properties/report";
+let zendureUrl1 = "http://lokale-ip-zendure/properties/report"; // Wenn kein Zendure-System vorhanden ist, diese Zeile löschen
 
 let AppName = "Taskrunner";
 let intervalInSeconds = 10;
@@ -14,7 +14,7 @@ function timerCallback() {
         log("Starte Taskrunner Tasks...");
 
         sendTriggerSignalToServerApi();
-        forwardZendureData(zendureUrl1);
+        forwardZendureData(zendureUrl1); // Wenn kein Zendure-System vorhanden ist, diese Zeile löschen
     } catch (e) {
         Info("Fehler beim TimerCallback: " + e.message);
     }

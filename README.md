@@ -81,9 +81,9 @@ Preisdaten können ebenfalls manuell für mehrere Zeiträume eingegeben werden.
 ### Status fehlender Werte
 Hier wird ein Status angezeigt, der einen Überblick über die Datenabdeckung gibt und die Möglichkeit bietet, fehlende Daten manuell nachzupflegen. Falls bei der Berechnung der Echtzeitdaten ein Fehler beim Cronjob aufgetreten ist, kann der Monat manuell nachberechnet werden. Fehlen allerdings die Echtzeitdaten vollständig, bleibt die Lücke bestehen.
 
-### Zendure (Hyper 2000 System)
-Es können Daten von dem Zendure System zusätzlich mit angezeigt werden. Derzeit ist es nur mit dem Hyper 2000 System getestet, da keine spezifischen Hyper 2000 Werte benutzt werden, sollten auch die anderen Zendure Systeme funktionieren.
-Die Daten werden von der offiziellen Zendure-API aus deren Cloud ausgelesen.
+### Zendure (Solarflow oder Hyper 2000 System)
+Es können Daten von dem Zendure System zusätzlich mit angezeigt werden. Derzeit ist es mit dem Solarflow 800 Pro und Hyper 2000 System getestet, es sollten auch die anderen Zendure Systeme funktionieren.
+Die Daten werden über das lokalen Netzwerk vom Zendure System gelesen. Hierfür wird ein Shelly-Script eingesetzt, welches die Daten lokal vom Zendure-System liest und an den PHP-Server dieser Applikation schickt. 
 
 ## Lizenz
 
@@ -124,10 +124,7 @@ Das Projekt nutzt folgende Open-Source-Bibliotheken:
 7. **Bootstrap Icons** - [Bootstrap Icons](https://icons.getbootstrap.com/)
    - **Funktion**: Sammlung von Icons für die Verwendung in Bootstrap-basierten Webseiten.
 
-8. **Bluerhinos phpmqtt** - [Bluerhinos phpmqtt](https://github.com/bluerhinos/phpMQTT/)
-   - **Funktion**: Optional Bluerhinos phpmqtt Bibliothek, derzeit für die Zendure Anbindung.
-
-9. **Zendure API** - [Zendure API](https://github.com/Zendure/developer-device-data-report)
+8. **Zendure API** - [Zendure API](https://github.com/Zendure/developer-device-data-report)
    - **Funktion**: Optional, falls ein Zendure Akkusystem benutzt wird, um die Daten aus der Zendure API zu lesen.
 
 
@@ -162,4 +159,4 @@ Darüber hinaus wird keine Verantwortung für etwaige Datenverluste, Abwärtskom
 
 ### Auslesen von PV Ertrag sowie Akkudaten
 
-Falls entsprechend konfiguriert, wird die Zendure-API benutzt um den Erzeugten PV-Ertrag und den aktuellen Akkustand auszulesen. Aktuell nur mit dem Hyper 2000 System getestet.
+Falls entsprechend konfiguriert, wird die Zendure-API benutzt um den Erzeugten PV-Ertrag und den aktuellen Akkustand auszulesen. Aktuell nur mit dem Solarflow 800 Pro und Hyper 2000 System getestet.
