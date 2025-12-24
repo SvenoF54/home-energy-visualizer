@@ -45,5 +45,3 @@ include_once("services/dashboardService.php");
 include_once("services/taskService.php");
 include_once("services/zendureService.php");
 include_once("services/shellyDeviceService.php");
-
-include_once("third-party/Bluerhinos/phpMQTT.php");

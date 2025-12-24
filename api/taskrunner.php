@@ -13,13 +13,11 @@ TaskService::checkRealtimeEnergyData();
 
 if ($currentMinute % 1 === 0) {
     // Every minute
-    //TaskService::readZendureData();
 }
 
 if ($currentMinute % 5 === 0) {
     // Every 5 minutes
     TaskService::unifyRealTimeData();
-    TaskService::checkRealtimeEnergyData();
     //ApiHelper::dieWithResponseCode(200, $resultMsg);
 }
 

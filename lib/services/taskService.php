@@ -4,20 +4,6 @@
 
 class TaskService 
 {    
-    public static function readZendureData()
-    {        
-        try {
-            $reader = new ZendureService();
-            $reader->connect();
-            $startTime = time();
-            $countMsgReceived = $reader->readDataFromMqqt();
-            $diffInSeconds = time() - $startTime;
-            self::logToKvs(TaskEnum::ReadZendureData, StatusEnum::Success, "$countMsgReceived Messages received in the last $diffInSeconds seconds.");
-        } catch(Exception $ex) {
-            self::logToKvs(TaskEnum::ReadZendureData, StatusEnum::Exception, $ex->getMessage());
-        }
-    }
-
     public static function checkRealtimeEnergyData()
     {
         try {

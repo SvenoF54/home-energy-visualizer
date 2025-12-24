@@ -1,7 +1,7 @@
 // Konfiguration
 let taskRunnerUrl = "http://meine.domain/mein-verzeichnis/api/taskrunner.php?apikey=987654321"; // URL zum PHP-Skript
 let logZendureDataUrl = "http://meine.domain/mein-verzeichnis/api/log-zendure-data.php?apikey=987654321"; // URL zum PHP-Skript
-let zendureUrl = "http://lokale-ip-zendure/properties/report";
+let zendureUrl1 = "http://lokale-ip-zendure/properties/report";
 
 let AppName = "Taskrunner";
 let intervalInSeconds = 10;
@@ -14,7 +14,7 @@ function timerCallback() {
         log("Starte Taskrunner Tasks...");
 
         sendTriggerSignalToServerApi();
-        forwardZendureData();
+        forwardZendureData(zendureUrl1);
     } catch (e) {
         Info("Fehler beim TimerCallback: " + e.message);
     }
@@ -56,10 +56,10 @@ function sendTriggerSignalToServerApi(data) {
     }
 }
 
-function forwardZendureData() {
+function forwardZendureData(curZendureUrl) {
     log("Lese Zendure-Daten ein.");
     Shelly.call("HTTP.GET", {
-        url: zendureUrl,
+        url: curZendureUrl,
         timeout: 2
     }, function(response) {
         if (response && response.code === 200 && response.body) {

@@ -8,87 +8,41 @@
 class ZendureService
 {
     private const TIMEOUT_MQQT_DATA_FOR_DASHBOARD_IN_MINUTES = 10*60;
-    private $client_id;
-    private $mqqtClient;
-    private $timeoutInSec = 10;
+ 
     private $kvsTable;
-    private $stateTopic;
     private $config;
-    private $countMsgReceived;
+    private $readDataError;
     private ZendureStatsSet $zendureStatsSet;
 
     public function __construct() {
-        $this->client_id = uniqid('nrgHomeVis_');  
         $this->kvsTable = KeyValueStoreTable::getInstance();
         $this->config = Configuration::getInstance()->zendure();
+        $this->readDataError = "";
 
         $this->zendureStatsSet = new ZendureStatsSet();
         $this->zendureStatsSet->loadData();
     }
 
     public function parseAndSaveData(array $data) {
-        $inverterData = $data["properties"];
-        $key = "electricLevel";
-        $notice = "Total Pack capacity";
-        $this->kvsTable->insertOrUpdate(KeyValueStoreScopeEnum::Zendure, $key, $inverterData[$key], $notice);
-        $this->zendureStatsSet->update($key, $inverterData[$key]);        
-
+        try {
+            $inverterData = $data["properties"];
+        
+            foreach ($this->getZendureKeys() as $key => $notice) {
+                if ($inverterData && isset($inverterData[$key])) {
+                    $this->kvsTable->insertOrUpdate(KeyValueStoreScopeEnum::Zendure, $key, $inverterData[$key], $notice);
+                    $this->zendureStatsSet->update($key, $inverterData[$key]);
+                }
+            }        
+            $this->kvsTable->insertOrUpdate(KeyValueStoreScopeEnum::Task, TaskEnum::ReadZendureData->value, StatusEnum::Success->value, "Zenduredaten via Shell-Taskrunner empfangen.");
+        } catch (Exception $ex) {
+            $this->readDataError = $ex->getMessage();
+        }
+        
         return true;
     }
 
     public function getError() {
-        return "todo-zendure-error";
-    }
-
-    public function connect() {
-        $config = Configuration::getInstance()->zendure();        
-        $this->mqqtClient = new Bluerhinos\phpMQTT($config->getServer(), $config->getPort(), $this->client_id);
-
-        // Connect
-        if ($config->getAppKey() == null || $config->getAppSecret() == null) {
-            throw new Exception("No AppKey or AppSecret set in local-config.php.");
-        }
-        if (! $this->mqqtClient->connect(true, NULL, $config->getAppKey(), $config->getAppSecret())) {            
-            throw new Exception("No connection to Zendure MQTT-Broker possible.");
-        }
-
-        $this->stateTopic = $config->getAppKey()."/#";  // Typical AppKey/#
-        $this->timeoutInSec = $config->getReadTimeInSec();
-    }
-
-    public function readDataFromMqqt() {
-        $this->countMsgReceived = 0;        
-        $this->mqqtClient->subscribe([
-            $this->stateTopic => ['qos' => 0, 'function' => [$this, 'handleMessage']]
-        ]);
-
-        $start = time();
-        while (true) {
-            if (! $this->mqqtClient->proc()) { break; }            
-            if ((time() - $start) >= $this->timeoutInSec) { break; }
-            
-            usleep(100000); // wait 100 ms, to reduce CPU
-        }
-            
-        if (! $this->mqqtClient->proc()) {
-            throw new Exception("MQTT-connection lost or a problem with the message.");
-        }
-
-        $this->mqqtClient->close();
-        $this->zendureStatsSet->saveData();
-
-        return $this->countMsgReceived;
-    }
-
-    public function handleMessage($topic, $msg) {
-        $this->countMsgReceived++;
-        $data = json_decode($msg, true);
-        foreach ($this->getZendureKeys() as $key => $notice) {
-            if ($data && isset($data[$key])) {
-                $this->kvsTable->insertOrUpdate(KeyValueStoreScopeEnum::Zendure, $key, $data[$key], $notice);
-                $this->zendureStatsSet->update($key, $data[$key]);
-            }
-        }
+        return $this->readDataError;
     }
 
     public function getZendureKeys()
@@ -159,7 +113,7 @@ class ZendureService
         // Current pack capacity over all in %        
         $resultData["akkuPackLevelPercent"] = isset($zendureKvsData[$keyAkkuCapacity]) ? $zendureKvsData[$keyAkkuCapacity] : 0;
         $remainingEnergy = isset($zendureKvsData[$keyAkkuCapacity]) ? ($this->config->getPackCapacityInW() * $zendureKvsData[$keyAkkuCapacity] / 100) : 0;
-        $resultData["akkuPackRemainingEnergy"] = number_format($remainingEnergy);
+        $resultData["akkuPackRemainingEnergy"] = $remainingEnergy;
         
         // Pack charge calculation, only if zero feed in is active because zendure data are not send very often
         if ($this->config->getCalculatePackData()) {
