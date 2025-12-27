@@ -46,12 +46,12 @@ class ZendureService
     public function getZendureKeys()
     {
         $keys = [
-            $this->config->getKeySolarInput()           => "Aktuelle Solarleistung über alle Eingänge in W",
-            $this->config->getKeyPackCapacityPercent()  => "Ladestand über alle Batterien in %", 
-            $this->config->getKeyPackMaxUpperLoadLimit()=> "(Obere) Ladegrenze in % * 10",
-            $this->config->getKeyPackDischarge()        => "Aktuelle Entladeleistung der Batterien in W",
-            $this->config->getKeyPackCharge()           => "Aktuelle Ladeleistung der Batterien in W",
-            $this->config->getKeyPackState()            => "Status über alle Batterien (0: Standby, 1: Laden, 2: Entladen)"
+            "solarInputPower"          => "Aktuelle Solarleistung über alle Eingänge in W",
+            "electricLevel"  => "Ladestand über alle Batterien in %", 
+            "socSet"=> "(Obere) Ladegrenze in % * 10",
+            "packInputPower"        => "Aktuelle Entladeleistung der Batterien in W",
+            "outputPackPower"          => "Aktuelle Ladeleistung der Batterien in W",
+            "packState"            => "Status über alle Batterien (0: Standby, 1: Laden, 2: Entladen)"
         ];
 
         return $keys;
@@ -86,11 +86,11 @@ class ZendureService
     // The $measuredPmxEnergieData is the enrgy which was given from Zendure to the house
     public function prepareDashboardData($measuredPmxEnergieData)
     {
-        $keySolarInput = $this->config->getKeySolarInput();
-        $keyAkkuCapacity = $this->config->getKeyPackCapacityPercent();
-        $keyPackCharge = $this->config->getKeyPackCharge();
-        $keyPackDischarge = $this->config->getKeyPackDischarge();
-        $keyPackState = $this->config->getKeyPackState();
+        $keySolarInput = "solarInputPower";
+        $keyAkkuCapacity = "electricLevel";
+        $keyPackCharge = "outputPackPower";
+        $keyPackDischarge = "packInputPower";
+        $keyPackState = "packState";
         $resultData = [];
         
         // Read latest Zendure data from DB
@@ -113,15 +113,9 @@ class ZendureService
         $remainingEnergy = isset($zendureKvsData[$keyAkkuCapacity]) ? ($this->config->getPackCapacityInW() * $zendureKvsData[$keyAkkuCapacity] / 100) : 0;
         $resultData["akkuPackRemainingEnergy"] = $remainingEnergy;
         
-        // Pack charge calculation, only if zero feed in is active because zendure data are not send very often
-        if ($this->config->getCalculatePackData()) {
-            $currentAkkuCharge = $resultData["solarInputPower"] - $measuredPmxEnergieData;              // Subtract measured PM data, which is requested from the house
-            $resultData["chargePackPowerCalc"] = $currentAkkuCharge > 0 ? $currentAkkuCharge : 0;       // Caclulated current pack charging W
-            $resultData["dischargePackPowerCalc"] = $currentAkkuCharge < 0 ? $currentAkkuCharge : 0;    // Caclulated current pack discharging W
-        } else {
-            $resultData["chargePackPowerCalc"] = $zendureKvsData[$keyPackCharge];
-            $resultData["dischargePackPowerCalc"] = -$zendureKvsData[$keyPackDischarge];
-        }
+        $resultData["chargePackPowerCalc"] = $zendureKvsData[$keyPackCharge];
+        $resultData["dischargePackPowerCalc"] = -$zendureKvsData[$keyPackDischarge];
+    
         $resultData["isChargeActive"] = $zendureKvsData[$keyPackState] == 1 && $resultData["chargePackPowerCalc"] > 0;          // Pack charging active
         $resultData["isDischargeActive"] = $zendureKvsData[$keyPackState] == 2 && $resultData["dischargePackPowerCalc"] < 0;    // Pack discharging active
 

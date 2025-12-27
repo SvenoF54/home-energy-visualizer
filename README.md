@@ -81,8 +81,8 @@ Preisdaten können ebenfalls manuell für mehrere Zeiträume eingegeben werden.
 ### Status fehlender Werte
 Hier wird ein Status angezeigt, der einen Überblick über die Datenabdeckung gibt und die Möglichkeit bietet, fehlende Daten manuell nachzupflegen. Falls bei der Berechnung der Echtzeitdaten ein Fehler beim Cronjob aufgetreten ist, kann der Monat manuell nachberechnet werden. Fehlen allerdings die Echtzeitdaten vollständig, bleibt die Lücke bestehen.
 
-### Zendure (Solarflow oder Hyper 2000 System)
-Es können Daten von dem Zendure System zusätzlich mit angezeigt werden. Derzeit ist es mit dem Solarflow 800 Pro und Hyper 2000 System getestet, es sollten auch die anderen Zendure Systeme funktionieren.
+### Zendure (Solarflow System)
+Es können Daten von dem Zendure System zusätzlich mit angezeigt werden. Derzeit ist es mit dem Solarflow 800 Plus / Pro 2000 System getestet, mit dem Hyper 2000 funktioniert es akutell nicht, da dieser keine Daten über die lokale Schnittstelle liefert.
 Die Daten werden über das lokalen Netzwerk vom Zendure System gelesen. Hierfür wird ein Shelly-Script eingesetzt, welches die Daten lokal vom Zendure-System liest und an den PHP-Server dieser Applikation schickt. 
 
 ## Lizenz
@@ -159,4 +159,4 @@ Darüber hinaus wird keine Verantwortung für etwaige Datenverluste, Abwärtskom
 
 ### Auslesen von PV Ertrag sowie Akkudaten
 
-Falls entsprechend konfiguriert, wird die Zendure-API benutzt um den Erzeugten PV-Ertrag und den aktuellen Akkustand auszulesen. Aktuell nur mit dem Solarflow 800 Pro und Hyper 2000 System getestet.
+Falls entsprechend konfiguriert, wird die lokale Zendure-API benutzt um den erzeugten PV-Ertrag und den aktuellen Akkustand auszulesen. Aktuell nur mit dem Solarflow 800 Plus / Pro System getestet.

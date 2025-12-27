@@ -169,7 +169,6 @@ Um ein Zendure-System anzubinden, sind folgende Schritt notwendig:
 // Zendure
 $config->zendure()->setDisplayName("Akku");                             // Name auf dem Dashboard
 $config->zendure()->setConnectedToPmPort("PM3");                        // An welcher Phase der Zendure angeschlossen ist. Kann auch in der Echtzeitübersicht erkannt werden
-$config->zendure()->setCalculatePackData(true);                         // Wenn Zendure im Smart Mode, also mit Nulleinspeisung betrieben wird, bekommt man schnellere ungefähre Werte, wenn der Akku berechnet wird.
 
 $config->dashboardPage()->setShowZendureOnDashboard(true);              // Falls ein Zendure-System benutzt wird, das die Werte auf dem Dashboard angezeigt werden
 $config->dashboardPage()->setConsumptionIndicatedAs100Percent(6000);  	// Max. Wert für 100% Hausverbrauch, z.B. 6000W

@@ -44,7 +44,7 @@ class ZendureStatsSet {
     
     public function loadData()
     {
-        $rowUpperLimit = $this->kvsTable->getRow(KeyValueStoreScopeEnum::Zendure, $this->config->getKeyPackMaxUpperLoadLimit());
+        $rowUpperLimit = $this->kvsTable->getRow(KeyValueStoreScopeEnum::Zendure, "socSet");
         $this->akkuPackUpperLimit = ($rowUpperLimit != null) ? $rowUpperLimit->getValue() : null;
 
         $row = $this->kvsTable->getRow(KeyValueStoreScopeEnum::Zendure, self::STATS_KEY);
@@ -70,7 +70,7 @@ class ZendureStatsSet {
         $updateSameMinute = date("Y-m-d H:i", strtotime($this->lastUpdated)) === date("Y-m-d H:i");                
         if ($updateSameMinute) { return; }
 
-        if ($key == $this->config->getKeyPackCapacityPercent()) {                    
+        if ($key == "electricLevel") {                    
             // Check akku loaded complete
             $akkuLoadedComplete = isset($this->akkuPackUpperLimit) ? ($value * 10 >= $this->akkuPackUpperLimit) : false;
             
