@@ -5,15 +5,15 @@
 class ConfigZendure
 {
     private $displayName = "Akku";
-    private $packCapacityInW = 2000;
-    private $connectedToPmPort = "";                   // PM Port Phase to which Zendure was connected, i.e. PM3
+    private $connectedToPmPort = "";                    // PM Port Phase to which Zendure was connected, i.e. PM3
+    private $tempOffset = 1920;                         // Offset, which will be subtracted from internal sensor temperature to get neary outside temp.
 
     
     public function getDisplayName() { return $this->displayName; }
     public function setDisplayName($displayName) { $this->displayName = $displayName; }
 
-    public function getPackCapacityInW() { return $this->packCapacityInW; }
-    public function setPackCapacityInW($packCapacityInW) { return $this->packCapacityInW = $packCapacityInW; }
+    public function getTempOffset() { return $this->tempOffset; }
+    public function setTempOffset($tempOffset) { return $this->tempOffset = $tempOffset; }
 
     public function getConnectedToPmPort() { return strtolower($this->connectedToPmPort); }
     public function setConnectedToPmPort($connectedToPmPort) { $this->connectedToPmPort = $connectedToPmPort; }

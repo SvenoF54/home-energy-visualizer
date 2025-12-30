@@ -96,6 +96,8 @@ $(document).ready(function() {
             return formatNumber(value, 2) + "V";
         } else if (key.toLowerCase().includes("percent")) {
             return formatNumber(value, 0) + "%";
+        } else if (key.toLowerCase().includes("tmp")) {
+            return formatNumber(value, 0) + "°C";
         }
 
         return formatCurrent(value, "h");

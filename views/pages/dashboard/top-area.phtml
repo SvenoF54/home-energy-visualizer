@@ -95,14 +95,17 @@
         <div class="mt-4">
             <div class="small d-flex justify-content-between text-secondary"> 
                 <div>
-                    <strong><?=Configuration::getInstance()->zendure()->getDisplayName()?>: </strong><span id="zendurePack-akkuPackLevelPercent"></span><strong id="zendurePack-dataloss" class="text-danger">(Datenfehler)</strong>
+                    <strong><?=Configuration::getInstance()->zendure()->getDisplayName()?>: </strong><span id="zendurePack-akkuPackLevelPercent"></span> | <span id="zendurePack-hyperTmp"></span> <strong id="zendurePack-dataloss" class="text-danger">(Datenfehler)</strong>
                 </div>
-                <div id="zendurePack-chargeActive">
-                <strong class="d-none d-sm-inline">Ladung: </strong><strong class="d-inline d-sm-none">+</strong><span id="zendurePack-chargePackPowerCalc"></span>
-                </div>
-                <div id="zendurePack-dischargeActive">
-                    <strong class="d-none d-sm-inline">Entladung: </strong><span id="zendurePack-dischargePackPowerCalc"></span>
-                </div>
+                <div>
+                    <span id="zendurePack-chargeActive">
+                        <strong class="d-none d-sm-inline">Ladung: </strong><i class="bi bi-battery-arrow-up d-sm-none"></i> <strong class="d-inline d-sm-none">+</strong><span id="zendurePack-chargePackPowerCalc"></span>
+                    </span>
+                    <span id="zendurePack-dischargeActive">
+                        <strong class="d-none d-sm-inline">Entladung: </strong><i class="bi bi-arrow-down d-sm-none"></i> <span id="zendurePack-dischargePackPowerCalc"></span>
+                    </span>
+                    | <i class="bi bi-sun"></i> <span id="zendurePack-solarInputPower">2</span>
+                 </div>
             </div>
             <div class="progress-bar-container">
                 <span id="zendurePack-akkuPackRemainingEnergy"></span>
@@ -110,11 +113,11 @@
             </div>
         </div>
         <?php } ?>
-        <?php if (1==1) { ?> 
+        <?php if (Configuration::getInstance()->dashboardPage()->getShowShellyUniOnDashboard()) { ?> 
         <div class="mt-4">
             <div class="small d-flex justify-content-between text-secondary">
                 <div>
-                    <strong>LiTime-Akku: </strong><span id="shellyPack-akkuPackLevelPercent"></span><strong id="shellyPack-dataloss" class="text-danger">(Datenfehler)</strong>
+                    <strong>Li-Akku: </strong><span id="shellyPack-akkuPackLevelPercent"></span><strong id="shellyPack-dataloss" class="text-danger">(Datenfehler)</strong>
                 </div>
                 <div id="shellyPack-dischargeActive">
                     <strong class="d-none d-sm-inline">Entladung: </strong><span id="shellyPack-dischargePackPowerCalc"></span>
