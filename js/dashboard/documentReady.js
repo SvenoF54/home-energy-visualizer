@@ -51,6 +51,8 @@ $(document).ready(function() {
                 $('#zendurePack-dischargeActive').toggle(response.zendurePack.isDischargeActive);
                 $('#zendurePack-dataloss').toggle(response.zendurePack.isDataloss);
                 $('#zendurePack-akkuPackLevelPercent').toggle(!response.zendurePack.isDataloss);
+                setAkkuSymbol('#zendurePack-akkuSymbol', response.zendurePack.akkuPackLevelPercent, response.zendurePack.batterieChangingPower);
+                //$('#zendurePack-akkuSymbol').attr('class', getAkkuSymbol(response.zendurePack.akkuPackLevelPercent, response.zendurePack - batterieChangingPower));
 
                 // Shelly-Uni
                 $("#pm-shelly-pack-bar").css("width", (response.shellyPack.akkuPackLevelPercent) + "%");
@@ -91,11 +93,13 @@ $(document).ready(function() {
         } else if (category.toLowerCase().includes("now")) {
             return formatCurrent(value);
         } else if (key.toLowerCase().includes("power")) {
-            return formatCurrent(value);
+            return value == "-" ? "" : formatCurrent(value);
         } else if (key.toLowerCase().includes("voltage")) {
             return formatNumber(value, 2) + "V";
         } else if (key.toLowerCase().includes("percent")) {
             return formatNumber(value, 0) + "%";
+        } else if (key.toLowerCase().includes("tmp")) {
+            return formatNumber(value, 0) + "°C";
         }
 
         return formatCurrent(value, "h");
@@ -125,4 +129,16 @@ $(document).ready(function() {
         if (stateInPercent >= 25 && stateInPercent < 85) return "akku-green-color";
         if (stateInPercent >= 85) return "akku-greenfull-color";
     }
+
+    function setAkkuSymbol(elementId, stateInPercent, batterieChangingPower) {
+        $(elementId).toggle(batterieChangingPower != "-");
+
+        symbol = "bi bi-battery-half";
+        if (stateInPercent < 3) symbol = "bi bi-battery";
+        if (stateInPercent < 9) symbol = "bi bi-battery-low";
+        if (stateInPercent >= 85) symbol = "bi bi-battery-full";
+
+        $(elementId).attr('class', symbol);
+    }
+
 });

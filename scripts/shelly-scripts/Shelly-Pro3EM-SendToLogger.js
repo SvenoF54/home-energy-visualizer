@@ -8,6 +8,7 @@ let invertSign = false; // Je nachdem wie der Shelly verschaltet ist, muss das V
 let printLogMsg = false; // Für Debug-Zwecke default = false
 
 // https://shelly-api-docs.shelly.cloud/gen2/Scripts/ShellyScriptLanguageFeatures
+// https://shelly-api-docs.shelly.cloud/gen2/Scripts/ShellyScriptLanguageFeatures
 function timerCallback() {
     try {
         log("----------------------------------------------");
@@ -17,6 +18,7 @@ function timerCallback() {
             log("Verarbeite Shelly-Daten weiter.");
 
             sendDataToDBLogger(actualData);
+            actualData = null;
         });
     } catch (e) {
         Info("Fehler beim TimerCallback: " + e.message);
@@ -44,7 +46,6 @@ function sendDataToDBLogger(data) {
 
     // Sende berechnete Daten an DB-Logger
     log("Sende bisherige Daten an DB-Logger-Server.");
-    log(JSON.stringify(dataToSend));
 
     Shelly.call(
         "HTTP.POST", {
@@ -64,6 +65,7 @@ function sendDataToDBLogger(data) {
             }
         }
     );
+    dataToSend = null;
 }
 
 function getShellyStatusData(devicePhase, callbackFkt) {

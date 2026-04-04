@@ -8,6 +8,7 @@ let invertSign = false; // Je nachdem wie der Shelly verschaltet ist, muss das V
 let printLogMsg = false; // Für Debug-Zwecke default = false
 
 // https://shelly-api-docs.shelly.cloud/gen2/Scripts/ShellyScriptLanguageFeatures
+// https://shelly-api-docs.shelly.cloud/gen2/Scripts/ShellyScriptLanguageFeatures
 function timerCallback() {
     try {
         log("----------------------------------------------");
@@ -17,6 +18,7 @@ function timerCallback() {
             log("Verarbeite Shelly-Daten weiter.");
 
             sendDataToDBLogger(actualData);
+            actualData = null;
         });
     } catch (e) {
         Info("Fehler beim TimerCallback: " + e.message);
@@ -44,7 +46,6 @@ function sendDataToDBLogger(data) {
 
     // Sende berechnete Daten an DB-Logger
     log("Sende bisherige Daten an DB-Logger-Server.");
-    log(JSON.stringify(dataToSend));
 
     Shelly.call(
         "HTTP.POST", {
@@ -55,7 +56,7 @@ function sendDataToDBLogger(data) {
         },
         function(response) {
             if (response && response.code === 200) {
-                info("Daten erfolgreich an den DB-Logger-Server gesendet: " + (response.body || "Kein Inhalt"));
+                info("Daten an den DB-Logger-API gesendet: " + (response.body || "Kein Inhalt"));
             } else {
                 const errorMessage = response && response.body ?
                     response.body :
@@ -64,6 +65,7 @@ function sendDataToDBLogger(data) {
             }
         }
     );
+    dataToSend = null;
 }
 
 function getShellyStatusData(devicePhase, callbackFkt) {
@@ -76,9 +78,10 @@ function getShellyStatusData(devicePhase, callbackFkt) {
                 return;
             }
 
+            let resultData = null;
             if (result["em:0"] != undefined) {
                 log("Daten erfolgreich gelesen für EM3, Total-Act-Power: " + result["em:0"].total_act_power);
-                let resultData = {
+                resultData = {
                     device_type: "EM",
                     a_act_power: prepareValue(result["em:0"].a_act_power, invertSign, false, false),
                     b_act_power: prepareValue(result["em:0"].b_act_power, invertSign, false, false),
@@ -86,8 +89,8 @@ function getShellyStatusData(devicePhase, callbackFkt) {
                     total_act_power: prepareValue(result["em:0"].total_act_power, invertSign, false, false)
                 };
             } else if (result["switch:0"] != undefined) {
-                log("Daten erfolgreich gelesen für PM, Switch-Power: " + result["switch:0"].apower);
-                let resultData = {
+                log("Daten erfolgreich gelesen für PM, Swith-Power: " + result["switch:0"].apower);
+                resultData = {
                     device_type: "PM" + devicePhase,
                     a_act_power: prepareValue(result["switch:0"].apower, invertSign, (devicePhase != "1"), true),
                     b_act_power: prepareValue(result["switch:0"].apower, invertSign, (devicePhase != "2"), true),
@@ -96,6 +99,7 @@ function getShellyStatusData(devicePhase, callbackFkt) {
                 };
             } else {
                 info("Fehler, konnte Daten weder als Shelly-EM noch als Shelly-PM-Daten interpretieren");
+                return;
             }
 
             callbackFkt(resultData);
@@ -113,7 +117,7 @@ function prepareValue(val, invertValSign, setToZero, ignoreMismeasurement) {
 
 function getTimestamp() {
     let now = new Date();
-    let miliseconds = now.getTime();
+    let milliseconds = now.getTime();
     let seconds = now.getSeconds();
 
     // Prüfe, ob die Sekunden innerhalb des gewünschten Intervalls liegen
