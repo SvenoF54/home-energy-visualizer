@@ -158,6 +158,7 @@ Es kann der aktuelle Wert der PV Stromgenerierung und der Akkustand aus dem Zend
 Die Werte werden über die API ausgelesen und in der DB zwischengespeichert.
 
 Beim Lesen der Zendure-Werte kann es zu geringfügigen Datenverlusten, insbesondere bei der aktuellen PV-Leistung kommen, wodurch ggfls. die Echtzeitanzeige etwas verfälscht ist.
+Das Script zum Lesen der Zendure-Daten sollte am besten auf dem ShellyPro3EM laufen, da dieser am meisten Speicherplatz für Scripte besitzt.
 
 Um ein Zendure-System anzubinden, sind folgende Schritt notwendig:
 

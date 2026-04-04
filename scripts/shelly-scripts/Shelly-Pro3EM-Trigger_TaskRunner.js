@@ -14,7 +14,7 @@ function timerCallback() {
         log("Starte Taskrunner Tasks...");
 
         sendTriggerSignalToServerApi();
-        forwardZendureData(zendureUrl1); // Wenn kein Zendure-System vorhanden ist, diese Zeile löschen
+        if (zendureUrl1 != "") forwardZendureData(zendureUrl1);
     } catch (e) {
         Info("Fehler beim TimerCallback: " + e.message);
     }
@@ -49,6 +49,7 @@ function sendTriggerSignalToServerApi(data) {
                         "Keine Antwort vom Server oder Fehler ohne Nachricht.";
                     info("Fehler beim Senden der Triggerdaten: " + errorMessage);
                 }
+                response = null;
             }
         );
     } catch (e) {
@@ -64,12 +65,21 @@ function forwardZendureData(curZendureUrl) {
     }, function(response) {
         if (response && response.code === 200 && response.body) {
             log("Zenduredaten erfolgreich gelesen, sende Zenduredaten an DB-Server");
+
             // 2. Rohdaten 1:1 als POST weiterleiten
+            let body = response.body;
+            let keys = ["solarInputPower", "electricLevel", "socSet", "packInputPower", "outputPackPower", "packState", "hyperTmp"];
+            let props = {};
+            for (let i = 0; i < keys.length; i++) {
+                props[keys[i]] = getValue(body, keys[i]);
+            }
+            props["packTypes"] = getPackDataValAsString(body, "packType");
+
             let dataToSend = {
                 timestamp: getTimestamp(true),
-                zendureData: JSON.parse(response.body)
+                zendureData: props
             };
-
+            info(JSON.stringify(dataToSend));
             Shelly.call("HTTP.POST", {
                 url: logZendureDataUrl,
                 body: JSON.stringify(dataToSend),
@@ -79,16 +89,22 @@ function forwardZendureData(curZendureUrl) {
                 if (serverResponse && serverResponse.code === 200) {
                     info("Zendure-Daten 1:1 weitergeleitet: " + serverResponse.body.slice(0, 100));
                 } else {
-                    var errorMsg = "HTTP " + (serverResponse ? serverResponse.code : "keine Antwort");
+                    var errorMsg = "keine Antwort";
                     if (serverResponse && serverResponse.body) {
-                        errorMsg = serverResponse.body;
+                        errorMsg += ", Http-Code: " + serverResponse.code
+                        errorMsg += serverResponse.body;
                     }
                     info("Fehler beim Weiterleiten an Server: " + errorMsg);
                 }
+                serverResponse = null;
             });
+            dataToSend = null;
         } else {
-            info("Fehler beim lesen der Zendure-Daten: " + (response ? response.body || "Keine Daten"));
+            let msg = "(Keine Daten)";
+            if (response) msg = response.body
+            info("Fehler beim Lesen der Zendure-Daten: " + msg);
         }
+        response = null;
     });
 }
 
@@ -118,6 +134,34 @@ function log(msg) {
 function info(msg) {
     print(AppName + ": " + msg);
 }
+
+function getValue(b, key) {
+    let keyStr = '"' + key + '":';
+    let pos = b.indexOf(keyStr);
+    if (pos < 0) return 0;
+    pos += keyStr.length; // Nach ":"
+
+    // Leerzeichen überspringen
+    while (b.charAt(pos) === ' ') pos++;
+
+    let end = b.indexOf(",", pos);
+    let numStr = end > 0 ? b.substring(pos, end) : b.substring(pos);
+    return +numStr;
+}
+
+function getPackDataValAsString(body, key) {
+    let result = [];
+    let pos = 0;
+
+    let searchKey = '"' + key + '":';
+    while ((pos = body.indexOf(searchKey, pos)) >= 0) {
+        result.push(getValue(body, key));
+        pos += key.length; // zum nächsten springen
+    }
+
+    return result.join(",") || "0";
+}
+
 
 Timer.set(
     intervalInSeconds * 1000, // Intervall in Millisekunden (300000 ms = 5 Minuten)

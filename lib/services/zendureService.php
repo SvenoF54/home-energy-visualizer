@@ -23,23 +23,19 @@ class ZendureService
 
     public function parseAndSaveData(array $data) {
         try {
-            // Read and store needed inverter data
-            $inverterData = $data["properties"];        
+            // Read and store needed inverter data            
             foreach ($this->getZendureKeys() as $key => $notice) {
-                if ($inverterData && isset($inverterData[$key])) {
-                    $this->kvsTable->insertOrUpdate(KeyValueStoreScopeEnum::Zendure, $key, $inverterData[$key], $notice);
-                    $this->zendureStatsSet->update($key, $inverterData[$key]);
+                if ($data && isset($data[$key])) {
+                    $this->kvsTable->insertOrUpdate(KeyValueStoreScopeEnum::Zendure, $key, $data[$key], $notice);
+                    $this->zendureStatsSet->update($key, $data[$key]);
                 }
             }
 
-            $packData = $data["packData"];
-            
             // Capacity over all packs in this system
             $totalCapacity = 0;            
-            foreach ($packData as $singlePack) {
-                if ($singlePack && isset($singlePack["packType"])) {
-                    $totalCapacity += $this->convertPackTypeToCapacity($singlePack["packType"]);
-                }
+            $packTypes = explode(",", $data['packTypes']);
+            foreach($packTypes as $type) {
+                $totalCapacity += $this->convertPackTypeToCapacity($type);
             }
             $this->kvsTable->insertOrUpdate(KeyValueStoreScopeEnum::Zendure, "totalPackCapacity", $totalCapacity, "Gesamtkapazität aller Akkus dieses Zendure-Systems");
 
@@ -65,7 +61,8 @@ class ZendureService
             "packInputPower"            => "Aktuelle Entladeleistung der Batterien in W",
             "outputPackPower"           => "Aktuelle Ladeleistung der Batterien in W",
             "packState"                 => "Status über alle Batterien (0: Standby, 1: Laden, 2: Entladen)",
-            "hyperTmp"                  => "Temperatur Wechselrichter (Wert - 1931 / 100)"
+            "hyperTmp"                  => "Temperatur Wechselrichter (hyper_temp / 10 - 273.15)",
+            "packTypes"                 => "Liste vorhandener Packtypes (300=AB2000X)"
         ];
 
         return $keys;
@@ -90,13 +87,13 @@ class ZendureService
         $resultData = [];
         
         // Read latest Zendure data from DB
-        $zendureKvsData = ["solarInputPower" => 0, "electricLevel" => 0, "outputPackPower" => 0, "packInputPower" => 0, "packState" => 0];
+        $zendureKvsData = ["solarInputPower" => 0, "electricLevel" => 0, "outputPackPower" => 0, "packInputPower" => 0, "packState" => 0, "totalPackCapacity" => 0]; 
         $latestLogRow = $this->kvsTable->getRow(KeyValueStoreScopeEnum::Task, TaskEnum::ReadZendureData->value);
         $updated = strtotime($latestLogRow->getUpdated());
         $dataLoss = (time() - $updated) > (static::TIMEOUT_MQQT_DATA_FOR_DASHBOARD_IN_MINUTES);
         if (! $dataLoss) {
             foreach ($this->kvsTable->getRowsForScope(KeyValueStoreScopeEnum::Zendure) as $row) {            
-                $zendureKvsData[$row->getStoreKey()] = $row->getValue();
+                $zendureKvsData[$row->getStoreKey()] = $row->getValue(); 
             }
         }
 
@@ -106,21 +103,23 @@ class ZendureService
         $resultData["solarInputPower"] = isset($zendureKvsData["solarInputPower"]) ? $zendureKvsData["solarInputPower"] : 0;
         // Current pack capacity over all in %        
         $resultData["akkuPackLevelPercent"] = isset($zendureKvsData["electricLevel"]) ? $zendureKvsData["electricLevel"] : 0;
-        $remainingEnergy = isset($zendureKvsData["electricLevel"]) ? ($zendureKvsData["totalPackCapacity"] * $zendureKvsData["electricLevel"] / 100) : 0;
+        $remainingEnergy = isset($zendureKvsData["electricLevel"]) && isset($zendureKvsData["totalPackCapacity"]) ? ($zendureKvsData["totalPackCapacity"] * $zendureKvsData["electricLevel"] / 100) : 0;
         $resultData["akkuPackRemainingEnergy"] = $remainingEnergy;
         
         // Temperature
-        $resultData["hyperTmp"] = isset($zendureKvsData["hyperTmp"]) ? ($zendureKvsData["hyperTmp"] - $this->config->getTempOffset()) / 100 : 0;
+        $resultData["hyperTmp"] = isset($zendureKvsData["hyperTmp"]) ? (($zendureKvsData["hyperTmp"] / 10) - 273.15) : 0;
 
-        $resultData["chargePackPowerCalc"] = $zendureKvsData["outputPackPower"];
-        $resultData["dischargePackPowerCalc"] = -$zendureKvsData["packInputPower"];
-    
-        $resultData["isChargeActive"] = $zendureKvsData["packState"] == 1 && $resultData["chargePackPowerCalc"] > 0;          // Pack charging active
-        $resultData["isDischargeActive"] = $zendureKvsData["packState"] == 2 && $resultData["dischargePackPowerCalc"] < 0;    // Pack discharging active
+        $resultData["chargePower"] = $zendureKvsData["outputPackPower"];
+        $resultData["dischargePower"] = $zendureKvsData["packInputPower"];        
+
+        $resultData["batterieChangingPower"] = $resultData["chargePower"] > 0 ? $resultData["chargePower"] : -$resultData["dischargePower"];
+        $resultData["batterieChangingPower"] = $resultData["batterieChangingPower"] == 0 ? "-" : $resultData["batterieChangingPower"];
+        $resultData["isChargeActive"] = $zendureKvsData["packState"] == 1 && $resultData["chargePower"] > 0;        // Pack charging active
+        $resultData["isDischargeActive"] = $zendureKvsData["packState"] == 2 && $resultData["dischargePower"] > 0;  // Pack discharging active
 
         // Zendure production
-        $resultData["productionTotal"] = $resultData["solarInputPower"] + $resultData["dischargePackPowerCalc"];
-        $resultData["productionUsedInternal"] = $resultData["chargePackPowerCalc"];
+        $resultData["productionTotal"] = $resultData["solarInputPower"] + $resultData["dischargePower"];
+        $resultData["productionUsedInternal"] = $resultData["chargePower"];
 
         return $resultData;
     }

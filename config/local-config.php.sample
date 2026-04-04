@@ -84,7 +84,6 @@ $config->realtimeOverview()->setRefreshIntervalInSec(5);
 // Zendure
 $config->zendure()->setDisplayName("Akku");                             // Name auf dem Dashboard
 $config->zendure()->setConnectedToPmPort("PM3");                        // An welcher Phase der Zendure angeschlossen ist. Kann auch in der Echtzeitübersicht erkannt werden
-$config->zendure()->setTempOffset(1920);                                // Temperature-Offset, welcher von der Temperatur des internen Sensors abgezogen wird, um ca. Außentemperatur zu erhalten
 
 $config->dashboardPage()->setShowZendureOnDashboard(false);             // Falls ein Zendure-System benutzt wird, das die Werte auf dem Dashboard angezeigt werden
 $config->dashboardPage()->setShowShellyUniOnDashboard(false);  			// Falls ein ShellyUni benutzt wird, das die Werte auf dem Dashboard angezeigt werden

@@ -46,10 +46,13 @@ class ShellyDeviceService
         $device["akkuPackVoltage"] = $voltage;
         $device["akkuPackLevelPercent"] = $voltagePercent;
         $device["akkuPackRemainingEnergy"] = (int) (2000 * $voltagePercent / 100);
-        $device["chargePackPowerCalc"] = 0;
+        $device["chargePower"] = 0;
         $device["isChargeActive"] = false;
         $device["isDischargeActive"] = $measuredPmxEnergieData != 0;
-        $device["dischargePackPowerCalc"] = (float) $measuredPmxEnergieData;
+        $device["dischargePower"] = (float) $measuredPmxEnergieData;
+        $device["batterieChangingPower"] = $device["chargePower"] > 0 ? $device["chargePower"] : -$device["dischargePower"];
+        $device["batterieChangingPower"] = $device["batterieChangingPower"] == 0 ? "-" : $device["batterieChangingPower"];
+
 
         $device["temp"] = $jsonData->{self::KEY_TEMP} ?? 0;
         $device["timestamp"] = $shellyKvsRow->getUpdated();

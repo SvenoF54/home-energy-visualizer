@@ -97,14 +97,11 @@
                 <div>
                     <strong><?=Configuration::getInstance()->zendure()->getDisplayName()?>: </strong><span id="zendurePack-akkuPackLevelPercent"></span> | <span id="zendurePack-hyperTmp"></span> <strong id="zendurePack-dataloss" class="text-danger">(Datenfehler)</strong>
                 </div>
-                <div>
-                    <span id="zendurePack-chargeActive">
-                        <strong class="d-none d-sm-inline">Ladung: </strong><i class="bi bi-battery-arrow-up d-sm-none"></i> <strong class="d-inline d-sm-none">+</strong><span id="zendurePack-chargePackPowerCalc"></span>
-                    </span>
-                    <span id="zendurePack-dischargeActive">
-                        <strong class="d-none d-sm-inline">Entladung: </strong><i class="bi bi-arrow-down d-sm-none"></i> <span id="zendurePack-dischargePackPowerCalc"></span>
-                    </span>
-                    | <i class="bi bi-sun"></i> <span id="zendurePack-solarInputPower">2</span>
+                <div>                    
+                    <i id="zendurePack-akkuSymbol" class="bi bi-battery-half"></i> <span id="zendurePack-batterieChangingPower">
+                    </span><span id="zendurePack-chargeActive"><i class="bi bi-arrow-up"></i></span><span id="zendurePack-dischargeActive"><i class="bi bi-arrow-down"></i></span>
+                    &nbsp;&nbsp;
+                    <i class="bi bi-sun"></i> <span id="zendurePack-solarInputPower">2</span>
                  </div>
             </div>
             <div class="progress-bar-container">
@@ -120,7 +117,7 @@
                     <strong>Li-Akku: </strong><span id="shellyPack-akkuPackLevelPercent"></span><strong id="shellyPack-dataloss" class="text-danger">(Datenfehler)</strong>
                 </div>
                 <div id="shellyPack-dischargeActive">
-                    <strong class="d-none d-sm-inline">Entladung: </strong><span id="shellyPack-dischargePackPowerCalc"></span>
+                    <i class="bi bi-battery-half"></i> + <i class="bi bi-sun"></i> <span id="shellyPack-batterieChangingPower"></span>
                 </div>
             </div>
             <div class="progress-bar-container">
