@@ -44,15 +44,30 @@ $(document).ready(function() {
                 $("#pm-now-bar").css("width", (response.now.productionPercent) + "%");
                 $('#zeroFeedInActive').toggle(response.now.isZeroFeedInActive); // Set zero feed in active msg
 
-                // Bar 3 (Zendure Batteriedaten)
-                $("#pm-zendure-pack-bar").css("width", (response.zendurePack.akkuPackLevelPercent) + "%");
-                $("#pm-zendure-pack-bar").css("background-color", "var(--" + getAkkuColor(response.zendurePack.akkuPackLevelPercent) + ")");
-                $('#zendurePack-chargeActive').toggle(response.zendurePack.isChargeActive);
-                $('#zendurePack-dischargeActive').toggle(response.zendurePack.isDischargeActive);
-                $('#zendurePack-dataloss').toggle(response.zendurePack.isDataloss);
-                $('#zendurePack-akkuPackLevelPercent').toggle(!response.zendurePack.isDataloss);
-                setAkkuSymbol('#zendurePack-akkuSymbol', response.zendurePack.akkuPackLevelPercent, response.zendurePack.batterieChangingPower);
-                //$('#zendurePack-akkuSymbol').attr('class', getAkkuSymbol(response.zendurePack.akkuPackLevelPercent, response.zendurePack - batterieChangingPower));
+                // Iterate over existing zendure phases in response
+                Object.keys(response.zendureSystem).forEach(function(phaseKey) {
+                    var data = response.zendureSystem[phaseKey];
+                    var prefix = "#zendurePm" + phaseKey.replace('phase', '');
+
+                    if (data && typeof data === 'object') {
+                        // Bar & colors
+                        $(prefix + "-pack-bar").css("width", data.akkuPackLevelPercent + "%");
+                        $(prefix + "-pack-bar").css("background-color", "var(--" + getAkkuColor(data.akkuPackLevelPercent) + ")");
+
+                        // Status-Icons (Charge/Discharge)
+                        $(prefix + "-chargeActive").toggle(data.isChargeActive);
+                        $(prefix + "-dischargeActive").toggle(data.isDischargeActive);
+
+                        // Dataloss & percent
+                        $(prefix + "-dataloss").toggle(response.zendureSystem.isDataloss);
+                        $(prefix + "-akkuPackLevelPercent").toggle(!data.isDataloss);
+
+                        // Akku Symbol & value
+                        setAkkuSymbol(prefix + "-akkuSymbol", data.akkuPackLevelPercent, data.batterieChangingPower);
+                        $(prefix + "-akkuPackLevelPercent").html(formatJsValue(prefix, "akkuPackLevelPercent", data.akkuPackLevelPercent));
+                        $(prefix + "-hyperTmp").html(formatJsValue(prefix, "hyperTmp", data.hyperTmp));
+                    }
+                });
 
                 // Shelly-Uni
                 $("#pm-shelly-pack-bar").css("width", (response.shellyPack.akkuPackLevelPercent) + "%");

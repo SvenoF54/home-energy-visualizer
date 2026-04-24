@@ -1,12 +1,16 @@
 // Konfiguration
 let taskRunnerUrl = "http://meine.domain/mein-verzeichnis/api/taskrunner.php?apikey=987654321"; // URL zum PHP-Skript
 let logZendureDataUrl = "http://meine.domain/mein-verzeichnis/api/log-zendure-data.php?apikey=987654321"; // URL zum PHP-Skript
-let zendureUrl1 = "http://lokale-ip-zendure/properties/report"; // Wenn kein Zendure-System vorhanden ist, diese Zeile löschen
+let zendureUrls = [ // Hier koennen bis zu 3 Zendure-System inklusive der zugehoerigen Phase eingetragen werden.
+    { phase: 1, url: "http://lokale-zendure-ip-phase1/properties/report" },
+    { phase: 3, url: "http://lokale-zendure-ip-phase3/properties/report" }
+];
 
 let AppName = "Taskrunner";
 let intervalInSeconds = 10;
 let printLogMsg = true;
-
+let pulledZendureData = {};
+let finishedCount = 0;
 
 function timerCallback() {
     try {
@@ -14,7 +18,7 @@ function timerCallback() {
         log("Starte Taskrunner Tasks...");
 
         sendTriggerSignalToServerApi();
-        if (zendureUrl1 != "") forwardZendureData(zendureUrl1);
+        if (zendureUrls.length !== 0) pullLocaleZendureData();
     } catch (e) {
         Info("Fehler beim TimerCallback: " + e.message);
     }
@@ -57,55 +61,70 @@ function sendTriggerSignalToServerApi(data) {
     }
 }
 
-function forwardZendureData(curZendureUrl) {
-    log("Lese Zendure-Daten ein.");
-    Shelly.call("HTTP.GET", {
-        url: curZendureUrl,
-        timeout: 2
-    }, function(response) {
-        if (response && response.code === 200 && response.body) {
-            log("Zenduredaten erfolgreich gelesen, sende Zenduredaten an DB-Server");
+function pushZendureDataToLogger() {
+    log("Sende Zendure-Daten von " + zendureUrls.length + " Systemen an DB-Logger.");
+    let finalPayload = {
+        timestamp: Math.floor(Shelly.getComponentStatus("sys").unixtime),
+        zendureData: pulledZendureData
+    };
 
-            // 2. Rohdaten 1:1 als POST weiterleiten
-            let body = response.body;
-            let keys = ["solarInputPower", "electricLevel", "socSet", "packInputPower", "outputPackPower", "packState", "hyperTmp"];
-            let props = {};
-            for (let i = 0; i < keys.length; i++) {
-                props[keys[i]] = getValue(body, keys[i]);
-            }
-            props["packTypes"] = getPackDataValAsString(body, "packType");
-
-            let dataToSend = {
-                timestamp: getTimestamp(true),
-                zendureData: props
-            };
-            info(JSON.stringify(dataToSend));
-            Shelly.call("HTTP.POST", {
-                url: logZendureDataUrl,
-                body: JSON.stringify(dataToSend),
-                timeout: 2,
-                headers: { "Content-Type": "application/json" }
-            }, function(serverResponse) {
-                if (serverResponse && serverResponse.code === 200) {
-                    info("Zendure-Daten 1:1 weitergeleitet: " + serverResponse.body.slice(0, 100));
-                } else {
-                    var errorMsg = "keine Antwort";
-                    if (serverResponse && serverResponse.body) {
-                        errorMsg += ", Http-Code: " + serverResponse.code
-                        errorMsg += serverResponse.body;
-                    }
-                    info("Fehler beim Weiterleiten an Server: " + errorMsg);
-                }
-                serverResponse = null;
-            });
-            dataToSend = null;
+    info(JSON.stringify(finalPayload));
+    Shelly.call("HTTP.POST", {
+        url: logZendureDataUrl,
+        body: JSON.stringify(finalPayload),
+        timeout: 2,
+        headers: { "Content-Type": "application/json" }
+    }, function(serverResponse) {
+        if (serverResponse && serverResponse.code === 200) {
+            info("Pushe Zendure-Daten an Logger: " + serverResponse.body.slice(0, 100));
         } else {
-            let msg = "(Keine Daten)";
-            if (response) msg = response.body
-            info("Fehler beim Lesen der Zendure-Daten: " + msg);
+            var errorMsg = "keine Antwort";
+            if (serverResponse && serverResponse.body) {
+                errorMsg += ", Http-Code: " + serverResponse.code
+                errorMsg += serverResponse.body;
+            }
+            info("Fehler beim Weiterleiten an Server: " + errorMsg);
         }
-        response = null;
+        serverResponse = null;
     });
+    finalPayload = null;
+
+}
+
+function pullLocaleZendureData() {
+    log("Lese Zendure-Daten von " + zendureUrls.length + " Systemen ein.");
+    for (let i = 0; i < zendureUrls.length; i++) {
+        let item = zendureUrls[i];
+
+        Shelly.call("HTTP.GET", { url: item.url, timeout: 2 }, function(res, err_code, err_msg, userdata) {
+            let zKey = "zendure" + userdata.pNum;
+
+            if (err_code === 0 && res && res.body) {
+                log("Zenduredaten von Phase " + userdata.pNum + " erfolgreich gelesen.");
+                let body = res.body;
+                let keys = ["solarInputPower", "electricLevel", "socSet", "packInputPower", "outputPackPower", "packState", "hyperTmp"];
+                let props = {};
+
+                for (let j = 0; j < keys.length; j++) {
+                    props[keys[j]] = getValue(body, keys[j]);
+                }
+                props["packTypes"] = getPackDataValAsString(body, "packType");
+
+                pulledZendureData[zKey] = props;
+            } else {
+                print("Fehler bei Phase " + userdata.pNum + ": " + err_msg);
+                pulledZendureData[zKey] = null;
+            }
+
+            finishedCount++;
+            if (finishedCount === zendureUrls.length) {
+                pushZendureDataToLogger();
+                finishedCount = 0;
+            }
+        }, { pNum: item.phase });
+    }
+    item = null;
+    pulledZendureData = null;
 }
 
 function getTimestamp(onlyEvenSeconds) {

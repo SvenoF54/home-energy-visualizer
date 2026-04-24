@@ -7,9 +7,10 @@ include_once("lib/appLibLoader.php");
 // Defaults
 $actualConfig = Configuration::getInstance()->dashboardPage();;
 $dashboardsServce = new DashboardService();
-$dashboardsServce->prepareStaticData();
+$initialDashboardData = $dashboardsServce->prepareInitialDashboardData();
 $overviewPageService = new OverviewPageService();
 $overviewPageService->calculateYearData($overviewPageService->getFirstYear(), $overviewPageService->getLastYear());
+
 
 $errorMsg = "";
 
