@@ -4,8 +4,7 @@
 
 class ZendureStatsSet {
     public const STATS_KEY = "statistics";
-    private $kvsTable;
-    private $config;
+    private $kvsTable;    
 
     // Jetzt als Arrays für Phase 1, 2 und 3
     private $akkuPackUpperLimit = [];
@@ -15,8 +14,7 @@ class ZendureStatsSet {
     private $total = [];
 
     public function __construct() {        
-        $this->kvsTable = KeyValueStoreTable::getInstance();
-        $this->config = Configuration::getInstance()->zendure();
+        $this->kvsTable = KeyValueStoreTable::getInstance();        
 
         // Initialize 3 phases
         for ($i = 1; $i <= 3; $i++) {

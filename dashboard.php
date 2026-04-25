@@ -5,6 +5,7 @@
 include_once("lib/appLibLoader.php");
 
 // Defaults
+$baseConfig = Configuration::getInstance();
 $actualConfig = Configuration::getInstance()->dashboardPage();;
 $dashboardsServce = new DashboardService();
 $initialDashboardData = $dashboardsServce->prepareInitialDashboardData();

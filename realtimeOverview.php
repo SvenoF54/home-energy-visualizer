@@ -5,6 +5,7 @@
 include_once("lib/appLibLoader.php");
 
 // Defaults
+$baseConfig = Configuration::getInstance();
 $actualConfig = Configuration::getInstance()->realtimeOverview();
 $actualConfig->setFormValues();
 

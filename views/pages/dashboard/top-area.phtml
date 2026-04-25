@@ -99,17 +99,18 @@
         <div class="mt-4">
             <div class="small d-flex justify-content-between text-secondary"> 
                 <div>
-                    <strong><?=Configuration::getInstance()->zendure()->getDisplayName()." PM".$phaseNo?>: </strong><span id="<?= $idPrefix ?>-akkuPackLevelPercent"></span> | <span id="<?= $idPrefix ?>-hyperTmp"></span> <strong id="<?= $idPrefix ?>-dataloss" class="text-danger">(Datenfehler)</strong>
+                    <strong><?=$baseConfig->getPhaseName($phaseNo)?>: </strong><span id="<?= $idPrefix ?>-akkuPackLevelPercent"></span> |<span class="energy-compact"><span class="icon-spacer">⚡︎</span><span id="<?= $idPrefix ?>-remainingEnergyInEur"></span></span> <strong id="<?= $idPrefix ?>-dataloss" class="text-danger">(Datenfehler)</strong>
                 </div>
                 <div>                    
                     <i id="<?= $idPrefix ?>-akkuSymbol" class="bi bi-battery-half"></i> <span id="<?= $idPrefix ?>-batterieChangingPower">
                     </span><span id="<?= $idPrefix ?>-chargeActive"><i class="bi bi-arrow-up"></i></span><span id="<?= $idPrefix ?>-dischargeActive"><i class="bi bi-arrow-down"></i></span>
-                    &nbsp;&nbsp;
+                    &nbsp;
                     <i class="bi bi-sun"></i> <span id="<?= $idPrefix ?>-solarInputPower">0</span>
                  </div>
             </div>
             <div class="progress-bar-container">
-                <span id="<?= $idPrefix ?>-akkuPackRemainingEnergy"></span>
+                <span id="<?= $idPrefix ?>-hyperTmp" class="text-left"></span>
+                <span id="<?= $idPrefix ?>-akkuPackRemainingEnergy" class="energy-center"></span>
                 <div id="<?= $idPrefix ?>-pack-bar" class="progress-bar-akkupack"></div>
             </div>
         </div>

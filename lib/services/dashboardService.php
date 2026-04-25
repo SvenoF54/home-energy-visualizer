@@ -10,6 +10,7 @@ class DashboardService
     private EnergyDataSet $todayData;
     private EnergyDataSet $yesterdayData;
     private RealTimeEnergyDataRow $realTimeData;
+    private EnergyPriceRow $priceForNowRow;
     private $zendureData;    
     private $shellyData;
 
@@ -18,6 +19,8 @@ class DashboardService
         $this->realTimeService = new RealtimeService();
         $this->hourlyEnergyDataTbl = HourlyEnergyDataTable::getInstance();
         $this->config = Configuration::getInstance()->dashboardPage();
+        $energyPriceTbl = EnergyPriceTable::getInstance();
+        $this->priceForNowRow = $energyPriceTbl->getPriceForDateTime(new DateTime());
     }
 
     public function prepareInstantData()
@@ -42,7 +45,7 @@ class DashboardService
         if ($this->config->getShowZendureOnDashboard()) {
             // Prepare Zendure Dashboard data
             $zendureService = new ZendureService();            
-            $this->zendureData = $zendureService->prepareDashboardData();
+            $this->zendureData = $zendureService->prepareDashboardData($this->priceForNowRow->getOutCentPricePerWh());
         }
         if ($this->config->getShowShellyUniOnDashboard()) {
             $shellyService = new ShellyDeviceService();
@@ -80,7 +83,7 @@ class DashboardService
         
         $latestRealTimeRow = $this->realTimeService->getLatestDataRow();
         $totalProduction = $latestRealTimeRow->getPmTotalPower() 
-                           + (isset($this->zendureData["systemProductionTotal"]) ? $this->zendureData["systemProductionTotal"] : 0);
+                           + (isset($this->zendureData["systemChargeAndDischargeTotal"]) ? $this->zendureData["systemChargeAndDischargeTotal"] : 0);
         $now = $latestRealTimeRow->convertToJsArray();     
         $now["emPercent"] = abs($latestRealTimeRow->getEmTotalPower() / $this->config->getConsumptionIndicatedAs100Percent() * 100);
         $now["pmPercent"] = ($latestRealTimeRow->getPmTotalPower() / $this->config->getMaxEnergyProduction()) * 100;

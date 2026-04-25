@@ -47,9 +47,15 @@ $(document).ready(function() {
                 // Iterate over existing zendure phases in response
                 Object.keys(response.zendureSystem).forEach(function(phaseKey) {
                     var data = response.zendureSystem[phaseKey];
-                    var prefix = "#zendurePm" + phaseKey.replace('phase', '');
+                    var category = "zendurePm" + phaseKey.replace('phase', '');
+                    var prefix = "#" + category;
 
                     if (data && typeof data === 'object') {
+                        $.each(data, function(key, value) {
+                            let fieldId = `${category}-${key}`; // HTML id now-emOZ
+                            setFieldHtml(category, fieldId, formatJsValue(category, key, value));
+                        });
+
                         // Bar & colors
                         $(prefix + "-pack-bar").css("width", data.akkuPackLevelPercent + "%");
                         $(prefix + "-pack-bar").css("background-color", "var(--" + getAkkuColor(data.akkuPackLevelPercent) + ")");
@@ -64,22 +70,21 @@ $(document).ready(function() {
 
                         // Akku Symbol & value
                         setAkkuSymbol(prefix + "-akkuSymbol", data.akkuPackLevelPercent, data.batterieChangingPower);
-                        $(prefix + "-akkuPackLevelPercent").html(formatJsValue(prefix, "akkuPackLevelPercent", data.akkuPackLevelPercent));
-                        $(prefix + "-hyperTmp").html(formatJsValue(prefix, "hyperTmp", data.hyperTmp));
                     }
                 });
 
                 // Shelly-Uni
-                $("#pm-shelly-pack-bar").css("width", (response.shellyPack.akkuPackLevelPercent) + "%");
-                $("#pm-shelly-pack-bar").css("background-color", "var(--" + getAkkuColor(response.shellyPack.akkuPackLevelPercent) + ")");
-                $('#shellyPack-chargeActive').toggle(response.shellyPack.isChargeActive);
-                $('#shellyPack-dischargeActive').toggle(response.shellyPack.isDischargeActive);
-                $('#shellyPack-dataloss').html(response.shellyPack.isDataloss);
+                if (response.shellyPack && typeof response.shellyPack == 'object') {
+                    $("#pm-shelly-pack-bar").css("width", (response.shellyPack.akkuPackLevelPercent) + "%");
+                    $("#pm-shelly-pack-bar").css("background-color", "var(--" + getAkkuColor(response.shellyPack.akkuPackLevelPercent) + ")");
+                    $('#shellyPack-chargeActive').toggle(response.shellyPack.isChargeActive);
+                    $('#shellyPack-dischargeActive').toggle(response.shellyPack.isDischargeActive);
+                    $('#shellyPack-dataloss').html(response.shellyPack.isDataloss);
 
-                $('#shelly-garage-voltage').html(response.shellyPack.voltage + "V");
-                $('#shelly-garage-updated').html(response.shellyPack.timestamp);
-                $('#shelly-dischargeActive').html(response.shellyPack.dischargeActive ? "An" : "Aus");
-
+                    $('#shelly-garage-voltage').html(response.shellyPack.voltage + "V");
+                    $('#shelly-garage-updated').html(response.shellyPack.timestamp);
+                    $('#shelly-dischargeActive').html(response.shellyPack.dischargeActive ? "An" : "Aus");
+                }
             },
 
             error: function() {
@@ -103,7 +108,7 @@ $(document).ready(function() {
 
     // Format helper
     function formatJsValue(category, key, value) {
-        if (key.toLowerCase().includes("price")) {
+        if (key.toLowerCase().includes("price") | key.toLowerCase().includes("eur")) {
             return formatPrice(value);
         } else if (category.toLowerCase().includes("now")) {
             return formatCurrent(value);

@@ -102,7 +102,7 @@ function pullLocaleZendureData() {
             if (err_code === 0 && res && res.body) {
                 log("Zenduredaten von Phase " + userdata.pNum + " erfolgreich gelesen.");
                 let body = res.body;
-                let keys = ["solarInputPower", "electricLevel", "socSet", "packInputPower", "outputPackPower", "packState", "hyperTmp"];
+                let keys = ["solarInputPower", "electricLevel", "socSet", "minSoc", "packInputPower", "outputPackPower", "packState", "hyperTmp"];
                 let props = {};
 
                 for (let j = 0; j < keys.length; j++) {

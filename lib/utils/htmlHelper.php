@@ -63,6 +63,7 @@ class HtmlHelper {
 
     public static function renderPopoverFailureTemplate(MissingRowSet $missingRowSet, $htmlId)
     {
+        $baseConfig = Configuration::getInstance();
         ?>
 
         <div id="<?=$htmlId?>" class="hidden-html">            
@@ -71,22 +72,22 @@ class HtmlHelper {
             <div class="popover-body">
                 <?php if ($missingRowSet->isEmAvailable()) { ?>
                     <div class="d-flex justify-content-between mb-2">
-                        <?=HtmlHelper::formatFailureForPopover("EM", $missingRowSet->getEmMissingRows(), $missingRowSet->getEmMissingRowsPercent()) ?>
+                        <?=HtmlHelper::formatFailureForPopover($baseConfig->getEmName(), $missingRowSet->getEmMissingRows(), $missingRowSet->getEmMissingRowsPercent()) ?>
                     </div>
                 <?php } ?>
                 <?php if ($missingRowSet->isPm1Available()) { ?>
                     <div class="d-flex justify-content-between mb-2">
-                        <?=HtmlHelper::formatFailureForPopover("PM1", $missingRowSet->getPm1MissingRows(), $missingRowSet->getPm1MissingRowsPercent()) ?>
+                        <?=HtmlHelper::formatFailureForPopover($baseConfig->getPhaseName(1), $missingRowSet->getPm1MissingRows(), $missingRowSet->getPm1MissingRowsPercent()) ?>
                     </div>
                 <?php } ?>
                 <?php if ($missingRowSet->isPm2Available()) { ?>
                     <div class="d-flex justify-content-between mb-2">
-                        <?=HtmlHelper::formatFailureForPopover("PM2", $missingRowSet->getPm2MissingRows(), $missingRowSet->getPm2MissingRowsPercent()) ?>
+                        <?=HtmlHelper::formatFailureForPopover($baseConfig->getPhaseName(2), $missingRowSet->getPm2MissingRows(), $missingRowSet->getPm2MissingRowsPercent()) ?>
                     </div>
                 <?php } ?>
                 <?php if ($missingRowSet->isPm3Available()) { ?>
                     <div class="d-flex justify-content-between mb-2">
-                        <?=HtmlHelper::formatFailureForPopover("PM3", $missingRowSet->getPm3MissingRows(), $missingRowSet->getPm3MissingRowsPercent()) ?>
+                        <?=HtmlHelper::formatFailureForPopover($baseConfig->getPhaseName(3), $missingRowSet->getPm3MissingRows(), $missingRowSet->getPm3MissingRowsPercent()) ?>
                     </div>
                 <?php } ?>
                     <div class="d-flex justify-content-between mb-2">

@@ -7,14 +7,12 @@ class ZendureService
 {
     private const TIMEOUT_READ_DATA_FOR_DASHBOARD_IN_MINUTES = 10*60;
  
-    private $kvsTable;
-    private $config;
+    private $kvsTable;    
     private $readDataError;
     private ZendureStatsSet $zendureStatsSet;
 
     public function __construct() {
-        $this->kvsTable = KeyValueStoreTable::getInstance();
-        $this->config = Configuration::getInstance()->zendure();
+        $this->kvsTable = KeyValueStoreTable::getInstance();        
         $this->readDataError = "";
 
         $this->zendureStatsSet = new ZendureStatsSet();
@@ -79,6 +77,7 @@ class ZendureService
             "solarInputPower"           => "Aktuelle Solarleistung über alle Eingänge in W",
             "electricLevel"             => "Ladestand über alle Batterien in %", 
             "socSet"                    => "(Obere) Ladegrenze in % * 10",
+            "minSoc"                    => "(Untere) Entladegrenze in % * 10",
             "packInputPower"            => "Aktuelle Entladeleistung der Batterien in W",
             "outputPackPower"           => "Aktuelle Ladeleistung der Batterien in W",
             "packState"                 => "Status über alle Batterien (0: Standby, 1: Laden, 2: Entladen)",
@@ -127,10 +126,10 @@ class ZendureService
     }
 
 
-    public function prepareDashboardData()
+    public function prepareDashboardData(float $outCentPricePerWh)
     {
         $resultData = [];
-        $resultData["systemProductionTotal"] = 0; // Aggregierter Wert
+        $resultData["systemChargeAndDischargeTotal"] = 0; // Aggregierter Wert
         
         // Globale Dataloss-Check
         $latestLogRow = $this->kvsTable->getRow(KeyValueStoreScopeEnum::Task, TaskEnum::ReadZendureData->value);
@@ -174,12 +173,16 @@ class ZendureService
             $phaseData["isDischargeActive"] = $zendureKvsData["packState"] == 2 && $phaseData["dischargePower"] > 0;
 
             $phaseData["productionTotal"] = $phaseData["solarInputPower"] + $phaseData["dischargePower"];
+            
+            $usablePercent = max(0, (int)$zendureKvsData["electricLevel"] - ((int)$zendureKvsData["minSoc"] / 10));
+            $remainingWh = ((int)$zendureKvsData["totalPackCapacity"] * $usablePercent) / 100;
+            $phaseData["remainingEnergyInEur"] = $remainingWh * $outCentPricePerWh;
 
             // Add each phase to result array
             $resultData["phase" . $phase] = $phaseData;
 
             // Aggregate total system production
-            $resultData["systemProductionTotal"] += $phaseData["productionTotal"];
+            $resultData["systemChargeAndDischargeTotal"] += $phaseData["chargePower"];
         }
 
         return $resultData;
