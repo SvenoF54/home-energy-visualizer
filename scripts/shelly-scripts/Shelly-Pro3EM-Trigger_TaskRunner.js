@@ -7,7 +7,7 @@ let zendureUrls = [ // Hier koennen bis zu 3 Zendure-System inklusive der zugeho
 ];
 
 let AppName = "Taskrunner";
-let intervalInSeconds = 10;
+let intervalInSeconds = 5;  // If problems occur test with 10 seconds
 let printLogMsg = true;
 let pulledZendureData = {};
 let finishedCount = 0;
@@ -124,7 +124,6 @@ function pullLocaleZendureData() {
         }, { pNum: item.phase });
     }
     item = null;
-    pulledZendureData = null;
 }
 
 function getTimestamp(onlyEvenSeconds) {

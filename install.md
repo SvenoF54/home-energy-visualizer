@@ -106,6 +106,7 @@ Das Skript ist hier zu finden [scripts\shelly-scripts\Shelly-Pro3EM-Trigger_Task
 
 Falls ein Zendure-System angeschlossen ist, werden im Taskrunner-Script auch die Zenduredaten lokal ausgelesen und an den PHP-Server geschickt.
 Hierfür muss man im oberen Abschnitt die lokale IP-Adresse des Zendure-Systems eintragen. Die lokale IP wird z.B. in der Zendure-App unter Gerätedaten angezeigt, oder man liest diese aus der eigenen Routerkonfiguration aus.
+Es können bis zu 3 Zendure-Systeme angegeben werden.
 
 Zum Test kann man diese URL mit der richtigen IP-Adresse im lokalen Browser aufrufen, fängt meistens mit 192 an:
 http://[lokale-zendure-ip]/properties/report
@@ -152,10 +153,10 @@ AuthName "Bitte Anmelden"
 AuthUserFile /www/htdocs/[pfad]/[zum]/[projekt]/.htpasswd
 Require valid-user
 ```
-## Zendure (optional, rudimentär)
+## Zendure (optional)
 
 Es kann der aktuelle Wert der PV Stromgenerierung und der Akkustand aus dem Zendure-System ausgelesen und mit angezeigt werden. Die Werte werden dann außerdem auf dem Dashboard auch für die Anzeige der gesamten Energieproduktion berücksichtigt. Dies zeigt dann auch die PV-Energie an, welche für das Laden des Akkus verwendet wird.
-Die Werte werden über die API ausgelesen und in der DB zwischengespeichert.
+Die Werte werden über die lokale Zendure-API ausgelesen und in der DB zwischengespeichert.
 
 Beim Lesen der Zendure-Werte kann es zu geringfügigen Datenverlusten, insbesondere bei der aktuellen PV-Leistung kommen, wodurch ggfls. die Echtzeitanzeige etwas verfälscht ist.
 Das Script zum Lesen der Zendure-Daten sollte am besten auf dem ShellyPro3EM laufen, da dieser am meisten Speicherplatz für Scripte besitzt.
@@ -164,13 +165,9 @@ Um ein Zendure-System anzubinden, sind folgende Schritt notwendig:
 
 1. lokale IP-Adresse des System in das Shelly-Script für den Taskrunner eintragen. Siehe Beschreibung dort.
 
+
 2. Folgende Einstellungen können für Zendure vorgenommen werden:
-
 ```
-// Zendure
-$config->zendure()->setDisplayName("Akku");                             // Name auf dem Dashboard
-$config->zendure()->setConnectedToPmPort("PM3");                        // An welcher Phase der Zendure angeschlossen ist. Kann auch in der Echtzeitübersicht erkannt werden
-
 $config->dashboardPage()->setShowZendureOnDashboard(true);              // Falls ein Zendure-System benutzt wird, das die Werte auf dem Dashboard angezeigt werden
 $config->dashboardPage()->setConsumptionIndicatedAs100Percent(6000);  	// Max. Wert für 100% Hausverbrauch, z.B. 6000W
 $config->dashboardPage()->setMaxEnergyProduction(1600);					// Max. Wert für Energieproduktion, z.B. 1600W PV-Panel Leistung
