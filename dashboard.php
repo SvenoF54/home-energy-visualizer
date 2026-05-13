@@ -5,11 +5,13 @@
 include_once("lib/appLibLoader.php");
 
 // Defaults
+$baseConfig = Configuration::getInstance();
 $actualConfig = Configuration::getInstance()->dashboardPage();;
 $dashboardsServce = new DashboardService();
-$dashboardsServce->prepareStaticData();
+$initialDashboardData = $dashboardsServce->prepareInitialDashboardData();
 $overviewPageService = new OverviewPageService();
 $overviewPageService->calculateYearData($overviewPageService->getFirstYear(), $overviewPageService->getLastYear());
+
 
 $errorMsg = "";
 

@@ -10,6 +10,7 @@ class DashboardService
     private EnergyDataSet $todayData;
     private EnergyDataSet $yesterdayData;
     private RealTimeEnergyDataRow $realTimeData;
+    private EnergyPriceRow $priceForNowRow;
     private $zendureData;    
     private $shellyData;
 
@@ -18,6 +19,8 @@ class DashboardService
         $this->realTimeService = new RealtimeService();
         $this->hourlyEnergyDataTbl = HourlyEnergyDataTable::getInstance();
         $this->config = Configuration::getInstance()->dashboardPage();
+        $energyPriceTbl = EnergyPriceTable::getInstance();
+        $this->priceForNowRow = $energyPriceTbl->getPriceForDateTime(new DateTime());
     }
 
     public function prepareInstantData()
@@ -41,19 +44,25 @@ class DashboardService
         // Optional PlugIn Data
         if ($this->config->getShowZendureOnDashboard()) {
             // Prepare Zendure Dashboard data
-            $zendureConfig = Configuration::getInstance()->zendure();
-            $zendureService = new ZendureService();
-            $pmxPower = $this->realTimeData->getPmXTotalPower($zendureConfig->getConnectedToPmPort());
-            $this->zendureData = $zendureService->prepareDashboardData($pmxPower);
+            $zendureService = new ZendureService();            
+            $this->zendureData = $zendureService->prepareDashboardData($this->priceForNowRow->getOutCentPricePerWh());
         }
-        //if ($this->config->getShowXY())
-        $shellyService = new ShellyDeviceService();
-        $pmxPower = $this->realTimeData->getPmXTotalPower("PM1");
-        $this->shellyData = $shellyService->prepareDashboardData($pmxPower);
+        if ($this->config->getShowShellyUniOnDashboard()) {
+            $shellyService = new ShellyDeviceService();
+            $pmxPower = $this->realTimeData->getPmXTotalPower("PM1");
+            $this->shellyData = $shellyService->prepareDashboardData($pmxPower);
+        }
     }
 
-    public function prepareStaticData()
+    public function prepareInitialDashboardData()
     {
+        $result = [];
+        if ($this->config->getShowZendureOnDashboard()) {
+            $zendureService = new ZendureService();            
+            $result["zendureActivePhases"] = $zendureService->getActivePhases();
+        }
+
+        return $result;
     }
 
     public function getStaticDataAsJson()
@@ -74,7 +83,7 @@ class DashboardService
         
         $latestRealTimeRow = $this->realTimeService->getLatestDataRow();
         $totalProduction = $latestRealTimeRow->getPmTotalPower() 
-                           + (isset($this->zendureData["productionUsedInternal"]) ? $this->zendureData["productionUsedInternal"] : 0);
+                           + (isset($this->zendureData["systemChargeAndDischargeTotal"]) ? $this->zendureData["systemChargeAndDischargeTotal"] : 0);
         $now = $latestRealTimeRow->convertToJsArray();     
         $now["emPercent"] = abs($latestRealTimeRow->getEmTotalPower() / $this->config->getConsumptionIndicatedAs100Percent() * 100);
         $now["pmPercent"] = ($latestRealTimeRow->getPmTotalPower() / $this->config->getMaxEnergyProduction()) * 100;
@@ -86,7 +95,7 @@ class DashboardService
             "now" => $now,
             "today" => $today,         
             "yesterday" => $yesterday,   
-            "zendurePack" => $this->zendureData,
+            "zendureSystem" => $this->zendureData,
             "shellyPack" => $this->shellyData
         ];        
 

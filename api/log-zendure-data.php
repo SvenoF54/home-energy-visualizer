@@ -23,7 +23,7 @@ function writeDataToTable($data) {
     $timestamp = filter_var($data['timestamp'], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
     $zendure = new ZendureService();
     
-    if (! $zendure->parseAndSaveData($data["zendureData"])) {
+    if (! $zendure->parseAndSaveData($data)) {
         ApiHelper::dieWithResponseCode(500, "Error saving Zendure-Data: " . $zendure->getError());
     }
 

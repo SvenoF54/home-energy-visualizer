@@ -9,7 +9,6 @@ include_once("configOverviewPages.php");
 include_once("configRealtimePage.php");
 include_once("configRealtimeAlert.php");
 include_once("configDashboardPage.php");
-include_once("configZendure.php");
 include_once("lib/datasets/datasetEnums.php");
 
 
@@ -20,9 +19,11 @@ class Configuration
     private $configCustomPricesPage;
     private $configRealtimeAlert;
     private $configDashboardPage;
-    private $configZendure;
     private $outCentPricePerWh = 0.03334;    // Price per watt 	33,34 ct/kWh = 33,34/1000 = 0.03334
     private $inCentPricePerWh = 0.082;       // Price per wattt 	
+    private $emName = "EM";
+    private $pmTotalName = "PM";
+    private $phaseNames = [1 => "A", 2 => "B", 3 => "C"];
     private static $instance;
     
     public static function getInstance()
@@ -39,7 +40,6 @@ class Configuration
         $this->configCustomPricesPage = new ConfigCustomPricesPage();
         $this->configRealtimeAlert = new ConfigRealtimeAlert();
         $this->configDashboardPage = new ConfigDashboardPage();
-        $this->configZendure = new ConfigZendure();
         $this->overviewPages["realtime"] = new ConfigRealtimePage(
             [100, 150, 175, 200, 250, 300, 400, 500, 600, 700, 800, 900, 1000, 1100, 1200, 1300, 1400, 1500, 2000, 3000, 4000, 5000],
             200, 
@@ -78,6 +78,13 @@ class Configuration
 
     public function getOutCentPricePerWh() { return $this->outCentPricePerWh;}
     public function getInCentPricePerWh() { return $this->inCentPricePerWh;}
+    public function getEmName() { return $this->emName; }
+    public function setEmName($emName) { $this->emName = $emName; }
+    public function getPmTotalName() { return $this->pmTotalName; }
+    public function setPmTotalName($pmTotalName) { $this->pmTotalName = $pmTotalName; }
+    public function getPhaseName(int $phase) { return $this->phaseNames[$phase] ?? "Unbekannt"; }
+    public function setPhaseNames(array $phaseNames) { $this->phaseNames = $phaseNames;}
+
     public function realtimeOverview() : ConfigRealtimePage { return $this->overviewPages["realtime"];}
     public function hoursOverview() : ConfigOverviewPages{ return $this->overviewPages["hours"];}
     public function daysOverview() : ConfigOverviewPages{ return $this->overviewPages["days"];}
@@ -87,6 +94,5 @@ class Configuration
     public function customPricesPage() : ConfigCustomPricesPage { return $this->configCustomPricesPage; } 
     public function realtimeAlert() : ConfigRealtimeAlert { return $this->configRealtimeAlert; }
     public function dashboardPage() : ConfigDashboardPage { return $this->configDashboardPage; }
-    public function zendure() : ConfigZendure { return $this->configZendure; }
 
 }

@@ -23,6 +23,9 @@ define('SYSTEM_EMAIL', 'mail@example.org');  // Mailempfänger für Systemnachri
 ///-----------------------------------------------------------------------
 
 $config = Configuration::getInstance();
+$config->setEmName("Bedarf");
+$config->setPmTotalName("Alle Phasen");
+$config->setPhaseNames([1 => "Phase-A", 2 => "Phase-B", 3 => "Phase-C"]);
 
 // Konfiguriert, den Alarmstatus, falls keine Daten geloggt werden.
 $config->realtimeAlert()->setSendAlertMail(true);
@@ -80,10 +83,6 @@ $config->hoursOverview()->configEnergy1()->setTablePageLength(10);
 // Die Echtzeitübersichtsseite hat zusätzlich folgende Optionen, es sind nicht alle Optionen der Übersichtsseite benutzbar
 $config->realtimeOverview()->setPastPeriodPossibilities([0.5, 1, 2, 4, 6, 8, 12, 24, 24*7, 24*14, 24*28]);
 $config->realtimeOverview()->setRefreshIntervalInSec(5);
-
-// Zendure
-$config->zendure()->setDisplayName("Akku");                             // Name auf dem Dashboard
-$config->zendure()->setConnectedToPmPort("PM3");                        // An welcher Phase der Zendure angeschlossen ist. Kann auch in der Echtzeitübersicht erkannt werden
 
 $config->dashboardPage()->setShowZendureOnDashboard(false);             // Falls ein Zendure-System benutzt wird, das die Werte auf dem Dashboard angezeigt werden
 $config->dashboardPage()->setShowShellyUniOnDashboard(false);  			// Falls ein ShellyUni benutzt wird, das die Werte auf dem Dashboard angezeigt werden

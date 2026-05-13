@@ -4,86 +4,101 @@
 
 class ZendureStatsSet {
     public const STATS_KEY = "statistics";
-    private $akkuPackUpperLimit = null;
-    private $kvsTable;
-    private $config;
+    private $kvsTable;    
 
-    private $lastUpdated = null;
-    private $todayDate = null;
-    private $today = null;
-    private $total = null;
+    // Jetzt als Arrays für Phase 1, 2 und 3
+    private $akkuPackUpperLimit = [];
+    private $lastUpdated = [];
+    private $todayDate = [];
+    private $today = [];
+    private $total = [];
 
     public function __construct() {        
-        $this->kvsTable = KeyValueStoreTable::getInstance();
-        $this->config = Configuration::getInstance()->zendure();
+        $this->kvsTable = KeyValueStoreTable::getInstance();        
 
-        $this->total = new ZendureStatsSubSet();        
-        $this->today = new ZendureStatsSubSet();
-        $this->todayDate = null;
-    }
-
-    public function toJson()
-    {
-        return json_encode([
-            'todayDate' => $this->todayDate,
-            'total' => $this->total->toArray(),
-            'today' => $this->today->toArray(),
-        ]);
-    }
-
-    public function fromJson($json)
-    {
-        if ($json == null) { return; }
-        $data = json_decode($json, true);         
-        if ($data === null) { return; }
-            
-        $this->total = new ZendureStatsSubSet($data["total"]);        
-        $this->today = new ZendureStatsSubSet($data["today"]);
-        $this->todayDate = $data["todayDate"] ?? null;
-    }
-    
-    public function loadData()
-    {
-        $rowUpperLimit = $this->kvsTable->getRow(KeyValueStoreScopeEnum::Zendure, "socSet");
-        $this->akkuPackUpperLimit = ($rowUpperLimit != null) ? $rowUpperLimit->getValue() : null;
-
-        $row = $this->kvsTable->getRow(KeyValueStoreScopeEnum::Zendure, self::STATS_KEY);
-        $this->fromJson(isset($row) ? $row->getJsonData() : null);
-
-        $this->lastUpdated = (isset($row) && $row->getUpdated() != null) ? $row->getUpdated() : date("Y-m-d H:i:s", strtotime("-1 day"));        
-        if ($this->todayDate != date("Y-m-d")) {
-            // Day changed
-            $this->todayDate = date("Y-m-d");
-            $this->today = new ZendureStatsSubSet();
+        // Initialize 3 phases
+        for ($i = 1; $i <= 3; $i++) {
+            $this->total[$i] = new ZendureStatsSubSet();        
+            $this->today[$i] = new ZendureStatsSubSet();
+            $this->todayDate[$i] = null;
+            $this->lastUpdated[$i] = date("Y-m-d H:i:s", strtotime("-1 day"));
+            $this->akkuPackUpperLimit[$i] = null;
         }
     }
 
-    public function saveData()
-    {
-        $json = $this->toJson();
-        $this->kvsTable->insertOrUpdate(KeyValueStoreScopeEnum::Zendure, self::STATS_KEY, $json, "", $json);
+    private function getScopeByPhase($phase) {
+        $name = "ZendurePhase" . $phase;
+        return constant("KeyValueStoreScopeEnum::$name");
     }
 
-    public function update($key, $value) 
-    {
-        // Check only every minute
-        $updateSameMinute = date("Y-m-d H:i", strtotime($this->lastUpdated)) === date("Y-m-d H:i");                
+    public function loadData() {
+        for ($i = 1; $i <= 3; $i++) {
+            $scope = $this->getScopeByPhase($i);
+
+            // Load upper value per phase
+            $rowUpperLimit = $this->kvsTable->getRow($scope, "socSet");
+            $this->akkuPackUpperLimit[$i] = ($rowUpperLimit != null) ? $rowUpperLimit->getValue() : null;
+
+            // Load stats per phase
+            $row = $this->kvsTable->getRow($scope, self::STATS_KEY);
+            if (isset($row)) {
+                $this->fromJson($i, $row->getJsonData());
+                $this->lastUpdated[$i] = $row->getUpdated() ?? date("Y-m-d H:i:s", strtotime("-1 day"));
+            }
+
+            // check day change per phase
+            if ($this->todayDate[$i] != date("Y-m-d")) {
+                $this->todayDate[$i] = date("Y-m-d");
+                $this->today[$i] = new ZendureStatsSubSet();
+            }
+        }
+    }
+
+    public function saveData() {
+        for ($i = 1; $i <= 3; $i++) {
+            $scope = $this->getScopeByPhase($i);
+            $json = $this->toJson($i);
+            $this->kvsTable->insertOrUpdate($scope, self::STATS_KEY, $json, "Statistik Phase " . $i, $json);
+        }
+    }
+
+    public function update($key, $value, $phase = 1) {
+        if (!isset($this->today[$phase])) return;
+
+        // Check only every minute per phase
+        $updateSameMinute = date("Y-m-d H:i", strtotime($this->lastUpdated[$phase])) === date("Y-m-d H:i");                
         if ($updateSameMinute) { return; }
 
         if ($key == "electricLevel") {                    
-            // Check akku loaded complete
-            $akkuLoadedComplete = isset($this->akkuPackUpperLimit) ? ($value * 10 >= $this->akkuPackUpperLimit) : false;
+            $akkuLoadedComplete = isset($this->akkuPackUpperLimit[$phase]) ? ($value * 10 >= $this->akkuPackUpperLimit[$phase]) : false;
             
-            $this->total->akkuPackChargedDays += ($this->today->akkuPackChargedDays == 0 && $akkuLoadedComplete) ? 1 : 0;
-            $this->today->akkuPackChargedDays = ($this->today->akkuPackChargedDays || $akkuLoadedComplete) ? 1 : 0;
+            $this->total[$phase]->akkuPackChargedDays += ($this->today[$phase]->akkuPackChargedDays == 0 && $akkuLoadedComplete) ? 1 : 0;
+            $this->today[$phase]->akkuPackChargedDays = ($this->today[$phase]->akkuPackChargedDays || $akkuLoadedComplete) ? 1 : 0;
             
-            $this->today->akkuPackChargedMinutes += $akkuLoadedComplete ? 1 : 0;
-            $this->total->akkuPackChargedMinutes += $akkuLoadedComplete ? 1 : 0;
+            $this->today[$phase]->akkuPackChargedMinutes += $akkuLoadedComplete ? 1 : 0;
+            $this->total[$phase]->akkuPackChargedMinutes += $akkuLoadedComplete ? 1 : 0;
         }
-
     }
 
+    public function toJson($phase) {
+        return json_encode([
+            'todayDate' => $this->todayDate[$phase],
+            'total' => $this->total[$phase]->toArray(),
+            'today' => $this->today[$phase]->toArray(),
+        ]);
+    }
+
+    public function fromJson($phase, $json) {
+        if ($json == null) return;
+        $data = json_decode($json, true);         
+        if ($data === null) return;
+            
+        $this->total[$phase] = new ZendureStatsSubSet($data["total"] ?? []);        
+        $this->today[$phase] = new ZendureStatsSubSet($data["today"] ?? []);
+        $this->todayDate[$phase] = $data["todayDate"] ?? null;
+    }
 }
+
 
 class ZendureStatsSubSet {
     public $akkuPackChargedMinutes = 0;

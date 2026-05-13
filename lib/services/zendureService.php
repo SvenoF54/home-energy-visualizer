@@ -5,16 +5,14 @@
 
 class ZendureService
 {
-    private const TIMEOUT_MQQT_DATA_FOR_DASHBOARD_IN_MINUTES = 10*60;
+    private const TIMEOUT_READ_DATA_FOR_DASHBOARD_IN_MINUTES = 10*60;
  
-    private $kvsTable;
-    private $config;
+    private $kvsTable;    
     private $readDataError;
     private ZendureStatsSet $zendureStatsSet;
 
     public function __construct() {
-        $this->kvsTable = KeyValueStoreTable::getInstance();
-        $this->config = Configuration::getInstance()->zendure();
+        $this->kvsTable = KeyValueStoreTable::getInstance();        
         $this->readDataError = "";
 
         $this->zendureStatsSet = new ZendureStatsSet();
@@ -23,24 +21,45 @@ class ZendureService
 
     public function parseAndSaveData(array $data) {
         try {
-            // Read and store needed inverter data            
-            foreach ($this->getZendureKeys() as $key => $notice) {
-                if ($data && isset($data[$key])) {
-                    $this->kvsTable->insertOrUpdate(KeyValueStoreScopeEnum::Zendure, $key, $data[$key], $notice);
-                    $this->zendureStatsSet->update($key, $data[$key]);
+            // Extract ZendureData for each System with keys zendure1, zendure2, ...
+            $zendureSystems = isset($data['zendureData']) ? $data['zendureData'] : [];
+
+            foreach ($zendureSystems as $zKey => $zValues) {
+                // Extract Phase number from key (ie. "zendure1" -> "1")
+                $phaseNumber = str_replace('zendure', '', $zKey);
+                
+                // Define Scope dynamicly, ie. KeyValueStoreScopeEnum::ZendurePhase1 and ensure that it exists 
+                $scopeName = "ZendurePhase" . $phaseNumber;
+                if (!defined("KeyValueStoreScopeEnum::$scopeName")) {
+                    continue; 
+                }
+                $scope = constant("KeyValueStoreScopeEnum::$scopeName");
+
+                if (is_array($zValues)) {
+                    // 1. Save single values per Phase
+                    foreach ($this->getZendureKeys() as $key => $notice) {
+                        if (isset($zValues[$key])) {
+                            $this->kvsTable->insertOrUpdate($scope, $key, $zValues[$key], $notice);
+                            // Falls die Stats-Klasse Phasen unterstützt, hier anpassen:
+                            $this->zendureStatsSet->update($key, $zValues[$key]);
+                        }
+                    }
+
+                    // 2. Calculate pack capacity per phase
+                    if (isset($zValues['packTypes'])) {
+                        $phaseCapacity = 0;
+                        $packTypes = explode(",", $zValues['packTypes']);
+                        foreach ($packTypes as $type) {
+                            $phaseCapacity += $this->convertPackTypeToCapacity($type);
+                        }
+                        $this->kvsTable->insertOrUpdate($scope, "totalPackCapacity", $phaseCapacity, "Gesamtkapazität Akkus Phase " . $phaseNumber);
+                    }
                 }
             }
 
-            // Capacity over all packs in this system
-            $totalCapacity = 0;            
-            $packTypes = explode(",", $data['packTypes']);
-            foreach($packTypes as $type) {
-                $totalCapacity += $this->convertPackTypeToCapacity($type);
-            }
-            $this->kvsTable->insertOrUpdate(KeyValueStoreScopeEnum::Zendure, "totalPackCapacity", $totalCapacity, "Gesamtkapazität aller Akkus dieses Zendure-Systems");
+            // Finale Status-Entry
+            $this->kvsTable->insertOrUpdate(KeyValueStoreScopeEnum::Task, TaskEnum::ReadZendureData->value, StatusEnum::Success->value, "Daten für " . count($zendureSystems) . " Phasen empfangen.");
 
-            // Write final read zendure data msg
-            $this->kvsTable->insertOrUpdate(KeyValueStoreScopeEnum::Task, TaskEnum::ReadZendureData->value, StatusEnum::Success->value, "Zenduredaten via Shell-Taskrunner empfangen.");
         } catch (Exception $ex) { 
             $this->readDataError = $ex->getMessage();
         }
@@ -58,6 +77,7 @@ class ZendureService
             "solarInputPower"           => "Aktuelle Solarleistung über alle Eingänge in W",
             "electricLevel"             => "Ladestand über alle Batterien in %", 
             "socSet"                    => "(Obere) Ladegrenze in % * 10",
+            "minSoc"                    => "(Untere) Entladegrenze in % * 10",
             "packInputPower"            => "Aktuelle Entladeleistung der Batterien in W",
             "outputPackPower"           => "Aktuelle Ladeleistung der Batterien in W",
             "packState"                 => "Status über alle Batterien (0: Standby, 1: Laden, 2: Entladen)",
@@ -80,46 +100,90 @@ class ZendureService
     
         return isset($capacities[$packType]) ? $capacities[$packType]['wh'] : null;
     }
-    // Zendure only sends solarInputPower and electricLevel intime. So akku charging will be calculated.
-    // The $measuredPmxEnergieData is the enrgy which was given from Zendure to the house
-    public function prepareDashboardData($measuredPmxEnergieData)
+
+    public function getActivePhases()
     {
-        $resultData = [];
+        $activePhases = [];
+        $oneWeekInSeconds = 604800; // 7 Tage * 24h * 3600s
         
-        // Read latest Zendure data from DB
-        $zendureKvsData = ["solarInputPower" => 0, "electricLevel" => 0, "outputPackPower" => 0, "packInputPower" => 0, "packState" => 0, "totalPackCapacity" => 0]; 
-        $latestLogRow = $this->kvsTable->getRow(KeyValueStoreScopeEnum::Task, TaskEnum::ReadZendureData->value);
-        $updated = strtotime($latestLogRow->getUpdated());
-        $dataLoss = (time() - $updated) > (static::TIMEOUT_MQQT_DATA_FOR_DASHBOARD_IN_MINUTES);
-        if (! $dataLoss) {
-            foreach ($this->kvsTable->getRowsForScope(KeyValueStoreScopeEnum::Zendure) as $row) {            
-                $zendureKvsData[$row->getStoreKey()] = $row->getValue(); 
+        for ($phase = 1; $phase <= 3; $phase++) {            
+            $scope = constant("KeyValueStoreScopeEnum::ZendurePhase$phase");
+            
+            // Wir prüfen den "statistics" Key als Indikator für eine aktive Phase
+            $row = $this->kvsTable->getRow($scope, "solarInputPower");
+            
+            if ($row !== null) {
+                $updated = strtotime($row->getUpdated());
+                // Active if data are newwer than 7 days
+                $activePhases[$phase] = (time() - $updated) < $oneWeekInSeconds;
+            } else {
+                // No actual data available
+                $activePhases[$phase] = false;
             }
         }
-
-        // Prepare result set
-        $resultData = ["isDataloss" => $dataLoss];        
-        // Current solar energy over all in W
-        $resultData["solarInputPower"] = isset($zendureKvsData["solarInputPower"]) ? $zendureKvsData["solarInputPower"] : 0;
-        // Current pack capacity over all in %        
-        $resultData["akkuPackLevelPercent"] = isset($zendureKvsData["electricLevel"]) ? $zendureKvsData["electricLevel"] : 0;
-        $remainingEnergy = isset($zendureKvsData["electricLevel"]) && isset($zendureKvsData["totalPackCapacity"]) ? ($zendureKvsData["totalPackCapacity"] * $zendureKvsData["electricLevel"] / 100) : 0;
-        $resultData["akkuPackRemainingEnergy"] = $remainingEnergy;
         
-        // Temperature
-        $resultData["hyperTmp"] = isset($zendureKvsData["hyperTmp"]) ? (($zendureKvsData["hyperTmp"] / 10) - 273.15) : 0;
+        return $activePhases;
+    }
 
-        $resultData["chargePower"] = $zendureKvsData["outputPackPower"];
-        $resultData["dischargePower"] = $zendureKvsData["packInputPower"];        
 
-        $resultData["batterieChangingPower"] = $resultData["chargePower"] > 0 ? $resultData["chargePower"] : -$resultData["dischargePower"];
-        $resultData["batterieChangingPower"] = $resultData["batterieChangingPower"] == 0 ? "-" : $resultData["batterieChangingPower"];
-        $resultData["isChargeActive"] = $zendureKvsData["packState"] == 1 && $resultData["chargePower"] > 0;        // Pack charging active
-        $resultData["isDischargeActive"] = $zendureKvsData["packState"] == 2 && $resultData["dischargePower"] > 0;  // Pack discharging active
+    public function prepareDashboardData(float $outCentPricePerWh)
+    {
+        $resultData = [];
+        $resultData["systemChargeAndDischargeTotal"] = 0; // Aggregierter Wert
+        
+        // Globale Dataloss-Check
+        $latestLogRow = $this->kvsTable->getRow(KeyValueStoreScopeEnum::Task, TaskEnum::ReadZendureData->value);
+        $updated = $latestLogRow ? strtotime($latestLogRow->getUpdated()) : 0;
+        $dataLoss = (time() - $updated) > (static::TIMEOUT_READ_DATA_FOR_DASHBOARD_IN_MINUTES * 60);
+        $resultData["isDataloss"] = $dataLoss;
 
-        // Zendure production
-        $resultData["productionTotal"] = $resultData["solarInputPower"] + $resultData["dischargePower"];
-        $resultData["productionUsedInternal"] = $resultData["chargePower"];
+        if ($dataLoss) {
+            return $resultData;
+        }
+        for ($phase = 1; $phase <= 3; $phase++) {
+            $scope = constant("KeyValueStoreScopeEnum::ZendurePhase$phase");
+
+            $zendureKvsData = ["solarInputPower" => 0, "electricLevel" => 0, "outputPackPower" => 0, "packInputPower" => 0, "packState" => 0, "totalPackCapacity" => 0, "hyperTmp" => 0]; 
+            $rows = $this->kvsTable->getRowsForScope($scope);
+            
+            // If phase has no data continue
+            if (empty($rows)) continue;
+
+            foreach ($rows as $row) {            
+                $zendureKvsData[$row->getStoreKey()] = $row->getValue(); 
+            }
+
+            // Prepare data for current phase
+            $phaseData = [];
+            $phaseData["solarInputPower"] = (int)$zendureKvsData["solarInputPower"];
+            $phaseData["akkuPackLevelPercent"] = (int)$zendureKvsData["electricLevel"];
+            
+            $remaining = ((int)$zendureKvsData["totalPackCapacity"] * (int)$zendureKvsData["electricLevel"] / 100);
+            $phaseData["akkuPackRemainingEnergy"] = $remaining;
+            
+            $phaseData["hyperTmp"] = $zendureKvsData["hyperTmp"] > 0 ? (($zendureKvsData["hyperTmp"] / 10) - 273.15) : 0;
+
+            $phaseData["chargePower"] = (int)$zendureKvsData["outputPackPower"];
+            $phaseData["dischargePower"] = (int)$zendureKvsData["packInputPower"];
+
+            $phaseData["batterieChangingPower"] = $phaseData["chargePower"] > 0 ? $phaseData["chargePower"] : -$phaseData["dischargePower"];
+            if ($phaseData["batterieChangingPower"] == 0) $phaseData["batterieChangingPower"] = "-";
+
+            $phaseData["isChargeActive"] = $zendureKvsData["packState"] == 1 && $phaseData["chargePower"] > 0;
+            $phaseData["isDischargeActive"] = $zendureKvsData["packState"] == 2 && $phaseData["dischargePower"] > 0;
+
+            $phaseData["productionTotal"] = $phaseData["solarInputPower"] + $phaseData["dischargePower"];
+            
+            $usablePercent = max(0, (int)$zendureKvsData["electricLevel"] - ((int)$zendureKvsData["minSoc"] / 10));
+            $remainingWh = ((int)$zendureKvsData["totalPackCapacity"] * $usablePercent) / 100;
+            $phaseData["remainingEnergyInEur"] = $remainingWh * $outCentPricePerWh;
+
+            // Add each phase to result array
+            $resultData["phase" . $phase] = $phaseData;
+
+            // Aggregate total system production
+            $resultData["systemChargeAndDischargeTotal"] += $phaseData["chargePower"];
+        }
 
         return $resultData;
     }
